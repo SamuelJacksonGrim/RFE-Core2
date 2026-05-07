@@ -2,19 +2,28 @@
 """
 Symbolic Ecology → Transformer Encoder → Latent Vector
 
-This module integrates the persistent symbolic ecology from
-agents.symbolic_memory with a Transformer-based encoder:
+Integrates the persistent symbolic ecology from agents.symbolic_memory
+with a Transformer-based encoder:
 
     raw token
         → Canonicalizer
         → SymbolRegistry.register (lifecycle, metadata, residency)
-        → AddressSpace.resolve (stable id)
+        → SymbolTable (stable_id)
+        → AddressSpace.resolve_sid (stable_id → address)
         → Embedding
         → PositionalEncoding
         → TransformerEncoder (Pre-LN)
         → masked mean pool
         → LayerNorm → Projection → LayerNorm
         → (optional) L2 normalize
+
+NOTE ON DECAY:
+    The symbolic ecology supports automatic decay of symbol usage, archival,
+    and graveyard management. However, decay is NOT invoked automatically
+    during forward passes — it must be triggered explicitly by the training
+    loop or an external scheduler. Call generator.registry.decay_step()
+    periodically (e.g., every N batches or epochs) to activate the
+    metabolic lifecycle.
 """
 
 from __future__ import annotations
@@ -31,10 +40,12 @@ from agents.symbolic_memory import (
     AddressSpace,
     SymbolRegistry,
     Canonicalizer,
+    CanonicalizationMode,
     TokenClass,
     DecayEngine,
     ArchiveStore,
     EmbeddingResidencyManager,
+    SymbolTable,
 )
 
 
@@ -98,6 +109,9 @@ class Generator(nn.Module):
         Device string; defaults to CUDA if available.
     canonicalization_mode : CanonicalizationMode or None
         Optional canonicalization mode for the Canonicalizer.
+    auto_decay_interval : int or None
+        If set, automatically invoke registry.decay_step() every N calls to
+        generate() or encode_batch(). None means no automatic decay.
     """
 
     def __init__(
@@ -112,7 +126,8 @@ class Generator(nn.Module):
         normalize_output: bool = True,
         allow_vocab_resize: bool = True,
         device: Optional[str] = None,
-        canonicalization_mode=None,
+        canonicalization_mode: Optional[CanonicalizationMode] = None,
+        auto_decay_interval: Optional[int] = None,
     ):
         super().__init__()
 
@@ -121,6 +136,8 @@ class Generator(nn.Module):
 
         self.dim = dim
         self.normalize_output = bool(normalize_output)
+        self.auto_decay_interval = auto_decay_interval
+        self._call_count = 0
 
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -139,19 +156,22 @@ class Generator(nn.Module):
             else Canonicalizer()
         )
 
+        symbol_table = SymbolTable()
+
         self.registry = SymbolRegistry(
             address_space=self.address_space,
             canonicalizer=canonicalizer,
             decay_engine=DecayEngine(),
             archive_store=ArchiveStore(),
             residency_manager=EmbeddingResidencyManager(),
+            symbol_table=symbol_table,
         )
 
-        # SPECIAL ids (AddressSpace initializes them deterministically)
-        self.pad_id = self.address_space._tok2id["<PAD>"]
-        self.unk_id = self.address_space._tok2id["<UNK>"]
-        self.bos_id = self.address_space._tok2id["<BOS>"]
-        self.eos_id = self.address_space._tok2id["<EOS>"]
+        # SPECIAL ids
+        self.pad_id = self.address_space.pad_id
+        self.unk_id = self.address_space.unk_id
+        self.bos_id = self.address_space.bos_id
+        self.eos_id = self.address_space.eos_id
 
         # ---------------------------------------------------------------------
         # Embedding
@@ -264,6 +284,7 @@ class Generator(nn.Module):
         self.embedding = new_embedding.to(self.device)
 
         if optimizer is not None:
+            # Replace parameter reference in optimizer param_groups
             for group in optimizer.param_groups:
                 params = []
                 for p in group["params"]:
@@ -273,8 +294,11 @@ class Generator(nn.Module):
                         params.append(p)
                 group["params"] = params
 
+            # Transfer optimizer state from old to new embedding weight
             if old_embedding.weight in optimizer.state:
-                del optimizer.state[old_embedding.weight]
+                optimizer.state[self.embedding.weight] = optimizer.state.pop(
+                    old_embedding.weight
+                )
 
     # -------------------------------------------------------------------------
     # Padding mask
@@ -301,13 +325,32 @@ class Generator(nn.Module):
 
         - Canonicalization via SymbolRegistry's Canonicalizer
         - Lifecycle + metadata via SymbolRegistry.register
-        - Stable address via AddressSpace.resolve
+        - stable_id via SymbolTable
+        - address via AddressSpace.resolve_sid
+
+        NOTE: registry.register() already resolves and caches the address in
+        state.address, so we use that directly rather than re-resolving.
         """
         ids: List[int] = []
         for t in tokens:
             state = self.registry.register(t, token_class=token_class)
             ids.append(state.address)
         return ids
+
+    # -------------------------------------------------------------------------
+    # Automatic decay trigger
+    # -------------------------------------------------------------------------
+
+    def _maybe_decay(self):
+        """
+        Invoke decay_step() if auto_decay_interval is configured.
+        Called internally by generate() and encode_batch().
+        """
+        if self.auto_decay_interval is None:
+            return
+        self._call_count += 1
+        if self._call_count % self.auto_decay_interval == 0:
+            self.registry.decay_step()
 
     # -------------------------------------------------------------------------
     # Forward
@@ -362,9 +405,11 @@ class Generator(nn.Module):
         else:
             ids = self._tokens_to_ids(tokens, token_class=token_class)
 
-        # If AddressSpace grew, ensure embedding is large enough
+        # Ensure embedding matrix is large enough if AddressSpace grew
         if self.embedding.num_embeddings < self.address_space.vocab_size:
             self.resize_embedding(self.address_space.vocab_size)
+
+        self._maybe_decay()
 
         x = torch.tensor(ids, dtype=torch.long).unsqueeze(0).to(self.device)
         out = self.forward(x).squeeze(0).cpu().numpy()
@@ -379,7 +424,7 @@ class Generator(nn.Module):
         """
         Encode a batch of token sequences with automatic right-padding.
 
-        Empty sequences are replaced with [BOS].
+        Empty sequences are replaced with a single BOS token.
         """
         if token_lists is None:
             raise ValueError("token_lists cannot be None")
@@ -394,8 +439,11 @@ class Generator(nn.Module):
             else:
                 encoded.append(self._tokens_to_ids(tl, token_class=token_class))
 
+        # Ensure embedding matrix is large enough if AddressSpace grew
         if self.embedding.num_embeddings < self.address_space.vocab_size:
             self.resize_embedding(self.address_space.vocab_size)
+
+        self._maybe_decay()
 
         max_len = max(len(seq) for seq in encoded)
 
@@ -407,3 +455,26 @@ class Generator(nn.Module):
         x = torch.tensor(padded, dtype=torch.long).to(self.device)
         out = self.forward(x).cpu().numpy()
         return out
+
+    # -------------------------------------------------------------------------
+    # Persistence
+    # -------------------------------------------------------------------------
+
+    def save_ecology(self, path: str):
+        """
+        Save the symbolic ecology (registry state) to disk.
+        Does NOT save the neural weights — use torch.save() for those.
+        """
+        self.registry.save(path)
+
+    def load_ecology(self, path: str):
+        """
+        Load the symbolic ecology (registry state) from disk.
+        Replaces the current registry. Ensure the neural weights are compatible.
+        """
+        self.registry = SymbolRegistry.load(path)
+        # Re-sync special token IDs
+        self.pad_id = self.registry.address_space.pad_id
+        self.unk_id = self.registry.address_space.unk_id
+        self.bos_id = self.registry.address_space.bos_id
+        self.eos_id = self.registry.address_space.eos_id
