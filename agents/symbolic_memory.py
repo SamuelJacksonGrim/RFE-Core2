@@ -45,6 +45,36 @@ from typing import Dict, Optional, Set, List
 
 logger = logging.getLogger(__name__)
 
+# =============================================================================
+# SYMBOLTABLE
+# =============================================================================
+
+class SymbolTable:
+    """
+    Stable symbolic identity layer.
+    symbol → stable_id (never changes)
+    stable_id → address (changes on resize)
+    """
+
+    def __init__(self):
+        self._symbol_to_sid: Dict[str, int] = {}
+        self._sid_to_symbol: Dict[int, str] = {}
+        self._next_sid: int = 4  # reserve 0-3 for PAD/UNK/BOS/EOS
+
+    def get_or_create_sid(self, symbol: str) -> int:
+        if symbol in self._symbol_to_sid:
+            return self._symbol_to_sid[symbol]
+
+        sid = self._next_sid
+        self._next_sid += 1
+
+        self._symbol_to_sid[symbol] = sid
+        self._sid_to_symbol[sid] = symbol
+
+        return sid
+
+    def symbol_for(self, sid: int) -> str:
+        return self._sid_to_symbol.get(sid, "<UNK>")
 
 # =============================================================================
 # ENUMS
