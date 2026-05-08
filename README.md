@@ -5,6 +5,7 @@
 │   ├── watcher.py
 │   ├── witness.py
 │   ├── dreamer.py
+│   ├── symbolic_memory.py
 │   ├── chorus.py
 │   ├── attractor.py
 │   └── rhythm_config.json
