@@ -48,6 +48,8 @@ RFE-Core2/
 │   ├── witness.py            Multi-timescale adaptive identity anchor
 │   ├── dreamer.py            Offline dream synthesis
 │   ├── chorus.py             Differentiated multi-agent ensemble
+│   ├── trust_engine.py       responsible for evaluating, tracking, and governing 
+│   │                          trust across the entire symbolic ecology.
 │   ├── attractor.py          Attractor basin dynamics
 │   └── rhythm_config.json    Rhythm state definitions
 │
