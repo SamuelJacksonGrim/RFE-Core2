@@ -1,0 +1,77 @@
+# configs/recursion.yaml
+# Autonomous cycle and loop configuration for RFE-Core2
+
+generator:
+  vocab_size: 8192
+  dim: 128
+  depth: 4
+  heads: 4
+  ff_mult: 4
+  max_len: 128
+  dropout: 0.1
+  normalize_output: true
+  allow_vocab_resize: true
+  deferred_resize_threshold: 0.80
+  auto_decay_interval: 500
+  decay_interval: 10
+  compaction_threshold: 0.30
+
+cycle:
+  use_chorus: true
+  maintenance_interval: 200
+  attractor_formation_threshold: 0.88
+  merge_interval: 50
+  lattice_emit_interval: 100
+  crystal_decay_interval: 100
+  log_interval: 10
+
+dream_cycle:
+  enabled: true
+  trigger_rhythm: stabilize
+  trigger_every_n_steps: 20
+  n_iterations: 6
+  mutation_ramp: true
+  merge_attractors: true
+  diffuse_field: true
+
+cognition:
+  recursive_attention:
+    history_len: 16
+    recursion_depth: 3
+    heads: 4
+    dropout: 0.1
+
+  reflective_loop:
+    max_depth: 5
+    convergence_threshold: 0.995
+    field_blend: 0.10
+    attractor_blend: 0.08
+    coherence_gate: 0.20
+
+  predictive_echo:
+    history_len: 8
+    lr: 0.05
+    surprise_threshold: 2.5
+    error_history_len: 32
+
+  emotional_gradient:
+    ema_alpha: 0.15
+    base_field_gain: 1.0
+    base_mutation_scale: 0.05
+    base_decay_rate: 0.995
+
+chorus:
+  collapse_mode: entropic   # entropic | resonant | mean
+  skeptic_scale: 0.12
+  dreamer_mutation: 0.18
+
+loop:
+  n_steps: 0           # 0 = run forever
+  step_delay: 0.02     # seconds between steps
+
+api:
+  rest_host: 0.0.0.0
+  rest_port: 8000
+  ws_host: 0.0.0.0
+  ws_port: 8765
+  broadcast_field_every: 10
