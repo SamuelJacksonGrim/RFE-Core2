@@ -1,0 +1,70 @@
+# configs/attractors.yaml
+# Attractor dynamics and symbolic binding configuration for RFE-Core2
+
+attractor:
+  formation_threshold: 0.88     # relational composite above which a vec seeds an attractor
+  pull_threshold: 0.75          # min similarity to apply pull
+  pull_blend: 0.15              # base blend toward attractor
+  merge_threshold: 0.95         # similarity above which centers are merged
+  max_centers: 64               # max attractor centers
+  decay_rate: 0.998             # per-step usage decay
+
+  # Emotional modulation
+  # Actual pull_blend = pull_blend * emotion.attractor_pull()
+  # joy and stability tighten pull; curiosity loosens it
+
+symbolic_binding:
+  similarity_threshold: 0.82    # cosine similarity to bind to existing concept
+  formation_threshold: 5        # min activations for an "established" concept
+  max_concepts: 256
+  centroid_lr: 0.08             # EMA learning rate for concept centroid updates
+
+semantic_lattice:
+  similarity_threshold: 0.75    # min cosine similarity to form an edge
+  k_neighbors: 5                # edges per new node
+  max_nodes: 2048
+  edge_decay: 0.999
+  centrality_relay_top_n: 10    # how many top nodes relay centrality signals
+
+decay_profiles:
+  # These mirror symbolic_memory.py defaults — edit here for tuning without code changes
+  language:
+    base_decay: 0.999
+    minimum_lifespan: 10
+  entity:
+    base_decay: 0.9995
+    minimum_lifespan: 50
+  glyph:
+    base_decay: 0.9998
+    minimum_lifespan: 100
+  relational:
+    base_decay: 0.9992
+    minimum_lifespan: 20
+  identifier:
+    base_decay: 0.998
+    minimum_lifespan: 5
+  operator:
+    base_decay: 0.997
+    minimum_lifespan: 3
+  ephemeral:
+    base_decay: 0.990
+    minimum_lifespan: 1
+
+reaper:
+  warm_threshold: 1.0
+  cold_threshold: 0.1
+  graveyard_threshold: 0.01
+  warm_resurrection_cost: 2.0
+  cold_resurrection_cost: 5.0
+  max_warm_steps: 500
+  max_cold_steps: 1000
+
+compaction:
+  fragmentation_threshold: 0.30
+
+# Philosophical constants
+# These anchor the system's identity and recursive rhythm
+constants:
+  ANCHOR: 3.12           # THE BRIDGE
+  RECURSION: 11.88       # THE DISCIPLINE
+  HOMEOSTASIS: 280.90    # HOMEOSTATIC RETURN
