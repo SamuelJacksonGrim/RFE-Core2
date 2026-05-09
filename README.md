@@ -40,6 +40,8 @@ AutonomousCycle  (Self-Modulating Loop: Stabilize → Dream → Reflect → Expl
 ```
 RFE-Core2/
 ├── agents/
+│   ├── __init__.py
+│   ├── agents__init__.py
 │   ├── generator.py          Transformer encoder over symbolic ecology
 │   ├── symbolic_memory.py    Persistent adaptive symbolic ecology engine
 │   ├── watcher.py            Three-layer coherence evaluation
@@ -50,6 +52,8 @@ RFE-Core2/
 │   └── rhythm_config.json    Rhythm state definitions
 │
 ├── substrate/
+│   ├── __init__.py
+│   ├── substrate__init__.py
 │   ├── resonance_field.py    FFT field dynamics with rhythm detection
 │   ├── vector_space.py       Semantic memory store
 │   ├── memory_crystals.py    Crystallization lifecycle
@@ -58,6 +62,8 @@ RFE-Core2/
 │   └── semantic_lattice.py   Evolving semantic graph topology
 │
 ├── cognition/
+│   ├── __init__.py
+│   ├── cognition__init__.py
 │   ├── predictive_echo.py    Online predictor → curiosity signals
 │   ├── emotional_gradient.py Live modulation outputs
 │   ├── recursive_attention.py Self-attention over prior states
@@ -65,6 +71,8 @@ RFE-Core2/
 │   └── symbolic_binding.py   Concept emergence and binding
 │
 ├── interference/
+│   ├── __init__.py
+│   ├── interference__init__.py
 │   ├── wave_collapse.py      Multi-mode vector ensemble collapse
 │   ├── differential.py       Gaussian / rotational / directional noise
 │   ├── phase_noise.py        Spectral / temporal / harmonic phase noise
@@ -72,25 +80,35 @@ RFE-Core2/
 │   └── harmonic_mutation.py  Spectral harmonic recombination
 │
 ├── loop/
+│   ├── __init__.py
+│   ├── loop__init__.py
 │   ├── autonomous_cycle.py   Self-modulating cognitive loop
 │   ├── dream_cycle.py        Deep offline synthesis loop
 │   └── recursion1188.py      Main entry point
 │
 ├── visualization/
+│   ├── __init__.py
+│   ├── visualization__init__.py
 │   ├── field_render.py       Terminal + matplotlib field visualization
 │   ├── topology_render.py    Graph visualization of memory topology
 │   └── resonance_heatmap.py  2D heatmap of field dynamics
 │
 ├── training/
+│   ├── __init__.py
+│   ├── training__init__.py
 │   ├── self_distillation.py  Online distillation from high-coherence outputs
 │   ├── contrastive_alignment.py  Rhythm-aware contrastive training
 │   └── rhythm_pretraining.py Supervised rhythm embedding pretraining
 │
 ├── api/
+│   ├── __init__.py
+│   ├── api__init__.py
 │   ├── inference_api.py      FastAPI REST endpoints
 │   └── websocket_server.py   Real-time WebSocket stream
 │
 ├── configs/
+│   ├── __init__.py
+│   ├── configs__init__.py
 │   ├── field.yaml            Field and watcher configuration
 │   ├── recursion.yaml        Loop and cycle configuration
 │   └── attractors.yaml       Attractor and symbolic ecology configuration
