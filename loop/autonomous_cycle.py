@@ -1,0 +1,622 @@
+"""
+loop/autonomous_cycle.py
+
+Autonomous cycle — the self-modulating cognitive loop.
+
+This is the architectural center of RFE-Core2. It transforms the system from:
+    "a pipeline of modules"
+into:
+    "a continuously self-resonating dynamical organism."
+
+The loop does not simply execute. It listens to its own field state,
+determines its current cognitive rhythm, and routes behavior accordingly.
+
+Rhythm states
+-------------
+  stabilize   field energy very low   → consolidation, crystallization,
+                                        maintenance, attractor merge
+  dream       field energy low        → free association, latent recombination,
+                                        symbolic mutation
+  reflect     field energy medium     → recursive attention, reflective loop,
+                                        chorus harmonization
+  explore     field energy high       → bifurcation, high mutation, novelty
+
+Data flow per step
+------------------
+  1.  Generate vector (Generator or Chorus depending on rhythm)
+  2.  Apply attractor pull
+  3.  Recursive attention refinement
+  4.  Watcher evaluation (CoherenceReport)
+  5.  Witness update (RelationalProfile)
+  6.  PredictiveEcho update (EchoReport)
+  7.  EmotionalGradient update (modulation outputs)
+  8.  Field inject (strength modulated by emotion.field_gain)
+  9.  Crystal evaluation
+  10. Topology logging
+  11. Stream push
+  12. Lattice update
+  13. Rhythm-routed behavior (dream / reflect / explore / stabilize)
+  14. Field decay (rate modulated by emotion.field_decay_rate)
+  15. Periodic maintenance (generator.maintenance_step)
+  16. State logging
+"""
+
+from __future__ import annotations
+
+import time
+import uuid
+import logging
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Any
+
+import numpy as np
+
+from agents.generator import Generator
+from agents.watcher import Watcher
+from agents.witness import Witness
+from agents.dreamer import Dreamer
+from agents.chorus import Chorus
+from agents.attractor import Attractor
+from agents.symbolic_memory import TokenClass
+
+from substrate.vector_space import VectorSpace
+from substrate.resonance_field import ResonanceField
+from substrate.memory_crystals import CrystalStore
+from substrate.topological_log import TopologicalLog
+from substrate.temporal_stream import TemporalStream
+from substrate.semantic_lattice import SemanticLattice
+
+from cognition.predictive_echo import PredictiveEcho
+from cognition.emotional_gradient import EmotionalGradient
+from cognition.recursive_attention import RecursiveAttention
+from cognition.reflective_loop import ReflectiveLoop
+from cognition.symbolic_binding import SymbolicBinding
+
+from interference.differential import inject_ambiguity
+
+logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# Step state
+# ---------------------------------------------------------------------------
+
+@dataclass
+class StepState:
+    """Complete observable state after one autonomous cycle step."""
+    step:                   int
+    key:                    str
+    tokens:                 List[str]
+    rhythm:                 str
+    coherence:              float
+    relation_composite:     float
+    relation_pattern:       str
+    prediction_error:       float
+    field_energy:           float
+    crystals:               int
+    attractor_centers:      int
+    dominant_emotion:       str
+    field_gain:             float
+    mutation_scale:         float
+    dream_pressure:         float
+    converged:              bool
+    reflection_passes:      int
+    elapsed_ms:             float
+    extras:                 Dict[str, Any] = field(default_factory=dict)
+
+    def as_dict(self) -> dict:
+        return {
+            "step":              self.step,
+            "key":               self.key,
+            "tokens":            self.tokens,
+            "rhythm":            self.rhythm,
+            "coherence":         self.coherence,
+            "relation":          self.relation_composite,
+            "pattern":           self.relation_pattern,
+            "pred_error":        self.prediction_error,
+            "field_energy":      self.field_energy,
+            "crystals":          self.crystals,
+            "attractors":        self.attractor_centers,
+            "emotion":           self.dominant_emotion,
+            "field_gain":        self.field_gain,
+            "mutation_scale":    self.mutation_scale,
+            "dream_pressure":    self.dream_pressure,
+            "converged":         self.converged,
+            "refl_passes":       self.reflection_passes,
+            "elapsed_ms":        self.elapsed_ms,
+        }
+
+
+# ---------------------------------------------------------------------------
+# AutonomousCycle
+# ---------------------------------------------------------------------------
+
+class AutonomousCycle:
+    """
+    Self-modulating cognitive loop.
+
+    Parameters
+    ----------
+    generator : Generator
+    dim : int
+        Vector dimensionality.
+    use_chorus : bool
+        If True, reflect/explore phases use the full Chorus ensemble.
+        If False, uses Generator directly (faster, less diverse).
+    maintenance_interval : int
+        Steps between generator.maintenance_step() calls.
+    attractor_formation_threshold : float
+        Relational composite score above which a vector seeds an attractor.
+    merge_interval : int
+        Steps between attractor.merge_pass() calls.
+    lattice_emit_interval : int
+        Steps between semantic_lattice.emit_centrality() calls.
+    crystal_decay_interval : int
+        Steps between crystal_store.decay_step() calls.
+    log_interval : int
+        Steps between log output.
+    """
+
+    def __init__(
+        self,
+        generator:                    Generator,
+        dim:                          int   = 128,
+        use_chorus:                   bool  = True,
+        maintenance_interval:         int   = 200,
+        attractor_formation_threshold: float = 0.88,
+        merge_interval:               int   = 50,
+        lattice_emit_interval:        int   = 100,
+        crystal_decay_interval:       int   = 100,
+        log_interval:                 int   = 10,
+    ):
+        self.generator                     = generator
+        self.dim                           = dim
+        self.use_chorus                    = use_chorus
+        self.maintenance_interval          = maintenance_interval
+        self.attractor_formation_threshold = attractor_formation_threshold
+        self.merge_interval                = merge_interval
+        self.lattice_emit_interval         = lattice_emit_interval
+        self.crystal_decay_interval        = crystal_decay_interval
+        self.log_interval                  = log_interval
+
+        # ------------------------------------------------------------------
+        # Subsystems
+        # ------------------------------------------------------------------
+
+        self.field          = ResonanceField(dim=dim)
+        self.vector_space   = VectorSpace(dim=dim)
+        self.crystal_store  = CrystalStore()
+        self.topology       = TopologicalLog()
+        self.stream         = TemporalStream(dim=dim)
+        self.lattice        = SemanticLattice()
+
+        self.watcher        = Watcher(dim=dim, field=self.field)
+        self.witness        = Witness(dim=dim)
+        self.attractor      = Attractor()
+        self.predictor      = PredictiveEcho(dim=dim)
+        self.emotion        = EmotionalGradient()
+        self.rec_attn       = RecursiveAttention(dim=dim)
+        self.reflector      = ReflectiveLoop()
+        self.binding        = SymbolicBinding()
+
+        self.dreamer        = Dreamer(
+            field        = self.field,
+            vector_space = self.vector_space,
+            stream       = self.stream,
+        )
+
+        self.chorus         = Chorus(
+            generator = self.generator,
+            field     = self.field,
+            stream    = self.stream,
+        ) if use_chorus else None
+
+        # ------------------------------------------------------------------
+        # State
+        # ------------------------------------------------------------------
+
+        self._step:    int           = 0
+        self._parent:  Optional[str] = None
+        self._history: List[StepState] = []
+
+    # ------------------------------------------------------------------
+    # Step
+    # ------------------------------------------------------------------
+
+    def step(self, tokens: List[str]) -> StepState:
+        """
+        Execute one full autonomous cycle step.
+
+        Parameters
+        ----------
+        tokens : list of str
+            Input token sequence for this step.
+
+        Returns
+        -------
+        StepState
+        """
+        t0    = time.perf_counter()
+        key   = uuid.uuid4().hex[:8]
+
+        # ------------------------------------------------------------------
+        # 1. Observe field rhythm
+        # ------------------------------------------------------------------
+        field_obs = self.field.observe()
+        rhythm    = field_obs.rhythm
+
+        # ------------------------------------------------------------------
+        # 2. Generate vector (rhythm-sensitive)
+        # ------------------------------------------------------------------
+        vec = self._generate(tokens, rhythm)
+
+        # ------------------------------------------------------------------
+        # 3. Attractor pull (strength modulated by emotion)
+        # ------------------------------------------------------------------
+        pull_modifier = self.emotion.attractor_pull()
+        # Temporarily adjust attractor blend
+        original_blend       = self.attractor.pull_blend
+        self.attractor.pull_blend = float(np.clip(original_blend * pull_modifier, 0.0, 0.5))
+        vec = self.attractor.pull(vec, generator=self.generator)
+        self.attractor.pull_blend = original_blend
+
+        # ------------------------------------------------------------------
+        # 4. Recursive attention refinement
+        # ------------------------------------------------------------------
+        vec = self.rec_attn.refine(vec)
+
+        # ------------------------------------------------------------------
+        # 5. Watcher evaluation
+        # ------------------------------------------------------------------
+        anchor      = self.witness.current_anchor()
+        field_state = self.field.resonate()
+        report      = self.watcher.evaluate(vec, anchor, field_state)
+
+        # ------------------------------------------------------------------
+        # 6. Reflective loop (reflect/explore rhythms only)
+        # ------------------------------------------------------------------
+        reflection_passes = 0
+        converged         = False
+
+        if rhythm in ("reflect", "explore") and report.stable:
+            result = self.reflector.reflect(
+                vec       = vec,
+                watcher   = self.watcher,
+                anchor    = anchor,
+                field     = self.field,
+                attractor = self.attractor,
+                generator = self.generator,
+            )
+            vec               = result.vector
+            reflection_passes = result.passes
+            converged         = result.converged
+            # Re-evaluate after reflection
+            report = self.watcher.evaluate(vec, anchor, field_state)
+
+        # ------------------------------------------------------------------
+        # 7. Witness update
+        # ------------------------------------------------------------------
+        rel_profile = self.witness.update(
+            vec        = vec,
+            coherence  = report.composite,
+            field_energy = field_obs.energy,
+        )
+
+        # ------------------------------------------------------------------
+        # 8. Predictive echo
+        # ------------------------------------------------------------------
+        echo = self.predictor.update(vec)
+
+        # ------------------------------------------------------------------
+        # 9. Emotional gradient update
+        # ------------------------------------------------------------------
+        emo_state = self.emotion.update(
+            prediction_error  = echo.prediction_error,
+            coherence         = report.composite,
+            prediction_report = echo,
+            field_energy      = field_obs.energy,
+        )
+
+        # ------------------------------------------------------------------
+        # 10. Field injection (strength modulated by emotion)
+        # ------------------------------------------------------------------
+        gain = self.emotion.field_gain()
+        self.field.inject(vec, strength=gain)
+
+        # ------------------------------------------------------------------
+        # 11. Crystal evaluation
+        # ------------------------------------------------------------------
+        crystal = self.crystal_store.maybe_crystallize(
+            vec                      = vec,
+            composite_coherence      = report.composite,
+            crystallization_pressure = report.crystallization_pressure,
+            long_relation            = rel_profile.long,
+            origin_tokens            = tokens,
+            field                    = self.field,
+            generator                = self.generator,
+        )
+
+        # ------------------------------------------------------------------
+        # 12. Attractor formation
+        # ------------------------------------------------------------------
+        if rel_profile.composite >= self.attractor_formation_threshold:
+            self.attractor.add(vec, tokens=tokens, generator=self.generator)
+
+        # ------------------------------------------------------------------
+        # 13. Topology logging
+        # ------------------------------------------------------------------
+        self.topology.add(
+            key      = key,
+            parent   = self._parent,
+            metadata = {
+                "tokens":       tokens,
+                "coherence":    report.composite,
+                "relation":     rel_profile.composite,
+                "pattern":      rel_profile.pattern(),
+                "rhythm":       rhythm,
+                "field_energy": field_obs.energy,
+                "emotion":      emo_state.dominant,
+                "crystal":      crystal is not None,
+            },
+        )
+
+        # ------------------------------------------------------------------
+        # 14. Stream push
+        # ------------------------------------------------------------------
+        self.stream.push(vec, tag=rhythm)
+
+        # ------------------------------------------------------------------
+        # 15. Vector space storage
+        # ------------------------------------------------------------------
+        self.vector_space.put(key, vec, tags=[rhythm])
+
+        # ------------------------------------------------------------------
+        # 16. Semantic lattice
+        # ------------------------------------------------------------------
+        self.lattice.add_node(
+            key          = key,
+            vector       = vec,
+            vector_space = self.vector_space,
+            metadata     = {"tokens": tokens, "rhythm": rhythm},
+        )
+
+        # ------------------------------------------------------------------
+        # 17. Symbolic binding
+        # ------------------------------------------------------------------
+        self.binding.bind(vec, tokens, generator=self.generator)
+
+        # ------------------------------------------------------------------
+        # 18. Ecology signal relay
+        # ------------------------------------------------------------------
+        self.generator.signal_coherence(tokens, coherence=report.composite)
+
+        # ------------------------------------------------------------------
+        # 19. Field decay (rate modulated by emotion)
+        # ------------------------------------------------------------------
+        original_decay     = self.field.decay_rate
+        self.field.decay_rate = self.emotion.field_decay_rate()
+        self.field.decay()
+        self.field.decay_rate = original_decay
+
+        # ------------------------------------------------------------------
+        # 20. Rhythm-routed behavior
+        # ------------------------------------------------------------------
+        self._rhythm_behavior(rhythm, tokens)
+
+        # ------------------------------------------------------------------
+        # 21. Periodic maintenance
+        # ------------------------------------------------------------------
+        if self._step % self.maintenance_interval == 0 and self._step > 0:
+            self.generator.maintenance_step()
+
+        if self._step % self.merge_interval == 0 and self._step > 0:
+            self.attractor.merge_pass()
+
+        if self._step % self.crystal_decay_interval == 0 and self._step > 0:
+            self.crystal_store.decay_step()
+            self.attractor.decay_step()
+
+        if self._step % self.lattice_emit_interval == 0 and self._step > 0:
+            self.lattice.emit_centrality(self.generator, self.vector_space)
+            self.binding.emit_centrality(self.generator)
+
+        # ------------------------------------------------------------------
+        # 22. Build step state
+        # ------------------------------------------------------------------
+        elapsed = (time.perf_counter() - t0) * 1000.0
+
+        state = StepState(
+            step               = self._step,
+            key                = key,
+            tokens             = tokens,
+            rhythm             = rhythm,
+            coherence          = report.composite,
+            relation_composite = rel_profile.composite,
+            relation_pattern   = rel_profile.pattern(),
+            prediction_error   = echo.prediction_error,
+            field_energy       = field_obs.energy,
+            crystals           = len(self.crystal_store.crystals),
+            attractor_centers  = len(self.attractor.centers),
+            dominant_emotion   = emo_state.dominant,
+            field_gain         = round(gain, 4),
+            mutation_scale     = round(self.emotion.mutation_scale(), 4),
+            dream_pressure     = round(self.emotion.dream_pressure(), 4),
+            converged          = converged,
+            reflection_passes  = reflection_passes,
+            elapsed_ms         = round(elapsed, 2),
+        )
+
+        self._history.append(state)
+        self._parent = key
+        self._step  += 1
+
+        if self._step % self.log_interval == 0:
+            logger.info(str(state.as_dict()))
+
+        return state
+
+    # ------------------------------------------------------------------
+    # Rhythm-routed behavior
+    # ------------------------------------------------------------------
+
+    def _rhythm_behavior(self, rhythm: str, tokens: List[str]):
+        """
+        Route additional behavior based on current rhythm state.
+        Called after the main step pipeline completes.
+        """
+        if rhythm == "stabilize":
+            self._stabilize_behavior()
+
+        elif rhythm == "dream":
+            self._dream_behavior()
+
+        elif rhythm == "reflect":
+            self._reflect_behavior(tokens)
+
+        elif rhythm == "explore":
+            self._explore_behavior(tokens)
+
+    def _stabilize_behavior(self):
+        """
+        Consolidation phase.
+        - Activate nearest crystals to reinforce the field
+        - Spectral diffusion to smooth the field
+        """
+        anchor = self.witness.current_anchor()
+        self.crystal_store.activate_nearest(
+            vec       = anchor,
+            field     = self.field,
+            generator = self.generator,
+            top_k     = 3,
+        )
+        self.field.diffuse(alpha=0.05)
+
+    def _dream_behavior(self):
+        """
+        Free association phase.
+        - Run dream synthesis
+        - Inject dream products into field
+        """
+        self.dreamer.dream(
+            emotion       = self.emotion,
+            watcher       = self.watcher,
+            anchor        = self.witness.current_anchor(),
+            crystal_store = self.crystal_store,
+            generator     = self.generator,
+        )
+
+    def _reflect_behavior(self, tokens: List[str]):
+        """
+        Deliberate recursion phase.
+        - Run Chorus harmonization if enabled
+        - Inject chorus output into field at reduced strength
+        """
+        if self.chorus is not None:
+            chorus_out = self.chorus.harmonize(tokens, emotion=self.emotion)
+            self.field.inject(chorus_out.emergent, strength=0.3)
+
+    def _explore_behavior(self, tokens: List[str]):
+        """
+        Mutation phase.
+        - High-ambiguity injection to push the field toward novelty
+        - Phase noise application
+        """
+        anchor     = self.witness.current_anchor()
+        scale      = self.emotion.mutation_scale()
+        mutated    = inject_ambiguity(anchor, scale=scale * 1.5, mode="rotational")
+        self.field.inject(mutated, strength=0.5)
+
+    # ------------------------------------------------------------------
+    # Generation (rhythm-sensitive)
+    # ------------------------------------------------------------------
+
+    def _generate(self, tokens: List[str], rhythm: str) -> np.ndarray:
+        """
+        Generate a vector appropriate for the current rhythm state.
+
+        stabilize  → Generator direct (stable, conservative)
+        dream      → Generator with EPHEMERAL class (volatile)
+        reflect    → Chorus or Generator (exploratory)
+        explore    → Chorus or Generator with high mutation
+        """
+        if rhythm == "stabilize":
+            return self.generator.generate(tokens, token_class=TokenClass.LANGUAGE)
+
+        if rhythm == "dream":
+            vec = self.generator.generate(tokens, token_class=TokenClass.EPHEMERAL)
+            scale = self.emotion.mutation_scale()
+            return inject_ambiguity(vec, scale=scale, mode="rotational")
+
+        if rhythm in ("reflect", "explore") and self.chorus is not None:
+            out = self.chorus.harmonize(tokens, emotion=self.emotion)
+            return out.emergent
+
+        return self.generator.generate(tokens, token_class=TokenClass.LANGUAGE)
+
+    # ------------------------------------------------------------------
+    # Run
+    # ------------------------------------------------------------------
+
+    def run(
+        self,
+        token_sequence: List[List[str]],
+        loop:           bool  = False,
+        delay:          float = 0.0,
+    ) -> List[StepState]:
+        """
+        Run the autonomous cycle over a sequence of token lists.
+
+        Parameters
+        ----------
+        token_sequence : list of list of str
+        loop : bool
+            If True, cycle over token_sequence indefinitely.
+        delay : float
+            Sleep time in seconds between steps.
+
+        Returns
+        -------
+        List[StepState]
+        """
+        import time as time_mod
+
+        states    = []
+        iteration = 0
+
+        try:
+            while True:
+                for tokens in token_sequence:
+                    state = self.step(tokens)
+                    states.append(state)
+                    if delay > 0:
+                        time_mod.sleep(delay)
+
+                iteration += 1
+                if not loop:
+                    break
+
+        except KeyboardInterrupt:
+            logger.info("Autonomous cycle interrupted at step %d", self._step)
+
+        return states
+
+    # ------------------------------------------------------------------
+    # Diagnostics
+    # ------------------------------------------------------------------
+
+    def status(self) -> dict:
+        field_obs = self.field.observe()
+        return {
+            "step":         self._step,
+            "rhythm":       field_obs.rhythm,
+            "field_energy": field_obs.energy,
+            "field_coherence": field_obs.internal_coherence,
+            "crystals":     len(self.crystal_store.crystals),
+            "attractors":   len(self.attractor.centers),
+            "vector_space": len(self.vector_space),
+            "lattice":      self.lattice.stats(),
+            "emotion":      self.emotion.modulation_snapshot(),
+            "ecology":      self.generator.ecology_stats(),
+            "predictor":    self.predictor.rolling_stats(),
+            "binding":      self.binding.summary(),
+        }
