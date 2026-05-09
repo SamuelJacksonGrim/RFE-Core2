@@ -1,0 +1,46 @@
+# configs/field.yaml
+# Resonance Field configuration for RFE-Core2
+
+field:
+  dim: 128
+  decay: 0.995
+  history_len: 256
+  harmonic_bins: 4
+  phase_history_len: 16
+
+  # Rhythm energy thresholds
+  rhythm_thresholds:
+    stabilize: 0.5
+    dream: 2.0
+    reflect: 5.0
+    # explore = everything above reflect
+
+  # Spectral diffusion
+  diffuse_alpha: 0.05
+  diffuse_on_stabilize: true
+
+watcher:
+  dim: 128
+  history_len: 16
+  threshold: 0.40
+  # Layer weights (must sum to 1.0)
+  alpha: 0.40   # geometric coherence
+  beta: 0.35    # temporal stability
+  gamma: 0.25   # field resonance
+
+crystal_store:
+  coherence_threshold: 0.75
+  stability_threshold: 0.60
+  relation_threshold: 0.80
+  merge_threshold: 0.92
+  max_crystals: 512
+  decay_rate: 0.9995
+  field_injection_strength: 0.3
+
+attractor:
+  formation_threshold: 0.88
+  pull_threshold: 0.75
+  pull_blend: 0.15
+  merge_threshold: 0.95
+  max_centers: 64
+  decay_rate: 0.998
