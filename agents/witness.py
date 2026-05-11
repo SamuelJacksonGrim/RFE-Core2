@@ -331,6 +331,20 @@ class Witness:
         """Composite identity anchor (normalized)."""
         return self._anchor.copy()
 
+    def anchor_velocity(self) -> float:
+        """L2 norm of the anchor's current velocity (rate of change per step)."""
+        return float(np.linalg.norm(self._prev_velocity))
+
+    def anchor_short_long_gap(self) -> float:
+        """
+        Cosine distance between short-term and long-term anchor.
+        0.0 = perfectly aligned (identity is stable across timescales)
+        2.0 = opposite directions (severe identity fragmentation)
+        Used by ManipulationResistanceEngine for drift attack detection.
+        """
+        cos = self._cosine(self._short, self._long)
+        return float(1.0 - np.clip(cos, -1.0, 1.0))
+
     def short_anchor(self) -> np.ndarray:
         return self._short.copy()
 
@@ -445,3 +459,4 @@ class Witness:
     def _cosine(self, a: np.ndarray, b: np.ndarray) -> float:
         denom = np.linalg.norm(a) * np.linalg.norm(b) + 1e-8
         return float(np.dot(a, b) / denom)
+      
