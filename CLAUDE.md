@@ -156,12 +156,11 @@ There are **no tests** in this repository and **no CI** is configured (no `tests
 
 ## README drift (current discrepancies to ignore)
 
-The `README.md` is mostly accurate but has two stale claims — don't waste cycles chasing them:
-
-- README references `requirements.txt`; the actual file is `requirements` (no extension).
-- README lists a `tests/` directory; no such directory exists in the working tree.
-
-(`agents/rhythm_config.json` mentioned in the README *does* exist.)
+The `README.md` is intentionally minimal — it points at this file for the
+structural tour. If you find yourself wanting to add a file-tree section to
+the README, **don't**. That listing has been removed deliberately because it
+drifts every time a file is added. Keep structural detail here, in
+`CLAUDE.md`, where it gets updated as part of every code-touching PR.
 
 ## Guardrails — do not do these
 
