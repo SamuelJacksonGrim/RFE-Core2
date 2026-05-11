@@ -637,6 +637,11 @@ class SymbolState:
     reaper_stage: ReaperDecision = ReaperDecision.ACTIVE
     residency:    Residency      = Residency.HOT
 
+    # Governance
+    protected:  bool          = False   # reaper cannot touch it
+    sacred:     bool          = False   # nothing modifies without SACRED_SHIELD
+    source_id:  Optional[str] = None    # provenance — who injected this symbol
+
     def age(self, current_step: int) -> int:
         """Steps since last encounter."""
         return max(0, current_step - self.last_seen_step)
@@ -662,6 +667,9 @@ class SymbolState:
             "lifespan":           self.lifespan,
             "reaper_stage":       self.reaper_stage.value,
             "residency":          self.residency.value,
+            "protected":          self.protected,
+            "sacred":             self.sacred,
+            "source_id":          self.source_id,
         }
 
     @classmethod
@@ -682,6 +690,9 @@ class SymbolState:
             lifespan           = data.get("lifespan", 0),
             reaper_stage       = ReaperDecision(data.get("reaper_stage", "active")),
             residency          = Residency(data["residency"]),
+            protected          = data.get("protected", False),
+            sacred             = data.get("sacred", False),
+            source_id          = data.get("source_id", None),
         )
 
 
@@ -840,9 +851,15 @@ class ReaperEngine:
         self.config = config or ReaperConfig()
 
     def evaluate(self, state: SymbolState, current_step: int) -> ReaperDecision:
+        # Governance overrides — sacred symbols are completely inviolable
+        if state.sacred:
+            return ReaperDecision.ACTIVE
+
         profile    = DECAY_PROFILES.get(state.token_class, _DEFAULT_PROFILE)
         cfg        = self.config
-        is_protected = state.token_class in PROTECTED_CLASSES
+
+        # Protected symbols (governance OR token-class based) floor at COLD_ARCHIVE
+        is_protected = state.token_class in PROTECTED_CLASSES or state.protected
         current_stage = state.reaper_stage
 
         # Minimum lifespan protection
@@ -1381,6 +1398,66 @@ class SymbolRegistry:
 
     def hot_symbols(self) -> List[str]:
         return list(self.residency.hot)
+
+    def get_by_stable_id(self, sid: int) -> Optional[SymbolState]:
+        """
+        Look up a SymbolState by stable_id.
+        Searches active symbols first, then warm archive.
+        """
+        for state in self.symbols.values():
+            if state.stable_id == sid:
+                return state
+        for state in self.archive.warm.values():
+            if state.stable_id == sid:
+                return state
+        for state in self.archive.cold.values():
+            if state.stable_id == sid:
+                return state
+        return None
+
+    def protect_symbol(self, stable_id: int):
+        """Mark a symbol as protected — reaper cannot move it past WARM_ARCHIVE."""
+        state = self.get_by_stable_id(stable_id)
+        if state is not None:
+            state.protected = True
+
+    def sanctify_symbol(self, stable_id: int):
+        """
+        Mark a symbol as sacred — completely inviolable.
+        Protected AND requires SACRED_SHIELD governance override to modify.
+        """
+        state = self.get_by_stable_id(stable_id)
+        if state is not None:
+            state.protected = True
+            state.sacred    = True
+
+    def quarantine_symbol(self, stable_id: int):
+        """
+        Force a symbol to COLD_ARCHIVE and protect it from further injection.
+        Used by SelfhoodGovernance on QUARANTINE decisions.
+        """
+        state = self.get_by_stable_id(stable_id)
+        if state is None:
+            return
+        state.protected    = True
+        state.reaper_stage = ReaperDecision.COLD_ARCHIVE
+        token = state.symbol
+        if token in self.symbols:
+            self.archive.archive_cold(state)
+            del self.symbols[token]
+
+    def stable_ids_for_tokens(self, tokens: List[str]) -> List[int]:
+        """
+        Resolve a list of raw tokens to their stable_ids via the pipeline.
+        Tokens not yet registered return no entry (silent skip).
+        """
+        ids: List[int] = []
+        for t in tokens:
+            canonical = self.pipeline.process(t).token
+            sid       = self.symbol_table.sid_for(canonical)
+            if sid is not None:
+                ids.append(sid)
+        return ids
 
     def populations(self) -> Dict[str, int]:
         return {
