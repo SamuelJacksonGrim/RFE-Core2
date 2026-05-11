@@ -322,9 +322,36 @@ class ResonanceField:
         raw = float(np.mean(sims))
         return float(np.clip((raw + 1.0) / 2.0, 0.0, 1.0))
 
-    # ------------------------------------------------------------------
-    # Internal coherence
-    # ------------------------------------------------------------------
+    def coherence_impact(self, vec: np.ndarray) -> float:
+        """
+        Estimate the coherence impact of injecting vec into the field.
+        Non-destructive probe — does not modify field state.
+
+        Returns a signed float ∈ [-1, 1]:
+          positive → injection would increase field coherence
+          negative → injection would decrease it
+
+        Used by EthicalBoundarySystem as a cheap scalar read.
+        """
+        if len(self.history) == 0:
+            return 0.0
+
+        history_mean = np.mean(list(self.history)[-32:], axis=0)
+        mean_norm    = np.linalg.norm(history_mean)
+        field_norm   = np.linalg.norm(self.field)
+
+        if mean_norm < 1e-8 or field_norm < 1e-8:
+            return 0.0
+
+        before = float(np.dot(self.field, history_mean) / (field_norm * mean_norm + 1e-8))
+
+        probed      = np.tanh(self.field + vec * 0.5)
+        probed_norm = np.linalg.norm(probed)
+        if probed_norm < 1e-8:
+            return 0.0
+
+        after = float(np.dot(probed, history_mean) / (probed_norm * mean_norm + 1e-8))
+        return float(np.clip(after - before, -1.0, 1.0))
 
     def internal_coherence(self) -> float:
         """
