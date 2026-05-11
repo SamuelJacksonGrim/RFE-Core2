@@ -283,9 +283,14 @@ class ManipulationResistanceEngine:
     def _detect_coherence_flood(self, m: ResistanceMetrics) -> Optional[ManipulationSignal]:
         """
         HHI above critical AND attractor monopoly above threshold.
+        Requires minimum window size — single-source systems aren't attacks.
 
         severity = hhi_score × attractor_monopoly_ratio
         """
+        # Need enough injection history to distinguish monopoly from single-user normal
+        if len(self._velocities) < self.window_size // 2:
+            return None
+
         if (m.hhi_score < self.hhi_critical
                 or m.attractor_monopoly < self.monopoly_threshold):
             return None
