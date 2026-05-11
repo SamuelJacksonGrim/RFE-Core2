@@ -1,17 +1,3 @@
-# Copyright 2026 Samuel Jackson Grim
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
 """
 loop/autonomous_cycle.py
 
@@ -72,6 +58,7 @@ from agents.dreamer import Dreamer
 from agents.chorus import Chorus
 from agents.attractor import Attractor
 from agents.symbolic_memory import TokenClass
+from agents.selfhood_governance import SelfhoodGovernance, GovernanceDecision
 
 from substrate.vector_space import VectorSpace
 from substrate.resonance_field import ResonanceField
@@ -225,6 +212,9 @@ class AutonomousCycle:
             stream    = self.stream,
         ) if use_chorus else None
 
+        # Governance (optional — system runs without it)
+        self.governance: Optional[SelfhoodGovernance] = None
+
         # ------------------------------------------------------------------
         # State
         # ------------------------------------------------------------------
@@ -237,7 +227,7 @@ class AutonomousCycle:
     # Step
     # ------------------------------------------------------------------
 
-    def step(self, tokens: List[str]) -> StepState:
+    def step(self, tokens: List[str], source_id: str = "user") -> StepState:
         """
         Execute one full autonomous cycle step.
 
@@ -332,10 +322,31 @@ class AutonomousCycle:
         )
 
         # ------------------------------------------------------------------
-        # 10. Field injection (strength modulated by emotion)
+        # 10. Governance gate + field injection
         # ------------------------------------------------------------------
-        gain = self.emotion.field_gain()
-        self.field.inject(vec, strength=gain)
+        gain     = self.emotion.field_gain()
+        decision = GovernanceDecision.ALLOW
+        strength = 1.0
+
+        if self.governance is not None:
+            decision, strength = self._governance_gate(
+                vec       = vec,
+                tokens    = tokens,
+                source_id = source_id,
+                report    = report,
+                field_obs = field_obs,
+            )
+
+        if decision in (GovernanceDecision.ALLOW,
+                        GovernanceDecision.ALLOW_WEAKENED,
+                        GovernanceDecision.MONITOR):
+            self.field.inject(vec, strength=gain * strength)
+
+        # Emit feedback (coherence_delta is the actual impact after injection)
+        if self.governance is not None:
+            actual_delta = self.field.coherence_impact(vec)
+            stable_ids   = self.generator.registry.stable_ids_for_tokens(tokens)
+            self.governance.emit_feedback(decision, source_id, stable_ids, actual_delta)
 
         # ------------------------------------------------------------------
         # 11. Crystal evaluation
@@ -405,6 +416,44 @@ class AutonomousCycle:
         self.generator.signal_coherence(tokens, coherence=report.composite)
 
         # ------------------------------------------------------------------
+        # 18b. Manipulation resistance metrics feed
+        # ------------------------------------------------------------------
+        if self.governance is not None:
+            crystal_cosines = []
+            centroid = self.crystal_store.centroid()
+            if centroid is not None:
+                cos = float(np.dot(vec, centroid) / (
+                    np.linalg.norm(vec) * np.linalg.norm(centroid) + 1e-8
+                ))
+                crystal_cosines = [cos]
+
+            from agents.manipulation_resistance import ResistanceMetrics
+            dep_report = self.governance.dependency_monitor.get_report()
+
+            self.governance.resistance.update(ResistanceMetrics(
+                anchor_velocity        = self.witness.anchor_velocity(),
+                anchor_short_long_gap  = self.witness.anchor_short_long_gap(),
+                hhi_score              = dep_report.hhi_score,
+                dominant_source_id     = dep_report.dominant_source,
+                attractor_monopoly     = dep_report.hhi_score,
+                coherence_delta        = report.coherence_delta,
+                watcher_geometric      = report.geometric,
+                watcher_temporal       = report.temporal,
+                crystal_centroid_cosines = crystal_cosines,
+                source_id              = source_id,
+                source_trust_score     = (
+                    self.governance.trust_ledger.sources[source_id].trust_score
+                    if source_id in self.governance.trust_ledger.sources
+                    else 2.5
+                ),
+                step = self._step,
+            ))
+
+            signals = self.governance.resistance.detect()
+            if signals:
+                self.governance.handle_manipulation_signals(signals)
+
+        # ------------------------------------------------------------------
         # 19. Field decay (rate modulated by emotion)
         # ------------------------------------------------------------------
         original_decay     = self.field.decay_rate
@@ -415,7 +464,11 @@ class AutonomousCycle:
         # ------------------------------------------------------------------
         # 20. Rhythm-routed behavior
         # ------------------------------------------------------------------
-        self._rhythm_behavior(rhythm, tokens)
+        # force_dream_flag overrides rhythm — governance-triggered rebalancing
+        if self.governance is not None and self.governance.force_dream_flag:
+            self._dream_behavior()
+        else:
+            self._rhythm_behavior(rhythm, tokens)
 
         # ------------------------------------------------------------------
         # 21. Periodic maintenance
@@ -470,6 +523,72 @@ class AutonomousCycle:
         return state
 
     # ------------------------------------------------------------------
+    # Governance
+    # ------------------------------------------------------------------
+
+    def attach_governance(self, governance: SelfhoodGovernance):
+        """
+        Attach a SelfhoodGovernance instance after construction.
+        Also wires the TrustLedger's stability reference to EmotionalGradient.
+        """
+        self.governance = governance
+        governance.trust_ledger._stability_ref = self.emotion
+
+    def _governance_gate(
+        self,
+        vec:       np.ndarray,
+        tokens:    List[str],
+        source_id: str,
+        report,
+        field_obs,
+    ):
+        """
+        Run the full governance pipeline and return (decision, strength).
+        Called only when self.governance is not None.
+        """
+        from agents.trust_ledger import TrustLevel
+
+        stable_ids  = self.generator.registry.stable_ids_for_tokens(tokens)
+
+        # Current source trust level for ethical gate (dict lookup)
+        src_record  = self.governance.trust_ledger.sources.get(source_id)
+        src_level   = (
+            TrustLevel.from_score(src_record.trust_score)
+            if src_record is not None
+            else TrustLevel.NEUTRAL
+        )
+        known_source = src_record is not None
+
+        # 1. Ethical check — fast binary, no vector math
+        ethical = self.governance.ethical_boundary.check(
+            op                = "write",
+            source_trust_level = src_level,
+            stable_ids        = stable_ids,
+            coherence_delta   = report.coherence_delta,
+            witness_stability = self.witness.identity_stability(),
+            source_id         = source_id,
+            known_source      = known_source,
+        )
+
+        # 2. Trust evaluation — source + symbol scoring
+        trust = self.governance.trust_ledger.evaluate(
+            source_id       = source_id,
+            origin_type     = "user",
+            stable_ids      = stable_ids,
+            coherence_delta = report.coherence_delta,
+            field_energy    = field_obs.energy,
+        )
+
+        # 3. Governance decision — single source of truth
+        return self.governance.arbitrate(
+            ethical_result = ethical,
+            trust_report   = trust,
+            vec            = vec,
+            tokens         = tokens,
+            source_id      = source_id,
+        )
+
+    # ------------------------------------------------------------------
     # Rhythm-routed behavior
     # ------------------------------------------------------------------
 
@@ -508,8 +627,7 @@ class AutonomousCycle:
     def _dream_behavior(self):
         """
         Free association phase.
-        - Run dream synthesis
-        - Inject dream products into field
+        Also triggered when governance sets force_dream_flag (manipulation response).
         """
         self.dreamer.dream(
             emotion       = self.emotion,
@@ -518,6 +636,9 @@ class AutonomousCycle:
             crystal_store = self.crystal_store,
             generator     = self.generator,
         )
+        # Clear force_dream_flag after executing
+        if self.governance is not None and self.governance.force_dream_flag:
+            self.governance.force_dream_flag = False
 
     def _reflect_behavior(self, tokens: List[str]):
         """
@@ -620,7 +741,7 @@ class AutonomousCycle:
 
     def status(self) -> dict:
         field_obs = self.field.observe()
-        return {
+        s = {
             "step":         self._step,
             "rhythm":       field_obs.rhythm,
             "field_energy": field_obs.energy,
@@ -634,3 +755,6 @@ class AutonomousCycle:
             "predictor":    self.predictor.rolling_stats(),
             "binding":      self.binding.summary(),
         }
+        if self.governance is not None:
+            s["governance"] = self.governance.status()
+        return s
