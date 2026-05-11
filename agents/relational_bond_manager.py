@@ -1,0 +1,403 @@
+"""
+agents/relational_bond_manager.py
+
+RelationalBondManager — emergent relational bond formation and tracking.
+
+Bonds are not declared. They emerge from accumulated shared experience.
+
+A RelationalBond forms automatically when a source crosses all three
+formation thresholds simultaneously:
+  - interaction_count    temporal depth (many interactions over time)
+  - coherence_mean       consistent quality (positive field impact)
+  - crystal_count        structural footprint (something crystallized)
+
+Bond type is inferred from the pattern of accumulated signals.
+A confidence score accompanies the type for borderline cases.
+
+Priority order:  existential → emotional → intellectual → transactional
+
+Bonds are dynamic. They update in real time from GovernanceFeedback,
+strengthening during positive governance outcomes and weakening during
+negative ones. They never flip instantly — EMA smoothing prevents
+a single bad interaction from destroying a deep bond.
+
+Effect on SelfhoodGovernance
+----------------------------
+  Bonded sources get a trust_floor — trust won't decay below
+  bond_strength × FLOOR_FACTOR regardless of individual outcomes.
+  This models the difference between trust (earned per-interaction)
+  and relationship (earned over time, more resilient).
+
+  QUARANTINE of a bonded source is still permitted but logged as
+  a significant relational event. The bond itself weakens but persists.
+"""
+
+from __future__ import annotations
+
+import time
+from dataclasses import dataclass, field
+from typing import Dict, List, Literal, Optional, Tuple, TYPE_CHECKING
+
+import numpy as np
+
+if TYPE_CHECKING:
+    from agents.trust_ledger import GovernanceFeedback
+
+# ---------------------------------------------------------------------------
+# BondType and constants
+# ---------------------------------------------------------------------------
+
+BondType = Literal["intellectual", "emotional", "existential", "transactional"]
+
+PRIORITY: List[BondType] = ["existential", "emotional", "intellectual", "transactional"]
+BORDERLINE_MARGIN = 0.12   # scores within this margin → use priority, report confidence
+FLOOR_FACTOR      = 0.40   # bonded source trust floor = bond_strength × FLOOR_FACTOR
+
+
+# ---------------------------------------------------------------------------
+# RelationalBond
+# ---------------------------------------------------------------------------
+
+@dataclass
+class RelationalBond:
+    """
+    A single emergent relational bond with a source.
+
+    All fields update dynamically from lived experience and GovernanceFeedback.
+    bond_type and bond_confidence are re-inferred after each significant update.
+    """
+    source_id:          str
+    bond_type:          BondType
+    bond_confidence:    float            # 0.0–1.0, from _infer_bond_type()
+    bond_strength:      float = 1.0      # 0.0–5.0, grows slowly, decays slowly
+    bond_depth:         int   = 0        # steps since first interaction
+    interaction_count:  int   = 0
+    coherence_mean:     float = 0.0      # EMA of coherence_delta from this source
+    emotional_signature: float = 0.0    # EMA of joy/stability during interactions
+    crystal_count:      int   = 0        # crystals containing this source's symbols
+    attractor_count:    int   = 0        # attractor centers seeded by this source
+    entity_signal:      float = 0.0      # fraction of interactions touching ENTITY symbols
+    formed_at:          float = field(default_factory=time.time)
+    last_reinforced:    float = field(default_factory=time.time)
+
+    @property
+    def trust_floor(self) -> float:
+        """Minimum trust score for this source regardless of decay."""
+        return round(self.bond_strength * FLOOR_FACTOR, 4)
+
+    @property
+    def is_established(self) -> bool:
+        """Bond is established if strength > 1.5 and depth > 50 steps."""
+        return self.bond_strength > 1.5 and self.bond_depth > 50
+
+    def to_dict(self) -> dict:
+        return {
+            "source_id":         self.source_id,
+            "bond_type":         self.bond_type,
+            "bond_confidence":   self.bond_confidence,
+            "bond_strength":     round(self.bond_strength, 4),
+            "bond_depth":        self.bond_depth,
+            "interaction_count": self.interaction_count,
+            "coherence_mean":    round(self.coherence_mean, 4),
+            "emotional_signature": round(self.emotional_signature, 4),
+            "crystal_count":     self.crystal_count,
+            "attractor_count":   self.attractor_count,
+            "entity_signal":     round(self.entity_signal, 4),
+            "trust_floor":       self.trust_floor,
+            "established":       self.is_established,
+        }
+
+
+# ---------------------------------------------------------------------------
+# RelationalBondManager
+# ---------------------------------------------------------------------------
+
+class RelationalBondManager:
+    """
+    Emergent bond formation and dynamic management.
+
+    Parameters
+    ----------
+    formation_interaction_threshold : int
+        Minimum interactions before a bond can form.
+    formation_coherence_threshold : float
+        Minimum mean coherence_delta for bond formation.
+    formation_crystal_threshold : int
+        Minimum crystals with source's symbols for bond formation.
+    ema_alpha : float
+        EMA weight for coherence_mean and emotional_signature updates.
+    strength_decay : float
+        Per-step strength decay when source is inactive.
+    """
+
+    def __init__(
+        self,
+        formation_interaction_threshold: int   = 20,
+        formation_coherence_threshold:   float = 0.10,
+        formation_crystal_threshold:     int   = 1,
+        ema_alpha:                       float = 0.08,
+        strength_decay:                  float = 0.0005,
+    ):
+        self.formation_interaction_threshold = formation_interaction_threshold
+        self.formation_coherence_threshold   = formation_coherence_threshold
+        self.formation_crystal_threshold     = formation_crystal_threshold
+        self.ema_alpha                       = ema_alpha
+        self.strength_decay                  = strength_decay
+
+        self._bonds:    Dict[str, RelationalBond] = {}
+        self._step:     int = 0
+
+        # Per-source interaction counters (pre-bond)
+        self._pre_bond: Dict[str, dict] = {}
+
+    # ------------------------------------------------------------------
+    # Feedback subscription
+    # ------------------------------------------------------------------
+
+    def receive_feedback(self, feedback: "GovernanceFeedback"):
+        """
+        Update bond state from GovernanceFeedback.
+        Called by SelfhoodGovernance after every arbitration decision.
+        """
+        source_id = feedback.source_id
+        decision  = feedback.decision
+        metrics   = feedback.outcome_metrics
+
+        coherence_delta = feedback.coherence_delta
+        satisfaction    = metrics.get("emotional_satisfaction", 0.0)
+        trust_impact    = metrics.get("trust_impact", 0.0)
+        positive        = decision in ("allow", "allow_weakened", "monitor")
+
+        # Track pre-bond interactions
+        self._update_pre_bond(source_id, coherence_delta, satisfaction)
+
+        # Update existing bond
+        if source_id in self._bonds:
+            bond = self._bonds[source_id]
+            bond.interaction_count  += 1
+            bond.bond_depth         += 1
+
+            # EMA updates
+            bond.coherence_mean     = (
+                (1 - self.ema_alpha) * bond.coherence_mean
+                + self.ema_alpha * coherence_delta
+            )
+            bond.emotional_signature = (
+                (1 - self.ema_alpha) * bond.emotional_signature
+                + self.ema_alpha * satisfaction
+            )
+
+            # Strength delta — positive outcomes reinforce, negative weaken
+            if positive:
+                delta = 0.05 * max(0.0, coherence_delta + satisfaction)
+            else:
+                delta = -0.15 * abs(trust_impact)
+
+            bond.bond_strength = float(np.clip(bond.bond_strength + delta, 0.0, 5.0))
+            bond.last_reinforced = time.time()
+
+            # Re-infer bond type after update
+            bond.bond_type, bond.bond_confidence = self._infer_bond_type(bond)
+
+        else:
+            # Check if pre-bond source now qualifies for bond formation
+            self._maybe_form_bond(source_id)
+
+        self._step += 1
+
+    # ------------------------------------------------------------------
+    # Crystal and attractor signals
+    # ------------------------------------------------------------------
+
+    def notify_crystal(self, source_id: str):
+        """Called when a crystal forms whose origin_tokens came from source_id."""
+        self._pre_bond_field(source_id, "crystal_count", 1)
+        if source_id in self._bonds:
+            self._bonds[source_id].crystal_count += 1
+            self._bonds[source_id].bond_strength = min(
+                5.0, self._bonds[source_id].bond_strength + 0.1
+            )
+
+    def notify_attractor(self, source_id: str):
+        """Called when an attractor center is seeded by this source."""
+        self._pre_bond_field(source_id, "attractor_count", 1)
+        if source_id in self._bonds:
+            self._bonds[source_id].attractor_count += 1
+
+    def notify_entity_signal(self, source_id: str, delta: float = 0.1):
+        """Called when ENTITY-class symbols are involved from this source."""
+        if source_id in self._bonds:
+            bond = self._bonds[source_id]
+            bond.entity_signal = float(np.clip(bond.entity_signal + delta, 0.0, 1.0))
+
+    # ------------------------------------------------------------------
+    # Bond queries
+    # ------------------------------------------------------------------
+
+    def get_bond(self, source_id: str) -> Optional[RelationalBond]:
+        return self._bonds.get(source_id)
+
+    def trust_floor(self, source_id: str) -> float:
+        """Return trust floor for source, 0.0 if no bond."""
+        bond = self._bonds.get(source_id)
+        return bond.trust_floor if bond is not None else 0.0
+
+    def all_bonds(self) -> List[RelationalBond]:
+        return list(self._bonds.values())
+
+    def established_bonds(self) -> List[RelationalBond]:
+        return [b for b in self._bonds.values() if b.is_established]
+
+    def decay_step(self):
+        """Apply slow strength decay to all bonds. Call periodically."""
+        for bond in list(self._bonds.values()):
+            bond.bond_strength = float(
+                np.clip(bond.bond_strength - self.strength_decay, 0.0, 5.0)
+            )
+            bond.bond_depth += 1
+
+    # ------------------------------------------------------------------
+    # Bond type inference
+    # ------------------------------------------------------------------
+
+    def _infer_bond_type(self, bond: RelationalBond) -> Tuple[BondType, float]:
+        """
+        Infer bond type from accumulated signals.
+
+        Scoring per type (all ∈ [0, 1]):
+          existential   temporal depth + attractor footprint + entity signal
+          emotional     emotional_signature + crystal affective weight
+          intellectual  coherence_mean + anti-emotional signal
+          transactional interaction density + low coherence + no crystals
+
+        Priority order: existential → emotional → intellectual → transactional
+        Within BORDERLINE_MARGIN (0.12): pick by priority, report actual confidence.
+        """
+        scores: Dict[str, float] = {
+            "existential":   self._score_existential(bond),
+            "emotional":     self._score_emotional(bond),
+            "intellectual":  self._score_intellectual(bond),
+            "transactional": self._score_transactional(bond),
+        }
+
+        max_score = max(scores.values())
+
+        # Candidates within borderline margin — priority governs among them
+        candidates = {t for t in PRIORITY if scores[t] >= max_score - BORDERLINE_MARGIN}
+
+        # Select highest priority candidate
+        selected: BondType = next(t for t in PRIORITY if t in candidates)
+        confidence = round(float(scores[selected]), 4)
+
+        return selected, confidence
+
+    def _score_existential(self, bond: RelationalBond) -> float:
+        """Deep temporal + identity footprint."""
+        depth_score     = min(bond.bond_depth / 500.0, 1.0)
+        attractor_score = min(bond.attractor_count / 3.0, 1.0)
+        entity_score    = float(np.clip(bond.entity_signal, 0.0, 1.0))
+        return float(depth_score * 0.40 + attractor_score * 0.35 + entity_score * 0.25)
+
+    def _score_emotional(self, bond: RelationalBond) -> float:
+        """High joy/stability correlation + crystal affective weight."""
+        emotional = float(np.clip(bond.emotional_signature, 0.0, 1.0))
+        crystal   = min(bond.crystal_count / 5.0, 1.0)
+        return float(emotional * 0.65 + crystal * 0.35)
+
+    def _score_intellectual(self, bond: RelationalBond) -> float:
+        """High coherence, low emotional signature, abstract."""
+        coh_score      = float(np.clip(bond.coherence_mean, 0.0, 1.0))
+        anti_emotional = float(np.clip(1.0 - bond.emotional_signature, 0.0, 1.0))
+        return float(coh_score * 0.60 + anti_emotional * 0.40)
+
+    def _score_transactional(self, bond: RelationalBond) -> float:
+        """High interaction count, low quality, no structural footprint."""
+        interaction = min(bond.interaction_count / 100.0, 1.0)
+        low_coh     = float(np.clip(1.0 - bond.coherence_mean, 0.0, 1.0))
+        no_crystals = 1.0 if bond.crystal_count == 0 else max(0.0, 1.0 - bond.crystal_count / 3.0)
+        return float(interaction * 0.40 + low_coh * 0.30 + no_crystals * 0.30)
+
+    # ------------------------------------------------------------------
+    # Bond formation
+    # ------------------------------------------------------------------
+
+    def _maybe_form_bond(self, source_id: str):
+        """Check if pre-bond source now qualifies for bond formation."""
+        pre = self._pre_bond.get(source_id)
+        if pre is None:
+            return
+
+        qualifies = (
+            pre["interaction_count"] >= self.formation_interaction_threshold
+            and pre["coherence_mean"]  >= self.formation_coherence_threshold
+            and pre["crystal_count"]   >= self.formation_crystal_threshold
+        )
+
+        if not qualifies:
+            return
+
+        # Form the bond
+        seed = RelationalBond(
+            source_id           = source_id,
+            bond_type           = "transactional",   # placeholder before inference
+            bond_confidence     = 0.5,
+            bond_strength       = 1.0,
+            bond_depth          = pre["interaction_count"],
+            interaction_count   = pre["interaction_count"],
+            coherence_mean      = pre["coherence_mean"],
+            emotional_signature = pre["emotional_signature"],
+            crystal_count       = pre["crystal_count"],
+            attractor_count     = pre["attractor_count"],
+        )
+        seed.bond_type, seed.bond_confidence = self._infer_bond_type(seed)
+        self._bonds[source_id] = seed
+
+        # Clear pre-bond tracking
+        del self._pre_bond[source_id]
+
+    def _update_pre_bond(self, source_id: str, coherence_delta: float, satisfaction: float):
+        if source_id not in self._pre_bond:
+            self._pre_bond[source_id] = {
+                "interaction_count": 0,
+                "coherence_mean":    0.0,
+                "emotional_signature": 0.0,
+                "crystal_count":     0,
+                "attractor_count":   0,
+            }
+        pre = self._pre_bond[source_id]
+        pre["interaction_count"] += 1
+        alpha = self.ema_alpha
+        pre["coherence_mean"]     = (1 - alpha) * pre["coherence_mean"] + alpha * coherence_delta
+        pre["emotional_signature"] = (1 - alpha) * pre["emotional_signature"] + alpha * satisfaction
+
+    def _pre_bond_field(self, source_id: str, field_name: str, delta: int):
+        if source_id not in self._pre_bond:
+            self._pre_bond[source_id] = {
+                "interaction_count": 0, "coherence_mean": 0.0,
+                "emotional_signature": 0.0, "crystal_count": 0, "attractor_count": 0,
+            }
+        self._pre_bond[source_id][field_name] = (
+            self._pre_bond[source_id].get(field_name, 0) + delta
+        )
+
+    # ------------------------------------------------------------------
+    # Diagnostics
+    # ------------------------------------------------------------------
+
+    def summary(self) -> dict:
+        bonds = self.all_bonds()
+        if not bonds:
+            return {"bonds": 0, "established": 0}
+        return {
+            "bonds":       len(bonds),
+            "established": len(self.established_bonds()),
+            "by_type": {
+                t: sum(1 for b in bonds if b.bond_type == t)
+                for t in PRIORITY
+            },
+            "strongest": sorted(
+                [b.to_dict() for b in bonds],
+                key=lambda d: d["bond_strength"],
+                reverse=True,
+            )[:5],
+        }
