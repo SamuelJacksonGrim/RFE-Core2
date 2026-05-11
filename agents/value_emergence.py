@@ -188,10 +188,10 @@ class ValueEmergenceEngine:
     """
 
     DEFAULT_CONFIG = {
-        "min_emergence_threshold":    0.20,   # combined signal needed for candidacy
-        "reinforcement_lr":           0.50,   # learning rate for strength updates
-        "decay_per_step":             0.005,  # per-step strength decay
-        "dissolution_threshold":      0.40,
+        "min_emergence_threshold":    0.015,  # combined signal needed for candidacy
+        "reinforcement_lr":           1.50,   # learning rate for strength updates
+        "decay_per_step":             0.0008, # per-step strength decay (must be << reinforcement_lr × typical_signal)
+        "dissolution_threshold":      0.30,
         "core_strength_threshold":    4.50,
         "core_consecutive_required":  10,
         "max_active_values":          64,
@@ -199,6 +199,9 @@ class ValueEmergenceEngine:
         "tension_threshold":          0.30,   # cosine anti-correlation magnitude
         "productive_tension_bonus":   0.005,  # mutual reinforcement during tension
         "productive_tension_min_strength": 1.50,
+        "decision_bonus_allow":       0.05,   # baseline signal for clean ALLOW
+        "decision_bonus_weakened":    0.02,
+        "decision_bonus_monitor":     0.01,
     }
 
     def __init__(
@@ -288,12 +291,19 @@ class ValueEmergenceEngine:
             # Modulate by bond confidence — uncertain classification reduces effect
             bond_weight *= 0.5 + 0.5 * report.bond_confidence
 
+        # Decision-type baseline — clean ALLOW outcomes contribute baseline signal
+        decision_bonus = {
+            "allow":          self.config["decision_bonus_allow"],
+            "allow_weakened": self.config["decision_bonus_weakened"],
+            "monitor":        self.config["decision_bonus_monitor"],
+        }.get(report.decision, 0.0)
+
         score = (
-            report.coherence_delta       * 0.40 +
+            report.coherence_delta        * 0.40 +
             report.emotional_satisfaction * 0.35 +
-            report.surprise              * 0.15 +
+            report.surprise               * 0.15 +
             max(0.0, report.trust_impact) * 0.10
-        ) * bond_weight
+        ) * bond_weight + decision_bonus
 
         if score < self.config["min_emergence_threshold"]:
             return []
@@ -333,10 +343,17 @@ class ValueEmergenceEngine:
         if report.bond_type is not None:
             bond_weight *= 0.5 + 0.5 * report.bond_confidence
 
+        # Decision bonus contributes baseline reinforcement
+        decision_bonus = {
+            "allow":          self.config["decision_bonus_allow"],
+            "allow_weakened": self.config["decision_bonus_weakened"],
+            "monitor":        self.config["decision_bonus_monitor"],
+        }.get(report.decision, 0.0)
+
         reinforcement = (
             report.coherence_delta        * 0.6 +
             report.emotional_satisfaction * 0.4
-        ) * bond_weight
+        ) * bond_weight + decision_bonus
 
         # Apply reinforcement
         delta = reinforcement * self.config["reinforcement_lr"]
@@ -699,4 +716,3 @@ class ValueEmergenceEngine:
             consecutive_core_eligible_steps = d["consecutive_core_eligible_steps"],
             dissolved_at_step              = d["dissolved_at_step"],
         )
-      
