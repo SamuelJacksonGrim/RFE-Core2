@@ -156,6 +156,34 @@ class EmotionalGradient:
         return self.state()
 
     # ------------------------------------------------------------------
+    # Public state properties
+    # ------------------------------------------------------------------
+
+    @property
+    def curiosity(self) -> float:
+        return self._curiosity
+
+    @property
+    def wonder(self) -> float:
+        return self._wonder
+
+    @property
+    def joy(self) -> float:
+        return self._joy
+
+    @property
+    def tension(self) -> float:
+        return self._tension
+
+    @property
+    def boredom(self) -> float:
+        return self._boredom
+
+    @property
+    def stability(self) -> float:
+        return self._stability
+
+    # ------------------------------------------------------------------
     # Modulation outputs  (read by autonomous_cycle every step)
     # ------------------------------------------------------------------
 
