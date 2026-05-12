@@ -53,7 +53,7 @@ Integration tests:
 python -m tests.integration.tier1_revision_baseline [seed]
 ```
 
-Adversarial probes:
+Adversarial probes *(coming next)*:
 ```bash
 python -m tests.adversarial.sacred_shield
 python -m tests.adversarial.flood_calibration
@@ -61,7 +61,7 @@ python -m tests.adversarial.manipulation_cascade
 python -m tests.adversarial.identity_drift
 ```
 
-Diagnostic tools:
+Diagnostic tools *(coming next)*:
 ```bash
 python -m tests.diagnostic.decision_histogram
 python -m tests.diagnostic.gate_firing_audit
@@ -105,15 +105,14 @@ cooperate correctly."
 - `tier1_revision_baseline.py` — The full Resonance Family sim with
   metric assertions against the baseline JSON. This is the regression
   guard for Tier 1 Revision.
-- `governance_decision_flow.py` — Force each `GovernanceDecision` enum
-  value to fire by constructing the right input conditions. Verifies the
-  decision tree is reachable.
-- `core_promotion_handshake.py` — The four-case CORE promotion test:
-  symbol-doesn't-exist (reject), single-source-no-dream (reject), low-
-  coherence (reject), all-pass (approve). Verifies the governance
-  handshake.
-- `persistence_roundtrip.py` — `ValueEmergenceEngine.serialize()` →
-  `load()` produces an identical engine state.
+- `governance_decision_flow.py` — Forces each `GovernanceDecision` enum
+  value to fire (ALLOW/ALLOW_WEAKENED/MONITOR/QUARANTINE/REJECT/
+  SACRED_SHIELD). Locks down the decision contract before Tier 4
+  introduces new arousal-modulated paths.
+- `core_promotion_handshake.py` — Verifies all five
+  `review_core_promotion()` rejection paths and two approval paths.
+  The four-case CORE promotion test we ran during Tier 3 building,
+  now permanent.
 
 ### `adversarial/`
 "Does the system resist what it's supposed to resist?" Probes against
