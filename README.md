@@ -328,34 +328,31 @@ RFE-Core2/
 │   └── attractors.yaml
 │
 ├── tests/
-│   │   ├── README.md                         How to run tests and interpret output
-│   │   └── conftest.py                       Shared fixtures (Generator, AutonomousCycle setup)
+│   ├── README.md                         How to run tests and interpret output
+│   ├── _common.py                        Shared test infrastructure
 │   │
 │   ├── smoke/
+│   │   ├── full_stack_minimal.py         All 4 tiers attach without error
 │   │   ├── single_source_100step.py      Basic "does it run" test
-│   │   ├── multi_source_500step.py       Resonance Family test (what we just ran)
-│   │   └── full_stack_minimal.py         All 4 tiers attach without error
+│   │   └── multi_source_500step.py       Resonance Family canonical workload
 │   │
 │   ├── integration/
-│   │   ├── tier1_revision_baseline.py    The full sim with metrics assertions
-│   │   ├── governance_decision_flow.py   Every decision type fires correctly
-│   │   ├── core_promotion_handshake.py   Symbol can be promoted (the 4 test cases we ran)
-│   │   └── persistence_roundtrip.py      Save/load ValueEmergenceEngine
+│   │   └── tier1_revision_baseline.py    Fresh run vs baseline JSON ranges
 │   │
 │   ├── adversarial/
-│   │   ├── sacred_shield.py              HIGH-trust attacker tries sacred mutation
-│   │   ├── flood_calibration.py          user-rate, api-rate, internal-rate all work
-│   │   ├── manipulation_cascade.py       trust_wash false-positive regression test
-│   │   └── identity_drift.py             low witness_stability triggers correctly
+│   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels
+│   │   ├── flood_calibration.py          origin_type ceilings enforced
+│   │   ├── manipulation_cascade.py       Cascade regression test
+│   │   └── identity_drift.py             Identity_drift gate fires correctly
 │   │
 │   ├── diagnostic/
-│   │   ├── decision_histogram.py         Trace which decisions fire over N steps
-│   │   ├── gate_firing_audit.py          Which ethical gates fire when
-│   │   ├── trust_trajectory.py           Per-source trust over time
-│   │   └── value_polarity_flow.py        Value formation and dissolution rates
+│   │   ├── decision_histogram.py         GovernanceDecision distribution
+│   │   ├── gate_firing_audit.py          Hard gates + soft warnings per source
+│   │   ├── trust_trajectory.py           Per-source trust sparklines
+│   │   └── value_polarity_flow.py        Births, deaths, transitions
 │   │
 │   └── baselines/
-│       └── tier1_revision_500step.json   Snapshot of expected metrics from current state
+│       └── tier1_revision_500step.json   Healthy-state metric ranges
 │
 ├── requirements.txt
 └── README.md
