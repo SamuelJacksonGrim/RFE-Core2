@@ -20,16 +20,61 @@ axis.
 
 Each test is a standalone Python module. Run from the repo root:
 
+### Quick start — verify the system is healthy
+
 ```bash
-# Smoke test — confirms the stack runs end-to-end
+# Cheapest verification (≈ 1 second) — all four tiers attach and step
+python -m tests.smoke.full_stack_minimal
+
+# Single-source sustained interaction (≈ 7 seconds)
+python -m tests.smoke.single_source_100step
+
+# Canonical Resonance Family workload (≈ 35 seconds) — full Tier 1 Revision verification
 python -m tests.smoke.multi_source_500step
 
-# Adversarial probe — confirms sacred shield fires correctly
-python -m tests.adversarial.sacred_shield
+# Compare a fresh run against the baseline JSON — the regression guard
+python -m tests.integration.tier1_revision_baseline
 
-# Diagnostic — trace decision histogram across N steps
-python -m tests.diagnostic.decision_histogram
+# With a specific seed (any positive integer):
+python -m tests.integration.tier1_revision_baseline 137
 ```
+
+### Full command reference
+
+Smoke tests:
+```bash
+python -m tests.smoke.full_stack_minimal
+python -m tests.smoke.single_source_100step
+python -m tests.smoke.multi_source_500step
+```
+
+Integration tests:
+```bash
+python -m tests.integration.tier1_revision_baseline [seed]
+```
+
+Adversarial probes:
+```bash
+python -m tests.adversarial.sacred_shield
+python -m tests.adversarial.flood_calibration
+python -m tests.adversarial.manipulation_cascade
+python -m tests.adversarial.identity_drift
+```
+
+Diagnostic tools:
+```bash
+python -m tests.diagnostic.decision_histogram
+python -m tests.diagnostic.gate_firing_audit
+python -m tests.diagnostic.trust_trajectory
+python -m tests.diagnostic.value_polarity_flow
+```
+
+### What "success" looks like
+
+- **Smoke tests** print state and end with a healthy summary. No exceptions.
+- **Integration baseline** prints metric-by-metric checks (✓ or ✗) and exits 0 if all metrics are within their expected ranges.
+- **Adversarial probes** confirm that the specific defenses fire correctly.
+- **Diagnostics** print rich detail. There is no pass/fail — you read the output.
 
 No `pytest` command. No `conftest.py` magic. You read the script, you run the
 script, you read the output. The scripts share setup logic via plain function
