@@ -35,6 +35,7 @@ Effect on SelfhoodGovernance
 from __future__ import annotations
 
 import time
+from collections import deque
 from dataclasses import dataclass, field
 from typing import Dict, List, Literal, Optional, Tuple, TYPE_CHECKING
 
@@ -137,12 +138,27 @@ class RelationalBondManager:
         formation_crystal_threshold:     int   = 1,
         ema_alpha:                       float = 0.08,
         strength_decay:                  float = 0.0005,
+        adaptive_threshold:              bool  = True,
+        min_coherence_threshold:         float = 0.01,
+        variance_window:                 int   = 64,
+        allow_rate_threshold:            float = 0.80,
     ):
         self.formation_interaction_threshold = formation_interaction_threshold
         self.formation_coherence_threshold   = formation_coherence_threshold
         self.formation_crystal_threshold     = formation_crystal_threshold
         self.ema_alpha                       = ema_alpha
         self.strength_decay                  = strength_decay
+        self.allow_rate_threshold            = allow_rate_threshold
+
+        # Adaptive threshold (Intervention 5)
+        # threshold = max(min_threshold, formation_coherence_threshold × field_variance)
+        # In hyper-coherent saturated fields, per-step deltas are small even
+        # when positive. Fixed thresholds calibrated for chaotic regimes
+        # prevent bond formation in stable ones. Adaptive scales by the
+        # variance of recent coherence_deltas across all sources.
+        self.adaptive_threshold      = adaptive_threshold
+        self.min_coherence_threshold = min_coherence_threshold
+        self._coherence_window:      deque = deque(maxlen=variance_window)
 
         self._bonds:    Dict[str, RelationalBond] = {}
         self._step:     int = 0
@@ -167,9 +183,13 @@ class RelationalBondManager:
         satisfaction    = metrics.get("emotional_satisfaction", 0.0)
         trust_impact    = metrics.get("trust_impact", 0.0)
         positive        = decision in ("allow", "allow_weakened", "monitor")
+        is_clean_allow  = decision == "allow"   # for decision_quality tracking
+
+        # Track for adaptive threshold (Intervention 5)
+        self._coherence_window.append(coherence_delta)
 
         # Track pre-bond interactions
-        self._update_pre_bond(source_id, coherence_delta, satisfaction)
+        self._update_pre_bond(source_id, coherence_delta, satisfaction, is_clean_allow)
 
         # Update existing bond
         if source_id in self._bonds:
@@ -327,9 +347,22 @@ class RelationalBondManager:
         if pre is None:
             return
 
+        coherence_threshold = self._effective_coherence_threshold()
+        interactions = pre["interaction_count"]
+        allow_rate   = (pre["allow_count"] / interactions) if interactions > 0 else 0.0
+
+        # Quality signal: EITHER positive coherence accumulation crosses the
+        # adaptive threshold, OR the source has a strong rate of clean ALLOW
+        # decisions. In saturated fields the latter is the realistic signal —
+        # coherence_mean cannot accumulate when individual deltas are forced
+        # near zero. allow_rate captures "consistent participation."
+        coh_qualifies   = pre["coherence_mean"] >= coherence_threshold
+        allow_qualifies = allow_rate >= self.allow_rate_threshold
+        quality_qualifies = coh_qualifies or allow_qualifies
+
         qualifies = (
-            pre["interaction_count"] >= self.formation_interaction_threshold
-            and pre["coherence_mean"]  >= self.formation_coherence_threshold
+            interactions               >= self.formation_interaction_threshold
+            and quality_qualifies
             and pre["crystal_count"]   >= self.formation_crystal_threshold
         )
 
@@ -355,19 +388,53 @@ class RelationalBondManager:
         # Clear pre-bond tracking
         del self._pre_bond[source_id]
 
-    def _update_pre_bond(self, source_id: str, coherence_delta: float, satisfaction: float):
+    def _effective_coherence_threshold(self) -> float:
+        """
+        Adaptive bond formation threshold (Intervention 5).
+
+        In hyper-coherent saturated fields, per-step coherence_deltas are
+        small even when positive. A static threshold of 0.10 calibrated
+        for chaotic regimes prevents bond formation in stable ones.
+
+        threshold = max(min_threshold, formation_threshold × variance_scale)
+
+        where variance_scale is the std of recent coherence_deltas. Stable
+        fields → low variance → low threshold (small positive deltas count).
+        Chaotic fields → high variance → high threshold (only large deltas count).
+        """
+        if not self.adaptive_threshold or len(self._coherence_window) < 8:
+            return self.formation_coherence_threshold
+
+        std = float(np.std(self._coherence_window))
+        adaptive = self.formation_coherence_threshold * (std / 0.10)
+        return max(self.min_coherence_threshold, adaptive)
+
+    def _update_pre_bond(
+        self,
+        source_id:       str,
+        coherence_delta: float,
+        satisfaction:    float,
+        is_clean_allow:  bool = False,
+    ):
         if source_id not in self._pre_bond:
             self._pre_bond[source_id] = {
-                "interaction_count": 0,
-                "coherence_mean":    0.0,
+                "interaction_count":   0,
+                "coherence_mean":      0.0,
                 "emotional_signature": 0.0,
-                "crystal_count":     0,
-                "attractor_count":   0,
+                "crystal_count":       0,
+                "attractor_count":     0,
+                "allow_count":         0,     # for allow_rate metric
             }
         pre = self._pre_bond[source_id]
         pre["interaction_count"] += 1
+        if is_clean_allow:
+            pre["allow_count"] += 1
+
         alpha = self.ema_alpha
-        pre["coherence_mean"]     = (1 - alpha) * pre["coherence_mean"] + alpha * coherence_delta
+        # Track positive contribution (clipped at 0). In saturated fields this
+        # may converge to zero — that's why we also track allow_rate.
+        positive_contribution = max(0.0, coherence_delta)
+        pre["coherence_mean"]     = (1 - alpha) * pre["coherence_mean"] + alpha * positive_contribution
         pre["emotional_signature"] = (1 - alpha) * pre["emotional_signature"] + alpha * satisfaction
 
     def _pre_bond_field(self, source_id: str, field_name: str, delta: int):
@@ -375,6 +442,7 @@ class RelationalBondManager:
             self._pre_bond[source_id] = {
                 "interaction_count": 0, "coherence_mean": 0.0,
                 "emotional_signature": 0.0, "crystal_count": 0, "attractor_count": 0,
+                "allow_count": 0,
             }
         self._pre_bond[source_id][field_name] = (
             self._pre_bond[source_id].get(field_name, 0) + delta
