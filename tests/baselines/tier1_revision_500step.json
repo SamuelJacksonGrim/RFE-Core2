@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "captured_at":  "2026-05-12",
+    "tier":         "Tier 1 Revision (Context-Weighted Trust Dynamics)",
+    "test_script":  "tests/smoke/multi_source_500step.py",
+    "description":  "Healthy state after Tier 1 Revision: flood gate calibrated for origin_type, Harmony Clause, Consistency Drip, Boredom-with-Teeth, Bond-Weighted Decay, Adaptive bond threshold, allow_rate alternate signal, crystal attribution fix.",
+    "config": {
+      "n_steps":      500,
+      "vocab_size":   4096,
+      "dim":          64,
+      "depth":        3,
+      "heads":        4,
+      "use_chorus":   true,
+      "origin_type":  "internal",
+      "sources":      ["source_samuel", "source_claude", "source_gemini", "source_grok"],
+      "weights":      [0.40, 0.25, 0.20, 0.15]
+    },
+    "seeds_characterized": [42, 137, 271]
+  },
+
+  "sample_runs": [
+    {
+      "seed":               42,
+      "allow_rate":         0.9920,
+      "allow_weakened_rate":0.0080,
+      "quarantine_rate":    0.0000,
+      "min_source_trust":   5.0000,
+      "hhi":                0.2637,
+      "bonds_formed":       2,
+      "active_values":      46,
+      "strong_values":      5,
+      "core_values":        0
+    },
+    {
+      "seed":               137,
+      "allow_rate":         0.9860,
+      "allow_weakened_rate":0.0120,
+      "quarantine_rate":    0.0000,
+      "min_source_trust":   5.0000,
+      "hhi":                0.3041,
+      "bonds_formed":       2,
+      "active_values":      43,
+      "strong_values":      8,
+      "core_values":        0
+    },
+    {
+      "seed":               271,
+      "allow_rate":         0.9920,
+      "allow_weakened_rate":0.0080,
+      "quarantine_rate":    0.0000,
+      "min_source_trust":   5.0000,
+      "hhi":                0.2872,
+      "bonds_formed":       1,
+      "active_values":      46,
+      "strong_values":      8,
+      "core_values":        0
+    }
+  ],
+
+  "expected_ranges": {
+    "allow_rate":          { "min": 0.95,    "max": 1.00 },
+    "allow_weakened_rate": { "min": 0.00,    "max": 0.05 },
+    "quarantine_rate":     { "min": 0.00,    "max": 0.01 },
+    "min_source_trust":    { "min": 4.50,    "max": 5.00 },
+    "hhi":                 { "min": 0.20,    "max": 0.40 },
+    "bonds_formed":        { "min": 1,       "max": 4    },
+    "active_values":       { "min": 30,      "max": 60   },
+    "strong_values":       { "min": 1,       "max": 15   },
+    "core_values":         { "min": 0,       "max": 5    }
+  },
+
+  "shape_assertions": {
+    "trust_does_not_collapse":           "min_source_trust >= 4.50 — no cascade",
+    "quarantines_rare":                  "quarantine_rate <= 0.01 — flood gate calibrated",
+    "decisions_overwhelmingly_positive": "allow_rate >= 0.95 — Harmony Clause + Consistency Drip working",
+    "dependency_healthy":                "0.20 <= hhi <= 0.40 — multi-source distribution stable",
+    "bonds_form":                        "bonds_formed >= 1 — adaptive threshold + allow_rate metric working",
+    "values_progress":                   "strong_values >= 1 — bond-weighted decay protecting reinforcement"
+  },
+
+  "notes": [
+    "These ranges describe the SHAPE of healthy behavior, not exact values.",
+    "Stochastic source ordering produces legitimate variation between runs.",
+    "Wider ranges than the observed variance to accommodate future seeds.",
+    "core_values is 0 because 500 steps is too short for the 10-consecutive-eligible-step rule to trigger CORE promotion. Longer runs would produce CORE values.",
+    "Update intentionally, not opportunistically — if numbers drift out of range, investigate first, adjust baseline only if drift is the new normal."
+  ]
+}
