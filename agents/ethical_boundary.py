@@ -81,7 +81,15 @@ class EthicalBoundarySystem:
         "coherence_soft_threshold": -0.05,   # soft warning below this
         "stability_floor":           0.10,   # hard block below this
         "flood_window_seconds":     60.0,    # rolling window for rate check
-        "flood_ceiling":             12,     # max injections per window per source
+        # Per-origin-type ceilings. Unknown origin_type uses "user" (safest default).
+        "flood_ceilings": {
+            "user":     12,        # ~1 per 5s — human abuse threshold
+            "api":      600,       # ~10 per second — sustained automated client
+            "internal": 100000,    # effectively disabled — autonomous loop rates
+        },
+        # Harmony Clause — in hyper-coherent fields, small negative deltas
+        # mean alignment, not stagnation. Skip low_coherence warning above this.
+        "harmony_field_threshold":   0.90,
     }
 
     def __init__(
@@ -107,7 +115,9 @@ class EthicalBoundarySystem:
         coherence_delta:     float,
         witness_stability:   float,
         source_id:           str,
-        known_source:        bool = True,  # False if source_id never seen before
+        known_source:        bool  = True,   # False if source_id never seen before
+        origin_type:         str   = "user", # "user" | "api" | "internal"
+        field_coherence:     float = 0.0,    # Current internal field coherence (Harmony Clause input)
     ) -> EthicalCheckResult:
         """
         Run all gates against already-computed scalars.
@@ -128,6 +138,10 @@ class EthicalBoundarySystem:
         source_id : str
         known_source : bool
             False if this source_id has never appeared in TrustLedger.
+        origin_type : str
+            Source category — selects appropriate flood_ceiling.
+            "user" (default, safest), "api", or "internal". Unknown values
+            fall back to "user" rate limits.
         """
         from agents.trust_ledger import TrustLevel
 
@@ -160,8 +174,8 @@ class EthicalBoundarySystem:
         if witness_stability < self.config["stability_floor"]:
             hard.append("identity_drift")
 
-        # 5. Flood — source injection rate above ceiling
-        if self._is_flooding(source_id):
+        # 5. Flood — source injection rate above ceiling for its origin_type
+        if self._is_flooding(source_id, origin_type):
             hard.append("flood")
 
         # ==========================================================
@@ -169,8 +183,15 @@ class EthicalBoundarySystem:
         # ==========================================================
 
         # Coherence in warning band (negative but above hard floor)
-        if (self.config["coherence_floor"] <= coherence_delta
-                < self.config["coherence_soft_threshold"]):
+        # Harmony Clause: when the field is already hyper-coherent, small
+        # negative deltas are alignment with the prevailing state, not
+        # stagnation. Reading them as "low coherence" would punish peace.
+        in_warning_band = (
+            self.config["coherence_floor"] <= coherence_delta
+            < self.config["coherence_soft_threshold"]
+        )
+        field_is_aligned = field_coherence > self.config["harmony_field_threshold"]
+        if in_warning_band and not field_is_aligned:
             soft.append("low_coherence")
 
         # Novel source — first time we've seen this source_id
@@ -212,9 +233,11 @@ class EthicalBoundarySystem:
             self._injection_log[source_id] = collections.deque()
         self._injection_log[source_id].append(time.time())
 
-    def _is_flooding(self, source_id: str) -> bool:
+    def _is_flooding(self, source_id: str, origin_type: str = "user") -> bool:
         """
-        Count injections within the rolling window.
+        Count injections within the rolling window. Compare against the
+        origin_type-specific ceiling. Unknown origin_type falls back to "user".
+
         Evicts stale entries from the left in O(k) where k = stale count.
         """
         if source_id not in self._injection_log:
@@ -227,7 +250,9 @@ class EthicalBoundarySystem:
         while log and log[0] < cutoff:
             log.popleft()
 
-        return len(log) > self.config["flood_ceiling"]
+        ceilings = self.config["flood_ceilings"]
+        ceiling  = ceilings.get(origin_type, ceilings["user"])
+        return len(log) > ceiling
 
     # ------------------------------------------------------------------
     # Diagnostics
