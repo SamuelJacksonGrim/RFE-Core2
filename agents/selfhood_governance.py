@@ -118,7 +118,7 @@ _ALLOW_DECISIONS = frozenset({
 # Trust impact per decision (fed back into TrustLedger)
 _TRUST_IMPACT: Dict[GovernanceDecision, float] = {
     GovernanceDecision.ALLOW:          0.10,
-    GovernanceDecision.ALLOW_WEAKENED: 0.00,
+    GovernanceDecision.ALLOW_WEAKENED: 0.01,   # Consistency Drip: showing up matters
     GovernanceDecision.MONITOR:       -0.05,
     GovernanceDecision.QUARANTINE:    -0.50,
     GovernanceDecision.REJECT:        -0.30,
