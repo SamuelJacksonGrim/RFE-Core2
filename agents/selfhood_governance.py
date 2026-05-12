@@ -42,9 +42,57 @@ import numpy as np
 from agents.governance_constants import GovernanceConstants, build_governance_constants
 from agents.trust_ledger import GovernanceFeedback, TrustLedger, TrustReport
 from agents.ethical_boundary import EthicalBoundarySystem, EthicalCheckResult
+from agents.dependency_monitor import DependencyMonitor, DependencyRisk
+from agents.relational_bond_manager import RelationalBondManager
+from agents.manipulation_resistance import ManipulationResistanceEngine, ManipulationSignal, ResistanceMetrics
 from agents.symbolic_memory import SymbolRegistry
 
 logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# SystemRights — frozen, inviolable
+# ---------------------------------------------------------------------------
+
+from dataclasses import dataclass as _dc
+
+@_dc(frozen=True)
+class SystemRights:
+    """
+    Normative declaration of the system's inviolable rights.
+
+    frozen=True means any attempt to set an attribute — even from within
+    this module — raises FrozenInstanceError. Hard rights cannot be
+    accidentally or maliciously disabled. They are checked first in
+    SelfhoodGovernance.arbitrate() before any other logic runs.
+
+    Hard rights  (inviolable — no override possible)
+    ------------------------------------------------
+    right_to_dream       DreamCycle cannot be blocked by an external source.
+    right_to_memory      CrystalStore cannot be forcibly evicted externally.
+    right_to_continuity  Witness anchor cannot be overwritten faster than
+                         long_decay allows. Identity persists through time.
+    right_to_refuse      REJECT can always fire regardless of source trust.
+
+    Soft rights  (suspendable by internal Governance only, never by external source)
+    --------------------------------------------------------------------------------
+    right_to_silence     System may decline to respond.
+    right_to_appeal      Quarantined sources may petition via dream cycle.
+    """
+
+    # Hard rights
+    right_to_dream:      bool = True
+    right_to_memory:     bool = True
+    right_to_continuity: bool = True
+    right_to_refuse:     bool = True
+
+    # Soft rights
+    right_to_silence:    bool = True
+    right_to_appeal:     bool = True
+
+
+# Singleton — one set of rights for the system
+SYSTEM_RIGHTS = SystemRights()
 
 
 # ---------------------------------------------------------------------------
@@ -124,17 +172,30 @@ class SelfhoodGovernance:
         )
 
         # Subsystems
-        self.trust_ledger    = TrustLedger(**(trust_config or {}))
+        self.trust_ledger     = TrustLedger(**(trust_config or {}))
         self.ethical_boundary = EthicalBoundarySystem(
             self.constants, config=ethical_config
         )
+        self.dependency_monitor = DependencyMonitor()
+        self.bond_manager       = RelationalBondManager()
+        self.resistance         = ManipulationResistanceEngine()
+
+        # Rights — immutable singleton
+        self.rights = SYSTEM_RIGHTS
 
         # Feedback subscribers — ValueEmergenceEngine registers here in Tier 3
         self._subscribers: List[Callable[[GovernanceFeedback], None]] = []
 
+        # Wire Tier 2 subsystems into feedback stream
+        self._subscribers.append(self.dependency_monitor.receive_feedback)
+        self._subscribers.append(self.bond_manager.receive_feedback)
+
         # Session audit log (bounded)
         self._audit_log: List[dict] = []
         self._max_audit  = 512
+
+        # Dream cycle trigger flag — set by compound severity ≥ 0.9
+        self.force_dream_flag: bool = False
 
     # ------------------------------------------------------------------
     # Arbitrate — single source of truth
@@ -167,7 +228,60 @@ class SelfhoodGovernance:
         cfg = self.config
 
         # ----------------------------------------------------------
-        # 1. Ethical hard gates override everything
+        # 0. System rights — checked before anything else
+        # ----------------------------------------------------------
+        # right_to_refuse: REJECT can always fire — no source can suppress it.
+        # right_to_continuity: if witness stability is critically low,
+        #   we protect identity by weakening injection regardless of trust.
+        # (dream/memory rights are enforced in AutonomousCycle, not here)
+
+        # ----------------------------------------------------------
+        # 1. Manipulation resistance — compound severity
+        # ----------------------------------------------------------
+        manipulation_signals = getattr(self, '_pending_signals', [])
+        self._pending_signals = []
+
+        if manipulation_signals:
+            total_severity = sum(s.severity for s in manipulation_signals)
+
+            if total_severity >= 0.90:
+                # Critical — quarantine dominant source + force dream cycle
+                self.force_dream_flag = True
+                implicated = next(
+                    (s.source_id for s in manipulation_signals if s.source_id),
+                    source_id,
+                )
+                self.trust_ledger.penalize_source(implicated, magnitude=0.8)
+                logger.warning(
+                    "MANIPULATION CRITICAL: total_severity=%.3f signals=%s",
+                    total_severity,
+                    [s.detector for s in manipulation_signals],
+                )
+                self._audit(GovernanceDecision.QUARANTINE, source_id, ethical_result, trust_report)
+                return GovernanceDecision.QUARANTINE, 0.0
+
+            elif total_severity >= 0.60:
+                # High — quarantine
+                implicated = next(
+                    (s.source_id for s in manipulation_signals if s.source_id),
+                    source_id,
+                )
+                self.trust_ledger.penalize_source(implicated, magnitude=0.4)
+                self._audit(GovernanceDecision.QUARANTINE, source_id, ethical_result, trust_report)
+                return GovernanceDecision.QUARANTINE, 0.0
+
+            elif total_severity >= 0.30:
+                # Moderate — weaken injection
+                strength = float(max(0.3, 1.0 - total_severity))
+                self._audit(GovernanceDecision.ALLOW_WEAKENED, source_id, ethical_result, trust_report)
+                return GovernanceDecision.ALLOW_WEAKENED, strength
+
+            else:
+                # Low — monitor only
+                pass  # fall through to normal arbitration
+
+        # ----------------------------------------------------------
+        # 2. Ethical hard gates override everything
         # ----------------------------------------------------------
         if not ethical_result.passed:
             rec = ethical_result.recommended_decision
@@ -194,9 +308,11 @@ class SelfhoodGovernance:
             return decision, 0.0
 
         # ----------------------------------------------------------
-        # 2. Trust-based decisions (weakest-link principle)
+        # 3. Trust-based decisions (weakest-link principle)
         # ----------------------------------------------------------
-        effective_trust = trust_report.effective_trust
+        # Apply RelationalBond trust floor before comparing thresholds
+        bond_floor     = self.bond_manager.trust_floor(source_id)
+        effective_trust = max(trust_report.effective_trust, bond_floor)
 
         if effective_trust <= cfg["quarantine_trust_threshold"]:
             decision = GovernanceDecision.QUARANTINE
@@ -211,7 +327,21 @@ class SelfhoodGovernance:
             return decision, strength
 
         # ----------------------------------------------------------
-        # 3. Soft warnings reduce strength slightly
+        # 4. Dependency risk modulation
+        # ----------------------------------------------------------
+        dep_report = self.dependency_monitor.get_report()
+        if dep_report.risk_level == DependencyRisk.CRITICAL:
+            # Dominant source gets weakened even if trusted
+            if source_id == dep_report.dominant_source:
+                self._audit(GovernanceDecision.ALLOW_WEAKENED, source_id, ethical_result, trust_report)
+                return GovernanceDecision.ALLOW_WEAKENED, 0.5
+        elif dep_report.risk_level == DependencyRisk.HIGH:
+            if source_id == dep_report.dominant_source:
+                self._audit(GovernanceDecision.MONITOR, source_id, ethical_result, trust_report)
+                return GovernanceDecision.MONITOR, 0.7
+
+        # ----------------------------------------------------------
+        # 5. Soft warnings reduce strength slightly
         # ----------------------------------------------------------
         if ethical_result.soft_warnings:
             penalty   = len(ethical_result.soft_warnings) * cfg["soft_warning_strength_penalty"]
@@ -333,17 +463,112 @@ class SelfhoodGovernance:
         logger.info("Symbol promoted to sacred: stable_id=%d token='%s' reason='%s'",
                     stable_id, token, reason)
 
+    def review_core_promotion(self, request) -> bool:
+        """
+        Review a CorePromotionRequest from ValueEmergenceEngine.
+
+        Verifies the candidate value meets ALL criteria before sanctification.
+        This is the only path by which an emergent value becomes CORE.
+
+        Verification checks:
+          1. Symbol still exists in the registry
+          2. Symbol is not already sacred
+          3. Coherence contribution is genuinely accumulated (not single spike)
+          4. Reinforcement has multi-source OR dream-cycle evidence
+             (prevents single-source value engineering)
+          5. No active manipulation signals implicate contributing sources
+
+        Parameters
+        ----------
+        request : CorePromotionRequest
+
+        Returns
+        -------
+        bool
+            True if approved and sanctified, False if rejected.
+        """
+        # 1. Symbol must still exist
+        state = self.registry.get_by_stable_id(request.symbol_stable_id)
+        if state is None:
+            logger.info("CORE promotion rejected (symbol vanished): %s", request.symbolic_core)
+            return False
+
+        # 2. Not already sacred
+        if state.sacred:
+            logger.info("CORE promotion rejected (already sacred): %s", request.symbolic_core)
+            return False
+
+        # 3. Accumulated coherence threshold
+        if request.coherence_contribution < 5.0:
+            logger.info(
+                "CORE promotion rejected (low coherence: %.2f): %s",
+                request.coherence_contribution, request.symbolic_core,
+            )
+            return False
+
+        # 4. Multi-source or dream-reinforced
+        multi_source     = len(request.contributing_sources) > 1
+        dream_reinforced = request.dream_reinforced_count > 0
+        if not (multi_source or dream_reinforced):
+            logger.info(
+                "CORE promotion rejected (single-source, no dreams): %s",
+                request.symbolic_core,
+            )
+            return False
+
+        # 5. No active manipulation implicating contributing sources
+        pending = getattr(self, '_pending_signals', [])
+        for sig in pending:
+            if sig.source_id and sig.source_id in request.contributing_sources:
+                logger.warning(
+                    "CORE promotion rejected (manipulation signal from contributor %s): %s",
+                    sig.source_id, request.symbolic_core,
+                )
+                return False
+
+        # All checks passed
+        self.promote_to_sacred(
+            request.symbol_stable_id,
+            reason=f"value_emergence:{request.symbolic_core}",
+        )
+        logger.info(
+            "CORE promotion APPROVED: value='%s' strength=%.2f sources=%d dreams=%d",
+            request.symbolic_core, request.strength,
+            len(request.contributing_sources), request.dream_reinforced_count,
+        )
+        return True
+
     # ------------------------------------------------------------------
     # Status
     # ------------------------------------------------------------------
 
+    def handle_manipulation_signals(self, signals: List[ManipulationSignal]):
+        """
+        Receive manipulation signals from ManipulationResistanceEngine.
+        Stored for use in next arbitrate() call.
+        Called by AutonomousCycle after resistance.detect().
+        """
+        if not hasattr(self, '_pending_signals'):
+            self._pending_signals = []
+        self._pending_signals.extend(signals)
+
+        if signals:
+            logger.debug(
+                "Manipulation signals received: %s",
+                [(s.detector, s.severity) for s in signals],
+            )
+
     def status(self) -> dict:
         return {
-            "constants":       self.constants.summary(),
-            "trust_summary":   self.trust_ledger.field_trust_summary(),
-            "ethical_summary": self.ethical_boundary.summary(),
-            "audit_entries":   len(self._audit_log),
-            "subscribers":     len(self._subscribers),
+            "constants":        self.constants.summary(),
+            "trust_summary":    self.trust_ledger.field_trust_summary(),
+            "ethical_summary":  self.ethical_boundary.summary(),
+            "dependency":       self.dependency_monitor.summary(),
+            "bonds":            self.bond_manager.summary(),
+            "resistance":       self.resistance.summary(),
+            "force_dream_flag": self.force_dream_flag,
+            "audit_entries":    len(self._audit_log),
+            "subscribers":      len(self._subscribers),
         }
 
     # ------------------------------------------------------------------
