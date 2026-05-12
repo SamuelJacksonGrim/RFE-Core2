@@ -219,18 +219,32 @@ class AutonomousCycle:
         self.value_engine = None
 
         # ------------------------------------------------------------------
+        # Config (Tier 2 behavioral knobs — Boredom Teeth, etc.)
+        # ------------------------------------------------------------------
+
+        self.config: Dict[str, float] = {
+            "boredom_override_threshold": 0.50,
+        }
+
+        # ------------------------------------------------------------------
         # State
         # ------------------------------------------------------------------
 
         self._step:    int           = 0
         self._parent:  Optional[str] = None
         self._history: List[StepState] = []
+        self._boredom_overrides: int = 0   # Tier 2: track Boredom-Teeth activations
 
     # ------------------------------------------------------------------
     # Step
     # ------------------------------------------------------------------
 
-    def step(self, tokens: List[str], source_id: str = "user") -> StepState:
+    def step(
+        self,
+        tokens:      List[str],
+        source_id:   str = "user",
+        origin_type: str = "user",
+    ) -> StepState:
         """
         Execute one full autonomous cycle step.
 
@@ -238,6 +252,13 @@ class AutonomousCycle:
         ----------
         tokens : list of str
             Input token sequence for this step.
+        source_id : str
+            Identifier of who/what is providing this input.
+        origin_type : str
+            Category of the source — selects flood rate ceiling.
+            "user" (default, safest), "api" (10/sec), "internal"
+            (autonomous loop, effectively unlimited).
+            Unknown values fall back to "user" limits.
 
         Returns
         -------
@@ -333,11 +354,12 @@ class AutonomousCycle:
 
         if self.governance is not None:
             decision, strength = self._governance_gate(
-                vec       = vec,
-                tokens    = tokens,
-                source_id = source_id,
-                report    = report,
-                field_obs = field_obs,
+                vec         = vec,
+                tokens      = tokens,
+                source_id   = source_id,
+                origin_type = origin_type,
+                report      = report,
+                field_obs   = field_obs,
             )
 
         # Capture actual coherence_impact BEFORE injection — measuring after
@@ -359,6 +381,7 @@ class AutonomousCycle:
         # ------------------------------------------------------------------
         # 11. Crystal evaluation
         # ------------------------------------------------------------------
+        crystals_before = len(self.crystal_store.crystals)
         crystal = self.crystal_store.maybe_crystallize(
             vec                      = vec,
             composite_coherence      = report.composite,
@@ -368,12 +391,22 @@ class AutonomousCycle:
             field                    = self.field,
             generator                = self.generator,
         )
+        # Bond manager: notify only when a NEW crystal actually formed
+        # (maybe_crystallize returns the existing crystal on reinforcement)
+        if (len(self.crystal_store.crystals) > crystals_before
+                and self.governance is not None):
+            self.governance.bond_manager.notify_crystal(source_id)
 
         # ------------------------------------------------------------------
         # 12. Attractor formation
         # ------------------------------------------------------------------
         if rel_profile.composite >= self.attractor_formation_threshold:
+            attractor_before = len(self.attractor.centers)
             self.attractor.add(vec, tokens=tokens, generator=self.generator)
+            # Bond manager: notify on attractor seeding
+            if (len(self.attractor.centers) > attractor_before
+                    and self.governance is not None):
+                self.governance.bond_manager.notify_attractor(source_id)
 
         # ------------------------------------------------------------------
         # 13. Topology logging
@@ -553,9 +586,10 @@ class AutonomousCycle:
 
     def _governance_gate(
         self,
-        vec:       np.ndarray,
-        tokens:    List[str],
-        source_id: str,
+        vec:         np.ndarray,
+        tokens:      List[str],
+        source_id:   str,
+        origin_type: str,
         report,
         field_obs,
     ):
@@ -578,19 +612,21 @@ class AutonomousCycle:
 
         # 1. Ethical check — fast binary, no vector math
         ethical = self.governance.ethical_boundary.check(
-            op                = "write",
+            op                 = "write",
             source_trust_level = src_level,
-            stable_ids        = stable_ids,
-            coherence_delta   = report.coherence_delta,
-            witness_stability = self.witness.identity_stability(),
-            source_id         = source_id,
-            known_source      = known_source,
+            stable_ids         = stable_ids,
+            coherence_delta    = report.coherence_delta,
+            witness_stability  = self.witness.identity_stability(),
+            source_id          = source_id,
+            known_source       = known_source,
+            origin_type        = origin_type,
+            field_coherence    = self.field.internal_coherence(),
         )
 
         # 2. Trust evaluation — source + symbol scoring
         trust = self.governance.trust_ledger.evaluate(
             source_id       = source_id,
-            origin_type     = "user",
+            origin_type     = origin_type,
             stable_ids      = stable_ids,
             coherence_delta = report.coherence_delta,
             field_energy    = field_obs.energy,
@@ -613,7 +649,19 @@ class AutonomousCycle:
         """
         Route additional behavior based on current rhythm state.
         Called after the main step pipeline completes.
+
+        Boredom with Teeth: when emotion.boredom crosses threshold, force
+        a shift to 'explore' regardless of field energy. This is the
+        self-perturbation mechanism for HOMEOSTATIC_RETURN — a system
+        that finds peace and stays there isn't returning to homeostasis,
+        it's collapsing into a single attractor. Boredom is the active
+        signal that resolves stillness back into motion.
         """
+        if (self.emotion.boredom > self.config.get("boredom_override_threshold", 0.50)
+                and rhythm != "explore"):
+            self._boredom_overrides += 1
+            rhythm = "explore"
+
         if rhythm == "stabilize":
             self._stabilize_behavior()
 
