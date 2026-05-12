@@ -202,6 +202,9 @@ class ValueEmergenceEngine:
         "decision_bonus_allow":       0.05,   # baseline signal for clean ALLOW
         "decision_bonus_weakened":    0.02,
         "decision_bonus_monitor":     0.01,
+        # Bond-Weighted Decay (Intervention 4)
+        "bond_decay_protection_factor": 0.70,  # multiplier on bond_strength/5.0
+        "max_bond_decay_protection":    0.70,  # cap — even max bond can't disable decay
     }
 
     def __init__(
@@ -391,14 +394,43 @@ class ValueEmergenceEngine:
     # ==================================================================
 
     def _update_all_values(self):
-        decay_rate = self.config["decay_per_step"]
+        """
+        Update all active values: decay, tension dynamics, dissolution.
+
+        Bond-Weighted Decay: when a value's contributing sources have
+        formed bonds with the system, decay slows in proportion to the
+        strongest bond's strength. This is the system "holding space"
+        for concepts introduced by relational sources — bonds buy
+        values time to reach the CORE handshake.
+        """
+        base_decay        = self.config["decay_per_step"]
+        max_protection    = self.config["max_bond_decay_protection"]
+        protection_factor = self.config["bond_decay_protection_factor"]
+
+        bond_manager = (
+            self.governance.bond_manager
+            if hasattr(self.governance, "bond_manager")
+            else None
+        )
 
         for value in list(self.values.values()):
             if value.promoted_to_sacred:
                 continue   # CORE values do not decay
 
-            # Decay
-            value.strength = float(np.clip(value.strength - decay_rate, 0.0, 5.0))
+            # Bond-weighted decay protection: strongest contributing bond wins
+            protection = 0.0
+            if bond_manager is not None and value.source_weights:
+                for src_id in value.source_weights:
+                    bond = bond_manager.get_bond(src_id)
+                    if bond is not None:
+                        p = min(
+                            (bond.bond_strength / 5.0) * protection_factor,
+                            max_protection,
+                        )
+                        protection = max(protection, p)
+
+            effective_decay = base_decay * (1.0 - protection)
+            value.strength = float(np.clip(value.strength - effective_decay, 0.0, 5.0))
 
             # Tension evaluation (productive tension reinforces both sides)
             self._evaluate_tensions(value)
