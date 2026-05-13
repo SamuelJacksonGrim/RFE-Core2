@@ -1,7 +1,5 @@
 # RFE-Core2
 
-[![tests](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml/badge.svg)](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml)
-
 **Recursive Field Engine — A Persistent Adaptive Cognitive Substrate**
 
 RFE-Core2 transforms a pipeline of inference modules into a continuously self-resonating dynamical organism. It does not merely execute — it listens to its own field state, routes behavior by cognitive rhythm, modifies itself through time, governs its own identity, forms relational bonds, resists manipulation, and grows values from lived experience.
