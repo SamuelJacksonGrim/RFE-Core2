@@ -1,10 +1,6 @@
 # RFE-Core2
 
-[
-
-![tests](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml/badge.svg)
-
-](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml)
+[![tests](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml/badge.svg)](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml)
 
 **Recursive Field Engine — A Persistent Adaptive Cognitive Substrate**
 
