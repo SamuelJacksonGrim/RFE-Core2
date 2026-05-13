@@ -1,0 +1,47 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:    # allow manual trigger from the Actions tab
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+        cache: pip
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Smoke tests
+      run: |
+        python -m tests.smoke.full_stack_minimal
+        python -m tests.smoke.single_source_100step
+        python -m tests.smoke.multi_source_500step
+
+    - name: Integration tests
+      run: |
+        python -m tests.integration.tier1_revision_baseline
+        python -m tests.integration.governance_decision_flow
+        python -m tests.integration.core_promotion_handshake
+
+    - name: Adversarial probes
+      run: |
+        python -m tests.adversarial.sacred_shield
+        python -m tests.adversarial.flood_calibration
+        python -m tests.adversarial.manipulation_cascade
+        python -m tests.adversarial.identity_drift
