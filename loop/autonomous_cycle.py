@@ -268,6 +268,15 @@ class AutonomousCycle:
         key   = uuid.uuid4().hex[:8]
 
         # ------------------------------------------------------------------
+        # 0. Subjective time tick (Tier 4.1)
+        # ------------------------------------------------------------------
+        # Advance subjective_time by real_dt × dilation_factor. dilation_factor
+        # is fixed at 1.0 until Tier 4.2 introduces arousal-based modulation.
+        # First tick is a no-op for the time advance but establishes the
+        # wall-clock anchor for subsequent ticks.
+        self.stream.tick()
+
+        # ------------------------------------------------------------------
         # 1. Observe field rhythm
         # ------------------------------------------------------------------
         field_obs = self.field.observe()
@@ -836,6 +845,7 @@ class AutonomousCycle:
             "ecology":      self.generator.ecology_stats(),
             "predictor":    self.predictor.rolling_stats(),
             "binding":      self.binding.summary(),
+            "temporal":     self.stream.summary(),
         }
         if self.governance is not None:
             s["governance"] = self.governance.status()
