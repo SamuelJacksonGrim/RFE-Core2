@@ -218,8 +218,7 @@ class SymbolicBinding:
             raw_centrality = (concept.activation_count / max_activation) * concept.stability
             scores[concept.name] = round(raw_centrality, 4)
 
-            for token in concept.origin_tokens:
-                generator.update_centrality(token, raw_centrality)
+            generator.signal_centrality(concept.origin_tokens, raw_centrality)
 
         return scores
 
@@ -272,8 +271,7 @@ class SymbolicBinding:
         if generator is None:
             return
         centrality = min(concept.activation_count / 100.0, 1.0) * concept.stability
-        for token in concept.origin_tokens:
-            generator.update_centrality(token, centrality)
+        generator.signal_centrality(concept.origin_tokens, centrality)
 
     def _auto_name(self, tokens: List[str]) -> str:
         base = "_".join(tokens[:3]) if tokens else "concept"
