@@ -159,7 +159,7 @@ def test_decisions():
     governance._pending_signals = []
     d, s = governance.arbitrate(
         ethical_result = clean_ethical_result(),
-        trust_report   = trust_report(trust_score=2.0, level=TrustLevel.LOW,
+        trust_report   = trust_report(trust_score=2.0, level=TrustLevel.NEUTRAL,
                                        min_symbol=2.0),
         vec            = vec,
         tokens         = tokens,
