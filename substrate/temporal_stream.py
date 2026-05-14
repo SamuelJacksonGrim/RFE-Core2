@@ -9,6 +9,7 @@ Beyond raw storage, the stream supports:
   - Nearest neighbor search within the stream window
   - Temporal delta (drift between oldest and newest in a window)
   - Step-indexed lookup
+  - Subjective time accumulation (Tier 4.1 affective layer foundation)
 
 These feed into:
   - Watcher's rolling_mean component for geometric coherence
@@ -58,6 +59,23 @@ class TemporalStream:
         self._window: collections.deque = collections.deque(maxlen=maxlen)
         self._running_sum = np.zeros(dim, dtype=np.float64)
         self._step = 0
+
+        # ------------------------------------------------------------------
+        # Tier 4.1 — Subjective time layer
+        # ------------------------------------------------------------------
+        # subjective_time accumulates wall-clock dt scaled by dilation_factor.
+        # At dilation_factor = 1.0 (frozen until Tier 4.2), subjective_time
+        # equals wall-clock time elapsed across calls to tick(). Once Tier 4.2
+        # ties dilation_factor to arousal, subjective time diverges from real
+        # time — the system experiences cycles as faster or slower depending
+        # on its affective state.
+        #
+        # First call to tick() establishes the wall-clock anchor and returns
+        # 0.0. All subsequent calls advance subjective_time by
+        # (now - last_tick) * dilation_factor.
+        self.subjective_time: float = 0.0
+        self.dilation_factor: float = 1.0
+        self._last_tick_wall: Optional[float] = None
 
     # ------------------------------------------------------------------
     # Write
@@ -212,14 +230,57 @@ class TemporalStream:
         return [e for e in self._stream if e.tag == tag]
 
     # ------------------------------------------------------------------
+    # Tier 4.1 — Subjective time advance
+    # ------------------------------------------------------------------
+
+    def tick(self) -> float:
+        """
+        Advance subjective_time by real_dt × dilation_factor.
+
+        Called once per cognitive cycle by the autonomous loop. Decoupled
+        from push() so that cycles which push 0 or N vectors all advance
+        subjective time by exactly one tick.
+
+        The first call has no previous anchor — it records the current wall
+        time and returns 0.0. Subsequent calls measure real_dt against that
+        anchor.
+
+        Returns
+        -------
+        dt : float
+            The subjective dt added to subjective_time on this tick.
+            Equals real_dt × dilation_factor, or 0.0 on the first call.
+
+        Notes
+        -----
+        At dilation_factor = 1.0 (Tier 4.1 default, frozen until 4.2),
+        subjective_time tracks wall-clock time. In autonomous loops running
+        as fast as Python allows, this means very small dt values — the
+        substrate is in place but not yet meaningful. Tier 4.2 introduces
+        arousal-based modulation, after which subjective dt diverges from
+        real dt in proportion to the system's affective state.
+        """
+        now = time.time()
+        if self._last_tick_wall is None:
+            self._last_tick_wall = now
+            return 0.0
+        real_dt = now - self._last_tick_wall
+        self._last_tick_wall = now
+        dt = real_dt * self.dilation_factor
+        self.subjective_time += dt
+        return dt
+
+    # ------------------------------------------------------------------
     # Diagnostics
     # ------------------------------------------------------------------
 
     def summary(self) -> dict:
         return {
-            "length":         len(self._stream),
-            "maxlen":         self.maxlen,
-            "variance":       round(self.variance(), 6),
-            "temporal_delta": round(self.temporal_delta(), 6),
-            "cosine_drift":   round(self.cosine_drift(), 6),
+            "length":          len(self._stream),
+            "maxlen":          self.maxlen,
+            "variance":        round(self.variance(), 6),
+            "temporal_delta":  round(self.temporal_delta(), 6),
+            "cosine_drift":    round(self.cosine_drift(), 6),
+            "subjective_time": round(self.subjective_time, 6),
+            "dilation_factor": round(self.dilation_factor, 6),
         }
