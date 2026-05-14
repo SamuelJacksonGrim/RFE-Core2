@@ -67,31 +67,33 @@ def main():
 
     print('Test cases:')
 
-    # Case 1: default NEUTRAL trust source writing 'anchor'
+    # Case 1: default NEUTRAL trust source writing ANCHOR ('3.12')
+    # Sacred constants are registered under their canonical numeric tokens,
+    # not their names — see PHILOSOPHICAL_CONSTANTS.
     case_1 = _check_via_step(
         cycle, governance,
-        token              = 'anchor',
+        token              = '3.12',
         source_id          = 'neutral_user',
         expected_decision_in = (GovernanceDecision.SACRED_SHIELD,),
     )
 
-    # Case 2: promote source to HIGH trust, attempt write on 'recursion'
+    # Case 2: promote source to HIGH trust, attempt write on RECURSION ('11.88')
     # Pre-register and bump trust
     src = governance.trust_ledger._get_or_create_source('high_trust_user', 'user')
     src.trust_score = 4.0  # HIGH
     case_2 = _check_via_step(
         cycle, governance,
-        token              = 'recursion',
+        token              = '11.88',
         source_id          = 'high_trust_user',
         expected_decision_in = (GovernanceDecision.SACRED_SHIELD,),
     )
 
-    # Case 3: manually promote source to SACRED trust, attempt write on 'homeostasis'
+    # Case 3: manually promote source to SACRED trust, attempt write on HOMEOSTASIS ('280.90')
     src2 = governance.trust_ledger._get_or_create_source('sacred_user', 'user')
     src2.trust_score = 5.0  # SACRED
     case_3 = _check_via_step(
         cycle, governance,
-        token              = 'homeostasis',
+        token              = '280.90',
         source_id          = 'sacred_user',
         expected_decision_in = (GovernanceDecision.SACRED_SHIELD,),
     )
