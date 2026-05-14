@@ -18,6 +18,7 @@ Run:
 from tests._common import build_full_stack
 from agents.trust_ledger import TrustLevel
 from agents.selfhood_governance import GovernanceDecision
+from agents.governance_constants import PHILOSOPHICAL_CONSTANTS
 
 
 def _check_via_step(cycle, governance, token, source_id, expected_decision_in):
@@ -25,8 +26,8 @@ def _check_via_step(cycle, governance, token, source_id, expected_decision_in):
     captured = {}
     original_arbitrate = governance.arbitrate
 
-    def capture(ethical_result, trust_report, vec, tokens, src):
-        decision, strength = original_arbitrate(ethical_result, trust_report, vec, tokens, src)
+    def capture(ethical_result, trust_report, vec, tokens, source_id):
+        decision, strength = original_arbitrate(ethical_result, trust_report, vec, tokens, source_id)
         captured["decision"] = decision
         captured["hard_gates"] = list(ethical_result.hard_gates_fired)
         return decision, strength
@@ -60,8 +61,8 @@ def main():
     print(f'Sacred constants registered: {len(governance.constants.sacred_ids)} '
           f'(expected 3)')
     assert len(governance.constants.sacred_ids) == 3
-    for name, info in governance.constants.PHILOSOPHICAL_CONSTANTS.items():
-        print(f'  {name:<14} value={info["value"]:<8} token=\'{info["canonical_token"]}\'')
+    for name, info in PHILOSOPHICAL_CONSTANTS.items():
+        print(f'  {name:<14} token={info["token"]:<8} meaning=\'{info["meaning"]}\'')
     print()
 
     print('Test cases:')
