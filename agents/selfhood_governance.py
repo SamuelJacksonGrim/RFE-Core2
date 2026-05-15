@@ -351,7 +351,7 @@ class SelfhoodGovernance:
             return decision, strength
 
         # ----------------------------------------------------------
-        # 4. Clean pass
+        # 6. Clean pass
         # ----------------------------------------------------------
         self._audit(GovernanceDecision.ALLOW, source_id, ethical_result, trust_report)
         return GovernanceDecision.ALLOW, 1.0
