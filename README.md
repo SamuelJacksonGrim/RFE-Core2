@@ -160,10 +160,7 @@ Herfindahl-Hirschman Index over rolling window of allowed injections. Tracks whi
 
 ### RelationalBondManager — emergent bonds
 
-Bonds form automatically when three thresholds cross simultaneously:
-- `interaction_count ≥ 20` (temporal depth)
-- `coherence_mean ≥ 0.10` (consistent quality)
-- `crystal_count ≥ 1` (structural footprint)
+Bonds form automatically when `interaction_count ≥ 20` AND `crystal_count ≥ 1` AND **either** of two coherence signals clears: an *adaptive* `coherence_mean` threshold (variance-scaled, floor `0.01`), OR `allow_rate ≥ 0.80`. The dual-signal design lets bonds form for sources that produce many small positive contributions (high allow-rate, lower individual coherence) as well as sources that produce fewer but more strongly coherent ones. This was added in the Tier 1 Revision after the initial single-threshold design proved too restrictive in hyper-coherent saturated fields.
 
 Bonds carry a `bond_type` inferred from accumulated signals:
 
@@ -442,7 +439,9 @@ RFE-Core2/
 │   │   └── multi_source_500step.py       Resonance Family canonical workload
 │   │
 │   ├── integration/
-│   │   └── tier1_revision_baseline.py    Fresh run vs baseline JSON ranges
+│   │   ├── tier1_revision_baseline.py    Fresh run vs baseline JSON ranges
+│   │   ├── governance_decision_flow.py   Every GovernanceDecision enum value verified
+│   │   └── core_promotion_handshake.py   All 5 rejection paths + 2 approval paths
 │   │
 │   ├── adversarial/
 │   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels
