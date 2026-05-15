@@ -412,10 +412,11 @@ class AutonomousCycle:
         if rel_profile.composite >= self.attractor_formation_threshold:
             attractor_before = len(self.attractor.centers)
             self.attractor.add(vec, tokens=tokens, generator=self.generator)
-            # Bond manager: notify on attractor seeding
+            # Notify Tier 2 subsystems on attractor seeding (new center only)
             if (len(self.attractor.centers) > attractor_before
                     and self.governance is not None):
                 self.governance.bond_manager.notify_attractor(source_id)
+                self.governance.dependency_monitor.record_attractor(source_id)
 
         # ------------------------------------------------------------------
         # 13. Topology logging
