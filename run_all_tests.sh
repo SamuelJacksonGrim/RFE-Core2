@@ -71,6 +71,10 @@ run_test "tests.adversarial.flood_calibration"
 run_test "tests.adversarial.manipulation_cascade"
 run_test "tests.adversarial.identity_drift"
 
+echo
+echo -e "${BOLD}DOCUMENTATION ACCURACY${RESET}"
+run_test "tests.doc_accuracy.verify_docs"
+
 # Summary
 echo
 echo -e "${BOLD}════════════════════════════════════════════════════════════════${RESET}"
