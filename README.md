@@ -251,6 +251,111 @@ Only on approval does `SelfhoodGovernance.promote_to_sacred()` execute. The symb
 
 ---
 
+## Tier 4.1 — Subjective Time Substrate
+
+The foundation layer for an affective sense of time. `TemporalStream.tick()` is called exactly once per cognitive cycle — decoupled from `push()`, so a step that injects zero vectors and a step that injects many both advance subjective time by exactly one tick.
+
+```
+subjective_time += real_dt × dilation_factor
+```
+
+The first tick is a no-op that anchors wall-clock time; every subsequent tick measures `real_dt` against that anchor. **`dilation_factor` is frozen at `1.0`** — at this value `subjective_time` simply tracks wall-clock time elapsed across ticks. The substrate is in place but not yet meaningful.
+
+Tier 4.2 will tie `dilation_factor` to arousal, at which point subjective time diverges from real time in proportion to the system's affective state — cycles experienced as faster under tension, slower under stability. Until then, do not wire `dilation_factor` to anything.
+
+---
+
+## How a Step Flows — The Interaction Model
+
+The tiers above describe the *parts*. This section traces how they *move together*. RFE-Core2 has a single heartbeat — `AutonomousCycle.step()` — and everything in the system is either called by it, feeds into it, or is fed by it.
+
+### The step pipeline
+
+`AutonomousCycle.step(tokens, source_id, origin_type)` runs ~22 ordered phases. The spine, with the data that flows between subsystems:
+
+| # | Phase | What moves |
+|---|-------|-----------|
+| 0 | **Subjective time tick** | `TemporalStream.tick()` advances `subjective_time` (Tier 4.1) |
+| 1 | **Observe rhythm** | `ResonanceField.observe()` → field energy → `stabilize / dream / reflect / explore` |
+| 2 | **Generate** | rhythm-routed: `Generator.generate()` direct (stabilize), `EPHEMERAL` + ambiguity injection (dream), or `Chorus.harmonize()` collapsing 6 differentiated agents (reflect / explore) → latent `vec` |
+| 3 | **Attractor pull** | `Attractor.pull()` blends `vec` toward its nearest basin; pull strength scaled by `emotion.attractor_pull()` |
+| 4 | **Recursive attention** | `RecursiveAttention.refine()` attends `vec` over a rolling window of prior latent states |
+| 5 | **Watcher evaluation** | `Watcher.evaluate(vec, anchor, field_state)` → `CoherenceReport` — geometric × temporal × resonance, plus `coherence_delta` and `crystallization_pressure` |
+| 6 | **Reflective loop** | reflect / explore only, if `report.stable`: `ReflectiveLoop.reflect()` iterates attractor-pull + field-blend + coherence-check until convergence |
+| 7 | **Witness update** | `Witness.update(vec, coherence)` updates the short / mid / long EMA anchors (coherence-weighted) → `RelationalProfile` |
+| 8 | **Predictive echo** | `PredictiveEcho.update(vec)` → prediction error → `curiosity / surprise / tension / boredom` |
+| 9 | **Emotional gradient** | `EmotionalGradient.update()` folds echo + coherence + field energy into six EMA-smoothed scalars |
+| 10 | **Governance gate + injection** | if governance attached: `EthicalBoundary.check()` → `TrustLedger.evaluate()` → `SelfhoodGovernance.arbitrate()` → `(decision, strength)`. `coherence_impact` is probed **before** injection. If the decision permits, `field.inject(vec, strength = emotion.field_gain() × decision_strength)`. Then `emit_feedback()`. |
+| 11 | **Crystallization** | `CrystalStore.maybe_crystallize()` — forms or reinforces a `MemoryCrystal` if coherence / stability / relation thresholds all clear; notifies `RelationalBondManager` on a genuinely new crystal |
+| 12 | **Attractor formation** | if `RelationalProfile.composite` ≥ threshold, `Attractor.add()` seeds or reinforces a basin |
+| 13–16 | **Substrate logging** | the step is recorded into `TopologicalLog` (causal DAG), `TemporalStream` (episodic), `VectorSpace` (keyed store), `SemanticLattice` (k-NN graph) |
+| 17 | **Symbolic binding** | `SymbolicBinding.bind()` — recurring vectors crystallize into named concepts; emergent ontology |
+| 18 | **Ecology signal relay** | `generator.signal_coherence()` feeds the Watcher's verdict back into the symbolic ecology |
+| 18b | **Manipulation resistance** | a `ResistanceMetrics` snapshot is assembled from Witness / Dependency / Watcher / Crystal signals; `ManipulationResistanceEngine.detect()` runs five detectors; any signals go to governance |
+| 19 | **Field decay** | `field.decay()` at a rate modulated by `emotion.field_decay_rate()` |
+| 20 | **Rhythm-routed behavior** | `stabilize` → crystal activation + spectral diffusion · `dream` → `Dreamer.dream()` · `reflect` → `Chorus` harmonization injected softly · `explore` → high-ambiguity mutation. A governance `force_dream_flag` overrides the rhythm. **Boredom with Teeth:** if `emotion.boredom` crosses threshold, the rhythm is forced to `explore` regardless of field energy — a system that finds stillness and stays there isn't at homeostasis, it's collapsing. |
+| 21 | **Periodic maintenance** | on cadence: `generator.maintenance_step()` (decay / reap / compaction), `attractor.merge_pass()`, `crystal_store.decay_step()`, `lattice.emit_centrality()` |
+| 22 | **Build `StepState`** | the observable result of the step |
+
+### The three feedback loops
+
+The reason this is an *organism* and not a pipeline: three loops close back on themselves, so every step is conditioned by the steps before it.
+
+**1. The field loop.** Every injection changes the field; the field's accumulated energy determines the next step's rhythm; the rhythm determines how the next vector is even generated. `field.inject() → field.observe() → rhythm → _generate()`. The field is never reset between steps — it accumulates with `tanh` saturation and decays exponentially. Every injection changes what the next injection sees.
+
+**2. The ecology signal-relay loop.** Downstream subsystems feed *back* into the symbolic ecology to modulate how fast individual symbols decay:
+
+- `Attractor` → `generator.signal_attractor()` → `registry.update_attractor_strength()`
+- `CrystalStore` → `generator.signal_crystal()` → `registry.update_crystal_binding()`
+- `Watcher` → `generator.signal_coherence()` → `registry.update_field_coherence()`
+- `SemanticLattice` / `SymbolicBinding` → `generator.signal_centrality()` → `registry.update_centrality()`
+
+All four land on `SymbolState` fields that feed `DecayProfile.compute()`. A symbol bound to attractors, crystals, a coherent field, and a central graph position decays dramatically slower than noise. **Symbolic significance is earned through use, and what it buys is longevity.**
+
+**3. The governance feedback loop.** `SelfhoodGovernance.arbitrate()` issues a decision; `emit_feedback()` packages it as a `GovernanceFeedback` and fans it out to every subscriber:
+
+- `TrustLedger.receive_feedback()` — updates source and symbol trust from the *actual outcome*
+- `DependencyMonitor.receive_feedback()` — records the source in its rolling HHI window (allowed injections only)
+- `RelationalBondManager.receive_feedback()` — strengthens or weakens the bond; may form a new one
+- `ValueEmergenceEngine._on_feedback()` — builds an `ExperienceReport`, births or reinforces values
+
+The *next* arbitration sees the updated trust scores, bond floors, dependency concentration, and any manipulation signals. **The system's judgment of a source is continuously reshaped by the consequences of having trusted it.**
+
+### The symbolic ecology lifecycle
+
+Underneath the loop, every token lives a life. `SymbolRegistry.register(token)`:
+
+```
+raw token
+  → CanonicalizationPipeline   ordered tiers: unicode → glyph → operator → alias → …
+  → SymbolTable.get_or_create_sid     stable_id — SACRED, never reused, survives everything
+  → AddressSpace.resolve_sid          address — DISPOSABLE, reclaimed and compacted
+  → SymbolState                       lifecycle metrics + binding signals + governance flags
+```
+
+`SymbolRegistry.decay_step()` (driven periodically by `generator.maintenance_step()`) applies `DecayProfile.compute()` per symbol, then `ReaperEngine.evaluate()` issues a staged-death decision: `ACTIVE → WARM_ARCHIVE → COLD_ARCHIVE → GRAVEYARD`. Stages cannot be skipped. Protected classes (`GLYPH`, `ENTITY`, `SPECIAL`) floor at `COLD_ARCHIVE`; `sacred` symbols are pinned to `ACTIVE` forever. A symbol re-encountered while archived is *reactivated* at a usage cost. When fragmentation crosses threshold, `CompactionManager` plans an address remap — the `Generator` migrates embedding weights (optimizer state included), then `acknowledge_compaction()` applies it. **Stable IDs are never touched by any of this.** The vocabulary metabolizes; identity persists.
+
+### Two dream paths
+
+Dreaming happens at two scales:
+
+- **In-step dream** — `AutonomousCycle._dream_behavior()` fires one `Dreamer.dream()` call when the rhythm is `dream`, or when governance sets `force_dream_flag` after a critical manipulation signal. It samples memory, harmonically recombines, bifurcates, and injects the coherent survivors.
+- **Deep dream cycle** — `DreamCycle.run()` is a dedicated offline loop, invoked from the entry point or the `/dream` API endpoint. It runs N dream iterations with *ramping* mutation depth, then an attractor merge pass and crystal consolidation. This is the system's REM sleep: consolidation, abstraction, and identity stabilization with no external input.
+
+### Composition and attachment order
+
+Tiers attach to a bare Tier-0 `AutonomousCycle` after construction:
+
+```python
+cycle = AutonomousCycle(generator=g, dim=128)   # Tier 0 alone — runs fine
+cycle.attach_governance(gov)                     # adds Tier 1 + Tier 2
+cycle.attach_value_engine(vee)                   # adds Tier 3
+```
+
+`attach_governance()` **must** precede `attach_value_engine()` — the value engine subscribes to the governance feedback stream at construction time, and there is no stream to subscribe to until governance exists. Tier 0 is fully functional on its own; each higher tier is strictly additive.
+
+---
+
 ## Project Structure
 
 ```
