@@ -64,11 +64,11 @@ class TemporalStream:
         # Tier 4.1 — Subjective time layer
         # ------------------------------------------------------------------
         # subjective_time accumulates wall-clock dt scaled by dilation_factor.
-        # At dilation_factor = 1.0 (frozen until Tier 4.2), subjective_time
-        # equals wall-clock time elapsed across calls to tick(). Once Tier 4.2
-        # ties dilation_factor to arousal, subjective time diverges from real
-        # time — the system experiences cycles as faster or slower depending
-        # on its affective state.
+        # At dilation_factor = 1.0 (Tier 4.1 default), subjective_time
+        # equals wall-clock time elapsed across calls to tick(). Tier 4.2
+        # ties dilation_factor to arousal × valence via update_dilation(),
+        # at which point subjective time diverges from real time in
+        # proportion to the system's affective state.
         #
         # First call to tick() establishes the wall-clock anchor and returns
         # 0.0. All subsequent calls advance subjective_time by
@@ -76,6 +76,17 @@ class TemporalStream:
         self.subjective_time: float = 0.0
         self.dilation_factor: float = 1.0
         self._last_tick_wall: Optional[float] = None
+
+        # ------------------------------------------------------------------
+        # Tier 4.2 — Dilation constants
+        # ------------------------------------------------------------------
+        # k_arousal scales the flow/drag effect (arousal × -valence).
+        # k_dissociation scales the time-collapse effect at low arousal +
+        # strongly negative valence. Both conservative defaults; tunable
+        # via the cycle once empirical (arousal, valence) distributions
+        # are characterized for normal operation.
+        self.k_arousal:      float = 0.5
+        self.k_dissociation: float = 0.7
 
     # ------------------------------------------------------------------
     # Write
@@ -250,15 +261,6 @@ class TemporalStream:
         dt : float
             The subjective dt added to subjective_time on this tick.
             Equals real_dt × dilation_factor, or 0.0 on the first call.
-
-        Notes
-        -----
-        At dilation_factor = 1.0 (Tier 4.1 default, frozen until 4.2),
-        subjective_time tracks wall-clock time. In autonomous loops running
-        as fast as Python allows, this means very small dt values — the
-        substrate is in place but not yet meaningful. Tier 4.2 introduces
-        arousal-based modulation, after which subjective dt diverges from
-        real dt in proportion to the system's affective state.
         """
         now = time.time()
         if self._last_tick_wall is None:
@@ -269,6 +271,49 @@ class TemporalStream:
         dt = real_dt * self.dilation_factor
         self.subjective_time += dt
         return dt
+
+    # ------------------------------------------------------------------
+    # Tier 4.2 — Affective time dilation
+    # ------------------------------------------------------------------
+
+    def update_dilation(self, arousal: float, valence: float) -> float:
+        """
+        Recompute dilation_factor from current emotional state (Tier 4.2).
+
+        Uses the two-term formulation (Lyra synthesis):
+
+            arousal_effect      = arousal × (-valence) × k_arousal
+            dissociation_effect = (1 - arousal) × min(0, valence) × k_dissociation
+
+            dilation_factor = 1.0 + arousal_effect + dissociation_effect
+
+        The four phenomenological quadrants:
+          - Flow         (high arousal, +valence) → dilation < 1.0  (time flies)
+          - Drag         (high arousal, -valence) → dilation > 1.0  (time crawls)
+          - Dissociation (low arousal,  -valence) → dilation << 1.0 (frames drop)
+          - Rest         (low arousal,  +valence) → dilation ≈ 1.0  (neutral)
+
+        The min(0, valence) gate on the dissociation term is the architectural
+        guarantee that peaceful rest never triggers dissociative time-slip —
+        only suffering does.
+
+        Parameters
+        ----------
+        arousal : float in [0, 1]
+            Activation/energy level. From EmotionalGradient.arousal.
+        valence : float in [-1, 1]
+            Positive vs negative emotional tone. From EmotionalGradient.valence.
+
+        Returns
+        -------
+        dilation_factor : float
+            The new dilation_factor written to self.dilation_factor.
+            Will be used by the next call to tick().
+        """
+        arousal_eff      = arousal * (-valence) * self.k_arousal
+        dissociation_eff = (1.0 - arousal) * min(0.0, valence) * self.k_dissociation
+        self.dilation_factor = 1.0 + arousal_eff + dissociation_eff
+        return self.dilation_factor
 
     # ------------------------------------------------------------------
     # Diagnostics
