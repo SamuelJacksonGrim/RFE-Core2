@@ -184,6 +184,58 @@ class EmotionalGradient:
         return self._stability
 
     # ------------------------------------------------------------------
+    # Tier 4.2 — Derived dynamics (arousal, valence)
+    # ------------------------------------------------------------------
+    # Arousal and valence are not stored directly — they're derived from
+    # the six emotional scalars above. Since those scalars are already
+    # EMA-smoothed in update(), the derived signals inherit that smoothness
+    # without needing a second smoothing pass.
+    #
+    # These feed TemporalStream.dilation_factor (Tier 4.2 subjective time
+    # dilation) and will be available to Tier 5 (meta-cognition) for
+    # attentional control.
+
+    @property
+    def arousal(self) -> float:
+        """
+        Activation / energy level ∈ [0, 1].
+
+        High arousal: dominated by tension, joy, curiosity, wonder
+        (intense, engaged, alive).
+        Low arousal: dominated by boredom and stability (calm, settled,
+        possibly inert).
+
+        Curiosity, wonder, joy, and tension are all "active" emotional
+        states regardless of valence — they all reflect that something is
+        happening internally. Boredom and stability are the quiescent
+        anchors. Arousal averages the four active scalars.
+        """
+        active = (self._tension + self._joy + self._curiosity + self._wonder) / 4.0
+        return float(np.clip(active, 0.0, 1.0))
+
+    @property
+    def valence(self) -> float:
+        """
+        Positive vs negative emotional tone ∈ [-1, 1].
+
+        Positive contributions: joy, wonder, stability
+        (well-being, openness, calm).
+        Negative contributions: tension, boredom
+        (threat, depletion).
+
+        Curiosity is excluded — it can accompany either positive engagement
+        or anxious uncertainty depending on context, so it doesn't cleanly
+        belong to either side.
+
+        Peaceful state (high stability, low tension, no boredom) → positive.
+        Threatened state (high tension) → negative.
+        Depleted state (high boredom, low everything else) → negative.
+        """
+        positive = (self._joy + self._wonder + self._stability) / 3.0
+        negative = (self._tension + self._boredom) / 2.0
+        return float(np.clip(positive - negative, -1.0, 1.0))
+
+    # ------------------------------------------------------------------
     # Modulation outputs  (read by autonomous_cycle every step)
     # ------------------------------------------------------------------
 
