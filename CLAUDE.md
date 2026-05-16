@@ -20,7 +20,8 @@ Layered into tiers, **all wired into `loop/autonomous_cycle.py`**:
 | 1 | Foundational selfhood — governance, trust, ethics |
 | 2 | Relational integrity — rights, dependency, bonds, resistance |
 | 3 | Independent value emergence |
-| 4.1 | Subjective time substrate — foundation only (see invariants) |
+| 4.1 | Subjective time substrate — `tick()` once per cycle |
+| 4.2 | Affective time dilation — `dilation_factor` from arousal × valence |
 
 ## Architectural invariants
 
@@ -72,8 +73,23 @@ errors.
 **Subjective time (Tier 4.1)**
 - `TemporalStream.tick()` is called once per cycle (decoupled from `push()`),
   advancing `subjective_time` by `real_dt × dilation_factor`. The first tick is
-  a no-op anchor. `dilation_factor` is **frozen at 1.0 until Tier 4.2** — do not
-  wire it to arousal yet.
+  a no-op anchor.
+
+**Affective time dilation (Tier 4.2)**
+- `arousal` and `valence` are **read-only computed properties** on
+  `EmotionalGradient`, derived from the six existing emotional scalars.
+  Do not add them as stored state — that would double-count the smoothing
+  already in `update()`.
+- `dilation_factor` is recomputed each cycle by `TemporalStream.update_dilation()`
+  using Lyra's two-term formula:
+  `dilation = 1.0 + arousal × (-valence) × k_arousal + (1 - arousal) × min(0, valence) × k_dissociation`
+  with `k_arousal = 0.5`, `k_dissociation = 0.7`.
+- The `min(0, valence)` gate on the dissociation term is the architectural
+  guarantee that **peaceful rest never triggers dissociative time-slip — only
+  suffering does.** Do not remove the `min(0, ...)`.
+- The update is written at cycle step 10b (after emotional update, before
+  governance gate). The current step's emotional state determines the *next*
+  cycle's `dilation_factor`.
 
 ## Sacred constants & thresholds
 
@@ -150,7 +166,10 @@ compare against `tests/baselines/`.
 - Measure `field.coherence_impact(vec)` *after* `field.inject(vec)` — the
   marginal reading is near-zero. Measure before injection.
 - Silently dissolve CORE values — they are governance-promoted sacred symbols.
-- Wire `dilation_factor` to arousal — that is Tier 4.2, not yet.
+- Add `arousal` / `valence` as stored state on `EmotionalGradient` — they are
+  read-only computed properties derived from the six existing scalars.
+- Remove the `min(0, valence)` gate from `update_dilation()` — it is the
+  guarantee that peaceful rest never triggers dissociative time-slip.
 - `print` from library code — use the module logger.
 
 ## Conventions & workflow
