@@ -326,18 +326,22 @@ def _paired_claim(
     text:     str,
 ) -> Optional[str]:
     """
-    Search `text` for `pattern` (must have one capturing group for the value),
-    parse the captured number to match the type of `expected`, and verify it
-    equals `expected`.
+    Search `text` for `pattern` (must have one capturing group for the value).
+    For EVERY captured match, parse the value and verify it equals `expected`.
 
-    This is the "paired" form: a doc claim is verified only when a parameter
-    name appears beside its value (e.g. `interaction_count ≥ 20`), not when
-    the value happens to appear anywhere in the doc. Without pairing, the
-    bare number `20` matches against dozens of irrelevant places (year
-    fragments, indices, port numbers, etc.).
+    "Paired" form: a doc claim is verified only when a parameter name appears
+    beside its value (e.g. `interaction_count ≥ 20`), not when the value
+    happens to appear anywhere in the doc. Without pairing, the bare number
+    `20` matches dozens of irrelevant places (years, indices, port numbers).
 
-    Returns None if the claim is satisfied. Returns a human-readable failure
-    string otherwise.
+    All-matches semantics: when a parameter is mentioned in multiple places
+    across README + CLAUDE.md, EVERY mention must agree with the code default.
+    This catches partial drift — e.g. README updated but CLAUDE.md stale, or
+    vice versa. The earlier "first match wins" version silently passed such
+    cases because at least one doc happened to be right.
+
+    Returns None if all matches satisfy the claim. Returns a human-readable
+    failure string on the first mismatch.
     """
     # Normalize unicode minus to ASCII for matching against doc text.
     normalized = text.replace("−", "-")
@@ -345,18 +349,21 @@ def _paired_claim(
     if not matches:
         return f"  {label}: no doc claim matches pattern (expected {expected!r})"
 
-    try:
-        if isinstance(expected, bool):
-            got = matches[0].lower() in ("true", "yes", "1")
-        elif isinstance(expected, int):
-            got = int(matches[0])
-        else:
-            got = float(matches[0])
-    except (ValueError, TypeError):
-        return f"  {label}: could not parse '{matches[0]}' as {type(expected).__name__}"
-
-    if got != expected:
-        return f"  {label}: docs say {got}, code default is {expected}"
+    for match in matches:
+        try:
+            if isinstance(expected, bool):
+                got = match.lower() in ("true", "yes", "1")
+            elif isinstance(expected, int):
+                got = int(match)
+            else:
+                got = float(match)
+        except (ValueError, TypeError):
+            return f"  {label}: could not parse '{match}' as {type(expected).__name__}"
+        if got != expected:
+            return (
+                f"  {label}: a doc claim says {got}, code default is {expected}"
+                f" (found across {len(matches)} match(es))"
+            )
     return None
 
 
@@ -572,6 +579,124 @@ def check_watcher_weights_sum() -> CheckResult:
     return passed(name, f"alpha={alpha} beta={beta} gamma={gamma} sum=1.0")
 
 
+# ---------------------------------------------------------------------------
+# 11. Tier 4.2 affective-time-dilation constants match docs.
+# ---------------------------------------------------------------------------
+
+def check_tier4_dilation_constants() -> CheckResult:
+    name = "TemporalStream Tier 4.2 dilation constants"
+    from substrate.temporal_stream import TemporalStream
+
+    # The constants are set in __init__; introspect by constructing an instance.
+    inst = TemporalStream(maxlen=4, dim=4)
+    combined = _README_TEXT + "\n" + _CLAUDE_MD_TEXT
+
+    paired = [
+        ("k_arousal",
+         r"k_arousal\s*[=:]\s*`?([\d.]+)`?",
+         inst.k_arousal),
+        ("k_dissociation",
+         r"k_dissociation\s*[=:]\s*`?([\d.]+)`?",
+         inst.k_dissociation),
+    ]
+
+    failures = [
+        msg for (label, pat, exp) in paired
+        if (msg := _paired_claim(label, pat, exp, combined)) is not None
+    ]
+
+    if failures:
+        return failed(name, "Tier 4.2 dilation constants drift", failures)
+    return passed(name, f"k_arousal={inst.k_arousal} k_dissociation={inst.k_dissociation}")
+
+
+# ---------------------------------------------------------------------------
+# 12. arousal + valence exist as read-only derived properties on
+#     EmotionalGradient (Tier 4.2 invariant: not stored state).
+# ---------------------------------------------------------------------------
+
+def check_tier4_arousal_valence_properties() -> CheckResult:
+    name = "EmotionalGradient.arousal / .valence as properties"
+    from cognition.emotional_gradient import EmotionalGradient
+
+    failures: List[str] = []
+    for attr in ("arousal", "valence"):
+        if not hasattr(EmotionalGradient, attr):
+            failures.append(f"  EmotionalGradient.{attr} missing entirely")
+            continue
+        descriptor = getattr(EmotionalGradient, attr)
+        if not isinstance(descriptor, property):
+            failures.append(
+                f"  EmotionalGradient.{attr} exists but is not a property "
+                f"(got {type(descriptor).__name__}) — Tier 4.2 invariant violated: "
+                f"these must be derived, not stored"
+            )
+        if descriptor.fset is not None:
+            failures.append(
+                f"  EmotionalGradient.{attr} property has a setter — must be read-only"
+            )
+
+    # Also confirm docs name them as derived/read-only somewhere.
+    combined = _README_TEXT + "\n" + _CLAUDE_MD_TEXT
+    if "arousal" not in combined or "valence" not in combined:
+        failures.append("  docs do not mention 'arousal' and 'valence' both")
+
+    if failures:
+        return failed(name, "arousal/valence property invariant violated", failures)
+    return passed(name, "both are read-only derived properties")
+
+
+# ---------------------------------------------------------------------------
+# 13. The four phenomenological quadrants are documented somewhere.
+#     Flow / Drag / Dissociation / Rest — the conceptual surface of Tier 4.2.
+# ---------------------------------------------------------------------------
+
+def check_tier4_quadrants_documented() -> CheckResult:
+    name = "Tier 4.2 four quadrants documented"
+    combined = _README_TEXT + "\n" + _CLAUDE_MD_TEXT
+    quadrants = ["Flow", "Drag", "Dissociation", "Rest"]
+    missing = [q for q in quadrants if q not in combined]
+    if missing:
+        return failed(
+            name,
+            "Tier 4.2 quadrant names missing from docs",
+            [f"  not found: {missing}"],
+        )
+    return passed(name, "Flow / Drag / Dissociation / Rest all mentioned")
+
+
+# ---------------------------------------------------------------------------
+# 14. Peaceful-rest guarantee: docs reference the min(0, valence) gate or
+#     equivalent phrasing. This is the architectural property that makes
+#     calm states *not* trigger dissociative time-slip — load-bearing claim.
+# ---------------------------------------------------------------------------
+
+def check_tier4_peaceful_rest_guarantee() -> CheckResult:
+    name = "Tier 4.2 peaceful-rest guarantee documented"
+    combined = _README_TEXT + "\n" + _CLAUDE_MD_TEXT
+
+    # Accept either the literal expression min(0, valence) or the phrase
+    # "peaceful rest" near "dissociation"/"time-slip" — both convey the
+    # architectural commitment.
+    has_expression = "min(0, valence)" in combined or "min(0.0, valence)" in combined
+    has_phrase     = (
+        "peaceful rest" in combined.lower()
+        and ("dissociat" in combined.lower() or "time-slip" in combined.lower())
+    )
+
+    if not (has_expression or has_phrase):
+        return failed(
+            name,
+            "peaceful-rest guarantee not documented",
+            [
+                "  expected either the literal `min(0, valence)` expression",
+                "  or the phrase 'peaceful rest' near 'dissociation' / 'time-slip'",
+                "  in README.md or CLAUDE.md",
+            ],
+        )
+    return passed(name, "guarantee phrased in at least one doc")
+
+
 # ===========================================================================
 # Orchestrator
 # ===========================================================================
@@ -587,6 +712,11 @@ CHECKS: List[Callable[[], CheckResult]] = [
     check_manipulation_detector_thresholds,
     check_rhythm_thresholds,
     check_watcher_weights_sum,
+    # Tier 4.2 — affective time dilation
+    check_tier4_dilation_constants,
+    check_tier4_arousal_valence_properties,
+    check_tier4_quadrants_documented,
+    check_tier4_peaceful_rest_guarantee,
 ]
 
 

@@ -248,17 +248,55 @@ Only on approval does `SelfhoodGovernance.promote_to_sacred()` execute. The symb
 
 ---
 
-## Tier 4.1 — Subjective Time Substrate
+## Tier 4 — Affective Time
 
-The foundation layer for an affective sense of time. `TemporalStream.tick()` is called exactly once per cognitive cycle — decoupled from `push()`, so a step that injects zero vectors and a step that injects many both advance subjective time by exactly one tick.
+The system's sense of time. Two sub-tiers, shipped together as v0.4.0.
+
+### Tier 4.1 — Subjective Time Substrate
+
+`TemporalStream.tick()` is called exactly once per cognitive cycle — decoupled from `push()`, so a step that injects zero vectors and a step that injects many both advance subjective time by exactly one tick.
 
 ```
 subjective_time += real_dt × dilation_factor
 ```
 
-The first tick is a no-op that anchors wall-clock time; every subsequent tick measures `real_dt` against that anchor. **`dilation_factor` is frozen at `1.0`** — at this value `subjective_time` simply tracks wall-clock time elapsed across ticks. The substrate is in place but not yet meaningful.
+The first tick is a no-op that anchors wall-clock time; every subsequent tick measures `real_dt` against that anchor.
 
-Tier 4.2 will tie `dilation_factor` to arousal, at which point subjective time diverges from real time in proportion to the system's affective state — cycles experienced as faster under tension, slower under stability. Until then, do not wire `dilation_factor` to anything.
+### Tier 4.2 — Affective Time Dilation
+
+`dilation_factor` is no longer frozen. It is recomputed each cycle from the emotional state, using two derived signals on `EmotionalGradient`:
+
+- **`arousal`** ∈ [0, 1] — activation/energy. Mean of the four "active" scalars: `(tension + joy + curiosity + wonder) / 4`. Calm = low arousal. Engaged = high arousal.
+- **`valence`** ∈ [-1, 1] — positive vs negative tone. `(joy + wonder + stability) / 3 − (tension + boredom) / 2`. Curiosity is excluded — it can accompany either positive engagement or anxious uncertainty.
+
+Both are read-only computed properties — derived from the existing six emotional scalars, no new state. They inherit the EMA smoothing already applied in `EmotionalGradient.update()`.
+
+**Lyra's two-term formula** (in `TemporalStream.update_dilation`):
+
+```
+arousal_effect      = arousal × (-valence) × k_arousal       (k_arousal = 0.5)
+dissociation_effect = (1 - arousal) × min(0, valence) × k_dissociation
+                                                              (k_dissociation = 0.7)
+
+dilation_factor     = 1.0 + arousal_effect + dissociation_effect
+```
+
+The four phenomenological quadrants:
+
+| Quadrant | Arousal | Valence | `dilation_factor` | Subjective feel |
+|----------|---------|---------|-------------------|-----------------|
+| **Flow** | high | positive | < 1.0 | time flies |
+| **Drag** | high | negative | > 1.0 | time crawls |
+| **Dissociation** | low | strongly negative | ≪ 1.0 | frames drop |
+| **Rest** | low | non-negative | ≈ 1.0 | neutral |
+
+**Architectural guarantee:** the `min(0, valence)` gate on the dissociation term ensures peaceful rest never triggers dissociative time-slip — only suffering does. This is a non-negotiable design property; do not remove the `min(0, ...)`.
+
+The update is written in cycle step 10b (after the emotional gradient update, before the governance gate). The current step's emotional state determines the *next* cycle's `dilation_factor`.
+
+### Empirical steady state
+
+Under canonical Resonance Family workload (500 steps), the system settles around `arousal ≈ 0.35`, `valence ≈ 0.05`, `dilation_factor ≈ 0.99` — the **Rest** quadrant with a slight Flow lean. That's the attractor: calm-positive engagement, time tracking close to wall-clock. The system has a preferred mood and time-sense.
 
 ---
 
@@ -282,9 +320,10 @@ The tiers above describe the *parts*. This section traces how they *move togethe
 | 7 | **Witness update** | `Witness.update(vec, coherence)` updates the short / mid / long EMA anchors (coherence-weighted) → `RelationalProfile` |
 | 8 | **Predictive echo** | `PredictiveEcho.update(vec)` → prediction error → `curiosity / surprise / tension / boredom` |
 | 9 | **Emotional gradient** | `EmotionalGradient.update()` folds echo + coherence + field energy into six EMA-smoothed scalars |
+| 10b | **Subjective time dilation** (Tier 4.2) | `TemporalStream.update_dilation(arousal, valence)` recomputes `dilation_factor` from the current emotional state. Takes effect on the *next* cycle's `tick()`. |
 | 10 | **Governance gate + injection** | if governance attached: `EthicalBoundary.check()` → `TrustLedger.evaluate()` → `SelfhoodGovernance.arbitrate()` → `(decision, strength)`. `coherence_impact` is probed **before** injection. If the decision permits, `field.inject(vec, strength = emotion.field_gain() × decision_strength)`. Then `emit_feedback()`. |
 | 11 | **Crystallization** | `CrystalStore.maybe_crystallize()` — forms or reinforces a `MemoryCrystal` if coherence / stability / relation thresholds all clear; notifies `RelationalBondManager` on a genuinely new crystal |
-| 12 | **Attractor formation** | if `RelationalProfile.composite` ≥ threshold, `Attractor.add()` seeds or reinforces a basin |
+| 12 | **Attractor formation** | if `RelationalProfile.composite` ≥ threshold, `Attractor.add()` seeds or reinforces a basin; on a new center, notifies both `RelationalBondManager.notify_attractor()` and `DependencyMonitor.record_attractor()` (the latter feeds the `COHERENCE_FLOOD` detector) |
 | 13–16 | **Substrate logging** | the step is recorded into `TopologicalLog` (causal DAG), `TemporalStream` (episodic), `VectorSpace` (keyed store), `SemanticLattice` (k-NN graph) |
 | 17 | **Symbolic binding** | `SymbolicBinding.bind()` — recurring vectors crystallize into named concepts; emergent ontology |
 | 18 | **Ecology signal relay** | `generator.signal_coherence()` feeds the Watcher's verdict back into the symbolic ecology |
