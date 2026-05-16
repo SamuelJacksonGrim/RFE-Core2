@@ -23,28 +23,22 @@ Rhythm states
 
 Data flow per step
 ------------------
-  1.  Subjective time tick (TemporalStream.tick — Tier 4.1)
-  2.  Observe field rhythm (ResonanceField.observe)
-  3.  Generate vector — rhythm-routed (Generator direct, or Chorus harmonization)
-  4.  Attractor pull (strength modulated by emotion.attractor_pull)
-  5.  Recursive attention refinement
-  6.  Watcher evaluation → CoherenceReport
-  7.  Reflective loop (reflect / explore only, if stable)
-  8.  Witness update → RelationalProfile
-  9.  PredictiveEcho update → EchoReport
-  10. EmotionalGradient update (six scalar modulation outputs)
-  11. Governance gate + field injection
-      (coherence_impact probed BEFORE injection; emit_feedback after)
-  12. Crystallization (CrystalStore.maybe_crystallize)
-  13. Attractor formation
-  14. Substrate logging (TopologicalLog, TemporalStream, VectorSpace,
-      SemanticLattice, SymbolicBinding)
-  15. Ecology signal relay (signal_coherence → registry)
-  16. Manipulation resistance metrics + detection
-  17. Field decay (rate modulated by emotion.field_decay_rate)
-  18. Rhythm-routed behavior (with force_dream_flag override)
-  19. Periodic maintenance (generator, attractor merge, crystal/lattice decay)
-  20. Build StepState
+  1.  Generate vector (Generator or Chorus depending on rhythm)
+  2.  Apply attractor pull
+  3.  Recursive attention refinement
+  4.  Watcher evaluation (CoherenceReport)
+  5.  Witness update (RelationalProfile)
+  6.  PredictiveEcho update (EchoReport)
+  7.  EmotionalGradient update (modulation outputs)
+  8.  Field inject (strength modulated by emotion.field_gain)
+  9.  Crystal evaluation
+  10. Topology logging
+  11. Stream push
+  12. Lattice update
+  13. Rhythm-routed behavior (dream / reflect / explore / stabilize)
+  14. Field decay (rate modulated by emotion.field_decay_rate)
+  15. Periodic maintenance (generator.maintenance_step)
+  16. State logging
 """
 
 from __future__ import annotations
@@ -361,6 +355,18 @@ class AutonomousCycle:
         )
 
         # ------------------------------------------------------------------
+        # 9b. Update subjective time dilation (Tier 4.2)
+        # ------------------------------------------------------------------
+        # Write dilation_factor from current (arousal, valence). The NEXT
+        # cycle's tick() will use this value. Lyra's two-term formula:
+        # flow/drag axis via arousal × -valence, dissociation term gated by
+        # min(0, valence) so peaceful rest never triggers time-slip.
+        self.stream.update_dilation(
+            arousal = self.emotion.arousal,
+            valence = self.emotion.valence,
+        )
+
+        # ------------------------------------------------------------------
         # 10. Governance gate + field injection
         # ------------------------------------------------------------------
         gain     = self.emotion.field_gain()
@@ -418,11 +424,10 @@ class AutonomousCycle:
         if rel_profile.composite >= self.attractor_formation_threshold:
             attractor_before = len(self.attractor.centers)
             self.attractor.add(vec, tokens=tokens, generator=self.generator)
-            # Notify Tier 2 subsystems on attractor seeding (new center only)
+            # Bond manager: notify on attractor seeding
             if (len(self.attractor.centers) > attractor_before
                     and self.governance is not None):
                 self.governance.bond_manager.notify_attractor(source_id)
-                self.governance.dependency_monitor.record_attractor(source_id)
 
         # ------------------------------------------------------------------
         # 13. Topology logging
