@@ -148,6 +148,20 @@ keep them in version control.
 - `value_polarity_flow.py` — Tracks value births, polarity transitions,
   and dissolutions over time. Shows whether values are progressing or
   thrashing.
+- `dilation_response_curve.py` — **Tier 4.2 physics validator.** Sweeps
+  the full (arousal, valence) grid and calls `update_dilation()` directly,
+  isolated from the token stream. Verifies the four phenomenological
+  quadrants: flow → dilation < 1.0, drag → > 1.0, dissociation → << 1.0,
+  rest → ≈ 1.0. Deterministic. Asserts the math; exits 0/1.
+- `affective_state_probe.py` — **Tier 4.2 psychology / defensive-depth
+  probe.** Runs four workload profiles (canonical / monotone /
+  adversarial / mixed) and reports not just which affective quadrant the
+  system settles into, but *which real defensive signal held the line and
+  with what margin* — `witness.identity_stability()` vs
+  `stability_floor = 0.10`, manipulation-detector severities, compound
+  severity vs the 0.30/0.60/0.90 bands, governance decision trace, and
+  the step at which QUARANTINE first fired. Not pass/fail — a map. See
+  the Tier 4.2 validation finding in `docs/tier4_2_validation.md`.
 
 ### `baselines/`
 JSON snapshots of expected metrics from known-good runs. These are the
