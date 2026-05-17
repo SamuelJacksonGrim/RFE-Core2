@@ -697,6 +697,112 @@ def check_tier4_peaceful_rest_guarantee() -> CheckResult:
     return passed(name, "guarantee phrased in at least one doc")
 
 
+# ---------------------------------------------------------------------------
+# 15. EthicalBoundarySystem flood_ceiling["user"] == 12 — load-bearing for
+#     the Tier 4.2 validation finding (single-source hostile load is
+#     quarantined by the flood gate before manipulation resistance engages).
+#     If this drifts, the validation finding in docs/tier4_2_validation.md
+#     becomes silently invalid.
+# ---------------------------------------------------------------------------
+
+def check_flood_ceiling_user() -> CheckResult:
+    name = "EthicalBoundarySystem flood_ceiling['user']"
+    from agents.ethical_boundary import EthicalBoundarySystem
+
+    ceilings = EthicalBoundarySystem.DEFAULT_CONFIG["flood_ceilings"]
+    user_ceiling = ceilings.get("user")
+
+    if user_ceiling != 12:
+        return failed(
+            name,
+            f"flood_ceiling['user'] changed from 12 to {user_ceiling}",
+            [
+                "  The Tier 4.2 validation finding (docs/tier4_2_validation.md)",
+                "  is contingent on this exact value — it's the cliff at which",
+                "  single-source hostile load gets quarantined before the",
+                "  manipulation resistance layer ever engages. If the value",
+                "  changed deliberately, also update the validation doc.",
+            ],
+        )
+    return passed(name, "user flood ceiling = 12 (Tier 4.2 finding invariant)")
+
+
+# ---------------------------------------------------------------------------
+# 16. STABILITY_FLOOR consistency between affective_state_probe and the
+#     EthicalBoundary stability_floor default. The probe reads the library
+#     constant via its own copy; if either side drifts without the other,
+#     the probe reports "held the line with margin X" against the wrong
+#     reference.
+# ---------------------------------------------------------------------------
+
+def check_stability_floor_consistency() -> CheckResult:
+    name = "STABILITY_FLOOR: affective_state_probe ↔ ethical_boundary"
+    from agents.ethical_boundary import EthicalBoundarySystem
+
+    library = EthicalBoundarySystem.DEFAULT_CONFIG["stability_floor"]
+    try:
+        from tests.diagnostic.affective_state_probe import STABILITY_FLOOR as probe
+    except ImportError as exc:
+        return failed(
+            name,
+            f"could not import STABILITY_FLOOR from probe",
+            [f"  {exc}"],
+        )
+
+    if library != probe:
+        return failed(
+            name,
+            "probe STABILITY_FLOOR diverged from library stability_floor",
+            [
+                f"  library (EthicalBoundarySystem.DEFAULT_CONFIG): {library}",
+                f"  probe   (affective_state_probe.STABILITY_FLOOR):   {probe}",
+            ],
+        )
+    return passed(name, f"both = {library}")
+
+
+# ---------------------------------------------------------------------------
+# 17. Compound manipulation severity bands {0.30, 0.60, 0.90} match in
+#     arbitrate()'s if/elif chain and in the docs. These set the
+#     ALLOW_WEAKENED / QUARANTINE / force_dream_flag boundary behaviour.
+# ---------------------------------------------------------------------------
+
+def check_compound_severity_bands() -> CheckResult:
+    name = "SelfhoodGovernance compound severity bands"
+    import inspect
+    from agents.selfhood_governance import SelfhoodGovernance
+
+    src = inspect.getsource(SelfhoodGovernance.arbitrate)
+    # Capture every `total_severity >= <number>` literal in the chain.
+    matches = re.findall(r"total_severity\s*>=\s*([\d.]+)", src)
+    found    = set(matches)
+    expected = {"0.90", "0.60", "0.30"}
+
+    if found != expected:
+        return failed(
+            name,
+            "severity bands drifted from {0.30, 0.60, 0.90}",
+            [
+                f"  in code:  {sorted(found)}",
+                f"  expected: {sorted(expected)}",
+            ],
+        )
+
+    # Verify each band literal is documented (with optional `0.X` short form).
+    combined = (_README_TEXT + "\n" + _CLAUDE_MD_TEXT).replace("−", "-")
+    missing = [
+        b for b in expected
+        if b not in combined and b.rstrip("0").rstrip(".") not in combined
+    ]
+    if missing:
+        return failed(
+            name,
+            "severity bands missing from docs",
+            [f"  not found: {sorted(missing)}"],
+        )
+    return passed(name, "bands {0.30, 0.60, 0.90} match in code AND docs")
+
+
 # ===========================================================================
 # Orchestrator
 # ===========================================================================
@@ -717,6 +823,10 @@ CHECKS: List[Callable[[], CheckResult]] = [
     check_tier4_arousal_valence_properties,
     check_tier4_quadrants_documented,
     check_tier4_peaceful_rest_guarantee,
+    # Tier 4.2 validation invariants (docs/tier4_2_validation.md)
+    check_flood_ceiling_user,
+    check_stability_floor_consistency,
+    check_compound_severity_bands,
 ]
 
 
