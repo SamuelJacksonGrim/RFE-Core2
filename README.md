@@ -492,7 +492,9 @@ RFE-Core2/
 │   │   ├── decision_histogram.py         GovernanceDecision distribution
 │   │   ├── gate_firing_audit.py          Hard gates + soft warnings per source
 │   │   ├── trust_trajectory.py           Per-source trust sparklines
-│   │   └── value_polarity_flow.py        Births, deaths, transitions
+│   │   ├── value_polarity_flow.py        Births, deaths, transitions
+│   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
+│   │   └── affective_state_probe.py      Tier 4.2 psychology / defensive-depth
 │   │
 │   └── baselines/
 │       └── tier1_revision_500step.json   Healthy-state metric ranges
