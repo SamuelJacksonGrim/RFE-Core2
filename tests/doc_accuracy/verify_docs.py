@@ -803,6 +803,43 @@ def check_compound_severity_bands() -> CheckResult:
     return passed(name, "bands {0.30, 0.60, 0.90} match in code AND docs")
 
 
+# ---------------------------------------------------------------------------
+# 18. Pipeline substep labels in autonomous_cycle.step() match README.
+#     Every `# Nb. ...` substep comment in the live step() body must be
+#     present in the README — that's the class of drift where a substep
+#     gets inserted into the code with one label and documented under a
+#     different label. (How "9b" became "10b" in the README's Tier 4.2
+#     pipeline row; same position, wrong number.)
+# ---------------------------------------------------------------------------
+
+def check_pipeline_substep_labels() -> CheckResult:
+    name = "step() substep labels present in README"
+    import inspect
+    from loop.autonomous_cycle import AutonomousCycle
+
+    src = inspect.getsource(AutonomousCycle.step)
+    # Capture every `# Nb. <description>` substep marker in the function body.
+    substeps = re.findall(r"#\s*(\d+b)\.\s+([^\n]+)", src)
+    if not substeps:
+        return passed(name, "no substep comments in step() — nothing to verify")
+
+    failures: List[str] = []
+    for label, desc in substeps:
+        if label not in _README_TEXT:
+            failures.append(
+                f"  step() defines '# {label}. {desc.strip()[:60]}' "
+                f"but '{label}' does not appear in README — pipeline drift"
+            )
+    if failures:
+        return failed(
+            name,
+            "pipeline substep labels in code missing from README",
+            failures,
+        )
+    found = sorted({label for label, _ in substeps})
+    return passed(name, f"all substep labels present in README: {found}")
+
+
 # ===========================================================================
 # Orchestrator
 # ===========================================================================
@@ -827,6 +864,8 @@ CHECKS: List[Callable[[], CheckResult]] = [
     check_flood_ceiling_user,
     check_stability_floor_consistency,
     check_compound_severity_bands,
+    # Pipeline structure
+    check_pipeline_substep_labels,
 ]
 
 

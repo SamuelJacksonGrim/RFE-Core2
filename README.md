@@ -296,7 +296,7 @@ The four phenomenological quadrants:
 
 **Architectural guarantee:** the `min(0, valence)` gate on the dissociation term ensures peaceful rest never triggers dissociative time-slip — only suffering does. This is a non-negotiable design property; do not remove the `min(0, ...)`.
 
-The update is written in cycle step 10b (after the emotional gradient update, before the governance gate). The current step's emotional state determines the *next* cycle's `dilation_factor`.
+The update is written in cycle step 9b (after the emotional gradient update, before the governance gate). The current step's emotional state determines the *next* cycle's `dilation_factor`.
 
 ### Empirical steady state
 
@@ -324,7 +324,7 @@ The tiers above describe the *parts*. This section traces how they *move togethe
 | 7 | **Witness update** | `Witness.update(vec, coherence)` updates the short / mid / long EMA anchors (coherence-weighted) → `RelationalProfile` |
 | 8 | **Predictive echo** | `PredictiveEcho.update(vec)` → prediction error → `curiosity / surprise / tension / boredom` |
 | 9 | **Emotional gradient** | `EmotionalGradient.update()` folds echo + coherence + field energy into six EMA-smoothed scalars |
-| 10b | **Subjective time dilation** (Tier 4.2) | `TemporalStream.update_dilation(arousal, valence)` recomputes `dilation_factor` from the current emotional state. Takes effect on the *next* cycle's `tick()`. |
+| 9b | **Subjective time dilation** (Tier 4.2) | `TemporalStream.update_dilation(arousal, valence)` recomputes `dilation_factor` from the current emotional state. Takes effect on the *next* cycle's `tick()`. |
 | 10 | **Governance gate + injection** | if governance attached: `EthicalBoundary.check()` → `TrustLedger.evaluate()` → `SelfhoodGovernance.arbitrate()` → `(decision, strength)`. `coherence_impact` is probed **before** injection. If the decision permits, `field.inject(vec, strength = emotion.field_gain() × decision_strength)`. Then `emit_feedback()`. |
 | 11 | **Crystallization** | `CrystalStore.maybe_crystallize()` — forms or reinforces a `MemoryCrystal` if coherence / stability / relation thresholds all clear; notifies `RelationalBondManager` on a genuinely new crystal |
 | 12 | **Attractor formation** | if `RelationalProfile.composite` ≥ threshold, `Attractor.add()` seeds or reinforces a basin; on a new center, notifies both `RelationalBondManager.notify_attractor()` and `DependencyMonitor.record_attractor()` (the latter feeds the `COHERENCE_FLOOD` detector) |
