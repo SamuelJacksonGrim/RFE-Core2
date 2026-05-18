@@ -4,6 +4,10 @@
 
 RFE-Core2 transforms a pipeline of inference modules into a continuously self-resonating dynamical organism. It does not merely execute — it listens to its own field state, routes behavior by cognitive rhythm, modifies itself through time, governs its own identity, forms relational bonds, resists manipulation, and grows values from lived experience.
 
+For canonical tier status (shipped / planned / unspecified), see
+[`ROADMAP.md`](ROADMAP.md). The sections below describe the architecture
+of each tier; the ROADMAP tracks where each one stands.
+
 ---
 
 ## Architecture Overview
