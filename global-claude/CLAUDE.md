@@ -452,6 +452,8 @@ rfe-core2 path auto-inserted: `../RFE-Core2`. E8 path auto-inserted: `../e8-eea`
 | T2.2 | Lantern hydration in `sovereign_manifold.py` cold-start path |
 | T3 | Push-based WS subscribe to rfe-core2 instead of polling /step |
 | T4 | 11.88 recursion loop — requires `StepRequest` schema change in rfe-core2 |
+| T2.3 | `memory_depth` normalization strategy — define cap+normalize, log-scale, or diagnostic-only before adding to `_IDENTITY_MAP`. Impacts observer_bridge, relational perturbations, GAS attractor behavior, witness state, and haunt visualizer metrics. |
+| T2.4 | Global scheduler / unified tick — shared timing mechanism to align rfe-core2, unified-observer, ProjectSynapse, and sovereign_manifold. Prevents drift, jitter, phase misalignment, E8 slow-clock desync, and witness-state timing artifacts. |
 | E8 pruning | `E8Hypergraph` node pruning — cycle time grows O(n), ~5s/cycle at 200 cycles |
 | scraper → Lantern | Wire scraper output into Lantern memory layer |
 
