@@ -598,6 +598,19 @@ def check_tier4_dilation_constants() -> CheckResult:
         ("k_dissociation",
          r"k_dissociation\s*[=:]\s*`?([\d.]+)`?",
          inst.k_dissociation),
+        # Tier 4.3 — rhythm coupling constants
+        ("k_flow",
+         r"k_flow\s*[=:]\s*`?([\d.]+)`?",
+         inst.k_flow),
+        ("k_agitation",
+         r"k_agitation\s*[=:]\s*`?([\d.]+)`?",
+         inst.k_agitation),
+        ("dilation_min",
+         r"dilation_min\s*[=:]\s*`?([\d.]+)`?",
+         inst.dilation_min),
+        ("dilation_max",
+         r"dilation_max\s*[=:]\s*`?([\d.]+)`?",
+         inst.dilation_max),
     ]
 
     failures = [
@@ -606,8 +619,13 @@ def check_tier4_dilation_constants() -> CheckResult:
     ]
 
     if failures:
-        return failed(name, "Tier 4.2 dilation constants drift", failures)
-    return passed(name, f"k_arousal={inst.k_arousal} k_dissociation={inst.k_dissociation}")
+        return failed(name, "Tier 4.2/4.3 dilation constants drift", failures)
+    return passed(
+        name,
+        f"k_arousal={inst.k_arousal} k_dissociation={inst.k_dissociation} "
+        f"k_flow={inst.k_flow} k_agitation={inst.k_agitation} "
+        f"clamp=[{inst.dilation_min},{inst.dilation_max}]",
+    )
 
 
 # ---------------------------------------------------------------------------
