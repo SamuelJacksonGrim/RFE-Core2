@@ -14,6 +14,15 @@ of each tier; the ROADMAP tracks where each one stands.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
+│  Tier 4 — Affective Time                                        │
+│    TemporalStream      subjective_time + dilation_factor        │
+│    4.1 substrate · 4.2 affective dilation · 4.3 rhythm coupling │
+│    reads emotion + field rhythm — terminal sink, no feedback    │
+└─────────────────────────────────────────────────────────────────┘
+                              ▲
+                              │ observes emotion + field rhythm
+                              │ (terminal sink — no feedback)
+┌─────────────────────────────────────────────────────────────────┐
 │  Tier 3 — Independent Value Emergence                           │
 │    ValueEmergenceEngine: values grow from lived experience      │
 │    governance-gated CORE promotion to sacred status             │
@@ -302,6 +311,23 @@ The update is written in cycle step 9b (after the emotional gradient update, bef
 
 Under canonical Resonance Family workload (500 steps), the system settles around `arousal ≈ 0.35`, `valence ≈ 0.05`, `dilation_factor ≈ 0.99` — the **Rest** quadrant with a slight Flow lean. That's the attractor: calm-positive engagement, time tracking close to wall-clock. The system has a preferred mood and time-sense.
 
+### Tier 4.3 — Rhythm → Time Coupling
+
+The 4.2 `(arousal, valence)` plane has a degeneracy: **flow** and **agitation** are both high-arousal and bend time the same way. `ResonanceField.phase_coherence` (FFT-derived field organization) is the missing organizing-vs-chaotic axis. Tier 4.3 couples it into dilation as two valence-gated, mutually exclusive terms:
+
+```
+pc_c     = 2 × (phase_coherence - 0.5)                          (neutral = 0)
+flow_eff = -k_flow      × max(pc_c, 0) × arousal × max( valence, 0)   (k_flow = 0.5)
+agit_eff = -k_agitation × min(pc_c, 0) × arousal × max(-valence, 0)   (k_agitation = 0.0)
+
+dilation_factor = clamp(1.0 + arousal_effect + dissociation_effect + flow_eff + agit_eff,
+                        dilation_min, dilation_max)              (dilation_min = 0.1, dilation_max = 3.0)
+```
+
+The **flow term** ships LIVE (`k_flow = 0.5`): organized field deepens flow compression. The **agitation term** ships INERT (`k_agitation = 0.0`) — a labeled phenomenological hypothesis (chaotic negative-valence drag-vs-panic-compression), off until the sign sweep resolves it. The **clamp** `[0.1, 3.0]` closes a latent 4.2 gap (4.2 had none). At a neutral `phase_coherence` of 0.5 the whole addition is zero, so this is byte-identical to Tier 4.2 — a strict, regression-safe extension. `dilation_factor` remains a terminal sink: 4.3 introduces no feedback loop and does not alter governance ordering.
+
+Validation finding (`docs/tier4_3_validation.md`): the flow term is validated as a degeneracy resolution, but the *discrimination* claim is **half-validated** — under tested workloads `phase_coherence` pins high (mean ≈ 0.96, never below ≈ 0.79), so the chaotic side of the axis is never exercised. Closing it needs a high-novelty workload, not a synthetic heartbeat.
+
 ---
 
 ## How a Step Flows — The Interaction Model
@@ -324,7 +350,7 @@ The tiers above describe the *parts*. This section traces how they *move togethe
 | 7 | **Witness update** | `Witness.update(vec, coherence)` updates the short / mid / long EMA anchors (coherence-weighted) → `RelationalProfile` |
 | 8 | **Predictive echo** | `PredictiveEcho.update(vec)` → prediction error → `curiosity / surprise / tension / boredom` |
 | 9 | **Emotional gradient** | `EmotionalGradient.update()` folds echo + coherence + field energy into six EMA-smoothed scalars |
-| 9b | **Subjective time dilation** (Tier 4.2) | `TemporalStream.update_dilation(arousal, valence)` recomputes `dilation_factor` from the current emotional state. Takes effect on the *next* cycle's `tick()`. |
+| 9b | **Subjective time dilation** (Tier 4.2 + 4.3) | `TemporalStream.update_dilation(arousal, valence, phase_coherence)` recomputes `dilation_factor` from emotional state plus field rhythm (`field_obs.spectral.phase_coherence` from step 1). Takes effect on the *next* cycle's `tick()`. |
 | 10 | **Governance gate + injection** | if governance attached: `EthicalBoundary.check()` → `TrustLedger.evaluate()` → `SelfhoodGovernance.arbitrate()` → `(decision, strength)`. `coherence_impact` is probed **before** injection. If the decision permits, `field.inject(vec, strength = emotion.field_gain() × decision_strength)`. Then `emit_feedback()`. |
 | 11 | **Crystallization** | `CrystalStore.maybe_crystallize()` — forms or reinforces a `MemoryCrystal` if coherence / stability / relation thresholds all clear; notifies `RelationalBondManager` on a genuinely new crystal |
 | 12 | **Attractor formation** | if `RelationalProfile.composite` ≥ threshold, `Attractor.add()` seeds or reinforces a basin; on a new center, notifies both `RelationalBondManager.notify_attractor()` and `DependencyMonitor.record_attractor()` (the latter feeds the `COHERENCE_FLOOD` detector) |
@@ -498,6 +524,8 @@ RFE-Core2/
 │   │   ├── trust_trajectory.py           Per-source trust sparklines
 │   │   ├── value_polarity_flow.py        Births, deaths, transitions
 │   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
+│   │   ├── rhythm_dilation_curve.py      Tier 4.3 physics validator (rhythm coupling)
+│   │   ├── rhythm_inertness_probe.py     Tier 4.3 inertness / footprint probe
 │   │   └── affective_state_probe.py      Tier 4.2 psychology / defensive-depth
 │   │
 │   └── baselines/
