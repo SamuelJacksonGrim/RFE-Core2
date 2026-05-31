@@ -22,6 +22,7 @@ Layered into tiers, **all wired into `loop/autonomous_cycle.py`**:
 | 3 | Independent value emergence |
 | 4.1 | Subjective time substrate — `tick()` once per cycle |
 | 4.2 | Affective time dilation — `dilation_factor` from arousal × valence |
+| 4.3 | Rhythm → time coupling — `phase_coherence` (FFT) modulates dilation (flow LIVE, agitation inert) |
 
 ## Architectural invariants
 
@@ -90,6 +91,26 @@ errors.
 - The update is written at cycle step 10b (after emotional update, before
   governance gate). The current step's emotional state determines the *next*
   cycle's `dilation_factor`.
+
+**Rhythm → time coupling (Tier 4.3)**
+- `update_dilation()` takes a third arg `phase_coherence` (default `0.5`),
+  the field's FFT-derived organization from `ResonanceField`. Two added
+  terms: `flow_eff = -k_flow × max(pc_c,0) × arousal × max(valence,0)` and
+  `agit_eff = -k_agitation × min(pc_c,0) × arousal × max(-valence,0)`, where
+  `pc_c = 2×(phase_coherence-0.5)`. Result is clamped to
+  `[dilation_min, dilation_max]`.
+- Constants: `k_flow = 0.5` (LIVE — resolves the flow/agitation degeneracy),
+  `k_agitation = 0.0` (INERT — labeled hypothesis, do **not** set non-zero
+  without documented justification from probe data), `dilation_min = 0.1`,
+  `dilation_max = 3.0`.
+- At a neutral `phase_coherence` of 0.5 both terms are zero → byte-identical to Tier 4.2.
+  This is the regression guard; keep it. The `0.5` default also means an
+  un-wired caller gets pure 4.2 behavior, not a silent perturbation.
+- `dilation_factor` is a **terminal sink** (read only by `tick()` and
+  diagnostics). 4.3 introduces no feedback loop and must not alter governance
+  ordering — verified against the adversarial quarantine trace. Do not make
+  anything in the cognitive/governance loop read `dilation_factor` or
+  `subjective_time`.
 
 ## Sacred constants & thresholds
 
