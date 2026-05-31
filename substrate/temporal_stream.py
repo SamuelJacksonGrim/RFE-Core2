@@ -88,6 +88,39 @@ class TemporalStream:
         self.k_arousal:      float = 0.5
         self.k_dissociation: float = 0.7
 
+        # ------------------------------------------------------------------
+        # Tier 4.3 — Rhythm → time coupling constants
+        # ------------------------------------------------------------------
+        # phase_coherence (from ResonanceField FFT) is the organizing-vs-
+        # chaotic axis that arousal × valence alone cannot express: flow and
+        # agitation are both high-arousal states but should bend time in
+        # opposite directions. pc_c = 2*(phase_coherence - 0.5) ∈ [-1, 1],
+        # neutral at 0.5.
+        #
+        # k_flow scales the FLOW term: organized (pc_c>0) high-arousal
+        #   positive-valence → deeper compression. Resolves a genuine
+        #   degeneracy in the 4.2 model. Ships LIVE at 0.5.
+        #
+        # k_agitation scales the AGITATION term: chaotic (pc_c<0) high-arousal
+        #   negative-valence. This is a phenomenological HYPOTHESIS, not a
+        #   degeneracy fix — the high-arousal/negative quadrant already drags
+        #   via arousal_eff, and the literature is split on whether chaotic
+        #   negative affect stretches (rumination) or compresses/fragments
+        #   (acute panic) time. Ships at 0.0 (inert) until the inertness probe
+        #   + sign sweep pick a direction. A NEGATIVE k_agitation expresses the
+        #   panic-compression hypothesis; positive expresses drag. Do not set
+        #   non-zero without a documented justification from probe data.
+        self.k_flow:         float = 0.5
+        self.k_agitation:    float = 0.0
+
+        # Tier 4.3 — hard dilation bounds. The 4.2 formula had no clamp; this
+        # is a latent gap, not new to 4.3 (the validated 4.2 range 0.3–1.5 sits
+        # well inside these bounds, so the clamp is a no-op on all 4.2 points).
+        # Prevents rhythm/agitation terms from driving dilation to time-reversal
+        # (≤0) or runaway slowdown.
+        self.dilation_min:   float = 0.1
+        self.dilation_max:   float = 3.0
+
     # ------------------------------------------------------------------
     # Write
     # ------------------------------------------------------------------
@@ -276,26 +309,49 @@ class TemporalStream:
     # Tier 4.2 — Affective time dilation
     # ------------------------------------------------------------------
 
-    def update_dilation(self, arousal: float, valence: float) -> float:
+    def update_dilation(
+        self,
+        arousal: float,
+        valence: float,
+        phase_coherence: float = 0.5,
+    ) -> float:
         """
-        Recompute dilation_factor from current emotional state (Tier 4.2).
+        Recompute dilation_factor from current emotional state + field rhythm.
 
-        Uses the two-term formulation (Lyra synthesis):
+        Tier 4.2 base (Lyra two-term):
 
             arousal_effect      = arousal × (-valence) × k_arousal
             dissociation_effect = (1 - arousal) × min(0, valence) × k_dissociation
 
-            dilation_factor = 1.0 + arousal_effect + dissociation_effect
+        Tier 4.3 rhythm coupling — phase_coherence is the organizing-vs-chaotic
+        axis the arousal × valence plane cannot represent. pc_c centers it at
+        the neutral default:
 
-        The four phenomenological quadrants:
-          - Flow         (high arousal, +valence) → dilation < 1.0  (time flies)
-          - Drag         (high arousal, -valence) → dilation > 1.0  (time crawls)
-          - Dissociation (low arousal,  -valence) → dilation << 1.0 (frames drop)
-          - Rest         (low arousal,  +valence) → dilation ≈ 1.0  (neutral)
+            pc_c     = 2 × (phase_coherence - 0.5)          # ∈ [-1, 1]
+            flow_eff = -k_flow      × max(pc_c, 0) × arousal × max( valence, 0)
+            agit_eff = -k_agitation × min(pc_c, 0) × arousal × max(-valence, 0)
 
-        The min(0, valence) gate on the dissociation term is the architectural
-        guarantee that peaceful rest never triggers dissociative time-slip —
-        only suffering does.
+            dilation_factor = clamp(
+                1.0 + arousal_effect + dissociation_effect + flow_eff + agit_eff,
+                dilation_min, dilation_max
+            )
+
+        The two rhythm terms are mutually exclusive (max/min on pc_c) and
+        valence-gated to opposite half-planes, so they never co-fire:
+
+          - flow_eff bites only in high-arousal POSITIVE-valence + organized
+            field → deepens compression. "In the zone": time flies harder when
+            the field is rhythmically locked. This resolves the 4.2 degeneracy
+            where flow and agitation both read as high-arousal-positive.
+
+          - agit_eff bites only in high-arousal NEGATIVE-valence + chaotic
+            field. HYPOTHESIS term (see k_agitation note in __init__); ships at
+            k_agitation=0.0 so it is structurally present but contributes
+            nothing until probe data justifies a sign.
+
+        Regression guarantee: at the neutral default phase_coherence=0.5,
+        pc_c=0 → flow_eff=agit_eff=0 → the result is byte-identical to the
+        validated Tier 4.2 surface. The clamp is a no-op on every 4.2 point.
 
         Parameters
         ----------
@@ -303,16 +359,31 @@ class TemporalStream:
             Activation/energy level. From EmotionalGradient.arousal.
         valence : float in [-1, 1]
             Positive vs negative emotional tone. From EmotionalGradient.valence.
+        phase_coherence : float in [0, 1], default 0.5
+            Field rhythmic organization. From
+            ResonanceField.observe().spectral.phase_coherence. The default 0.5
+            is exactly the value ResonanceField returns when its phase history
+            is too short to measure — so an un-wired or cold-start caller gets
+            pure 4.2 behavior, not a silent perturbation.
 
         Returns
         -------
         dilation_factor : float
-            The new dilation_factor written to self.dilation_factor.
-            Will be used by the next call to tick().
+            The new dilation_factor written to self.dilation_factor,
+            clamped to [dilation_min, dilation_max]. Used by the next tick().
         """
         arousal_eff      = arousal * (-valence) * self.k_arousal
         dissociation_eff = (1.0 - arousal) * min(0.0, valence) * self.k_dissociation
-        self.dilation_factor = 1.0 + arousal_eff + dissociation_eff
+
+        # Tier 4.3 — rhythm coupling
+        pc_c     = 2.0 * (phase_coherence - 0.5)
+        flow_eff = -self.k_flow      * max(pc_c, 0.0) * arousal * max(valence, 0.0)
+        agit_eff = -self.k_agitation * min(pc_c, 0.0) * arousal * max(-valence, 0.0)
+
+        dilation = 1.0 + arousal_eff + dissociation_eff + flow_eff + agit_eff
+        self.dilation_factor = float(
+            max(self.dilation_min, min(self.dilation_max, dilation))
+        )
         return self.dilation_factor
 
     # ------------------------------------------------------------------
