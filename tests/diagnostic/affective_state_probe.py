@@ -128,8 +128,8 @@ def run_profile(name, stream_fn, n_steps):
     state = {"max_compound": 0.0, "first_q": None, "step": 0}
 
     orig_dilation = cycle.stream.update_dilation
-    def trace_dilation(arousal, valence):
-        d = orig_dilation(arousal, valence)
+    def trace_dilation(arousal, valence, phase_coherence=0.5):
+        d = orig_dilation(arousal, valence, phase_coherence)
         aff.append((arousal, valence, d))
         return d
     cycle.stream.update_dilation = trace_dilation
