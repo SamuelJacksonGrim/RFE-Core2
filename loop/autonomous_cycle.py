@@ -363,15 +363,21 @@ class AutonomousCycle:
         )
 
         # ------------------------------------------------------------------
-        # 9b. Update subjective time dilation (Tier 4.2)
+        # 9b. Update subjective time dilation (Tier 4.2 + 4.3)
         # ------------------------------------------------------------------
         # Write dilation_factor from current (arousal, valence). The NEXT
         # cycle's tick() will use this value. Lyra's two-term formula:
         # flow/drag axis via arousal × -valence, dissociation term gated by
         # min(0, valence) so peaceful rest never triggers time-slip.
+        #
+        # Tier 4.3: phase_coherence (field rhythmic organization, from the FFT
+        # in field_obs computed at step 1) is the third input — the organizing-
+        # vs-chaotic axis that separates flow from agitation. At the field's
+        # cold-start / short-history default of 0.5 this is a no-op (pure 4.2).
         self.stream.update_dilation(
-            arousal = self.emotion.arousal,
-            valence = self.emotion.valence,
+            arousal         = self.emotion.arousal,
+            valence         = self.emotion.valence,
+            phase_coherence = field_obs.spectral.phase_coherence,
         )
 
         # ------------------------------------------------------------------
