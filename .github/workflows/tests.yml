@@ -27,21 +27,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Smoke tests
-      run: |
-        python -m tests.smoke.full_stack_minimal
-        python -m tests.smoke.single_source_100step
-        python -m tests.smoke.multi_source_500step
-
-    - name: Integration tests
-      run: |
-        python -m tests.integration.tier1_revision_baseline
-        python -m tests.integration.governance_decision_flow
-        python -m tests.integration.core_promotion_handshake
-
-    - name: Adversarial probes
-      run: |
-        python -m tests.adversarial.sacred_shield
-        python -m tests.adversarial.flood_calibration
-        python -m tests.adversarial.manipulation_cascade
-        python -m tests.adversarial.identity_drift
+    - name: Run full test suite
+      # Single source of truth: this is the exact suite run locally, so CI
+      # and local can never drift. Covers smoke, integration, adversarial,
+      # Tier 4 physics validators (regression guards), and doc-accuracy.
+      run: bash run_all_tests.sh
