@@ -2,8 +2,11 @@
 #
 # run_all_tests.sh — Run every pass/fail test in tests/ and report results.
 #
-# Skips tests/diagnostic/ since those are informational, not pass/fail.
-# Exits 0 if all tests pass, non-zero if any fail.
+# Covers smoke, integration, adversarial, the Tier 4 physics validators
+# (regression guards in tests/diagnostic/ that return real pass/fail exit
+# codes), and documentation accuracy. Skips the purely informational
+# diagnostics/probes (they always exit 0 and report rather than gate).
+# Exits 0 only if all pass, non-zero if any fail.
 #
 # Run from repo root:
 #   ./run_all_tests.sh
@@ -17,8 +20,11 @@ set -u
 # Move to script directory so paths resolve consistently
 cd "$(dirname "$0")"
 
-declare -a passed
-declare -a failed
+# Explicit empty-array assignment (not bare `declare -a`) so `${#failed[@]}`
+# is safe under `set -u` even when no test has failed — a bare declare leaves
+# the array unset on some bash builds and trips "unbound variable" on a clean run.
+passed=()
+failed=()
 
 # Colors only if terminal supports them
 if [ -t 1 ]; then
@@ -72,6 +78,11 @@ run_test "tests.adversarial.manipulation_cascade"
 run_test "tests.adversarial.identity_drift"
 
 echo
+echo -e "${BOLD}PHYSICS VALIDATORS (regression guards)${RESET}"
+run_test "tests.diagnostic.dilation_response_curve"
+run_test "tests.diagnostic.rhythm_dilation_curve"
+
+echo
 echo -e "${BOLD}DOCUMENTATION ACCURACY${RESET}"
 run_test "tests.doc_accuracy.verify_docs"
 
@@ -94,7 +105,9 @@ if [ ${#failed[@]} -gt 0 ]; then
 fi
 
 echo
-echo "Diagnostic tools are informational (not run by this script). To run them:"
+echo "Informational diagnostics (not gated — always exit 0; run manually):"
+echo "  python3 -m tests.diagnostic.affective_state_probe 500"
+echo "  python3 -m tests.diagnostic.rhythm_inertness_probe 500"
 echo "  python3 -m tests.diagnostic.decision_histogram"
 echo "  python3 -m tests.diagnostic.gate_firing_audit"
 echo "  python3 -m tests.diagnostic.trust_trajectory"
