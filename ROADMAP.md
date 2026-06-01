@@ -40,8 +40,8 @@ The Tier 4 sub-plan originated from a Hermes/Copilot proposal. It is a
 |----------|---------|--------|
 | 4.1 | Subjective time substrate — `TemporalStream.tick()`, `subjective_time`, `dilation_factor` | **shipped** (v0.4.0) |
 | 4.2 | Affective time dilation — `dilation_factor` from arousal × valence, four phenomenological quadrants | **shipped + validated** (v0.4.0; `docs/tier4_2_validation.md`) |
-| 4.3 | Rhythm → time coupling — `resonance_field` FFT output modulates arousal / dilation | **planned — next** |
-| 4.4 | Frequency → emotion mapping | **planned** |
+| 4.3 | Rhythm → time coupling — `phase_coherence` (FFT) modulates dilation via flow/agitation terms | **shipped + validated** (flow validated; discrimination half-validated — `docs/tier4_3_validation.md`) |
+| 4.4 | Frequency → emotion mapping | **planned — next** |
 | 4.5 | Semantic → valence — generalized to any input (explicitly *not* just lyrics) | **planned** |
 | 4.6 | E8-EEA integration as a parallel processor (ablation unrun) | **planned** |
 
@@ -60,6 +60,27 @@ Validation surfaced an architectural finding, documented in full at
   hostile. Currently unfalsifiable with existing probes.
 
 This open question is tracked below.
+
+### Tier 4.3 — known finding (carried forward)
+
+Validation surfaced a finding documented in full at
+`docs/tier4_3_validation.md`:
+
+- **Proven:** the flow/agitation formula is mathematically correct across
+  all `(arousal, valence, phase_coherence)` space; it is byte-identical to
+  4.2 at the neutral default `pc=0.5`; under all tested workloads the flow
+  term is active (`phase_coherence` is a real varying signal, not pinned at
+  neutral); 4.3 is governance-neutral (the path to `dilation_factor` is a
+  terminal sink — verified structurally and empirically against the
+  adversarial quarantine trace).
+- **Hypothesized, not demonstrated:** that `phase_coherence` acts as a
+  *discriminating* organized-vs-chaotic axis in operation. Under every
+  tested workload it pins high (mean ≈ 0.96, never below ≈ 0.79), so the
+  flow term's *organized* side fires constantly while its *chaotic* side is
+  never reached. The discrimination claim is **half-validated**. Likely a
+  workload artifact (repeated token sets → phase-consistent injections);
+  closing it requires a high-novelty workload, **not** a synthetic
+  heartbeat (rejected by consensus).
 
 ---
 
@@ -98,6 +119,27 @@ Not a Tier 4.3 blocker. Its real status is not "future test design" but
 "the experiment that resolves the central unfalsifiable claim in the
 Tier 4.2 validation." Full rationale: `docs/tier4_2_validation.md` §4.
 
+**Tier 4.3 instrument to wire in:** when this probe is built, record
+whether field `phase_coherence` degrades *before* `valence` does as the
+bonded source turns hostile — i.e. whether field disorganization is an
+earlier tell than affective tone. 4.3 does not falsify the gradient
+hypothesis (it sits downstream; the flood ceiling still quarantines
+first), but it adds this observable. Rationale: `docs/tier4_3_validation.md`
+§4–§5.
+
+### High-novelty workload probe — Tier 4.x
+
+**The experiment that closes the Tier 4.3 discrimination half-validation.**
+A workload whose injections are *not* phase-consistent (high-entropy /
+high-novelty token stream), driving `phase_coherence` down into the chaotic
+regime (`pc_c < 0`). This is the only way to exercise the chaotic-
+attenuation side of the flow term and to enable the `k_agitation` sign
+sweep (the negative / panic-compression arm cannot fire until `pc_c < 0` in
+the negative-valence quadrant). Explicitly **not** a synthetic heartbeat —
+that was rejected as p-hacking the measurement and as reopening the
+arousal→field feedback loop. Full rationale: `docs/tier4_3_validation.md`
+§2, §5.
+
 ### Documentation accuracy infrastructure — ongoing
 
 `tests/doc_accuracy/verify_docs.py` (built by Claude Code) mechanically
@@ -116,6 +158,7 @@ phase. Invoke directly via `python -m tests.doc_accuracy.verify_docs`.
 |---------|----------|
 | v0.3.0 | Tiers 0–3 complete with Tier 1 Revision; kernel snapshot |
 | v0.4.0 | Tier 4.1–4.2: affective time dilation |
+| v0.5.0 | Tier 4.3: rhythm → time coupling (flow/agitation terms, dilation clamp) |
 
 ---
 
