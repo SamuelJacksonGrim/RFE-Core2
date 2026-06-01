@@ -433,9 +433,13 @@ def check_crystallization_thresholds() -> CheckResult:
     combined = _README_TEXT + "\n" + _CLAUDE_MD_TEXT
 
     # Docs phrase these as `coherence ≥ 0.75`, `stability ≥ 0.60`, `relation ≥ 0.80`.
+    # The (?<!\w) lookbehind keeps "coherence" from matching as a suffix of
+    # "phase_coherence" / "spectral_coherence" etc. — those are unrelated Tier 4
+    # signals and would otherwise false-trigger this crystal-threshold check
+    # (e.g. the phrase "phase_coherence = 0.5" matched "coherence = 0.5").
     paired = [
         ("coherence_threshold",
-         r"coherence\s*[≥>=]+\s*`?([\d.]+)`?",
+         r"(?<!\w)coherence\s*[≥>=]+\s*`?([\d.]+)`?",
          _init_default(CrystalStore, "coherence_threshold")),
         ("stability_threshold",
          r"stability\s*[≥>=]+\s*`?([\d.]+)`?",
