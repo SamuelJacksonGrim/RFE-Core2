@@ -158,7 +158,7 @@ phase. Invoke directly via `python -m tests.doc_accuracy.verify_docs`.
 |---------|----------|
 | v0.3.0 | Tiers 0–3 complete with Tier 1 Revision; kernel snapshot |
 | v0.4.0 | Tier 4.1–4.2: affective time dilation |
-| v0.5.0 | Tier 4.3: rhythm → time coupling (flow/agitation terms, dilation clamp) |
+| v0.4.3 | Tier 4.3: rhythm → time coupling (flow/agitation terms, dilation clamp) |
 
 ---
 
