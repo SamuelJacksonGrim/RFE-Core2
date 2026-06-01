@@ -610,6 +610,44 @@ python -m api.websocket_server            # Real-time stream
 
 ---
 
+## Running the tests
+
+### Full suite (pass/fail gate)
+
+```bash
+bash run_all_tests.sh
+```
+
+Runs every pass/fail test — smoke (full-stack bring-up), integration (governance + promotion flow), adversarial (flood calibration, manipulation cascade, identity drift, sacred shield), and documentation accuracy. Exits 0 only if all pass. This is the gate.
+
+### Physics validators (regression guards)
+
+```bash
+python -m tests.diagnostic.dilation_response_curve     # Tier 4.2 dilation surface
+python -m tests.diagnostic.rhythm_dilation_curve       # Tier 4.3 rhythm coupling
+```
+
+Pass/fail (exit 0/1). These prove the time-dilation formulas mathematically and guard against regression — the Tier 4.3 validator confirms its surface is byte-identical to Tier 4.2 at a neutral `phase_coherence` of 0.5.
+
+### Diagnostics (informational)
+
+```bash
+python -m tests.diagnostic.affective_state_probe 500   # Tier 4.2 affect + dilation under load
+python -m tests.diagnostic.rhythm_inertness_probe 500  # Tier 4.3 phase-coherence distribution + footprint
+python -m tests.diagnostic.decision_histogram          # governance decision mix
+python -m tests.diagnostic.gate_firing_audit           # which gates fire, and when
+python -m tests.diagnostic.trust_trajectory            # per-source trust over time
+python -m tests.diagnostic.value_polarity_flow         # value emergence + polarity
+```
+
+These report system behavior and always exit 0 (no pass/fail). They're how you see what the stack is actually doing, not whether it's broken.
+
+### Zero-setup (Codespaces)
+
+Opening the repo in a GitHub Codespace auto-builds the environment (Python 3.11 + dependencies) from `.devcontainer/` — no manual install. Open a Codespace and run any of the commands above.
+
+---
+
 ## Key Design Principles
 
 **Stable IDs are sacred. Addresses are disposable.**
