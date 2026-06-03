@@ -50,37 +50,39 @@ next cycle's coherence. Everything circles this judgment.
 ## 2. The autonomous cycle (the recursive heart)
 
 `AutonomousCycle.step()` (`loop/autonomous_cycle.py`) runs one cognitive cycle.
-The table below follows the module **docstring's** numbering (1–20, with the
-dilation update as sub-step **10b**), which matches CLAUDE.md. Note that the
-*inline comments in the executing body* use a different, finer scheme (0–22,
-with the same dilation update labeled **9b**), which is what README follows.
-Both schemes are internally consistent; they disagree only on the base offset.
-This split is real drift — see Finding F1. For each step below: what it reads →
-what it writes.
+The table below uses the canonical step numbering — the 0–22 scheme labeled in
+the executing body's inline comments, with the dilation update as sub-step
+**9b** and manipulation resistance as **18b**. The file docstring, `CLAUDE.md`,
+and `README.md` all now agree on this scheme (see Finding F1, which records the
+drift this resolved). For each step below: what it reads → what it writes.
 
 | # | Step | Reads | Writes / emits |
 |---|------|-------|----------------|
-| 1 | Subjective time tick — `stream.tick()` | wall clock, `dilation_factor` | `subjective_time` (Tier 4.1) |
-| 2 | Observe field rhythm — `field.observe()` | `field` superposition, history | `FieldState` (energy, rhythm, spectral, internal_coherence) |
-| 3 | Generate vector — `_generate(tokens, rhythm)` | tokens, rhythm | `vec` (Generator direct, or Chorus for reflect/explore; dream adds `inject_ambiguity`) |
-| 4 | Attractor pull | `vec`, `emotion.attractor_pull()` | `vec` blended toward nearest center |
-| 5 | Recursive attention — `rec_attn.refine(vec)` | `vec`, attention history | refined `vec` (3 passes) |
-| 6 | Watcher evaluation — `watcher.evaluate(vec, anchor, field_state)` | `vec`, witness anchor, resonated field | `CoherenceReport(G,T,R,C, coherence_delta, crystallization_pressure, stable)` |
-| 7 | Reflective loop (reflect/explore only, if stable) | `vec`, watcher, attractor, field | refined `vec` → re-evaluated `report` (≤5 passes) |
-| 8 | Witness update — `witness.update(vec, coherence, energy)` | `vec`, `report.composite`, energy | three-timescale anchors → `RelationalProfile` |
-| 9 | Predictive echo — `predictor.update(vec)` | `vec`, prediction history | `EchoReport(prediction_error, curiosity, surprise, tension, boredom)` |
-| 10 | Emotional gradient — `emotion.update(...)` | prediction_error, coherence, field_energy | six EMA scalars → derived `arousal`/`valence` + six modulation outputs |
-| **10b** | Subjective time dilation — `stream.update_dilation(arousal, valence, phase_coherence)` | emotion arousal/valence, field phase_coherence | `dilation_factor` for the **next** tick (Tiers 4.2/4.3) |
-| 11 | Governance gate + injection | `vec`, governance reports, `emotion.field_gain()` | gated `field.inject(vec, gain×strength)` + `emit_feedback` |
-| 12 | Crystallization — `crystal_store.maybe_crystallize(...)` | `vec`, composite, pressure, `rel_profile.long` | new/reinforced `MemoryCrystal`; notifies `bond_manager` on new crystal |
-| 13 | Attractor formation (if `rel_profile.composite ≥ 0.88`) | `vec`, tokens | new/reinforced `AttractorCenter`; notifies `bond_manager` + `dependency_monitor` |
-| 14 | Substrate logging | `vec`, metadata | `TopologicalLog`, `TemporalStream.push`, `VectorSpace`, `SemanticLattice`, `SymbolicBinding` |
-| 15 | Ecology signal relay — `generator.signal_coherence(tokens, coherence)` | tokens, coherence | symbol-registry contextual decay/activation |
-| 16 | Manipulation resistance metrics + detect | witness drift, HHI, watcher G/T, crystal cosines, trust | `ManipulationSignal`s → stored for next `arbitrate()` |
-| 17 | Field decay — `field.decay()` | `emotion.field_decay_rate()` | shrinks `field` (rate temporarily swapped in) |
-| 18 | Rhythm-routed behavior — `_rhythm_behavior` / `_dream_behavior` | rhythm, `force_dream_flag`, boredom | stabilize/dream/reflect/explore side-effects |
-| 19 | Periodic maintenance | step counters | generator decay/compaction, attractor merge, crystal/lattice decay |
-| 20 | Build `StepState` | all cycle data | `StepState`; `self._parent = key`; `self._step += 1` |
+| 0 | Subjective time tick — `stream.tick()` | wall clock, `dilation_factor` | `subjective_time` (Tier 4.1) |
+| 1 | Observe field rhythm — `field.observe()` | `field` superposition, history | `FieldState` (energy, rhythm, spectral, internal_coherence) |
+| 2 | Generate vector — `_generate(tokens, rhythm)` | tokens, rhythm | `vec` (Generator direct, or Chorus for reflect/explore; dream adds `inject_ambiguity`) |
+| 3 | Attractor pull | `vec`, `emotion.attractor_pull()` | `vec` blended toward nearest center |
+| 4 | Recursive attention — `rec_attn.refine(vec)` | `vec`, attention history | refined `vec` (3 passes) |
+| 5 | Watcher evaluation — `watcher.evaluate(vec, anchor, field_state)` | `vec`, witness anchor, resonated field | `CoherenceReport(G,T,R,C, coherence_delta, crystallization_pressure, stable)` |
+| 6 | Reflective loop (reflect/explore only, if stable) | `vec`, watcher, attractor, field | refined `vec` → re-evaluated `report` (≤5 passes) |
+| 7 | Witness update — `witness.update(vec, coherence, energy)` | `vec`, `report.composite`, energy | three-timescale anchors → `RelationalProfile` |
+| 8 | Predictive echo — `predictor.update(vec)` | `vec`, prediction history | `EchoReport(prediction_error, curiosity, surprise, tension, boredom)` |
+| 9 | Emotional gradient — `emotion.update(...)` | prediction_error, coherence, field_energy | six EMA scalars → derived `arousal`/`valence` + six modulation outputs |
+| **9b** | Subjective time dilation — `stream.update_dilation(arousal, valence, phase_coherence)` | emotion arousal/valence, field phase_coherence | `dilation_factor` for the **next** tick (Tiers 4.2/4.3) |
+| 10 | Governance gate + injection | `vec`, governance reports, `emotion.field_gain()` | gated `field.inject(vec, gain×strength)` + `emit_feedback` |
+| 11 | Crystallization — `crystal_store.maybe_crystallize(...)` | `vec`, composite, pressure, `rel_profile.long` | new/reinforced `MemoryCrystal`; notifies `bond_manager` on new crystal |
+| 12 | Attractor formation (if `rel_profile.composite ≥ 0.88`) | `vec`, tokens | new/reinforced `AttractorCenter`; notifies `bond_manager` + `dependency_monitor` |
+| 13 | Topology logging — `topology.add(...)` | `vec`, metadata | DAG node linked to parent |
+| 14 | Stream push — `stream.push(vec, tag)` | `vec`, rhythm | bounded episodic window + incremental centroid |
+| 15 | Vector space storage — `vector_space.put(key, vec)` | `vec`, key | indexed vector store |
+| 16 | Semantic lattice — `lattice.add_node(...)` | `vec`, neighbors | concept graph node + k-NN edges |
+| 17 | Symbolic binding — `binding.bind(vec, tokens)` | `vec`, tokens | named concept centroid |
+| 18 | Ecology signal relay — `generator.signal_coherence(tokens, coherence)` | tokens, coherence | symbol-registry contextual decay/activation |
+| **18b** | Manipulation resistance metrics + detect | witness drift, HHI, watcher G/T, crystal cosines, trust | `ManipulationSignal`s → stored for next `arbitrate()` |
+| 19 | Field decay — `field.decay()` | `emotion.field_decay_rate()` | shrinks `field` (rate temporarily swapped in) |
+| 20 | Rhythm-routed behavior — `_rhythm_behavior` / `_dream_behavior` | rhythm, `force_dream_flag`, boredom | stabilize/dream/reflect/explore side-effects |
+| 21 | Periodic maintenance | step counters | generator decay/compaction, attractor merge, crystal/lattice decay |
+| 22 | Build `StepState` | all cycle data | `StepState`; `self._parent = key`; `self._step += 1` |
 
 ### The cycle as a diagram
 
@@ -88,40 +90,40 @@ what it writes.
                  ┌──────────────────────────────────────────────────────┐
                  │                                                      │
                  ▼                                                      │
-  tokens ──► [2] observe field ──► rhythm ──► [3] generate vec         │
+  tokens ──► [1] observe field ──► rhythm ──► [2] generate vec         │
                                                   │                     │
-              [4] attractor pull ◄────────────────┘                     │
+              [3] attractor pull ◄────────────────┘                     │
                   │                                                      │
-              [5] recursive attention (×3)                              │
+              [4] recursive attention (×3)                              │
                   │                                                      │
-              [6] WATCHER  ── G,T,R ──► composite C ──┐                  │
+              [5] WATCHER  ── G,T,R ──► composite C ──┐                  │
                   │                                   │                  │
-              [7] reflective loop (≤5, if stable)     │                  │
+              [6] reflective loop (≤5, if stable)     │                  │
                   │                                   ▼                  │
-              [8] witness (short/mid/long)     [9] predictive echo       │
+              [7] witness (short/mid/long)     [8] predictive echo       │
                   │                                   │                  │
                   └───────────────┬───────────────────┘                  │
                                   ▼                                       │
-                    [10] EMOTION (6 scalars → arousal/valence)            │
-                          │            │                                  │
-            [10b] dilation │            │ modulation outputs              │
-              (next tick)  ▼            ▼                                 │
-                    [11] GOVERNANCE GATE ──► field.inject ──┐             │
+                    [9] EMOTION (6 scalars → arousal/valence)             │
+                         │            │                                   │
+            [9b] dilation │            │ modulation outputs               │
+              (next tick) ▼            ▼                                  │
+                    [10] GOVERNANCE GATE ──► field.inject ──┐             │
                                   │                         │             │
-                    [12] crystallize   [13] attractor       │             │
+                    [11] crystallize  [12] attractor        │             │
                                   │                         ▼             │
-                    [14-16] log / ecology / manipulation   field grows    │
+                    [13-18b] log / ecology / manipulation  field grows    │
                                   │                         │             │
-                    [17] field.decay ◄──────────────────────┘             │
+                    [19] field.decay ◄──────────────────────┘             │
                                   │                                       │
-                    [18] rhythm behavior (stabilize/dream/reflect/explore)│
+                    [20] rhythm behavior (stabilize/dream/reflect/explore)│
                                   │                                       │
-                    [20] StepState ─ self._parent = key ─────────────────┘
+                    [22] StepState ─ self._parent = key ─────────────────┘
                                             (next cycle observes the new field)
 ```
 
-The back-edge is the point of the whole design: step 11 injects into the field
-and step 2 of the *next* cycle observes the result. Nothing closes the loop
+The back-edge is the point of the whole design: step 10 injects into the field
+and step 1 of the *next* cycle observes the result. Nothing closes the loop
 explicitly — the field is the shared medium that carries state forward.
 
 ---
@@ -328,7 +330,7 @@ that gives the engine a *subjective* clock.
   time by exactly one tick.
 
 - **4.2/4.3 — `update_dilation(arousal, valence, phase_coherence=0.5)`**
-  (step 10b) recomputes `dilation_factor` for the *next* tick:
+  (step 9b) recomputes `dilation_factor` for the *next* tick:
 
   ```
   arousal_eff      = arousal × (−valence) × k_arousal            (k_arousal = 0.5)
@@ -422,31 +424,32 @@ One row per module, by directory. "Role" is its function in information flow.
 Flagged, not fixed. These are observations a reader or future contributor should
 know; none are changed by this document.
 
-**F1 — The affective-dilation step has two live labels (`9b` vs `10b`); the
-file disagrees with itself.** `loop/autonomous_cycle.py` carries *two* internally
-consistent step-numbering schemes that place the dilation update differently:
+**F1 — The affective-dilation step had two live labels (`9b` vs `10b`); now
+reconciled to `9b`.** `loop/autonomous_cycle.py` had carried *two* internally
+consistent but conflicting step-numbering schemes:
 
-- The **module docstring** (line 36) numbers steps 1–20 with emotion as step 10,
-  so the dilation update is **10b**. `CLAUDE.md` (step 10b) follows this scheme.
-- The **inline comments in the executing body** (line 366) number steps 0–22
-  with emotion as step 9, so the same dilation update is **9b**. `README.md`
-  (step 9b, including its pipeline table) follows this scheme.
+- The **module docstring** numbered steps 1–20 with emotion as step 10, so the
+  dilation update read **10b**; `CLAUDE.md` followed this.
+- The **inline comments in the executing body** number steps 0–22 with emotion
+  as step 9, so the same dilation update is **9b**; `README.md` (including its
+  pipeline table) follows this.
 
-So the split is: docstring + CLAUDE.md say **10b**; live body comments + README
-say **9b**. Each scheme is self-consistent (the label is just a sub-step of
-whichever number the emotional-gradient update got), but the file contradicts
-its own docstring, and the two governing docs diverge.
+The split — docstring + CLAUDE.md saying `10b`, live body + README saying `9b`
+— meant the file contradicted its own docstring and the two governing docs
+diverged. The doc-accuracy harness anchors on the **inline body comment** as
+truth: `tests/doc_accuracy/verify_docs.py::check_pipeline_substep_labels`
+extracts the `# 9b.` marker from `step()`'s source and asserts it appears in
+README, so `9b` was already the mechanically enforced label. Pointedly, that
+check's own comment (verify_docs.py ~lines 833-834) cites *"how '9b' became
+'10b' in the README"* as its motivating example — yet the docstring/CLAUDE.md
+side of the same drift had never been reconciled.
 
-The doc-accuracy harness anchors on the **inline body comment** as truth:
-`tests/doc_accuracy/verify_docs.py::check_pipeline_substep_labels` extracts the
-`# 9b.` marker from `step()`'s source and asserts it appears in README — so
-`9b` is the mechanically enforced label, and CLAUDE.md's `10b` is the
-unenforced outlier. Pointedly, that same check's own comment (verify_docs.py
-lines ~833-834) cites *"how '9b' became '10b' in the README"* as the
-motivating example for the check's existence — yet the docstring/CLAUDE.md side
-of the same drift was never reconciled. A clean fix would pick one scheme and
-align the docstring, both docs, and the inline comments to it. Verified against
-source.
+**Resolution (this change):** the executing body's `0–22` scheme is adopted as
+canonical (it is the code's own labels and the harness-enforced contract). The
+`autonomous_cycle.py` docstring was renumbered to mirror the body exactly
+(dilation `9b`, manipulation `18b`), and `CLAUDE.md` step `10b` → `9b`. README
+and the body were already correct; the harness stays green. One scheme now holds
+across the file, both governing docs, and this analysis.
 
 **F2 — Manipulation detector names: no drift, but a known confusion point.** The
 canonical detector identifiers are exactly
@@ -477,18 +480,17 @@ must **not** be set non-zero without documented justification from probe data
 (CLAUDE.md). The flow term (`k_flow = 0.5`) is the live half that resolves the
 4.2 flow/agitation degeneracy; the agitation half waits for evidence.
 
-**F5 — README's test tree is missing two diagnostics that exist on disk.**
-Running `python -m tests.doc_accuracy.verify_docs` currently fails its first
-check: README's `tests/diagnostic/` tree omits `coherence_diagnostic.py` and
+**F5 — README's test tree was missing two diagnostics that exist on disk; now
+fixed.** `python -m tests.doc_accuracy.verify_docs` had been failing its first
+check: README's `tests/diagnostic/` tree omitted `coherence_diagnostic.py` and
 `rubedo_return_canary.py`, both present on disk (they arrived in the two most
 recent commits). This is exactly the drift class the harness was built to catch
-— a file added to the tree but never listed in the doc — and it is live on the
-branch right now, independent of this analysis. The fix is a one-line-each
-addition to README's project-structure block; it is left out of this doc-only
-change deliberately, but flagged so it is not missed. The other 17 doc-accuracy
-checks all pass, which independently confirms every constant cited above
-(Watcher `0.40/0.35/0.25`, the Tier 4.2/4.3 dilation constants, crystallization
-`0.75/0.60/0.80`, severity bands `0.30/0.60/0.90`, `flood_ceiling["user"]=12`).
+— a file added but never listed in the doc. **Resolution (this change):** both
+entries were added to README's project-structure block, and the harness now
+passes all checks. Those passing checks independently confirm every constant
+cited above (Watcher `0.40/0.35/0.25`, the Tier 4.2/4.3 dilation constants,
+crystallization `0.75/0.60/0.80`, severity bands `0.30/0.60/0.90`,
+`flood_ceiling["user"]=12`).
 
 ---
 
