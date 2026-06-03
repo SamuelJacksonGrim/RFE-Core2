@@ -161,10 +161,10 @@ behavior; behavior reshapes the field; the field's energy reclassifies the
 rhythm; the new rhythm changes how the next coherence is produced.
 
 ```
-   [6] Watcher.composite (C)
+   [5] Watcher.composite (C)
         │
         ▼
-   [10] EmotionalGradient.update      six EMA scalars
+   [9] EmotionalGradient.update       six EMA scalars
         │   joy   = C                 (cognition/emotional_gradient.py)
         │   wonder= curiosity × C
         │   stability = C - energy_penalty - tension×0.3
@@ -172,18 +172,18 @@ rhythm; the new rhythm changes how the next coherence is produced.
    derived: arousal = (tension+joy+curiosity+wonder)/4
             valence = (joy+wonder+stability)/3 - (tension+boredom)/2
         │
-        ├─► field_gain()      ∈[0.1,3.0]  ──► [11] injection strength
-        ├─► mutation_scale()  ∈[.001,.5]  ──► [3] dream / [18] explore noise
-        ├─► field_decay_rate()∈[.97,.9999]──► [17] field memory horizon
-        ├─► attractor_pull()  ∈[0.5,2.0]  ──► [4] blend strength
-        ├─► dream_pressure()  ∈[0,1]      ──► [18] dream entry
-        └─► crystal_pressure()∈[0.7,1.3]  ──► [12] crystallization ease
+        ├─► field_gain()      ∈[0.1,3.0]  ──► [10] injection strength
+        ├─► mutation_scale()  ∈[.001,.5]  ──► [2] dream / [20] explore noise
+        ├─► field_decay_rate()∈[.97,.9999]──► [19] field memory horizon
+        ├─► attractor_pull()  ∈[0.5,2.0]  ──► [3] blend strength
+        ├─► dream_pressure()  ∈[0,1]      ──► [20] dream entry
+        └─► crystal_pressure()∈[0.7,1.3]  ──► [11] crystallization ease
         │
         ▼
-   field changes ──► [2] energy ──► rhythm ──► generation + behavior mode
+   field changes ──► [1] energy ──► rhythm ──► generation + behavior mode
         │                                            │
         └────────────────────────────────────────────┘
-                  (feeds the next C at [6])
+                  (feeds the next C at [5])
 ```
 
 This produces **limit-cycle behavior**. Low field energy → dream injection →
@@ -205,7 +205,7 @@ themselves:
   softly re-injects them — a high-coherence memory keeps the field near the
   attractor that created it.
 - **Attractors** (`agents/attractor.py`) seed at `rel_profile.composite ≥ 0.88`
-  and then bias step 4 of every future cycle via `pull`.
+  and then bias step 3 of every future cycle via `pull`.
 - **Witness anchors** (`agents/witness.py`) maintain identity across three EMA
   decay rates — short `0.85`, mid `0.97`, long `0.995` — and the composite
   anchor feeds directly back into the Watcher's geometric layer (`G`). High
@@ -219,6 +219,20 @@ timescales all feeding the same field.
 ---
 
 ## 4. Coherence as the central decision axis
+
+> **Caveat — "central" is mechanistic, not normative. High coherence is not a
+> health signal.** Coherence is what the system routes on; it is *not* a measure
+> of the system working well. Left to run, the live-Generator field pins to the
+> ceiling — a quick run this session sits at ~0.998 internal coherence,
+> essentially locked from the first steps. That pin is *rigid-attractor
+> lock-in* (the signature of a collapsed, monocultural field), not a thriving
+> state. The mechanism that produces it is partly evolutionary: because the
+> reaper currencies symbol survival largely in coherence (the read-side boundary
+> above), and coherence rewards alignment, the population is selected toward
+> agreement and converges. Read the rest of this section as *how the axis works*,
+> not as *more coherence is better*. The healthy target is **metastability** —
+> mid-band coherence with high dwell-time variance — which is active work, not
+> the current steady state.
 
 Computed once per step in `Watcher.evaluate()` (`agents/watcher.py`):
 
@@ -246,10 +260,27 @@ Two derived signals ride alongside:
 | Crystallization | gate `composite ≥ 0.75` |
 | Reflective loop | halt when coherence `< ~0.2` |
 | `stable` flag | `C ≥ threshold` (0.4) → unlocks reflect/explore behavior |
-| Ecology relay | high-coherence tokens stay active in the symbol registry |
+| Ecology relay | high-coherence tokens earn survival in the symbol registry (decay/reaper only — see boundary below) |
+
+**Read-side boundary — the ecology relay does *not* close a loop into
+generation.** This is easy to misread from the call graph: step 18
+(`signal_coherence`) and the attractor/crystal/centrality hooks *write*
+accumulated state onto `SymbolState`, and it is tempting to assume that state
+then shapes future cognition. It does not. `Generator.forward()`
+(`agents/generator.py:281-301`) reads only the learned `nn.Embedding` +
+encoder weights; it never reads `field_coherence`, `attractor_strength`,
+`crystal_binding`, or `centrality`. Those signals are consumed by exactly one
+reader — the decay/reaper retention score in `agents/symbolic_memory.py` — so
+their *only* downstream effect is to gate which symbols survive. Verified by
+probe: reinforcing every signal hook 1000× for a token set leaves that set's
+generated vector **byte-identical** (Δ = 0.0 in `eval()` mode; a naive run
+*without* a dropout control shows a spurious Δ≈0.63, which is train-mode
+nondeterminism, not feedback). Treat the write side and the read side as
+separate facts. (This boundary is the target of planned work: making
+reinforcement feed the field, not just the reaper.)
 
 **Measure-before-inject invariant.** The marginal coherence reading is only
-meaningful *before* the vector is in the field. The loop honors this: at step 11
+meaningful *before* the vector is in the field. The loop honors this: at step 10
 it captures `actual_delta = field.coherence_impact(vec)` *before* calling
 `field.inject(...)` (`loop/autonomous_cycle.py:400-414`), because measuring after
 injection would read near-zero marginal impact (a CLAUDE.md guardrail).
@@ -283,7 +314,7 @@ report → arbitrate → feedback handshake. The authority rule is strict:
    │     5. soft warnings (−strength)
    │     6. clean ALLOW
    ▼
- (GovernanceDecision, strength) ─► [11] inject iff ∈ {ALLOW, ALLOW_WEAKENED, MONITOR}
+ (GovernanceDecision, strength) ─► [10] inject iff ∈ {ALLOW, ALLOW_WEAKENED, MONITOR}
    │
    ▼
  SelfhoodGovernance.emit_feedback(decision, source, stable_ids, actual_delta)
@@ -324,7 +355,7 @@ engine emits a `CorePromotionRequest`; only
 A self-contained subsystem on `TemporalStream` (`substrate/temporal_stream.py`)
 that gives the engine a *subjective* clock.
 
-- **4.1 — `tick()`** (once per cycle, step 1) advances `subjective_time` by
+- **4.1 — `tick()`** (once per cycle, step 0) advances `subjective_time` by
   `real_dt × dilation_factor`. The first tick is a no-op anchor (returns 0.0).
   Decoupled from `push()` so a cycle that pushes 0 or N vectors still advances
   time by exactly one tick.
