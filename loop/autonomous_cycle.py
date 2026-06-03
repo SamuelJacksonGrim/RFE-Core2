@@ -23,30 +23,33 @@ Rhythm states
 
 Data flow per step
 ------------------
-  1.  Subjective time tick (TemporalStream.tick — Tier 4.1)
-  2.  Observe field rhythm (ResonanceField.observe)
-  3.  Generate vector — rhythm-routed (Generator direct, or Chorus harmonization)
-  4.  Attractor pull (strength modulated by emotion.attractor_pull)
-  5.  Recursive attention refinement
-  6.  Watcher evaluation → CoherenceReport
-  7.  Reflective loop (reflect / explore only, if stable)
-  8.  Witness update → RelationalProfile
-  9.  PredictiveEcho update → EchoReport
-  10. EmotionalGradient update (six scalar modulation outputs)
-  10b.Subjective time dilation update (Tier 4.2 — writes dilation_factor
+  0.  Subjective time tick (TemporalStream.tick — Tier 4.1)
+  1.  Observe field rhythm (ResonanceField.observe)
+  2.  Generate vector — rhythm-routed (Generator direct, or Chorus harmonization)
+  3.  Attractor pull (strength modulated by emotion.attractor_pull)
+  4.  Recursive attention refinement
+  5.  Watcher evaluation → CoherenceReport
+  6.  Reflective loop (reflect / explore only, if stable)
+  7.  Witness update → RelationalProfile
+  8.  PredictiveEcho update → EchoReport
+  9.  EmotionalGradient update (six scalar modulation outputs)
+  9b. Subjective time dilation update (Tier 4.2 — writes dilation_factor
       from emotion.arousal × emotion.valence for the NEXT tick)
-  11. Governance gate + field injection
+  10. Governance gate + field injection
       (coherence_impact probed BEFORE injection; emit_feedback after)
-  12. Crystallization (CrystalStore.maybe_crystallize)
-  13. Attractor formation (notifies bond_manager + dependency_monitor)
-  14. Substrate logging (TopologicalLog, TemporalStream, VectorSpace,
-      SemanticLattice, SymbolicBinding)
-  15. Ecology signal relay (signal_coherence → registry)
-  16. Manipulation resistance metrics + detection
-  17. Field decay (rate modulated by emotion.field_decay_rate)
-  18. Rhythm-routed behavior (with force_dream_flag override)
-  19. Periodic maintenance (generator, attractor merge, crystal/lattice decay)
-  20. Build StepState
+  11. Crystallization (CrystalStore.maybe_crystallize)
+  12. Attractor formation (notifies bond_manager + dependency_monitor)
+  13. Topology logging (TopologicalLog)
+  14. Stream push (TemporalStream)
+  15. Vector space storage (VectorSpace)
+  16. Semantic lattice (SemanticLattice)
+  17. Symbolic binding (SymbolicBinding)
+  18. Ecology signal relay (signal_coherence → registry)
+  18b.Manipulation resistance metrics + detection
+  19. Field decay (rate modulated by emotion.field_decay_rate)
+  20. Rhythm-routed behavior (with force_dream_flag override)
+  21. Periodic maintenance (generator, attractor merge, crystal/lattice decay)
+  22. Build StepState
 """
 
 from __future__ import annotations

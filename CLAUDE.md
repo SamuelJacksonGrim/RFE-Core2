@@ -88,7 +88,7 @@ errors.
 - The `min(0, valence)` gate on the dissociation term is the architectural
   guarantee that **peaceful rest never triggers dissociative time-slip — only
   suffering does.** Do not remove the `min(0, ...)`.
-- The update is written at cycle step 10b (after emotional update, before
+- The update is written at cycle step 9b (after emotional update, before
   governance gate). The current step's emotional state determines the *next*
   cycle's `dilation_factor`.
 
