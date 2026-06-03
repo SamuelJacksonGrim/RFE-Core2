@@ -132,17 +132,21 @@ coherence is the routing axis, **not** a health signal. Ref:
 
 **Direction (planned, not frozen).** The healthy target is *metastability* —
 mid-band coherence with high dwell-time variance ("formed enough to hold,
-light enough to drift"). Known sub-pieces, in dependency order:
+light enough to drift"). The full curated plan — build order, gating
+dependencies, validation gates, and the load-bearing epistemic warnings — is
+`docs/lock_in_remediation_plan.md`. Known sub-pieces, in dependency order:
 
-1. **Finish the metastability metric** (`substrate/metastability.py`, started):
-   add a transition-sequence-entropy / aperiodicity term so a perfect limit
-   cycle reads LOW (current false-negative ≈ 0.75 — a periodic orbit is
-   cycle-lock-in, not flexibility), and fold coherence *level* into the regime
-   label (locked-at-0.99 vs structureless-at-0.50 are opposite conditions and
-   must not share a label). It is both the measurement *and* the missing
-   selection signal.
+1. **Build the metastability metric** (`substrate/metastability.py` — does not
+   yet exist in-repo; a prior draft was never committed). Built on config-space
+   vector clustering (not the coherence scalar, which is many-to-one and blind
+   to config-space limit cycles), with a transition-sequence-entropy /
+   aperiodicity term so a perfect limit cycle reads LOW, and coherence *level*
+   folded into the regime label (locked-at-0.99 vs structureless-at-0.50 are
+   opposite conditions and must not share a label). It is both the measurement
+   *and* the missing selection signal *and* the safety detector for the
+   limit-cycle failure mode.
 2. **Feedback gain-sign check at low coherence** — REQUIRED before any
-   coherence → loop coupling; gates everything below.
+   coherence → loop coupling; gates Fix 0-A and the paper-boat operator.
 3. **Counterbalance survival selection** — wire the metastability score into
    the reinforcement formula as a fitness term so survival stops being
    currencied purely by coherence; add a demotion path (reinforcement is
@@ -151,7 +155,8 @@ light enough to drift"). Known sub-pieces, in dependency order:
    to RFE — *not* the transformer weights).
 
 Treat the above as direction, not committed scope, per this document's status
-discipline. Full working brief held outside the repo (June 3 session).
+discipline. Full detail in `docs/lock_in_remediation_plan.md`; the raw verbatim
+working brief is archived externally (not in-repo).
 
 ### Bonded-adversarial probe — Tier 5/6
 
