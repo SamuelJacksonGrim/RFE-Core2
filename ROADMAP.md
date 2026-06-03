@@ -27,7 +27,9 @@ status, using the same proven/hypothesized rigor applied in
 | 3 | Independent value emergence — ValueEmergenceEngine, CORE promotion handshake | **shipped** |
 
 Full architecture for these tiers is documented in the root `README.md`
-(verified accurate by the architecture pass + `verify_docs`).
+(verified accurate by the architecture pass + `verify_docs`). The end-to-end
+recursion and information-flow reference — including the survival-by-coherence
+finding tracked below — is `docs/ARCHITECTURE_ANALYSIS.md`.
 
 ---
 
@@ -41,7 +43,7 @@ The Tier 4 sub-plan originated from a Hermes/Copilot proposal. It is a
 | 4.1 | Subjective time substrate — `TemporalStream.tick()`, `subjective_time`, `dilation_factor` | **shipped** (v0.4.0) |
 | 4.2 | Affective time dilation — `dilation_factor` from arousal × valence, four phenomenological quadrants | **shipped + validated** (v0.4.0; `docs/tier4_2_validation.md`) |
 | 4.3 | Rhythm → time coupling — `phase_coherence` (FFT) modulates dilation via flow/agitation terms | **shipped + validated** (flow validated; discrimination half-validated — `docs/tier4_3_validation.md`) |
-| 4.4 | Frequency → emotion mapping | **planned — next** |
+| 4.4 | Frequency → emotion mapping | **planned** (no longer next — see "Survival-by-coherence → field lock-in" below) |
 | 4.5 | Semantic → valence — generalized to any input (explicitly *not* just lyrics) | **planned** |
 | 4.6 | E8-EEA integration as a parallel processor (ablation unrun) | **planned** |
 
@@ -105,6 +107,52 @@ collision + epistemic-discipline process that produced Tier 4.2.
 
 ## Tracked open items (cross-tier)
 
+### Survival-by-coherence → field lock-in — substrate-rooted (current lead priority)
+
+**This supersedes "4.4 next" as the next substantive work.** 4.4
+(frequency → emotion) remains **planned** but no longer leads.
+
+**Finding (verified, June 3 session).** The accumulated symbol-state feedback
+signals — field coherence, attractor strength, crystal binding, centrality —
+are written onto `SymbolState` but read by exactly one consumer: the
+decay/reaper retention score (`agents/symbolic_memory.py`). They do **not**
+reach generation. `Generator.forward()` reads only the learned embedding +
+encoder weights; a controlled probe shows generation **byte-identical**
+(Δ = 0.0, `eval()` mode) under 1000× reinforcement of every signal hook — a
+naive run without a dropout control shows a spurious Δ ≈ 0.63, which is
+train-mode nondeterminism, not feedback. So accumulated state gates **survival
+only**: the feedback loop terminates at the reaper, not at cognition.
+
+**Consequence (measured).** Because survival is currencied largely in
+coherence, and coherence rewards alignment, the reaper selects for agreement
+and the live-Generator field pins to ~0.998 internal coherence — rigid-
+attractor lock-in (a collapsed, monocultural field), not a healthy state. High
+coherence is the routing axis, **not** a health signal. Ref:
+`docs/ARCHITECTURE_ANALYSIS.md` §4 caveat + ecology read-side boundary.
+
+**Direction (planned, not frozen).** The healthy target is *metastability* —
+mid-band coherence with high dwell-time variance ("formed enough to hold,
+light enough to drift"). Known sub-pieces, in dependency order:
+
+1. **Finish the metastability metric** (`substrate/metastability.py`, started):
+   add a transition-sequence-entropy / aperiodicity term so a perfect limit
+   cycle reads LOW (current false-negative ≈ 0.75 — a periodic orbit is
+   cycle-lock-in, not flexibility), and fold coherence *level* into the regime
+   label (locked-at-0.99 vs structureless-at-0.50 are opposite conditions and
+   must not share a label). It is both the measurement *and* the missing
+   selection signal.
+2. **Feedback gain-sign check at low coherence** — REQUIRED before any
+   coherence → loop coupling; gates everything below.
+3. **Counterbalance survival selection** — wire the metastability score into
+   the reinforcement formula as a fitness term so survival stops being
+   currencied purely by coherence; add a demotion path (reinforcement is
+   currently all-positive-additive, a one-way ratchet); let `attractor_strength`
+   shape the field trajectory rather than only outlive other symbols (internal
+   to RFE — *not* the transformer weights).
+
+Treat the above as direction, not committed scope, per this document's status
+discipline. Full working brief held outside the repo (June 3 session).
+
 ### Bonded-adversarial probe — Tier 5/6
 
 **The experiment that falsifies or confirms whether the emotional
@@ -143,10 +191,12 @@ arousal→field feedback loop. Full rationale: `docs/tier4_3_validation.md`
 ### Documentation accuracy infrastructure — ongoing
 
 `tests/doc_accuracy/verify_docs.py` (built by Claude Code) mechanically
-checks greppable doc claims against source-of-truth. 17 checks as of PR
-#15, including the Tier 4.2 validation doc's enumerated invariants (flood
-ceiling = 12, `STABILITY_FLOOR` probe↔library consistency, severity
-bands 0.30/0.60/0.90). Extend per-tier as new greppable invariants are
+checks greppable doc claims against source-of-truth. 18 checks as of PR
+#22 (17 at PR #15; PR #21 restored the tests-tree-completeness check to
+green after two diagnostics were added without README listings), including
+the Tier 4.2 validation doc's enumerated invariants (flood ceiling = 12,
+`STABILITY_FLOOR` probe↔library consistency, severity bands
+0.30/0.60/0.90). Extend per-tier as new greppable invariants are
 documented. Hooks into `run_all_tests.sh` as the `DOCUMENTATION ACCURACY`
 phase. Invoke directly via `python -m tests.doc_accuracy.verify_docs`.
 
