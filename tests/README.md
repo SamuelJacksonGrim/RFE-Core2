@@ -162,6 +162,22 @@ keep them in version control.
   severity vs the 0.30/0.60/0.90 bands, governance decision trace, and
   the step at which QUARANTINE first fired. Not pass/fail — a map. See
   the Tier 4.2 validation finding in `docs/tier4_2_validation.md`.
+- `metastability_validation.py` — **Fix 1 metastability metric gate
+  (G1–G5).** Pre-declared validation that `substrate/metastability.py`
+  separates a perfect limit cycle (reads LOW) from genuine aperiodic
+  metastability, labels the ~0.998 live pin `locked`, and holds these
+  separations on the live-Generator field, not just synthetic vectors.
+  Asserts; exits 0/1. Lock-in remediation lineage: `docs/lock_in_remediation_plan.md`.
+- `lockin_source.py` — **Upstream lock decomposition (G5 follow-up).**
+  Shows the live field lock is *mechanical* (untrained-generator output
+  collinearity + the accumulate-decay magnitude moat), not field-dynamics
+  pathology. Contextual baseline; re-run after generator changes to see if
+  the lock locus migrates.
+- `generator_metastability.py` — **Relocated upstream readout + refinement
+  de-collapse.** Reads the live `cycle.generator_metastability` (stage A) and
+  `cycle.expression_metastability` (stage C) monitors; demonstrates that
+  diversity lives upstream and that the `diversity_blend` knob de-collapses
+  the expression (blend OFF → `0.0/locked`; default → multi-regime metastable).
 
 ### `baselines/`
 JSON snapshots of expected metrics from known-good runs. These are the
