@@ -57,8 +57,9 @@ from __future__ import annotations
 import time
 import uuid
 import logging
+from collections import deque
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any
+from typing import Deque, Dict, List, Optional, Any
 
 import numpy as np
 
@@ -170,6 +171,11 @@ class AutonomousCycle:
         Steps between log output.
     """
 
+    # Cap on the in-memory recent-step ring (StepState snapshots). Bounded so a
+    # long-running loop has flat history memory; large enough to keep a useful
+    # diagnostic window. Not relied on for step counting (that is self._step).
+    HISTORY_MAXLEN: int = 1000
+
     def __init__(
         self,
         generator:                    Generator,
@@ -260,7 +266,11 @@ class AutonomousCycle:
 
         self._step:    int           = 0
         self._parent:  Optional[str] = None
-        self._history: List[StepState] = []
+        # Bounded recent-step ring (write-only diagnostic trail). A persistent
+        # substrate runs unboundedly, so this is a deque(maxlen=...) per the
+        # no-unbounded-structures guardrail rather than an ever-growing list;
+        # self._step remains the authoritative monotonic step counter.
+        self._history: Deque[StepState] = deque(maxlen=self.HISTORY_MAXLEN)
         self._boredom_overrides: int = 0   # Tier 2: track Boredom-Teeth activations
 
     # ------------------------------------------------------------------
