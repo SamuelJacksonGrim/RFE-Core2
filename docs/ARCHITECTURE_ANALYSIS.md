@@ -231,8 +231,15 @@ timescales all feeding the same field.
 > above), and coherence rewards alignment, the population is selected toward
 > agreement and converges. Read the rest of this section as *how the axis works*,
 > not as *more coherence is better*. The healthy target is **metastability** —
-> mid-band coherence with high dwell-time variance — which is active work, not
-> the current steady state.
+> mid-band coherence with high dwell-time variance — which is active work.
+> Progress so far: the metastability metric exists and is validated
+> (`substrate/metastability.py`, G1–G5), and it is now read **upstream** on the
+> per-stage vector streams (`StreamMetastabilityMonitor`, observe-only), not on
+> this field — the field's long-memory decay smooths config wander away by
+> construction. The injected expression is kept metastable by the recursive-
+> attention de-collapse (`diversity_blend`). What remains is the *field-side*
+> counterbalance — wiring metastability into survival selection (Fix 0-B) so the
+> field stops being *driven* to the pin. See `docs/lock_in_remediation_plan.md`.
 
 Computed once per step in `Watcher.evaluate()` (`agents/watcher.py`):
 
@@ -418,9 +425,11 @@ One row per module, by directory. "Role" is its function in information flow.
 | `substrate/vector_space.py` | `VectorSpace.put`, `nearest` | Indexed vector store with cosine KNN |
 | `substrate/semantic_lattice.py` | `add_node`, `emit_centrality` | Evolving concept graph; centrality relays back to ecology |
 | `substrate/topological_log.py` | `add`, `ancestry` | DAG of cognitive events (parent→child) |
+| `substrate/metastability.py` | `compute_metastability` → `MetastabilityReport` | Config-space regime clustering + aperiodicity → metastability score (Fix 1; the lock-in measurement/selection/safety signal) |
 | `cognition/emotional_gradient.py` | `update`, `field_gain`/`mutation_scale`/…, `arousal`/`valence` | Six EMA scalars; modulates every behavioral parameter |
 | `cognition/predictive_echo.py` | `PredictiveEcho.update` → `EchoReport` | Online predictor; error → curiosity/surprise/tension/boredom |
-| `cognition/recursive_attention.py` | `refine` | Within-step self-attention refinement (×3) |
+| `cognition/recursive_attention.py` | `refine` | Within-step self-attention refinement (×3); `diversity_blend` weights the raw vector back in so the untrained attention can't collapse the expression to its centroid |
+| `cognition/stream_metastability.py` | `StreamMetastabilityMonitor.observe`, `snapshot` | Online upstream metastability over the generator (stage A) and expression (stage C) streams; observe-only terminal sink, exposed in `status()` |
 | `cognition/reflective_loop.py` | `reflect` | Within-step deliberate recursion to convergence (≤5) |
 | `cognition/symbolic_binding.py` | `bind` → `ConceptBinding` | Names recurring patterns; centrality relay |
 

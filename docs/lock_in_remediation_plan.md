@@ -9,6 +9,12 @@ hypothesized discipline as `docs/tier4_2_validation.md`.
 Companion to the `ROADMAP.md` tracked item *"Survival-by-coherence → field
 lock-in"* and to `docs/ARCHITECTURE_ANALYSIS.md` §4.
 
+> **Progress (shipped):** Fix 1 (metric) · the generator `sqrt(d_model)` scale
+> fix · the **metric relocation upstream** + live `StreamMetastabilityMonitor` ·
+> the **recursive-attention expression de-collapse** (both below, after Fix 1).
+> The structural counterbalance — §6.3 gain-sign check, Fix 0-B/0-A/0-C, Fix 2 —
+> is **not yet built**. Per-step status is marked inline below.
+
 ---
 
 ## 1. The finding this plan responds to
@@ -43,27 +49,29 @@ Kimi's defensive-depth reframe.)
 ## 3. Build order (with gating dependencies)
 
 ```
-  Fix 1  metastability metric  ──┐  (keystone: measurement + selection + safety detector)
-  §6.3   gain-sign check  ───────┤  (analysis only; REQUIRED before any coherence→loop coupling)
+  Fix 1  metastability metric            [SHIPPED]  keystone: measurement + selection + safety detector
+    └─ relocation upstream + monitors    [SHIPPED]  read on generator/expression streams, not the field
+    └─ recursive-attn expression de-collapse [SHIPPED]  diversity_blend keeps the injected vector metastable
+  §6.3   gain-sign check                 [PLANNED]  analysis only; REQUIRED before any coherence→loop coupling
                                  ▼
-  Fix 0-B  metastability → reinforcement   (highest-leverage structural change)
+  Fix 0-B  metastability → reinforcement [PLANNED]  highest-leverage structural change
                                  │
                   §6.3 gates ────┤
                                  ▼
-  Fix 0-A  reinforcement → field   Fix 0-C  demotion path
+  Fix 0-A  reinforcement → field [PLANNED]    Fix 0-C  demotion path [PLANNED]
                                  ▼
-  Fix 3  live-stack test protocol (standard)
+  Fix 3  live-stack test protocol        [IN PROGRESS]  build_full_stack is the live-diagnostic basis
                                  ▼
-  Fix 2  paper-boat operator   (LAST — needs all above)
+  Fix 2  paper-boat operator (field-side) [PLANNED]  LAST — needs all above
 ```
 
-### Fix 1 — metastability metric **(do first; keystone)**
+### Fix 1 — metastability metric **(SHIPPED + validated — PR #23)**
 
-`substrate/metastability.py` **does not yet exist in-repo** (a prior draft was
-never committed). Build it. It is simultaneously the *measurement*, the missing
-*selection signal* (Fix 0-B feeds it into reinforcement), and the *safety
-detector* (it catches the limit-cycle failure mode the structural fixes can
-produce). Requirements:
+`substrate/metastability.py` now exists and is validated (G1–G5,
+`tests/diagnostic/metastability_validation.py`). It is simultaneously the
+*measurement*, the missing *selection signal* (Fix 0-B will feed it into
+reinforcement), and the *safety detector* (it catches the limit-cycle failure
+mode the structural fixes can produce). Requirements (all met):
 
 - **Build on config-space vector clustering, not the coherence scalar.** Pulled
   forward deliberately (decision, June 3 session): the coherence scalar is
@@ -86,13 +94,64 @@ produce). Requirements:
   - and these separations hold on the **live-Generator field**, not only on
     synthetic vectors (toy ≠ live — see §4).
 
-### §6.3 — feedback gain-sign check at low coherence **(parallel with Fix 1)**
+### Metric relocation + live monitors **(SHIPPED — PR #27)**
+
+A decisive refinement to Fix 1's *locus*, discovered while validating it on the
+live stack. G5 confirmed the metric reads the resonance field as `locked` — and
+that reading is *correct*, but the field is the wrong place to remediate. The
+field is a long-memory integrator (`decay ∈ [0.97, 0.9999]`, the identity-
+persistence invariant): it smooths config wander away by construction, so
+metastability cannot live there. It lives **upstream**, in the per-stage vector
+streams. So the metric is now read online via `StreamMetastabilityMonitor`
+(`cognition/stream_metastability.py`) at two stages, both exposed in
+`AutonomousCycle.status()`:
+
+- `cycle.generator_metastability` — stage A, the raw generator output (where
+  expressive diversity originates);
+- `cycle.expression_metastability` — stage C, the refined vector actually
+  injected (where the de-collapse below is validated).
+
+Bounded ring + lazy recompute off the hot path; the label's coherence proxy is
+derived from each stream's own alignment, never the field's. **Observe-only
+terminal sinks** — like `dilation_factor`, they must never feed back into
+cognition or governance. (When Fix 0-B wires metastability into reinforcement, it
+reads this live signal — but the read does not happen inside the monitor.)
+
+Baseline reading on the live substrate: diversity genuinely lives upstream
+(10–14 regimes, aperiodic), though the generator's *score* is borderline/init-
+dependent (churny-diverse, ~0.3–0.66 across seeds) — the capacity is upstream,
+not yet a clean paper boat.
+
+### Recursive-attention expression de-collapse **(SHIPPED — PR #27)**
+
+An expression-stage de-collapse, distinct from the planned field-side operator
+(Fix 2). `RecursiveAttention` runs **untrained** under `no_grad`, so its
+attention behaves as a near-uniform mean-pooler: `refine()` collapses every
+expression to its context centroid (metastability → 0, one regime) before
+injection — a downstream lock that the upstream monitors made visible (stage A
+diverse → stage C `0.0 / locked`). The fix is the `diversity_blend` knob (default
+`0.60`): it weights the raw pre-refinement vector back in, so the refined centroid
+supplies dwell structure and the raw vector supplies diversity → a genuine
+multi-regime metastable expression. Components are unit-normalized before mixing
+(the LayerNorm'd refined state ≈√dim would otherwise swamp the unit raw vector),
+then one final normalize preserves the unit-output invariant.
+
+De-collapse is a robust binary threshold (`≤0.55` collapsed, `≥0.60` metastable);
+the absolute score is generator-init-dependent (~0.4–0.73) and regresses toward
+the generator's own churn past ~0.70, so `0.60` is the most reliable default. The
+band `[0.4, 0.6]` is a diagnostic reference, not a hard contract — the exposed
+knob lets a governance/rhythm layer tune the operating point from live
+`expression_metastability` readings. Invariant: keep `0 < diversity_blend < 1`
+(`0` re-collapses, `1` bypasses refinement). Validated by
+`tests/diagnostic/generator_metastability.py`.
+
+### §6.3 — feedback gain-sign check at low coherence **(PLANNED — parallel with Fix 0-B)**
 
 Analysis only, no code change. Confirm the sign of the feedback gain at low
 coherence before *any* coherence → loop coupling. It **gates Fix 0-A and Fix 2**
 (both are that kind of coupling). Cheap and gating, so front-load it.
 
-### Fix 0-B — metastability → reinforcement **(highest-leverage)**
+### Fix 0-B — metastability → reinforcement **(PLANNED — highest-leverage)**
 
 Wire the Fix 1 score into the reinforcement formula as a counterbalancing
 fitness term, so a symbol that adds useful variance earns tenure too and
@@ -102,7 +161,7 @@ not field-loop coupling, so §6.3 does not gate it — but it is the first chang
 that alters live dynamics, so it rides the smoke + integration baselines and a
 pre-declared success/failure signature (see §4).
 
-### Fix 0-A — reinforcement → field **(gated by §6.3)**
+### Fix 0-A — reinforcement → field **(PLANNED — gated by §6.3)**
 
 Let a symbol's `attractor_strength` modulate how strongly it pulls the field
 when injected, so accumulated weight *shapes the trajectory* rather than only
@@ -111,21 +170,29 @@ weights.** This deliberately breaks the read-side boundary in §1; land a
 boundary regression guard first so the change from Δ = 0.0 to nonzero is a
 visible, intentional event.
 
-### Fix 0-C — demotion path
+### Fix 0-C — demotion path **(PLANNED)**
 
 Reinforcement is currently all-positive-additive — a one-way ratchet — and
 `crystal_binding_weight` is the highest weight, so early crystals get permanent
 vetoes and the past dominates the future. Reinforcement must be able to
 *decrease* for symbols the field has drifted away from.
 
-### Fix 3 — live-stack test protocol **(promote to standard)**
+### Fix 3 — live-stack test protocol **(IN PROGRESS — promote to standard)**
 
 Make real-Generator + symbolic-pipeline warming + perturbation against an actual
 `CrystalStore` motif the *standard* canary protocol, not a one-off. The reusable
-fixture mostly exists (`tests/_common.build_full_stack`); harden it so every fix
-above validates against the live field.
+fixture exists (`tests/_common.build_full_stack`) and is now the basis of the
+live lock-in diagnostics (`metastability_validation` G5, `lockin_source`,
+`generator_metastability`); the relocation and de-collapse above both validated
+against the live field through it. Not yet formalized as a single standing
+protocol.
 
-### Fix 2 — paper-boat operator **(LAST; needs all above)**
+### Fix 2 — paper-boat operator **(PLANNED — LAST; needs all above)**
+
+> Note: the **expression** de-collapse above (`diversity_blend`) is a *different*
+> intervention at a different locus — it keeps the injected vector metastable. Fix
+> 2 is the **field-side** operator that lightens an established field attractor.
+> The two are complementary, not substitutes.
 
 A phase-domain intervention that *softens/lightens the current motif's attractor
 depth while preserving its structure*, so the field drifts to adjacent
