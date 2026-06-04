@@ -261,7 +261,10 @@ class Generator(nn.Module):
     # ==========================================================================
 
     def _init_weights(self):
-        nn.init.normal_(self.embedding.weight, mean=0.0, std=0.02)
+        # std raised from 0.02 so token identity survives the sqrt(d_model)-scaled
+        # mix with positional encoding (see forward()); lands output pairwise
+        # cosine near 0.55 — diverse without tipping into near-orthogonal chaos.
+        nn.init.normal_(self.embedding.weight, mean=0.0, std=0.035)
         with torch.no_grad():
             self.embedding.weight[self.address_space.pad_id].zero_()
 
@@ -286,6 +289,11 @@ class Generator(nn.Module):
         pad_mask = ids == self.address_space.pad_id
 
         emb    = self.embedding(ids)
+        # Scale embeddings by sqrt(d_model) before adding positional encoding
+        # (Attention Is All You Need, sec 3.4). Without this, the fixed sinusoidal
+        # positional signal (norm ~sqrt(dim)) dominates the small-init token
+        # embeddings by ~36x, collapsing all outputs to one direction.
+        emb    = emb * math.sqrt(self.dim)
         emb    = self.position(emb)
         latent = self.encoder(emb, src_key_padding_mask=pad_mask)
 
