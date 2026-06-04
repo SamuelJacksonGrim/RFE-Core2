@@ -344,7 +344,7 @@ The tiers above describe the *parts*. This section traces how they *move togethe
 | 1 | **Observe rhythm** | `ResonanceField.observe()` → field energy → `stabilize / dream / reflect / explore` |
 | 2 | **Generate** | rhythm-routed: `Generator.generate()` direct (stabilize), `EPHEMERAL` + ambiguity injection (dream), or `Chorus.harmonize()` collapsing 6 differentiated agents (reflect / explore) → latent `vec` |
 | 3 | **Attractor pull** | `Attractor.pull()` blends `vec` toward its nearest basin; pull strength scaled by `emotion.attractor_pull()` |
-| 4 | **Recursive attention** | `RecursiveAttention.refine()` attends `vec` over a rolling window of prior latent states |
+| 4 | **Recursive attention** | `RecursiveAttention.refine()` attends `vec` over a rolling window of prior latent states; `diversity_blend` weights the raw vector back in so the untrained attention can't collapse the expression to its context centroid. The generator output (stage A, step 2) and this refined expression (stage C) feed the observe-only `StreamMetastabilityMonitor`s exposed in `status()`. |
 | 5 | **Watcher evaluation** | `Watcher.evaluate(vec, anchor, field_state)` → `CoherenceReport` — geometric × temporal × resonance, plus `coherence_delta` and `crystallization_pressure` |
 | 6 | **Reflective loop** | reflect / explore only, if `report.stable`: `ReflectiveLoop.reflect()` iterates attractor-pull + field-blend + coherence-check until convergence |
 | 7 | **Witness update** | `Witness.update(vec, coherence)` updates the short / mid / long EMA anchors (coherence-weighted) → `RelationalProfile` |
@@ -458,14 +458,16 @@ RFE-Core2/
 │   ├── memory_crystals.py          Crystallization lifecycle
 │   ├── topological_log.py          Directed graph over cognitive events
 │   ├── temporal_stream.py          Episodic stream
-│   └── semantic_lattice.py         Evolving semantic graph
+│   ├── semantic_lattice.py         Evolving semantic graph
+│   └── metastability.py            Config-space metastability metric (Fix 1)
 │
 ├── cognition/
 │   ├── predictive_echo.py          Online predictor → curiosity
 │   ├── emotional_gradient.py       Live modulation outputs
-│   ├── recursive_attention.py      Self-attention over prior states
+│   ├── recursive_attention.py      Self-attention over prior states (+ diversity_blend de-collapse)
 │   ├── reflective_loop.py          Recursive self-refinement
-│   └── symbolic_binding.py         Concept emergence and binding
+│   ├── symbolic_binding.py         Concept emergence and binding
+│   └── stream_metastability.py     Online upstream metastability monitor (stages A/C)
 │
 ├── interference/
 │   ├── wave_collapse.py            Multi-mode vector ensemble collapse
@@ -643,6 +645,8 @@ python -m tests.diagnostic.decision_histogram          # governance decision mix
 python -m tests.diagnostic.gate_firing_audit           # which gates fire, and when
 python -m tests.diagnostic.trust_trajectory            # per-source trust over time
 python -m tests.diagnostic.value_polarity_flow         # value emergence + polarity
+python -m tests.diagnostic.metastability_validation    # Fix 1 metric gate (G1–G5)
+python -m tests.diagnostic.generator_metastability     # upstream readout + refinement de-collapse
 ```
 
 These report system behavior and always exit 0 (no pass/fail). They're how you see what the stack is actually doing, not whether it's broken.
