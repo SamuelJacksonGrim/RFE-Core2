@@ -528,7 +528,9 @@ RFE-Core2/
 │   │   ├── rhythm_inertness_probe.py     Tier 4.3 inertness / footprint probe
 │   │   ├── affective_state_probe.py      Tier 4.2 psychology / defensive-depth
 │   │   ├── coherence_diagnostic.py       Field coherence metrics
-│   │   └── rubedo_return_canary.py       Recursive stability / recovery canary
+│   │   ├── rubedo_return_canary.py       Recursive stability / recovery canary
+│   │   ├── metastability_validation.py   Fix 1 metastability metric gate (G1–G5)
+│   │   └── lockin_source.py              Upstream lock decomposition (G5 follow-up)
 │   │
 │   └── baselines/
 │       └── tier1_revision_500step.json   Healthy-state metric ranges
