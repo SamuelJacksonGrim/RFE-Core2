@@ -220,9 +220,11 @@ class ContrastiveAlignmentTrainer:
                     all_token_lists.append(buffer[nidx].tokens)
                     all_roles.append(2)
 
-        # Forward pass on all sequences
-        vecs = self.generator.encode_batch(all_token_lists)
-        vecs_t = torch.tensor(vecs, dtype=torch.float32, device=device)
+        # Forward pass on all sequences.
+        # NOTE: must NOT use generator.encode_batch() here — it is decorated
+        # @torch.no_grad(), so its output carries no autograd graph and
+        # backward() would fail. Route through the grad-enabled forward().
+        vecs_t = self._encode_grad(all_token_lists, device)
         vecs_t = F.normalize(vecs_t, dim=-1)
 
         # InfoNCE loss per anchor
@@ -261,6 +263,23 @@ class ContrastiveAlignmentTrainer:
         self.optimizer.step()
 
         return float(total_loss.detach()), total_acc
+
+    def _encode_grad(self, token_lists: List[List[str]], device: str) -> torch.Tensor:
+        """
+        Grad-enabled batch encode, mirroring Generator.encode_batch but WITHOUT
+        the @torch.no_grad() wrapper so the contrastive loss can backprop into
+        the generator weights.
+        """
+        g = self.generator
+        encoded = [g._tokens_to_ids(tl or ["<BOS>"], None) for tl in token_lists]
+        g._ensure_embedding_capacity()
+
+        max_len = max(len(s) for s in encoded)
+        pad_id  = g.address_space.pad_id
+        padded  = [s + [pad_id] * (max_len - len(s)) for s in encoded]
+
+        x = torch.tensor(padded, dtype=torch.long, device=device)
+        return g.forward(x)
 
     @property
     def buffer_size(self) -> int:
