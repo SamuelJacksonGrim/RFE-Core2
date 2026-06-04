@@ -40,6 +40,19 @@ cognition:
     recursion_depth: 3
     heads: 4
     dropout: 0.1
+    # Diversity-preservation blend (de-collapse). The untrained attention mean-
+    # pools its context, collapsing the expression to one direction; weighting the
+    # raw (pre-refinement) vector back in keeps it coherent-but-not-locked.
+    #   0.0 = pure refinement (full collapse)   1.0 = raw passthrough (no refine)
+    # Calibrated for reliable de-collapse: <=0.55 stays collapsed (~0 / one
+    # regime); >=0.60 reads multi-regime metastable. The absolute score is
+    # generator-init-dependent (~0.4-0.73 across seeds) so this targets robust
+    # de-collapse, not a tight band. Runtime truth is the RecursiveAttention
+    # default; set cycle.rec_attn.diversity_blend to retune per context (lower
+    # for deep focus / more consolidation, higher for exploration — but >~0.70
+    # regresses toward the generator's own churn).
+    diversity_blend: 0.60
+    target_metastability_band: [0.4, 0.6]   # diagnostic reference, not a hard clamp
 
   reflective_loop:
     max_depth: 5

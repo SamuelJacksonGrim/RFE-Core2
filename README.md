@@ -530,7 +530,8 @@ RFE-Core2/
 │   │   ├── coherence_diagnostic.py       Field coherence metrics
 │   │   ├── rubedo_return_canary.py       Recursive stability / recovery canary
 │   │   ├── metastability_validation.py   Fix 1 metastability metric gate (G1–G5)
-│   │   └── lockin_source.py              Upstream lock decomposition (G5 follow-up)
+│   │   ├── lockin_source.py              Upstream lock decomposition (G5 follow-up)
+│   │   └── generator_metastability.py    Relocated (upstream) metastability readout
 │   │
 │   └── baselines/
 │       └── tier1_revision_500step.json   Healthy-state metric ranges
