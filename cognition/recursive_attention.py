@@ -64,15 +64,18 @@ class RecursiveAttention(nn.Module):
         history_len:     int   = 16,
         recursion_depth: int   = 3,
         dropout:         float = 0.1,
+        diversity_blend: float = 0.60,
         device:          Optional[str] = None,
     ):
         super().__init__()
         assert dim % heads == 0
+        assert 0.0 <= diversity_blend <= 1.0
 
         self.dim             = dim
         self.heads           = heads
         self.history_len     = history_len
         self.recursion_depth = recursion_depth
+        self.diversity_blend = diversity_blend
         self.device          = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
         self.norm_in  = nn.LayerNorm(dim)
@@ -133,8 +136,32 @@ class RecursiveAttention(nn.Module):
             state = state + self.ff(self.norm_out(state))  # FF residual
             state = self.norm_ff(state)
 
-        result = state.squeeze(0).squeeze(0).cpu().numpy()
-        result = result / (np.linalg.norm(result) + 1e-8)
+        refined = state.squeeze(0).squeeze(0).cpu().numpy()
+
+        # Diversity-preservation blend (de-collapse).
+        #
+        # The attention here is UNTRAINED and runs under no_grad, so it behaves as
+        # a near-uniform mean-pooler: every refined output converges to the
+        # centroid of its context window, collapsing the expression to one
+        # direction (metastability -> 0, a single regime). To keep the expression
+        # coherent-but-not-locked we weight the raw (pre-refinement) input back in:
+        # the refined centroid supplies dwell structure, the raw vector supplies
+        # diversity, and together they form a genuine metastable trajectory.
+        #
+        # Components are unit-normalized before mixing so `diversity_blend` is a
+        # clean direction knob (the refined state is LayerNorm-scaled to ~sqrt(dim)
+        # and would otherwise swamp the unit raw vector across most of the range):
+        #   diversity_blend = 0.0  -> pure refinement (full collapse)
+        #   diversity_blend = 1.0  -> raw passthrough (no refinement)
+        # A single final normalize preserves the unit-output invariant the field
+        # injection path relies on (magnitude is carried separately by field_gain).
+        if self.diversity_blend > 0.0:
+            raw   = np.asarray(vec, dtype=np.float32)
+            raw_u = raw     / (np.linalg.norm(raw)     + 1e-8)
+            ref_u = refined / (np.linalg.norm(refined) + 1e-8)
+            refined = self.diversity_blend * raw_u + (1.0 - self.diversity_blend) * ref_u
+
+        result = refined / (np.linalg.norm(refined) + 1e-8)
 
         # Commit current (pre-refinement) vec to history
         self._history.append(vec.copy())
