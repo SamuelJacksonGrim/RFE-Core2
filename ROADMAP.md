@@ -134,25 +134,49 @@ coherence is the routing axis, **not** a health signal. Ref:
 mid-band coherence with high dwell-time variance ("formed enough to hold,
 light enough to drift"). The full curated plan — build order, gating
 dependencies, validation gates, and the load-bearing epistemic warnings — is
-`docs/lock_in_remediation_plan.md`. Known sub-pieces, in dependency order:
+`docs/lock_in_remediation_plan.md`. Progress against that plan:
 
-1. **Build the metastability metric** (`substrate/metastability.py` — does not
-   yet exist in-repo; a prior draft was never committed). Built on config-space
-   vector clustering (not the coherence scalar, which is many-to-one and blind
-   to config-space limit cycles), with a transition-sequence-entropy /
-   aperiodicity term so a perfect limit cycle reads LOW, and coherence *level*
-   folded into the regime label (locked-at-0.99 vs structureless-at-0.50 are
-   opposite conditions and must not share a label). It is both the measurement
-   *and* the missing selection signal *and* the safety detector for the
-   limit-cycle failure mode.
-2. **Feedback gain-sign check at low coherence** — REQUIRED before any
-   coherence → loop coupling; gates Fix 0-A and the paper-boat operator.
-3. **Counterbalance survival selection** — wire the metastability score into
-   the reinforcement formula as a fitness term so survival stops being
-   currencied purely by coherence; add a demotion path (reinforcement is
-   currently all-positive-additive, a one-way ratchet); let `attractor_strength`
-   shape the field trajectory rather than only outlive other symbols (internal
-   to RFE — *not* the transformer weights).
+**Shipped:**
+
+1. **Metastability metric** — `substrate/metastability.py` (Fix 1). Config-space
+   vector clustering (not the coherence scalar, which is many-to-one and blind to
+   config-space limit cycles), with a transition-sequence-entropy / aperiodicity
+   term (a perfect limit cycle reads LOW) and coherence *level* folded into the
+   regime label (locked-at-0.99 vs structureless-at-0.50 must not share a label).
+   Validated G1–G5 incl. on the live-Generator field
+   (`tests/diagnostic/metastability_validation.py`). **shipped + validated** (PR #23).
+2. **Generator scale fix** — embeddings scaled by `sqrt(d_model)` + raised init
+   std (AIAYN §3.4), fixing the positional-dominance collinearity that made the
+   untrained generator emit one near-collinear direction. Precondition for
+   metastability to exist anywhere upstream. **shipped** (PR #25/#26).
+3. **Metric relocation + live monitors** — the decisive refinement to Fix 1's
+   *locus*: metastability is read UPSTREAM, on the per-stage vector streams
+   (`StreamMetastabilityMonitor`, wired as `cycle.generator_metastability` at
+   stage A and `cycle.expression_metastability` at stage C, exposed in
+   `status()`), **not** on the resonance field — the field's long-memory decay
+   smooths config wander away by construction, so metastability cannot live there.
+   Observe-only terminal sinks. **shipped** (PR #27).
+4. **Recursive-attention expression de-collapse** — untrained recursive attention
+   mean-pools its context, collapsing the injected expression to one direction
+   (metastability → 0); the `diversity_blend` knob (default 0.60) weights the raw
+   vector back in so the expression stays coherent-but-not-locked (multi-regime
+   metastable). A de-collapse at the *expression* stage, distinct from the planned
+   field-side operator. **shipped** (PR #27).
+
+**Planned (the structural counterbalance — not yet built):**
+
+5. **Feedback gain-sign check at low coherence** — analysis only; REQUIRED before
+   any coherence → loop coupling; gates Fix 0-A and the paper-boat operator.
+6. **Counterbalance survival selection (Fix 0-B, highest leverage)** — wire the
+   metastability score into the reinforcement formula as a fitness term so
+   survival stops being currencied purely by coherence; add a demotion path
+   (reinforcement is currently all-positive-additive, a one-way ratchet); let
+   `attractor_strength` shape the field trajectory rather than only outlive other
+   symbols (internal to RFE — *not* the transformer weights).
+7. **Field paper-boat operator (Fix 2, last)** — a phase-domain intervention that
+   lightens the current motif's attractor depth while preserving structure, so the
+   field drifts under its own dynamics. Its main failure mode (point-attractor →
+   limit cycle) is exactly what Fix 1's aperiodicity term detects.
 
 Treat the above as direction, not committed scope, per this document's status
 discipline. Full detail in `docs/lock_in_remediation_plan.md`; the raw verbatim
@@ -214,6 +238,7 @@ phase. Invoke directly via `python -m tests.doc_accuracy.verify_docs`.
 | v0.3.0 | Tiers 0–3 complete with Tier 1 Revision; kernel snapshot |
 | v0.4.0 | Tier 4.1–4.2: affective time dilation |
 | v0.4.3 | Tier 4.3: rhythm → time coupling (flow/agitation terms, dilation clamp) |
+| main (unreleased) | Lock-in remediation: Fix 1 metastability metric (G1–G5), generator `sqrt(d_model)` scale fix, upstream `StreamMetastabilityMonitor` (stages A/C), recursive-attention expression de-collapse (`diversity_blend`); `_history` bounded |
 
 ---
 
