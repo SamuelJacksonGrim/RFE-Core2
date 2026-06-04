@@ -56,6 +56,26 @@ errors.
   `decay_rate`, `attractor_pull`, `crystal_pressure`, and `dream_pressure` every
   step.
 
+**Expression de-collapse (recursive attention)**
+- `RecursiveAttention` runs **untrained** under `no_grad`; its attention behaves
+  as a near-uniform mean-pooler, so `refine()` would collapse every expression to
+  the context centroid (metastability → 0, one regime) before field injection.
+  The `diversity_blend` knob (default `0.60`) weights the raw pre-refinement
+  vector back in: the refined centroid supplies dwell structure, the raw vector
+  supplies diversity, and the expression stays coherent-but-not-locked
+  (multi-regime metastable). Keep `0 < diversity_blend < 1` — `0` re-collapses,
+  `1` bypasses refinement. The blend mixes **unit-normalized** components then
+  renormalizes once, preserving the unit-output invariant the injection path
+  relies on (magnitude is carried separately by `field_gain`). De-collapse is the
+  robust effect; the absolute score is generator-init-dependent (~0.4–0.73).
+- Metastability is read on the **upstream per-stage streams**, never on the
+  resonance field — the field's long-memory decay smooths config wander away by
+  construction. `StreamMetastabilityMonitor` (`cognition/stream_metastability.py`),
+  wired as `cycle.generator_metastability` (stage A) and
+  `cycle.expression_metastability` (stage C), is **optional and observe-only**: a
+  bounded ring + lazy recompute off the hot path, a terminal sink like
+  `dilation_factor`. It must never feed back into the cognitive/governance loop.
+
 **Authority hierarchy**
 - `SelfhoodGovernance` is the single source of truth for identity-level
   decisions. TrustLedger, EthicalBoundarySystem, DependencyMonitor,
@@ -191,6 +211,12 @@ compare against `tests/baselines/`.
   read-only computed properties derived from the six existing scalars.
 - Remove the `min(0, valence)` gate from `update_dilation()` — it is the
   guarantee that peaceful rest never triggers dissociative time-slip.
+- Set `diversity_blend` to `0` (or remove the blend) in `RecursiveAttention.refine()`
+  — untrained attention re-collapses the expression to its context centroid (one
+  regime, metastability 0). Keep it in `(0, 1)`.
+- Let the metastability monitors (`StreamMetastabilityMonitor`) feed back into the
+  cognitive or governance loop — they are observe-only terminal sinks like
+  `dilation_factor`.
 - `print` from library code — use the module logger.
 
 ## Conventions & workflow
