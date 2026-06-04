@@ -83,7 +83,7 @@ from cognition.emotional_gradient import EmotionalGradient
 from cognition.recursive_attention import RecursiveAttention
 from cognition.reflective_loop import ReflectiveLoop
 from cognition.symbolic_binding import SymbolicBinding
-from cognition.generator_metastability import GeneratorMetastabilityMonitor
+from cognition.stream_metastability import StreamMetastabilityMonitor
 
 from interference.differential import inject_ambiguity
 
@@ -181,7 +181,7 @@ class AutonomousCycle:
         lattice_emit_interval:        int   = 100,
         crystal_decay_interval:       int   = 100,
         log_interval:                 int   = 10,
-        track_generator_metastability: bool = True,
+        track_metastability:          bool  = True,
     ):
         self.generator                     = generator
         self.dim                           = dim
@@ -225,12 +225,19 @@ class AutonomousCycle:
             stream    = self.stream,
         ) if use_chorus else None
 
-        # Generator-output metastability — the loop's upstream stethoscope.
-        # Optional, observe-only, off the hot path (lazy recompute). None disables
-        # it entirely; the cycle behaves identically either way.
-        self.generator_metastability: Optional[GeneratorMetastabilityMonitor] = (
-            GeneratorMetastabilityMonitor(window=128, interval=16)
-            if track_generator_metastability else None
+        # Metastability stethoscopes — the loop's upstream instruments, read at two
+        # stages: the generator output (stage A, where diversity originates) and the
+        # expression (stage C, post-refinement, what is injected — where the
+        # diversity-preservation blend is validated). Optional, observe-only, off
+        # the hot path (lazy recompute). None disables them; the cycle behaves
+        # identically either way.
+        self.generator_metastability:  Optional[StreamMetastabilityMonitor] = (
+            StreamMetastabilityMonitor(window=128, interval=16)
+            if track_metastability else None
+        )
+        self.expression_metastability: Optional[StreamMetastabilityMonitor] = (
+            StreamMetastabilityMonitor(window=128, interval=16)
+            if track_metastability else None
         )
 
         # Governance (optional — system runs without it)
@@ -329,6 +336,13 @@ class AutonomousCycle:
         # 4. Recursive attention refinement
         # ------------------------------------------------------------------
         vec = self.rec_attn.refine(vec)
+
+        # Stethoscope: record the refined EXPRESSION (stage C) — what is actually
+        # injected into the field. Comparing this stream's metastability against
+        # the generator stream's validates the diversity-preservation blend: a
+        # collapsed refinement reads ~0/locked here, a healthy one stays metastable.
+        if self.expression_metastability is not None:
+            self.expression_metastability.observe(vec)
 
         # ------------------------------------------------------------------
         # 5. Watcher evaluation
@@ -900,6 +914,8 @@ class AutonomousCycle:
         }
         if self.generator_metastability is not None:
             s["generator_metastability"] = self.generator_metastability.snapshot()
+        if self.expression_metastability is not None:
+            s["expression_metastability"] = self.expression_metastability.snapshot()
         if self.governance is not None:
             s["governance"] = self.governance.status()
         if self.value_engine is not None:

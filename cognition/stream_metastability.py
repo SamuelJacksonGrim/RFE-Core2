@@ -1,22 +1,25 @@
 """
-cognition/generator_metastability.py — online generator-output metastability.
+cognition/stream_metastability.py — online metastability over a vector stream.
 
-The loop's stethoscope on its own expressive diversity.
+The loop's stethoscope on its own config dynamics, read at two cycle stages:
+  - the GENERATOR output (stage A — raw generated vector, before attractor-pull
+    and refinement): where the system's expressive diversity originates, and
+  - the EXPRESSION (stage C — post recursive-attention refinement, what is
+    actually injected into the field): where the de-collapse blend is validated.
 
 Fix 1's metastability metric (substrate/metastability.py) measures whether a
 TRAJECTORY hovers among several shallow, semi-stable configurations and switches
 between them aperiodically — the "paper boat" health signature, as opposed to
 rigid-attractor lock-in. The lock-in remediation work established WHERE to read
-it: UPSTREAM, on the generator output stream (cycle stage A — the raw generated
-vector, before attractor-pull and recursive-attention refinement), not on the
-integrated resonance field. The field's long-memory decay (decay ∈ [0.97,0.9999],
-the identity-persistence invariant) is a heavy integrator that smooths config
-wander away by construction; metastability cannot live there. It lives in the
-generator's output, which — once the sqrt(d_model) scale fix gave it angular
-diversity — reads genuinely metastable on the live substrate (~0.44, ~10 regimes).
+it: UPSTREAM, on these per-stage vector streams, not on the integrated resonance
+field. The field's long-memory decay (decay ∈ [0.97,0.9999], the identity-
+persistence invariant) is a heavy integrator that smooths config wander away by
+construction; metastability cannot live there. It lives in the generator's
+output (diverse, ~10 regimes) — which untrained recursive attention then
+collapses unless the diversity-preservation blend weights the raw vector back in.
 
-This class wraps compute_metastability for ONLINE use:
-  - a bounded ring of the most recent generator-output vectors (O(1) append), and
+This class wraps compute_metastability for ONLINE use over ANY such stream:
+  - a bounded ring of the most recent vectors (O(1) append), and
   - a lazy recompute, run once every `interval` observations, so the metric never
     sits on the per-step hot path.
 
@@ -35,14 +38,14 @@ import numpy as np
 from substrate.metastability import compute_metastability, MetastabilityReport
 
 
-class GeneratorMetastabilityMonitor:
-    """Sliding-window metastability over the generator output stream.
+class StreamMetastabilityMonitor:
+    """Sliding-window metastability over a vector stream (generator or expression).
 
     Parameters
     ----------
     window : int
-        Ring-buffer size — how many recent generator-output vectors the metric
-        sees. Must be >= 4 (compute_metastability needs at least that to assess).
+        Ring-buffer size — how many recent vectors the metric sees. Must be >= 4
+        (compute_metastability needs at least that to assess).
     interval : int
         Recompute cadence: the report is refreshed once every `interval`
         observations, keeping the per-step cost to an O(1) append. On-demand
@@ -64,7 +67,7 @@ class GeneratorMetastabilityMonitor:
         self._report: MetastabilityReport = MetastabilityReport(notes="no samples yet")
 
     def observe(self, vec: np.ndarray) -> None:
-        """Record one generator-output vector (cycle stage A).
+        """Record one vector from the observed stream.
 
         Cheap: an O(1) copy + append. The metastability report is recomputed
         lazily — only on every `interval`-th observation — so this stays off the
