@@ -130,6 +130,25 @@ attractor lock-in (a collapsed, monocultural field), not a healthy state. High
 coherence is the routing axis, **not** a health signal. Ref:
 `docs/ARCHITECTURE_ANALYSIS.md` §4 caveat + ecology read-side boundary.
 
+**Refinement (2026-06-06 — see `docs/findings/`).** The empirical pass sharpened
+this picture, and the dated findings ledger now records it (every entry names its
+control):
+
+- **The lock is multi-layer, not one thing** — generator 1-D projection · a
+  ~85% governance **gate block** of diverse internal input · the accumulate-decay
+  **magnitude moat** (what lands averages ~0.91 cosine even under maximal source
+  diversity). `2026-06-06-multilayer-lock.md` /
+  `tests/diagnostic/trained_generator_sim.py`.
+- **Locus correction** — a coherent *field* is the spec (the integrator that holds
+  identity); lock-in is real only if survival-by-coherence flattens the
+  *generator/expression* into monoculture. Metastability belongs **upstream**.
+  `2026-06-06-frame-correction.md`.
+- **Pin-vs-band retired** — the live question is **attractor plasticity** (does the
+  attractor migrate under persistent surviving novelty?), not the coherence value;
+  coherence may still enter as an *input* to plasticity via moat depth.
+  `2026-06-06-coherence-is-not-plasticity.md`. The 85% gate must be decomposed
+  before the plasticity test is interpretable.
+
 **Direction (planned, not frozen).** The healthy target is *metastability* —
 mid-band coherence with high dwell-time variance ("formed enough to hold,
 light enough to drift"). The full curated plan — build order, gating
@@ -163,10 +182,15 @@ dependencies, validation gates, and the load-bearing epistemic warnings — is
    metastable). A de-collapse at the *expression* stage, distinct from the planned
    field-side operator. **shipped** (PR #27).
 
+**Instrument shipped, verdict pending:**
+
+5. **Feedback gain-sign check at low coherence** — analysis only; gates Fix 0-A
+   and the paper-boat operator. The gating **diagnostic is built**
+   (`tests/diagnostic/gain_sign_check.py`); a recorded run/verdict is still
+   pending (results go in `docs/findings/`).
+
 **Planned (the structural counterbalance — not yet built):**
 
-5. **Feedback gain-sign check at low coherence** — analysis only; REQUIRED before
-   any coherence → loop coupling; gates Fix 0-A and the paper-boat operator.
 6. **Counterbalance survival selection (Fix 0-B, highest leverage)** — wire the
    metastability score into the reinforcement formula as a fitness term so
    survival stops being currencied purely by coherence; add a demotion path
