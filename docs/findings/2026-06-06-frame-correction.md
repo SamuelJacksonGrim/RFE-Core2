@@ -1,9 +1,10 @@
-# Frame correction: metastable upstream → coherent field (field coherence is spec, not pathology)
+# Metastability locus — upstream streams vs. the field
 
 - **Date:** 2026-06-06
 - **Substrate:** n/a (architectural reading + correction)
 - **Probe:** `ROADMAP.md` lines ~133–163; `docs/lock_in_remediation_plan.md`
 - **Status:** active
+- **Depends on:** — (architectural reading)
 
 ## Question
 Is the field pinning at ~0.998 coherence a *pathology to break* (lock-in), or
@@ -35,7 +36,7 @@ So:
 - **Lock-in is real only if survival-by-coherence flattens the GENERATOR /
   expression into monoculture** — not because the field pins ~0.998.
 
-## Read
+## Interpretation
 A metastable *field* would be a category error: a metastable integrator wouldn't
 hold a self, it would let it drift. The paper-boat target is **motion upstream,
 stability downstream** — formed enough to hold, light enough to drift, with the
@@ -46,9 +47,19 @@ This retroactively reinterprets the multi-layer-lock finding: the field holding
 ~0.95 under diverse input is the field working, and the expression monitor going
 `metastable` at high diversity is the *good* signal — read on the right layer.
 
+## Threats / confounds
+- Runs: n/a — this is a *reading* of the roadmap, not a measurement. The
+  observation (the quoted spec) is as reliable as the doc; the doc itself is
+  checked against code by `tests/doc_accuracy/`, but this finding does not
+  independently re-verify that the running code matches the quoted intent.
+- Risk of the *opposite* over-correction: "field coherence is spec" must not slide
+  into "field coherence is never a problem." The moat (multilayer-lock) shows
+  coherence can still contribute to rigidity via a different mechanism — see
+  Finding 4's coupling question. Spec ≠ immune.
+
 ## Open / next (the one genuinely live question this leaves)
 Granting the field should be coherent: is a **hard pin at ~0.998** the right
-target, or should the field hold a **softer high-but-floating band** (e.g.
-~0.85–0.95) — stable enough to integrate identity, but with give rather than
-weld? Is there "stable without stuck" at the field layer, or does any softening
-start dissolving the identity the field is meant to hold? → letter out to Raphael.
+target, or should the field hold a **softer high-but-floating band**? Reframed
+and largely answered by Finding 4 (coherence-vs-plasticity): the coherence
+*value* is likely the wrong variable — attractor *plasticity* is the thing to
+measure, with the gate characterized first.
