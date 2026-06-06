@@ -76,3 +76,4 @@ What this leaves unanswered.
 | 2026-06-06 | [Read-side boundary: feedback gates survival, not generation](2026-06-06-read-side-boundary.md) | active |
 | 2026-06-06 | [The lock is multi-layered (generator + governance + moat)](2026-06-06-multilayer-lock.md) | active |
 | 2026-06-06 | [Frame correction: metastable upstream → coherent field](2026-06-06-frame-correction.md) | active |
+| 2026-06-06 | [Coherence is not plasticity (retires pin-vs-band; gate first)](2026-06-06-coherence-is-not-plasticity.md) | active |
