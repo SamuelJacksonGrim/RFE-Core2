@@ -178,6 +178,20 @@ keep them in version control.
   `cycle.expression_metastability` (stage C) monitors; demonstrates that
   diversity lives upstream and that the `diversity_blend` knob de-collapses
   the expression (blend OFF → `0.0/locked`; default → multi-regime metastable).
+- `trained_generator_sim.py` — **Mocked-generator lock decomposition.**
+  Substitutes the one unready component (the untrained generator) with a
+  token→direction stub of tunable spread and runs the full live step loop on
+  top. Established the three-lock finding (generator 1-D projection · ~85%
+  governance gate block · magnitude moat). See
+  `docs/findings/2026-06-06-multilayer-lock.md`.
+- `gain_sign_check.py` — **§6.3 feedback gain-sign check.** Gating analysis for
+  Fix 0-A: characterizes the sign of `coherence_impact` across the coherence
+  range (with a no-injection control) to decide whether closing a coherence→
+  injection loop would self-correct or run away. Analysis only.
+
+Empirical results from these probes are written up in **`docs/findings/`** — the
+dated, control-named lab notebook (see its `README.md` for the schema and
+discipline). Diagnostics produce the numbers; findings record what they meant.
 
 ### `baselines/`
 JSON snapshots of expected metrics from known-good runs. These are the
