@@ -6,6 +6,20 @@ editing. For the project overview, structural tour, and conceptual walkthrough,
 read `README.md` first. This file covers only what you can't infer from reading
 the tree.
 
+**Documentation map.** Keep these in sync when you change behavior (the README
+project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
+
+- `README.md` — overview, structural tour, run commands, project-structure tree.
+- `ROADMAP.md` — tier status and the lock-in remediation direction (shipped vs
+  planned).
+- `docs/ARCHITECTURE_ANALYSIS.md` — end-to-end recursion + information-flow
+  reference; `docs/lock_in_remediation_plan.md` — the curated remediation plan;
+  `docs/tier4_2_validation.md` / `tier4_3_validation.md` — tier validation.
+- `docs/findings/` — the dated, control-named **empirical ledger** (lab
+  notebook). Read its `README.md` for the schema and discipline before recording
+  a result; every finding names its control, and negative results count.
+- `tests/README.md` — what each test/probe is for and how the suite is gated.
+
 ## System shape
 
 RFE-Core2 (Recursive Field Engine) is a persistent, self-resonating cognitive

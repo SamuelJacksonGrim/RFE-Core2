@@ -500,6 +500,13 @@ RFE-Core2/
 │   ├── recursion.yaml
 │   └── attractors.yaml
 │
+├── docs/
+│   ├── ARCHITECTURE_ANALYSIS.md         End-to-end recursion + information-flow reference
+│   ├── lock_in_remediation_plan.md      Coherence-pin → metastability plan (shipped/planned)
+│   ├── tier4_2_validation.md            Tier 4.2 validation + findings
+│   ├── tier4_3_validation.md            Tier 4.3 validation + findings
+│   └── findings/                        Dated empirical findings ledger (lab notebook)
+│
 ├── tests/
 │   ├── README.md                         How to run tests and interpret output
 │   ├── _common.py                        Shared test infrastructure
@@ -533,7 +540,9 @@ RFE-Core2/
 │   │   ├── rubedo_return_canary.py       Recursive stability / recovery canary
 │   │   ├── metastability_validation.py   Fix 1 metastability metric gate (G1–G5)
 │   │   ├── lockin_source.py              Upstream lock decomposition (G5 follow-up)
-│   │   └── generator_metastability.py    Relocated (upstream) metastability readout
+│   │   ├── generator_metastability.py    Relocated (upstream) metastability readout
+│   │   ├── gain_sign_check.py            §6.3 feedback gain-sign check (gates Fix 0-A)
+│   │   └── trained_generator_sim.py      Mocked-generator lock decomposition (3-lock finding)
 │   │
 │   └── baselines/
 │       └── tier1_revision_500step.json   Healthy-state metric ranges
@@ -647,7 +656,11 @@ python -m tests.diagnostic.trust_trajectory            # per-source trust over t
 python -m tests.diagnostic.value_polarity_flow         # value emergence + polarity
 python -m tests.diagnostic.metastability_validation    # Fix 1 metric gate (G1–G5)
 python -m tests.diagnostic.generator_metastability     # upstream readout + refinement de-collapse
+python -m tests.diagnostic.trained_generator_sim       # mocked-generator lock decomposition (3 locks)
+python -m tests.diagnostic.gain_sign_check             # §6.3 feedback gain-sign (gates Fix 0-A)
 ```
+
+Empirical results from these runs are recorded in `docs/findings/` — the dated lab notebook (every finding names its control; negative results count).
 
 These report system behavior and always exit 0 (no pass/fail). They're how you see what the stack is actually doing, not whether it's broken.
 
