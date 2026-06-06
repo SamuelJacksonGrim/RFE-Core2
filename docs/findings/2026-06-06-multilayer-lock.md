@@ -1,4 +1,4 @@
-# The lock is multi-layered: generator + governance + magnitude moat
+# Where is the lock? (generator / governance / magnitude moat)
 
 - **Date:** 2026-06-06
 - **Substrate:** sim (untrained Generator's output mapping mocked with a
@@ -6,6 +6,9 @@
   coherence_impact, injection, reaper, decay, emotional gradient all real)
 - **Probe:** `tests/diagnostic/trained_generator_sim.py`
 - **Status:** active
+- **Depends on:** 2026-06-06-read-side-boundary.md (the survival-by-coherence
+  mechanism), 2026-06-06-frame-correction.md (read this finding in the corrected
+  frame: coherent field is spec, not pathology)
 
 ## Question
 `lockin_source.py` proved the live lock is upstream: the untrained Generator maps
@@ -23,7 +26,7 @@ if the generator stopped being a 1-D projector, would the field escape the pin?
 - Control: `spread=0.0` (stub = 1-D projector) must reproduce the known lock,
   or the stub is dishonest and nothing downstream is trustworthy.
 
-## Result
+## Result (observed)
 Control passed: `spread=0.0` → coh_mean 0.971, regime `locked` (matches
 `lockin_source.py`). Stub is honest.
 
@@ -35,31 +38,49 @@ Sweep (spread 0.0 → 1.0, i.e. 1-D projector → maximally diverse generator):
 | 0.50 | 0.924 | 0.938 | 0.022 | 0.500 | locked | 85.7% |
 | 1.00 | 0.910 | 0.952 | 0.043 | 0.500 | metastable | 80.7% |
 
-Three locks, not one:
+Raw observations, no interpretation:
+- Even at max source diversity (spread 1.0, orthogonal token directions), the
+  vectors that actually *landed* in the field averaged inputCos **0.91**
+  (near-collinear).
+- coh_mean stayed in [0.94, 0.97] across the whole sweep; coh_min touched 0.500
+  transiently every row; coh_std rose 0.020 → 0.043.
+- The governance gate blocked ~**85%** of diverse internal input before field
+  integration, across all spreads.
+- The regime label flipped `locked` → `metastable` only at spread 1.0, when
+  coh_std crossed the 0.40 metastability threshold.
+
+## Interpretation
+**Three locks, not one** — and read in the corrected frame (see
+frame-correction): a coherent field is spec, not pathology.
 1. **Generator (1-D projection)** — the known upstream lock.
-2. **Governance gate** — blocked ~**85%** of diverse internal input *before* it
-   reached the field, across all spreads. A filter neither `lockin_source.py`
-   nor the council frame accounted for.
-3. **Magnitude moat** — even at max source diversity (orthogonal token
-   directions), the vectors that actually *landed* in the field averaged
-   **inputCos 0.91** (near-collinear). The accumulating field swamps each new
-   injection; what lands looks aligned regardless of how diverse the source was.
+2. **Governance gate** — ~85% of diverse input rejected *before* the field. A
+   filter neither `lockin_source.py` nor the council frame accounted for.
+3. **Magnitude moat** — the accumulating field swamps each new injection
+   (inputCos 0.91 landing despite orthogonal sources); what reaches the field
+   looks aligned regardless of source diversity.
 
-## Read
-**Important — read in the corrected frame (see frame-correction finding).** The
-field holding ~0.95 under diverse input is the field *doing its job* (it is a
-coherent integrator by design), NOT a pathology. The originally-printed verdict
-("field moved off pin → generator is the lock") was **too generous**: it tripped
-on the regime *label* flipping to `metastable` (driven by coh_std rising 0.020→
-0.043 crossing the 0.40 metastability threshold) while coh_mean never left the
-high band. Coherence stayed pinned; only dwell-variance nudged up.
+The field holding ~0.95 under diverse input is the field *doing its job* (coherent
+integrator by design), not a pathology. The strongest reading: the moat is a real,
+generator-independent locker — the field couldn't be moved off ~0.95 even under
+maximal diversity, because governance blocks most diverse input and the moat
+swamps the rest.
 
-**Misread caught:** the verdict logic trusted the regime label over the coherence
-number. Corrected reading: this is closer to evidence the moat is a real,
-independent locker — the field could not be moved off ~0.95 even under maximal
-diversity, because governance blocks most diverse input and the moat swamps the
-rest. Whether that is correct behavior (in the coherent-field design) or
-over-aggressive is the live question below.
+**Misread caught:** the originally-printed verdict ("field moved off pin →
+generator is the lock") was **too generous** — it trusted the regime *label*
+(which flipped on a 0.020→0.043 dwell-variance nudge) over the coherence number
+(which never left the high band). Corrected above.
+
+## Threats / confounds
+- Runs: 1 per spread point (5 points). Single seed; no repetition to check
+  variance of the gate-block rate or the inputCos figure.
+- **Mocked component:** the Generator's output mapping is a stub, not a trained
+  generator. Random-orthogonal token directions are *maximal* diversity — more
+  spread than a real trained generator (which clusters semantically). So
+  "field still locked under max diversity" is a STRONG read; "field escaped"
+  would have been weak (best case). The asymmetry is load-bearing.
+- The 85% gate-block is observed but **undecomposed** — we don't yet know *why*
+  each block fired (could be 80% junk + 5% novel, or the reverse; same rate,
+  opposite meaning). Do not over-read the rate until decomposed (see Finding 4).
 
 ## Open / next
 - **85% governance block** is the most useful new finding. Is governance
@@ -67,5 +88,5 @@ over-aggressive is the live question below.
   needs to stay metastable upstream? (On-axis; pull next.)
 - The right metastability read is on `generator_metastability` (stage A) /
   `expression_metastability` (stage C), NOT the field. Re-run watching those.
-- Letter out to Raphael on pin-vs-band for the field (hard 0.998 pin vs. a
-  softer high-but-floating coherence).
+- Pin-vs-band for the field was put to Raphael → reframed; see Finding 4
+  (coherence-vs-plasticity).
