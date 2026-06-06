@@ -239,7 +239,10 @@ timescales all feeding the same field.
 > construction. The injected expression is kept metastable by the recursive-
 > attention de-collapse (`diversity_blend`). What remains is the *field-side*
 > counterbalance — wiring metastability into survival selection (Fix 0-B) so the
-> field stops being *driven* to the pin. See `docs/lock_in_remediation_plan.md`.
+> field stops being *driven* to the pin. See `docs/lock_in_remediation_plan.md`
+> and the dated `docs/findings/` ledger (the June-6 pass decomposed the lock into
+> generator · ~85% governance gate · magnitude moat, and reframed the field
+> question from coherence-value to *attractor plasticity*).
 
 Computed once per step in `Watcher.evaluate()` (`agents/watcher.py`):
 

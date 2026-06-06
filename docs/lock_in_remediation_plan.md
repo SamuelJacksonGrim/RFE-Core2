@@ -12,8 +12,15 @@ lock-in"* and to `docs/ARCHITECTURE_ANALYSIS.md` §4.
 > **Progress (shipped):** Fix 1 (metric) · the generator `sqrt(d_model)` scale
 > fix · the **metric relocation upstream** + live `StreamMetastabilityMonitor` ·
 > the **recursive-attention expression de-collapse** (both below, after Fix 1).
-> The structural counterbalance — §6.3 gain-sign check, Fix 0-B/0-A/0-C, Fix 2 —
-> is **not yet built**. Per-step status is marked inline below.
+> §6.3's gating diagnostic is built (verdict pending). The structural
+> counterbalance — Fix 0-B/0-A/0-C and Fix 2 — is **not yet built**. Per-step
+> status is marked inline below.
+>
+> **Empirical results live in `docs/findings/`** — the dated, control-named lab
+> notebook. The June-6 pass decomposed the lock into three layers (generator ·
+> ~85% governance gate · magnitude moat), corrected the metastability *locus*
+> (coherent field is spec; metastability is upstream), and retired pin-vs-band in
+> favor of **attractor plasticity**. Read those before re-running any probe here.
 
 ---
 
@@ -145,11 +152,14 @@ knob lets a governance/rhythm layer tune the operating point from live
 (`0` re-collapses, `1` bypasses refinement). Validated by
 `tests/diagnostic/generator_metastability.py`.
 
-### §6.3 — feedback gain-sign check at low coherence **(PLANNED — parallel with Fix 0-B)**
+### §6.3 — feedback gain-sign check at low coherence **(INSTRUMENT SHIPPED — verdict pending)**
 
-Analysis only, no code change. Confirm the sign of the feedback gain at low
+Analysis only, no substrate change. Confirm the sign of the feedback gain at low
 coherence before *any* coherence → loop coupling. It **gates Fix 0-A and Fix 2**
-(both are that kind of coupling). Cheap and gating, so front-load it.
+(both are that kind of coupling). Cheap and gating, so front-load it. The gating
+diagnostic is built (`tests/diagnostic/gain_sign_check.py`) with pre-declared
+STABILIZING / RUNAWAY / CONFOUNDED signatures; a recorded run/verdict is still
+pending and will be written to `docs/findings/`.
 
 ### Fix 0-B — metastability → reinforcement **(PLANNED — highest-leverage)**
 
