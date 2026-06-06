@@ -14,7 +14,16 @@ directory is the persistent record so that:
   re-learn the same thing;
 - claims in the docs/roadmap can be traced back to the run that established them;
 - we can see when a later run *overturns* an earlier finding (results are dated
-  and superseded, never silently edited).
+  and superseded/invalidated, never silently edited).
+
+## Design principle: rigor per unit friction
+
+A findings system nobody uses is less rigorous than a lightweight one used
+consistently. This schema deliberately keeps only the fields that protect against
+self-deception or memory-loss; it rejects ceremony. The entry that matters most
+is often the cheap negative one — *"Probe failed. Control behaved correctly. No
+signal. Runs: 1."* — so the schema must stay light enough that someone actually
+writes it.
 
 ## Discipline (non-negotiable)
 
@@ -28,28 +37,44 @@ These mirror the empirical disciplines in `docs/lock_in_remediation_plan.md §4`
    does not transfer to the live Generator-warmed field.
 3. **Pre-declare success AND failure signatures** before the run, and record
    both. A clean confirming result is the alarm, not the trophy.
-4. **Findings are dated and append-only.** When a later run overturns an earlier
-   one, add a new entry and mark the old one `SUPERSEDED by <file>` at its top.
-   Do not delete or rewrite history — the overturning *is* the record.
+4. **Findings are dated and append-only.** When a later run changes the status of
+   an earlier one, add a new entry and update the old one's status (see below) —
+   do not delete or rewrite history. The overturning *is* the record.
 5. **Record the misreads too.** If we interpreted a result wrong and caught it,
    that correction is itself a finding worth keeping (it stops the next person
    making the same error).
+6. **Negative results are findings.** "The probe produced no signal under
+   conditions X" is often the most time-saving entry there is — it stops whole
+   branches of investigation being rediscovered and repeated. Write it down.
+7. **Separate observation from interpretation, and title the question, not the
+   verdict.** The measurement usually survives; the explanation often changes. A
+   title that encodes a conclusion ("Coherence is not plasticity") becomes
+   misleading after a partial overturn — title the investigation instead
+   ("Coherence vs. plasticity — which measures lock-in?") so it survives revision.
+
+## Status values
+
+- **active** — current best understanding stands.
+- **superseded by `<file>`** — a more precise understanding exists; the original
+  wasn't *wrong*, just refined.
+- **invalidated by `<file>`** — the original conclusion was wrong. (Distinct from
+  superseded: different history, recorded differently.)
+- **partial / blocked** — incomplete; states what it's waiting on.
 
 ## Format
 
-One file per finding (or per tight cluster), named:
-
-    YYYY-MM-DD-short-slug.md
-
+One file per finding (or per tight cluster), named `YYYY-MM-DD-short-slug.md`.
 Each file:
 
 ```
-# <Title>
+# <Title — phrase it as the question/investigation, not a conclusion>
 
 - **Date:** YYYY-MM-DD
 - **Substrate:** toy | live (Generator-warmed) | sim (which component mocked)
 - **Probe:** path/to/diagnostic.py (+ commit if relevant)
-- **Status:** active | superseded by <file> | partial / blocked
+- **Status:** active | superseded by <file> | invalidated by <file> | partial / blocked
+- **Depends on:** <file>, <file>   (which earlier findings this conclusion rests
+  on — so "if X is overturned, what else becomes questionable?" is answerable)
 
 ## Question
 What we set out to measure.
@@ -59,11 +84,20 @@ What we set out to measure.
 - FAILURE looks like: ...
 - CONFOUNDED looks like: ...
 
-## Result
-The numbers, with the control.
+## Result (observed)
+Only observations — the numbers, with the control. No explanation here.
 
-## Read
-What it means — and any misread we caught along the way.
+## Interpretation
+Current best explanation of the observation. This is the part most likely to age;
+keep it separable from the numbers above.
+
+## Threats / confounds
+- Runs: N   (once or repeatedly?)
+- mocked component, if any
+- suspected instrumentation artifacts
+- uncontrolled variables
+(Findings often get overturned not because they were false but because someone
+later notices a confound that was present at the time. Name them now.)
 
 ## Open / next
 What this leaves unanswered.
@@ -71,9 +105,9 @@ What this leaves unanswered.
 
 ## Index
 
-| Date | Finding | Status |
-|------|---------|--------|
-| 2026-06-06 | [Read-side boundary: feedback gates survival, not generation](2026-06-06-read-side-boundary.md) | active |
-| 2026-06-06 | [The lock is multi-layered (generator + governance + moat)](2026-06-06-multilayer-lock.md) | active |
-| 2026-06-06 | [Frame correction: metastable upstream → coherent field](2026-06-06-frame-correction.md) | active |
-| 2026-06-06 | [Coherence is not plasticity (retires pin-vs-band; gate first)](2026-06-06-coherence-is-not-plasticity.md) | active |
+| Date | Finding | Status | Depends on |
+|------|---------|--------|------------|
+| 2026-06-06 | [Read-side boundary — does feedback reach generation?](2026-06-06-read-side-boundary.md) | active | — |
+| 2026-06-06 | [Where is the lock? (generator / governance / moat)](2026-06-06-multilayer-lock.md) | active | read-side-boundary |
+| 2026-06-06 | [Metastability locus — upstream vs. field](2026-06-06-frame-correction.md) | active | — |
+| 2026-06-06 | [Coherence vs. plasticity — which measures lock-in?](2026-06-06-coherence-is-not-plasticity.md) | active | multilayer-lock, frame-correction |
