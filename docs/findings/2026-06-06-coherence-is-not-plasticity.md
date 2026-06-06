@@ -1,11 +1,13 @@
-# Finding 4 — Coherence is not plasticity
+# Coherence vs. plasticity — which measures lock-in?
 
 - **Date:** 2026-06-06
 - **Substrate:** n/a (conceptual reframe; arose from the multilayer-lock run +
   external review by Raphael/GPT)
-- **Probe:** none yet — this finding *defines* the probe to build (attractor
-  migration) and the prerequisite (gate characterization)
+- **Probe:** none yet — this finding *defines* the probes to build (gate
+  decomposition, attractor migration, coupling test)
 - **Status:** active
+- **Depends on:** 2026-06-06-multilayer-lock.md (the 85% gate block and the moat),
+  2026-06-06-frame-correction.md (the upstream/coherent-field split)
 
 ## What this finding changes
 
@@ -129,6 +131,16 @@ depth (gap between injected-vector diversity and what-actually-lands diversity,
 the inputCos metric), and check whether higher coherence → larger moat → less
 migration. If yes, coherence re-enters as an input to plasticity; if no, it's
 orthogonal and pin-vs-band stays retired.
+
+## Threats / confounds
+- Runs: 0 — this finding is **definitional**, not measured. It reframes the
+  question and specifies three probes (gate decomposition, plasticity, coupling)
+  but none have been run. Its "Learned" claim (coherence ≠ plasticity) is a
+  conceptual distinction, not an empirical result; the empirical questions are
+  all still open.
+- Biggest risk: treating the reframe as if it were settled. It changes *what to
+  measure*, not *what is true*. The coupling question (does moat depth scale with
+  coherence?) could still pull coherence back in as a real factor.
 
 ## Note on epistemic hygiene
 
