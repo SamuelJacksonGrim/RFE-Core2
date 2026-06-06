@@ -111,3 +111,4 @@ What this leaves unanswered.
 | 2026-06-06 | [Where is the lock? (generator / governance / moat)](2026-06-06-multilayer-lock.md) | active | read-side-boundary |
 | 2026-06-06 | [Metastability locus — upstream vs. field](2026-06-06-frame-correction.md) | active | — |
 | 2026-06-06 | [Coherence vs. plasticity — which measures lock-in?](2026-06-06-coherence-is-not-plasticity.md) | active | multilayer-lock, frame-correction |
+| 2026-06-06 | [Expression de-collapse — does the diversity blend restore metastability?](2026-06-06-expression-decollapse.md) | active | frame-correction |
