@@ -193,9 +193,6 @@ keep them in version control.
   signals forced equal) to measure whether coherence buys survival, and validates
   a recurrence-gated novelty counterweight (asymmetric vs symmetric gating). See
   `docs/findings/2026-06-06-conformity-bias-fix0b.md`.
-- `circulation_conformity_probe.py` — **Circulation/conformity probe.** Companion
-  diagnostic for the reaper-as-circulation-chamber analysis (survival selection
-  and conformity pressure over circulation laps).
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
