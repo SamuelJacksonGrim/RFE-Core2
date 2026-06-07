@@ -188,6 +188,14 @@ keep them in version control.
   Fix 0-A: characterizes the sign of `coherence_impact` across the coherence
   range (with a no-injection control) to decide whether closing a coherence→
   injection loop would self-correct or run away. Analysis only.
+- `conformity_bias_probe.py` — **Fix 0-B conformity-bias probe.** Isolates the
+  `field_coherence` term in `DecayProfile.compute` (all other reinforcement
+  signals forced equal) to measure whether coherence buys survival, and validates
+  a recurrence-gated novelty counterweight (asymmetric vs symmetric gating). See
+  `docs/findings/2026-06-06-conformity-bias-fix0b.md`.
+- `circulation_conformity_probe.py` — **Circulation/conformity probe.** Companion
+  diagnostic for the reaper-as-circulation-chamber analysis (survival selection
+  and conformity pressure over circulation laps).
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
