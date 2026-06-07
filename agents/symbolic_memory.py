@@ -725,7 +725,8 @@ class DecayProfile:
     centrality_weight:     float
     field_coherence_weight: float
     crystal_binding_weight: float
-    minimum_lifespan:      int
+    novelty_weight:         float = 0.0   # Fix 0-B: counterweight to coherence lean
+    minimum_lifespan:      int = 0
 
     def compute(self, state: SymbolState, current_step: int) -> float:
         age = state.age(current_step)
@@ -734,6 +735,15 @@ class DecayProfile:
         effective_decay = self.base_decay * math.exp(-self.age_factor * age)
         effective_decay = max(effective_decay, 0.01)  # hard floor: no instant death
 
+        # Fix 0-B candidate: novelty counterweight to field_coherence's
+        # conformity lean. novelty = (1 - field_coherence), but GATED by
+        # recurrence so a one-off dissonant burst earns nothing — novelty is
+        # rewarded only once a pattern has survived circulation (earned
+        # integration). recurrence_gate -> 0 for one-offs, -> 1 for repeaters.
+        novelty = max(0.0, 1.0 - state.field_coherence)
+        recurrence_gate = 1.0 - math.exp(-0.5 * state.recurrence)
+        effective_novelty = novelty * recurrence_gate
+
         reinforcement = (
             1.0
             + self.recurrence_weight      * state.recurrence
@@ -741,6 +751,7 @@ class DecayProfile:
             + self.centrality_weight      * state.centrality
             + self.field_coherence_weight * state.field_coherence
             + self.crystal_binding_weight * state.crystal_binding
+            + self.novelty_weight         * effective_novelty
         )
 
         return max(0.0, state.usage * effective_decay * reinforcement)
@@ -751,49 +762,49 @@ DECAY_PROFILES: Dict[TokenClass, DecayProfile] = {
         base_decay=0.999,  age_factor=0.0005,
         recurrence_weight=0.05,  attractor_weight=0.10,
         centrality_weight=0.08,  field_coherence_weight=0.05,
-        crystal_binding_weight=0.15, minimum_lifespan=10,
+        crystal_binding_weight=0.15, novelty_weight=0.05, minimum_lifespan=10,
     ),
     TokenClass.ENTITY: DecayProfile(
         base_decay=0.9995, age_factor=0.0002,
         recurrence_weight=0.08,  attractor_weight=0.20,
         centrality_weight=0.15,  field_coherence_weight=0.08,
-        crystal_binding_weight=0.25, minimum_lifespan=50,
+        crystal_binding_weight=0.25, novelty_weight=0.08, minimum_lifespan=50,
     ),
     TokenClass.GLYPH: DecayProfile(
         base_decay=0.9998, age_factor=0.0001,
         recurrence_weight=0.12,  attractor_weight=0.25,
         centrality_weight=0.10,  field_coherence_weight=0.10,
-        crystal_binding_weight=0.30, minimum_lifespan=100,
+        crystal_binding_weight=0.30, novelty_weight=0.10, minimum_lifespan=100,
     ),
     TokenClass.RELATIONAL: DecayProfile(
         base_decay=0.9992, age_factor=0.0004,
         recurrence_weight=0.10,  attractor_weight=0.15,
         centrality_weight=0.20,  field_coherence_weight=0.10,
-        crystal_binding_weight=0.20, minimum_lifespan=20,
+        crystal_binding_weight=0.20, novelty_weight=0.10, minimum_lifespan=20,
     ),
     TokenClass.IDENTIFIER: DecayProfile(
         base_decay=0.998,  age_factor=0.0008,
         recurrence_weight=0.06,  attractor_weight=0.08,
         centrality_weight=0.05,  field_coherence_weight=0.03,
-        crystal_binding_weight=0.10, minimum_lifespan=5,
+        crystal_binding_weight=0.10, novelty_weight=0.03, minimum_lifespan=5,
     ),
     TokenClass.OPERATOR: DecayProfile(
         base_decay=0.997,  age_factor=0.001,
         recurrence_weight=0.04,  attractor_weight=0.05,
         centrality_weight=0.08,  field_coherence_weight=0.03,
-        crystal_binding_weight=0.05, minimum_lifespan=3,
+        crystal_binding_weight=0.05, novelty_weight=0.03, minimum_lifespan=3,
     ),
     TokenClass.EPHEMERAL: DecayProfile(
         base_decay=0.990,  age_factor=0.002,
         recurrence_weight=0.02,  attractor_weight=0.03,
         centrality_weight=0.02,  field_coherence_weight=0.02,
-        crystal_binding_weight=0.03, minimum_lifespan=1,
+        crystal_binding_weight=0.03, novelty_weight=0.02, minimum_lifespan=1,
     ),
     TokenClass.SPECIAL: DecayProfile(
         base_decay=1.0,    age_factor=0.0,
         recurrence_weight=0.0,   attractor_weight=0.0,
         centrality_weight=0.0,   field_coherence_weight=0.0,
-        crystal_binding_weight=0.0, minimum_lifespan=999999,
+        crystal_binding_weight=0.0, novelty_weight=0.0, minimum_lifespan=999999,
     ),
 }
 
