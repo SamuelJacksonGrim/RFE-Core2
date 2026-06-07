@@ -112,6 +112,19 @@ matters).
    with the symmetric gate; confirm (a) the lean stays cancelled with correlated
    signals live, (b) healthy-state baselines still pass, (c) identity formation is
    not destabilised. → handed to Claude Code for live run.
+   **→ DONE (2026-06-07), see `2026-06-07-fix0b-fullloop-validation.md`:** the
+   direct term is small (+1.16%/lap) and symmetric/universal cancel it with
+   baselines intact (b ✓); but (a) is **CONFOUNDED in vivo** — low-coherence
+   symbols are degenerate brand-new arrivals, and coherence/recurrence/binding are
+   entangled (0.92–1.0), so a coherence-only lean is not observationally separable.
+   The dominant survival/coherence link is *binding magnitude*, which the reaper
+   formula cannot adjudicate. Net: keep asymmetric; symmetric is a safe but minor
+   direct-term upgrade, **not** the lock-in lever (that is upstream attractor
+   migration).
 2. If correlated-signal leakage appears, evaluate the **universal gate** (gate all
    binding signals by recurrence), per Copilot's argument.
+   **→ Evaluated (2026-06-07): NOT warranted now.** Recurrence-gating does not
+   decorrelate binding magnitudes from coherence, so universal gating is not the
+   lever and perturbs binding broadly for a channel not shown harmful.
 3. Keep the conservative asymmetric patch in the substrate until 1 passes.
+   **→ Confirmed: keep asymmetric.**
