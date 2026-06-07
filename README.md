@@ -542,7 +542,9 @@ RFE-Core2/
 │   │   ├── lockin_source.py              Upstream lock decomposition (G5 follow-up)
 │   │   ├── generator_metastability.py    Relocated (upstream) metastability readout
 │   │   ├── gain_sign_check.py            §6.3 feedback gain-sign check (gates Fix 0-A)
-│   │   └── trained_generator_sim.py      Mocked-generator lock decomposition (3-lock finding)
+│   │   ├── trained_generator_sim.py      Mocked-generator lock decomposition (3-lock finding)
+│   │   ├── conformity_bias_probe.py      Fix 0-B conformity-bias probe + symmetric-gate prototype
+│   │   └── circulation_conformity_probe.py  Reaper-as-circulation-chamber / conformity probe
 │   │
 │   └── baselines/
 │       └── tier1_revision_500step.json   Healthy-state metric ranges
