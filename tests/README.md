@@ -193,6 +193,12 @@ keep them in version control.
   signals forced equal) to measure whether coherence buys survival, and validates
   a recurrence-gated novelty counterweight (asymmetric vs symmetric gating). See
   `docs/findings/2026-06-06-conformity-bias-fix0b.md`.
+- `fix0b_fullloop_probe.py` — **Fix 0-B full-loop validation.** Harvests the real
+  live SymbolState population and walks the gate decision tree (asymmetric /
+  symmetric / universal): correlated-signal structure with a shuffle control, the
+  direct conformity term via a same-symbol counterfactual, an (honestly confounded)
+  observational arm, and healthy-state baseline safety per gate. See
+  `docs/findings/2026-06-07-fix0b-fullloop-validation.md`.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and

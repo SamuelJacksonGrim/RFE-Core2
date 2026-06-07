@@ -543,7 +543,8 @@ RFE-Core2/
 │   │   ├── generator_metastability.py    Relocated (upstream) metastability readout
 │   │   ├── gain_sign_check.py            §6.3 feedback gain-sign check (gates Fix 0-A)
 │   │   ├── trained_generator_sim.py      Mocked-generator lock decomposition (3-lock finding)
-│   │   └── conformity_bias_probe.py      Fix 0-B conformity-bias probe + symmetric-gate prototype
+│   │   ├── conformity_bias_probe.py      Fix 0-B conformity-bias probe + symmetric-gate prototype
+│   │   └── fix0b_fullloop_probe.py       Fix 0-B full-loop validation (in-vivo lean + gate decision tree)
 │   │
 │   └── baselines/
 │       └── tier1_revision_500step.json   Healthy-state metric ranges
