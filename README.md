@@ -546,7 +546,8 @@ RFE-Core2/
 │   │   ├── conformity_bias_probe.py      Fix 0-B conformity-bias probe + symmetric-gate prototype
 │   │   ├── fix0b_fullloop_probe.py       Fix 0-B full-loop validation (in-vivo lean + gate decision tree)
 │   │   ├── gate_decomposition_probe.py   ~85% gate block decomposed by reason (input-channel check)
-│   │   └── attractor_migration_probe.py  Attractor mobility under a surviving new regime (lock-in test)
+│   │   ├── attractor_migration_probe.py  Attractor mobility under a surviving new regime (lock-in test)
+│   │   └── reconstruction_ablation_probe.py  Which re-injection path locks the attractor (→ reflective loop)
 │   │
 │   └── baselines/
 │       └── tier1_revision_500step.json   Healthy-state metric ranges
