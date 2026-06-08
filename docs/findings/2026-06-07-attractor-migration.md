@@ -110,11 +110,14 @@ hypothesis lands on the affirmative side: high coherence and rigidity share a ca
 
 ## Open / next
 1. **Decompose the reconstitution sources (the remediation target).** Ablate each
-   re-injection path in turn (suppress dream re-injection / predictor echo /
-   attractor pull / set expression diversity-blend toward raw) and re-run this probe;
-   whichever ablation lets the center migrate toward B is the locker. This relocates
-   the roadmap's Fix 2 ("paper-boat", field-side) from the field accumulator to the
-   re-injection sources — flag for ROADMAP/lock_in_remediation_plan review.
+   re-injection path in turn and re-run; whichever frees migration is the locker.
+   **→ DONE (2026-06-07), see `2026-06-07-reconstruction-ablation.md`: the lock is
+   the REFLECTIVE LOOP** (`reflector.reflect`, step 6). Suppressing only it frees
+   migration to +0.90–0.96 (3 seeds); every other path (attractor-pull, refine blend,
+   crystal, explore) is inert, and the magnitude moat is downgraded (the field
+   migrates fully with the loop off despite the moat). Remediation relocates to the
+   reflective loop's convergence gain (conditional on surviving novelty) — Sam's call
+   on ROADMAP.
 2. Multi-seed / multi-dim sweep to bound the migration estimate.
 3. The coupling test (arc step 3) is now partly answered (coherence and rigidity
    share the reconstitution cause); a quantitative moat-depth-vs-coherence sweep can
