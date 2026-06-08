@@ -91,6 +91,13 @@ conclusions from its output.
 
 ## Next steps (in order, now operationally specified)
 
+**→ STEP 1 DONE (2026-06-07), see `2026-06-07-gate-decomposition.md`:** the ~85%
+block was a **single-source monopoly artifact** (HHI=1.0 trips the manipulation
+detector → trust craters → quarantine-all), NOT novelty-strangling — `field_collapse`
+never fired, and 8-source diverse input blocks at **0%**. The input channel is
+CLEAR, so step 2 is unblocked, with one binding constraint: **the migration probe
+must use ≥2 sources (HHI < 0.70)** or it re-triggers the cascade.
+
 **1. Characterize the 85% gate block — decompose by rejection reason (#3).**
 "85% blocked" is uninterpretable alone: 80% redundant-noise + 5% novel rejected
 means one thing; 80% novel + 5% noise rejected means the opposite. So instrument

@@ -114,3 +114,4 @@ What this leaves unanswered.
 | 2026-06-06 | [Conformity bias in the reaper — Fix 0-B candidate](2026-06-06-conformity-bias-fix0b.md) | active | read-side-boundary, coherence-is-not-plasticity |
 | 2026-06-06 | [Expression de-collapse — does the diversity blend restore metastability?](2026-06-06-expression-decollapse.md) | active | frame-correction |
 | 2026-06-07 | [Fix 0-B full-loop validation — does the conformity lean survive in vivo?](2026-06-07-fix0b-fullloop-validation.md) | active | conformity-bias-fix0b, coherence-is-not-plasticity |
+| 2026-06-07 | [Gate decomposition — why does the ~85% block fire?](2026-06-07-gate-decomposition.md) | active | multilayer-lock, coherence-is-not-plasticity |
