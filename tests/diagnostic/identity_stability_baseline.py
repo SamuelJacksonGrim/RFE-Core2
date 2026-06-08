@@ -68,6 +68,20 @@ def measure(reflect_gain: float = 1.0, seed: int = SEED, n: int = N_STEPS) -> di
     gen, cycle, gov, ve = build_full_stack()
     attenuate_reflect(cycle, reflect_gain)
 
+    # Identity cost also surfaces at the Tier-2 manipulation layer: a less-converged
+    # expression can read as identity_erosion / trust_wash. Count it — the witness
+    # stability scalar alone misses it.
+    manip = {"steps": 0, "signals": 0}
+    _detect = gov.resistance.detect
+
+    def _counted_detect():
+        sigs = _detect()
+        if sigs:
+            manip["steps"] += 1
+            manip["signals"] += len(sigs)
+        return sigs
+    gov.resistance.detect = _counted_detect
+
     sids = list(RESONANCE_FAMILY_SOURCES)
     w = [RESONANCE_FAMILY_WEIGHTS[s] for s in sids]
     cohs = []
@@ -87,6 +101,8 @@ def measure(reflect_gain: float = 1.0, seed: int = SEED, n: int = N_STEPS) -> di
         "attractors":         len(cycle.attractor.centers),
         "crystals":           len(cycle.crystal_store.crystals),
         "bonds":              len(gov.bond_manager.all_bonds()),
+        "manip_steps":        manip["steps"],          # steps that fired ≥1 manipulation signal
+        "manip_signals":      manip["signals"],        # total manipulation-signal firings
     }
 
 
