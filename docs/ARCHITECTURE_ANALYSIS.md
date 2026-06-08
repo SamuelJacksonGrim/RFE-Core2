@@ -243,6 +243,20 @@ timescales all feeding the same field.
 > and the dated `docs/findings/` ledger (the June-6 pass decomposed the lock into
 > generator · ~85% governance gate · magnitude moat, and reframed the field
 > question from coherence-value to *attractor plasticity*).
+>
+> **Update (2026-06-07 — plasticity arc complete).** That three-layer decomposition
+> is now resolved and largely superseded by the June-7 findings: the ~85% governance
+> gate was a **single-source monopoly artifact**, not a novelty filter
+> (`2026-06-07-gate-decomposition.md`); the magnitude moat is **real but surmountable**,
+> not the locker (`2026-06-07-attractor-migration.md`); and the survival/reaper channel
+> is mislocated (`2026-06-07-fix0b-fullloop-validation.md`). The actual lock-in
+> mechanism is the **reflective loop** (step 6 in the flow above): under a persistent
+> gate-surviving new regime the field is RIGID, and suppressing *only*
+> `reflector.reflect` frees full attractor migration (~100×, 3 seeds) while every
+> other path is inert (`2026-06-07-reconstruction-ablation.md`). The loop iteratively
+> pulls each expression onto the anchor/attractor before injection — identity-coherence
+> working, which is *why* it also prevents adaptation. Coherence and rigidity are the
+> same mechanism, not merely correlated.
 
 Computed once per step in `Watcher.evaluate()` (`agents/watcher.py`):
 
