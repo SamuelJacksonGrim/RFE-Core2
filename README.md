@@ -519,13 +519,15 @@ RFE-Core2/
 │   ├── integration/
 │   │   ├── tier1_revision_baseline.py    Fresh run vs baseline JSON ranges
 │   │   ├── governance_decision_flow.py   Every GovernanceDecision enum value verified
-│   │   └── core_promotion_handshake.py   All 5 rejection paths + 2 approval paths
+│   │   ├── core_promotion_handshake.py   All 5 rejection paths + 2 approval paths
+│   │   └── reflective_loop_lock_guard.py Lock characteristic guard (loop on=RIGID, off=migrates)
 │   │
 │   ├── adversarial/
 │   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels
 │   │   ├── flood_calibration.py          origin_type ceilings enforced
 │   │   ├── manipulation_cascade.py       Cascade regression test
-│   │   └── identity_drift.py             Identity_drift gate fires correctly
+│   │   ├── identity_drift.py             Identity_drift gate fires correctly
+│   │   └── reflective_loop_convergence.py  Loop holds identity under novelty flood
 │   │
 │   ├── diagnostic/
 │   │   ├── decision_histogram.py         GovernanceDecision distribution
@@ -547,10 +549,12 @@ RFE-Core2/
 │   │   ├── fix0b_fullloop_probe.py       Fix 0-B full-loop validation (in-vivo lean + gate decision tree)
 │   │   ├── gate_decomposition_probe.py   ~85% gate block decomposed by reason (input-channel check)
 │   │   ├── attractor_migration_probe.py  Attractor mobility under a surviving new regime (lock-in test)
-│   │   └── reconstruction_ablation_probe.py  Which re-injection path locks the attractor (→ reflective loop)
+│   │   ├── reconstruction_ablation_probe.py  Which re-injection path locks the attractor (→ reflective loop)
+│   │   └── identity_stability_baseline.py    Identity-stability metrics + reflect-gain dial (cost-probe harness)
 │   │
 │   └── baselines/
-│       └── tier1_revision_500step.json   Healthy-state metric ranges
+│       ├── tier1_revision_500step.json   Healthy-state metric ranges
+│       └── identity_stability_500step.json  Identity-stability baseline (reflective loop intact)
 │
 ├── requirements.txt
 └── README.md
