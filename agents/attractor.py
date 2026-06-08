@@ -33,7 +33,11 @@ import numpy as np
 # AttractorCenter
 # ---------------------------------------------------------------------------
 
-@dataclass
+# eq=False → identity equality. The default dataclass __eq__ would compare the
+# `vector` ndarray field elementwise, returning an array; `list.remove(center)`
+# (used in merge_pass and prune) then raises "truth value of an array is ambiguous".
+# Attractor centers are unique live objects — identity is the correct equality.
+@dataclass(eq=False)
 class AttractorCenter:
     vector:         np.ndarray
     origin_tokens:  List[str]

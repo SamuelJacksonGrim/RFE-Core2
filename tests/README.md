@@ -227,6 +227,10 @@ keep them in version control.
 - `integration/reflective_loop_lock_guard.py` — **Lock-characteristic regression
   guard.** Asserts loop-intact = RIGID (migration < 0.10) and loop-suppressed =
   MIGRATES (> 0.50); catches any future change that relocates or weakens the lock.
+- `integration/attractor_merge_guard.py` — **Attractor removal regression guard.**
+  Reproduces the `merge_pass`/`prune` `list.remove` crash (array `__eq__`) the cost
+  probe surfaced; asserts both paths work under `@dataclass(eq=False)` identity
+  equality.
 - `adversarial/reflective_loop_convergence.py` — **Protective-property baseline.**
   Under a novelty flood the intact loop holds identity (stability stays high, loop
   converges); the property the eventual conditional-attenuation fix must preserve.

@@ -73,6 +73,11 @@ recessive]`, or an identity-based `__eq__`) resolves it. **Flagged for the archi
 not fixed here** (substrate change, its own reviewed PR). Until fixed, the *cliff
 location* is confounded — the crash is partly this bug, not purely identity collapse.
 
+**→ FIXED (2026-06-07):** `AttractorCenter` is now `@dataclass(eq=False)` (identity
+equality), covering both `.remove` sites (`merge_pass`, `prune`). Regression guard:
+`tests/integration/attractor_merge_guard.py`. The cliff can now be re-measured
+bug-free (cliff-sharpen run) to separate true identity-collapse from the crash.
+
 ## Threats / confounds
 - **Cliff confounded by the bug.** The band (0.6–1.0) is clean and trustworthy; the
   cliff (≤0.5) is manip-flood + a crash bug, so "where identity truly collapses" is
