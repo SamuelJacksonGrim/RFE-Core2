@@ -230,6 +230,12 @@ keep them in version control.
 - `adversarial/reflective_loop_convergence.py` — **Protective-property baseline.**
   Under a novelty flood the intact loop holds identity (stability stays high, loop
   converges); the property the eventual conditional-attenuation fix must preserve.
+- `reflective_loop_cost_probe.py` — **The cost probe.** Sweeps the reflect-gain dial
+  and weighs plasticity (migration) vs identity (stability, coherence, Tier-2
+  manipulation-signal rate). Found a graceful band (gain 0.6–0.8: ~25× plasticity at
+  near-zero identity cost) and a cliff (≤0.5: manip flood + a latent attractor crash)
+  → bounded conditional attenuation, not full ablation. See
+  `docs/findings/2026-06-07-reflective-loop-cost.md`.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
