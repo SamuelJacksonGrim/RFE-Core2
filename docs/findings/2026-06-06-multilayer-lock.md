@@ -58,6 +58,11 @@ frame-correction): a coherent field is spec, not pathology.
 3. **Magnitude moat** — the accumulating field swamps each new injection
    (inputCos 0.91 landing despite orthogonal sources); what reaches the field
    looks aligned regardless of source diversity.
+   **→ DOWNGRADED (2026-06-07, `2026-06-07-reconstruction-ablation.md`): the moat is
+   NOT the locker.** With the reflective loop ablated the field migrates fully to a
+   new regime despite the moat being present. Lock #2 was earlier struck (gate
+   decomposition: monopoly artifact); lock #3 (moat) is real context but surmountable.
+   The actual lock is the **reflective loop**, downstream of all three.
 
 The field holding ~0.95 under diverse input is the field *doing its job* (coherent
 integrator by design), not a pathology. The strongest reading: the moat is a real,
