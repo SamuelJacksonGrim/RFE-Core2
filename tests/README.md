@@ -206,6 +206,13 @@ keep them in version control.
   ~85% block is a single-source monopoly artifact, not novelty-strangling — the
   input-channel check owed before the attractor-migration probe. See
   `docs/findings/2026-06-07-gate-decomposition.md`.
+- `attractor_migration_probe.py` — **Attractor migration (the lock-in test).** On
+  the full live stack, establishes the field on regime A then injects a persistent
+  gate-surviving new regime B (multi-source, HHI<0.70), measuring whether the
+  attractor center migrates beyond a non-novel drift control. Instruments
+  `field.inject` to show what actually lands. Result: RIGID — the system
+  reconstitutes the established regime regardless of input. See
+  `docs/findings/2026-06-07-attractor-migration.md`.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
