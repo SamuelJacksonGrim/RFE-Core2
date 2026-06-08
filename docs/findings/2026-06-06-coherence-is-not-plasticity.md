@@ -111,6 +111,16 @@ tells us whether the gate is correctly rejecting junk or strangling the novelty
 the expression stream needs. This is the input-channel check; it must pass before
 the migration test is interpretable.
 
+**→ STEP 2 DONE (2026-06-07), see `2026-06-07-attractor-migration.md`: RIGID.**
+Under a persistent, gate-surviving, generator-emitted coherent new regime (the best
+case), the attractor center moved 0.008 beyond drift — it did not migrate. The
+locker is **active reconstitution of the established regime upstream of the field**:
+what *lands* is cos≈0.72 to the old regime regardless of whether the input is the
+old regime, a new one, or random noise. Not the passive moat, not the gate, not the
+reaper. The coupling hypothesis (below) resolves affirmative: high coherence and
+rigidity share the reconstitution cause. Next: ablate the re-injection sources
+(dream/echo/attractor/expression-blend) to isolate which one to fix.
+
 **2. Attractor-plasticity probe — with predeclared observables (#1).**
 "Measure migration" is a hypothesis, not an experiment, until these are fixed
 *before* the run (discipline #4):
