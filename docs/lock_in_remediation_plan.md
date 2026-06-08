@@ -21,6 +21,20 @@ lock-in"* and to `docs/ARCHITECTURE_ANALYSIS.md` §4.
 > ~85% governance gate · magnitude moat), corrected the metastability *locus*
 > (coherent field is spec; metastability is upstream), and retired pin-vs-band in
 > favor of **attractor plasticity**. Read those before re-running any probe here.
+>
+> **Update (2026-06-07 — plasticity arc complete; supersedes the three-layer
+> decomposition above).** The June-7 findings ran the plasticity test and isolated
+> the lock: the 85% gate was a single-source **monopoly artifact**
+> (`2026-06-07-gate-decomposition.md`), the magnitude moat is **surmountable, not the
+> locker** (`2026-06-07-attractor-migration.md`), and the reaper/survival channel is
+> **mislocated** (`2026-06-07-fix0b-fullloop-validation.md`). The lock is the
+> **reflective loop** (`reflector.reflect`): the field is RIGID under a surviving new
+> regime, and suppressing only that loop frees full migration (3 seeds) with every
+> other path inert (`2026-06-07-reconstruction-ablation.md`). This **relocates the
+> remediation target** from the field-side paper-boat (Fix 2 below) to the reflective
+> loop's convergence gain — a tier-direction decision **held for the architect,
+> pending a cost probe** (what attenuating the loop costs identity stability). The
+> plan text below is preserved as the prior direction, not rewritten.
 
 ---
 
@@ -198,6 +212,16 @@ against the live field through it. Not yet formalized as a single standing
 protocol.
 
 ### Fix 2 — paper-boat operator **(PLANNED — LAST; needs all above)**
+
+> **Locus update (2026-06-07):** the plasticity arc relocated the lock from the field
+> accumulator to the **reflective loop** (`2026-06-07-reconstruction-ablation.md` —
+> suppressing only `reflector.reflect` frees full attractor migration; the moat is
+> surmountable). The paper-boat framing below (field-side attractor lightening) is
+> **retained but superseded as the primary lever**: the leading remediation candidate
+> is now *conditional attenuation of the reflective loop's convergence gain, gated on
+> persistent-novelty-surviving the gate*. This direction is **not committed** — it
+> awaits a cost probe (the identity-stability tradeoff of touching the loop) and the
+> architect's decision. The text below is preserved as the prior plan, not deleted.
 
 > Note: the **expression** de-collapse above (`diversity_blend`) is a *different*
 > intervention at a different locus — it keeps the injected vector metastable. Fix
