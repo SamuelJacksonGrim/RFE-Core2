@@ -149,6 +149,27 @@ control):
   `2026-06-06-coherence-is-not-plasticity.md`. The 85% gate must be decomposed
   before the plasticity test is interpretable.
 
+**Update (2026-06-07 — plasticity arc complete; four findings).** The multi-layer
+picture above resolved to a single mechanism. Every entry names its control:
+
+- **Gate decomposed → not a filter.** The ~85% gate block was a single-source
+  **monopoly artifact** (one source → HHI=1.0 → manipulation detector → trust
+  cascade); with multi-source diverse input the gate passes 100%, `field_collapse`
+  never fires. `2026-06-07-gate-decomposition.md`.
+- **Attractor migration: RIGID.** Under a persistent gate-surviving coherent new
+  regime (best case, 3 seeds) the field does not migrate; the magnitude moat is real
+  but **surmountable**, not the locker. `2026-06-07-attractor-migration.md`.
+- **The lock is the reflective loop.** One-variable ablation: suppressing only
+  `reflector.reflect` frees full migration (~100×, 3 seeds); attractor-pull, refine
+  blend, crystal, explore all inert. Coherence and rigidity are the *same* mechanism.
+  `2026-06-07-reconstruction-ablation.md`.
+- **Reaper conformity term: small + mislocated.** `2026-06-07-fix0b-fullloop-validation.md`.
+
+Net: the earlier candidates (generator/gate/moat, and the reaper) are cleared as
+*the* locker; the lock is the reflective loop's unconditional convergence to the
+anchor. Remediation relocates accordingly (see item 7 below) — **held for the
+architect, pending a cost probe** (the identity-stability cost of touching the loop).
+
 **Direction (planned, not frozen).** The healthy target is *metastability* —
 mid-band coherence with high dwell-time variance ("formed enough to hold,
 light enough to drift"). The full curated plan — build order, gating
@@ -201,6 +222,12 @@ dependencies, validation gates, and the load-bearing epistemic warnings — is
    lightens the current motif's attractor depth while preserving structure, so the
    field drifts under its own dynamics. Its main failure mode (point-attractor →
    limit cycle) is exactly what Fix 1's aperiodicity term detects.
+   **→ Locus relocated (2026-06-07):** the lock is the reflective loop, not the field
+   accumulator (`2026-06-07-reconstruction-ablation.md`). The leading candidate is now
+   *conditional attenuation of the reflective loop's convergence gain, gated on
+   surviving novelty*; the paper-boat framing is retained but no longer the primary
+   lever. **Not committed** — awaits the cost probe (identity-stability tradeoff) and
+   architect decision.
 
 Treat the above as direction, not committed scope, per this document's status
 discipline. Full detail in `docs/lock_in_remediation_plan.md`; the raw verbatim
