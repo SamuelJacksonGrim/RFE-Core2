@@ -116,3 +116,4 @@ What this leaves unanswered.
 | 2026-06-07 | [Fix 0-B full-loop validation — does the conformity lean survive in vivo?](2026-06-07-fix0b-fullloop-validation.md) | active | conformity-bias-fix0b, coherence-is-not-plasticity |
 | 2026-06-07 | [Gate decomposition — why does the ~85% block fire?](2026-06-07-gate-decomposition.md) | active | multilayer-lock, coherence-is-not-plasticity |
 | 2026-06-07 | [Attractor migration — does the field's center move under a new regime?](2026-06-07-attractor-migration.md) | active | gate-decomposition, coherence-is-not-plasticity, read-side-boundary |
+| 2026-06-07 | [Reconstruction ablation — the lock is the reflective loop](2026-06-07-reconstruction-ablation.md) | active | attractor-migration, coherence-is-not-plasticity, multilayer-lock |

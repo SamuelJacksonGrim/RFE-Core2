@@ -213,6 +213,12 @@ keep them in version control.
   `field.inject` to show what actually lands. Result: RIGID — the system
   reconstitutes the established regime regardless of input. See
   `docs/findings/2026-06-07-attractor-migration.md`.
+- `reconstruction_ablation_probe.py` — **Reconstruction ablation (the lever).**
+  One-variable ablation against the RIGID migration baseline: suppress each
+  re-injection path (reflective loop / attractor pull / refine blend / crystal /
+  explore) and re-run migration. Isolates the lock to the **reflective loop**
+  (suppressing only it frees migration to +0.90–0.96; all others inert). See
+  `docs/findings/2026-06-07-reconstruction-ablation.md`.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
