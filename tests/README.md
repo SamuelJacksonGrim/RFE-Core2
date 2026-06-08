@@ -219,6 +219,17 @@ keep them in version control.
   explore) and re-run migration. Isolates the lock to the **reflective loop**
   (suppressing only it frees migration to +0.90–0.96; all others inert). See
   `docs/findings/2026-06-07-reconstruction-ablation.md`.
+- `identity_stability_baseline.py` — **Identity-stability baseline + cost-probe
+  harness.** `measure(reflect_gain)` runs the canonical workload with the reflective
+  loop at a given convergence gain (1.0 intact → 0.0 passthrough) and reports the
+  identity-stability metrics; captures `baselines/identity_stability_500step.json`
+  (loop intact) as the "before" for the reflective-loop cost probe.
+- `integration/reflective_loop_lock_guard.py` — **Lock-characteristic regression
+  guard.** Asserts loop-intact = RIGID (migration < 0.10) and loop-suppressed =
+  MIGRATES (> 0.50); catches any future change that relocates or weakens the lock.
+- `adversarial/reflective_loop_convergence.py` — **Protective-property baseline.**
+  Under a novelty flood the intact loop holds identity (stability stays high, loop
+  converges); the property the eventual conditional-attenuation fix must preserve.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
