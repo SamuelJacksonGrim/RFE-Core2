@@ -1,0 +1,15 @@
+{
+  "description": "Identity-stability baseline, reflective loop intact (gain=1.0). The 'before' for the reflective-loop cost probe (Phase C). Source: 2026-06-07-reconstruction-ablation.md.",
+  "seed": 42,
+  "n_steps": 500,
+  "metrics": {
+    "reflect_gain": 1.0,
+    "coherence_mean": 0.9758,
+    "coherence_std": 0.0062,
+    "identity_stability": 0.998,
+    "anchor_velocity": 0.002,
+    "attractors": 2,
+    "crystals": 2,
+    "bonds": 1
+  }
+}
