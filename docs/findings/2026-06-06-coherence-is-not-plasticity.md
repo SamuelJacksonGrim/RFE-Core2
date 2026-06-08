@@ -91,6 +91,13 @@ conclusions from its output.
 
 ## Next steps (in order, now operationally specified)
 
+**→ STEP 1 DONE (2026-06-07), see `2026-06-07-gate-decomposition.md`:** the ~85%
+block was a **single-source monopoly artifact** (HHI=1.0 trips the manipulation
+detector → trust craters → quarantine-all), NOT novelty-strangling — `field_collapse`
+never fired, and 8-source diverse input blocks at **0%**. The input channel is
+CLEAR, so step 2 is unblocked, with one binding constraint: **the migration probe
+must use ≥2 sources (HHI < 0.70)** or it re-triggers the cascade.
+
 **1. Characterize the 85% gate block — decompose by rejection reason (#3).**
 "85% blocked" is uninterpretable alone: 80% redundant-noise + 5% novel rejected
 means one thing; 80% novel + 5% noise rejected means the opposite. So instrument
@@ -103,6 +110,16 @@ Output: "X% flood, Y% coherence, Z% trust, W% manipulation." That distribution
 tells us whether the gate is correctly rejecting junk or strangling the novelty
 the expression stream needs. This is the input-channel check; it must pass before
 the migration test is interpretable.
+
+**→ STEP 2 DONE (2026-06-07), see `2026-06-07-attractor-migration.md`: RIGID.**
+Under a persistent, gate-surviving, generator-emitted coherent new regime (the best
+case), the attractor center moved 0.008 beyond drift — it did not migrate. The
+locker is **active reconstitution of the established regime upstream of the field**:
+what *lands* is cos≈0.72 to the old regime regardless of whether the input is the
+old regime, a new one, or random noise. Not the passive moat, not the gate, not the
+reaper. The coupling hypothesis (below) resolves affirmative: high coherence and
+rigidity share the reconstitution cause. Next: ablate the re-injection sources
+(dream/echo/attractor/expression-blend) to isolate which one to fix.
 
 **2. Attractor-plasticity probe — with predeclared observables (#1).**
 "Measure migration" is a hypothesis, not an experiment, until these are fixed

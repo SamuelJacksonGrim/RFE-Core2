@@ -86,6 +86,12 @@ generator is the lock") was **too generous** — it trusted the regime *label*
 - **85% governance block** is the most useful new finding. Is governance
   correctly rejecting junk, or starving the *expression* stream of the variety it
   needs to stay metastable upstream? (On-axis; pull next.)
+  **→ DECOMPOSED & CORRECTED (2026-06-07), see `2026-06-07-gate-decomposition.md`:**
+  the 85% was a **single-source monopoly artifact** of this probe's `sim` workload
+  (HHI=1.0 → manipulation detector → trust cascade), *not* the gate rejecting
+  diverse input. `field_collapse` never fired; 8-source diverse input blocks at 0%.
+  Lock #2 (governance gate) is **not** an independent locker — strike it. Locks #1
+  (generator) and #3 (moat) stand.
 - The right metastability read is on `generator_metastability` (stage A) /
   `expression_metastability` (stage C), NOT the field. Re-run watching those.
 - Pin-vs-band for the field was put to Raphael → reframed; see Finding 4

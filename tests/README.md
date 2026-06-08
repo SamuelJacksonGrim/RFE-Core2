@@ -199,6 +199,20 @@ keep them in version control.
   direct conformity term via a same-symbol counterfactual, an (honestly confounded)
   observational arm, and healthy-state baseline safety per gate. See
   `docs/findings/2026-06-07-fix0b-fullloop-validation.md`.
+- `gate_decomposition_probe.py` — **Gate decomposition (input-channel check).**
+  Instruments the real governance gate (`ethical_boundary.check` →
+  `trust_ledger.evaluate` → `arbitrate`) and attributes every block by reason
+  across benign / single-source-diverse / multi-source-diverse regimes. Shows the
+  ~85% block is a single-source monopoly artifact, not novelty-strangling — the
+  input-channel check owed before the attractor-migration probe. See
+  `docs/findings/2026-06-07-gate-decomposition.md`.
+- `attractor_migration_probe.py` — **Attractor migration (the lock-in test).** On
+  the full live stack, establishes the field on regime A then injects a persistent
+  gate-surviving new regime B (multi-source, HHI<0.70), measuring whether the
+  attractor center migrates beyond a non-novel drift control. Instruments
+  `field.inject` to show what actually lands. Result: RIGID — the system
+  reconstitutes the established regime regardless of input. See
+  `docs/findings/2026-06-07-attractor-migration.md`.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
