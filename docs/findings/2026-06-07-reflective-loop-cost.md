@@ -127,6 +127,13 @@ bug-free (cliff-sharpen run) to separate true identity-collapse from the crash.
   (witness scalar + coherence + manip-rate + counts); other identity facets unmeasured.
 
 ## Open / next
+
+> **DEFERRED (2026-06-08):** the Fix-2 governor these cost numbers were for is **on hold**
+> — generator diversity is the upstream lever (`2026-06-08-generator-dropout-diversity.md`);
+> loosening the loop now would mostly admit dropout noise. The cost band/cliff
+> characterisation stands for when Fix 2 is revived. (The `attractor.merge_pass` bug in
+> item 1 is already fixed — PR #38.)
+
 1. **Fix the `attractor.merge_pass` bug** (separate substrate PR, architect's nod),
    then re-run to characterise the true cliff and the band's margin.
 2. **Draft the Fix-2 reframe WITH these numbers** for the architect: *bounded

@@ -93,6 +93,13 @@ signal, not the result.
   suppressing/modulating the loop costs identity stability — that is the next probe.
 
 ## Open / next
+
+> **DEFERRED (2026-06-08):** the Fix-2 governor this points to is **on hold**. The
+> reflective loop is a real lock, but `2026-06-08-generator-dropout-diversity.md` showed
+> it locks *low-rank* input (the generator is collinear + dropout-inflated), so generator
+> diversity is the more upstream lever and loosening the loop now would mostly admit
+> dropout noise. See the ROADMAP current-understanding block.
+
 1. **Draft a conditional fix for Sam's review (NOT a roadmap edit).** The lever is
    the reflective loop's unconditional convergence to the anchor. A blanket weakening
    trades lock-in for identity drift (the loop *is* deliberate-recursion/coherence),
