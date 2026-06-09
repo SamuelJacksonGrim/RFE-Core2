@@ -5,10 +5,23 @@
   deterministic token→direction stub; full live step loop otherwise — governance,
   coherence_impact, injection, reaper, decay, emotional gradient all real)
 - **Probe:** `tests/diagnostic/trained_generator_sim.py`
-- **Status:** active
+- **Status:** active — **lock #1 (generator 1-D) superseded by
+  `2026-06-08-generator-diversity-remeasure.md`**; locks #2/#3 already struck/downgraded
+  (see Open/next). The core multi-lock framing stands as the history; the individual
+  locks have all since been resolved or relocated.
 - **Depends on:** 2026-06-06-read-side-boundary.md (the survival-by-coherence
   mechanism), 2026-06-06-frame-correction.md (read this finding in the corrected
   frame: coherent field is spec, not pathology)
+
+> **CORRECTION (2026-06-08): lock #1 is RESOLVED, not standing.** The `cos ~0.998`
+> "1-D projector" reading below was correct *pre-scale-fix*, but the `sqrt(d_model)` +
+> init-std fix shipped afterward and was never reconciled here. The live untrained
+> generator now emits genuine directional diversity (mean pairwise cos ~0.54 at dim 64,
+> init-dependent 0.36–0.69; never 0.998) — see
+> `2026-06-08-generator-diversity-remeasure.md`. The `spread=0.0` (cos 0.998) baseline
+> in this finding therefore reproduces a bug that is now fixed; treat it as a historical
+> control, not the live generator. (Doc-vs-live-code staleness, caught by running the
+> generator — the consistency pass couldn't see it.)
 
 ## Question
 `lockin_source.py` proved the live lock is upstream: the untrained Generator maps

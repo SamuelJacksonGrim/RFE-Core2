@@ -108,7 +108,7 @@ What this leaves unanswered.
 | Date | Finding | Status | Depends on |
 |------|---------|--------|------------|
 | 2026-06-06 | [Read-side boundary — does feedback reach generation?](2026-06-06-read-side-boundary.md) | active | — |
-| 2026-06-06 | [Where is the lock? (generator / governance / moat)](2026-06-06-multilayer-lock.md) | active | read-side-boundary |
+| 2026-06-06 | [Where is the lock? (generator / governance / moat)](2026-06-06-multilayer-lock.md) | active (lock #1 superseded) | read-side-boundary |
 | 2026-06-06 | [Metastability locus — upstream vs. field](2026-06-06-frame-correction.md) | active | — |
 | 2026-06-06 | [Coherence vs. plasticity — which measures lock-in?](2026-06-06-coherence-is-not-plasticity.md) | active | multilayer-lock, frame-correction |
 | 2026-06-06 | [Conformity bias in the reaper — Fix 0-B candidate](2026-06-06-conformity-bias-fix0b.md) | active | read-side-boundary, coherence-is-not-plasticity |
@@ -118,3 +118,4 @@ What this leaves unanswered.
 | 2026-06-07 | [Attractor migration — does the field's center move under a new regime?](2026-06-07-attractor-migration.md) | active | gate-decomposition, coherence-is-not-plasticity, read-side-boundary |
 | 2026-06-07 | [Reconstruction ablation — the lock is the reflective loop](2026-06-07-reconstruction-ablation.md) | active | attractor-migration, coherence-is-not-plasticity, multilayer-lock |
 | 2026-06-07 | [Reflective-loop cost probe — what attenuating the lock costs identity](2026-06-07-reflective-loop-cost.md) | active | reconstruction-ablation |
+| 2026-06-08 | [Generator diversity re-measured — is lock #1 (1-D projector) standing?](2026-06-08-generator-diversity-remeasure.md) | active | multilayer-lock |

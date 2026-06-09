@@ -168,6 +168,11 @@ keep them in version control.
   metastability, labels the ~0.998 live pin `locked`, and holds these
   separations on the live-Generator field, not just synthetic vectors.
   Asserts; exits 0/1. Lock-in remediation lineage: `docs/lock_in_remediation_plan.md`.
+- `generator_diversity_probe.py` — **Generator diversity re-measure.** Checks whether
+  lock #1 (generator as 1-D projector, cos ~0.998) still holds post-scale-fix: the live
+  untrained generator emits init-dependent directional diversity (mean cos ~0.54 at dim
+  64, never 0.998) → lock #1 is RESOLVED. See
+  `docs/findings/2026-06-08-generator-diversity-remeasure.md`.
 - `lockin_source.py` — **Upstream lock decomposition (G5 follow-up).**
   Shows the live field lock is *mechanical* (untrained-generator output
   collinearity + the accumulate-decay magnitude moat), not field-dynamics

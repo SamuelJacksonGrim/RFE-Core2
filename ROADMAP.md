@@ -170,6 +170,18 @@ Net: the earlier candidates (generator/gate/moat, and the reaper) are cleared as
 anchor. Remediation relocates accordingly (see item 7 below) — **held for the
 architect, pending a cost probe** (the identity-stability cost of touching the loop).
 
+**Correction (2026-06-08 — doc-vs-live-code staleness).** The "generator 1-D
+projection (cos ~0.998)" in the multi-layer bullet above (and `multilayer-lock`) is
+**RESOLVED, not standing.** The `sqrt(d_model)` + init-std scale fix (shipped, items 2
+below) removed the collinearity; the live untrained generator now emits genuine
+init-dependent directional diversity (mean pairwise cos ~0.54 at dim 64, range
+0.36–0.69, never 0.998) — `2026-06-08-generator-diversity-remeasure.md`. Two
+consequences: (i) the `spread=0.0`/cos-0.998 baseline in `trained_generator_sim`
+reproduces a now-fixed bug, so it is a historical control, not the live generator;
+(ii) Fix 2 is therefore **live, not dormant** — its trigger would see real novelty —
+so the keystone RIGID migration result (measured by *mocking* diversity) must be
+re-verified on the real, diverse generator before the governor is built.
+
 **Direction (planned, not frozen).** The healthy target is *metastability* —
 mid-band coherence with high dwell-time variance ("formed enough to hold,
 light enough to drift"). The full curated plan — build order, gating
