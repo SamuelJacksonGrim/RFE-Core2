@@ -119,3 +119,4 @@ What this leaves unanswered.
 | 2026-06-07 | [Reconstruction ablation — the lock is the reflective loop](2026-06-07-reconstruction-ablation.md) | active | attractor-migration, coherence-is-not-plasticity, multilayer-lock |
 | 2026-06-07 | [Reflective-loop cost probe — what attenuating the lock costs identity](2026-06-07-reflective-loop-cost.md) | active | reconstruction-ablation |
 | 2026-06-08 | [Fix-2 trigger calibration — coherence_delta falsified, raw-gen novelty separates](2026-06-08-fix2-trigger-calibration.md) | active | reflective-loop-cost, gate-decomposition |
+| 2026-06-08 | [Generator diversity — how much is dropout noise?](2026-06-08-generator-dropout-diversity.md) | active | generator-diversity-remeasure, read-side-boundary |
