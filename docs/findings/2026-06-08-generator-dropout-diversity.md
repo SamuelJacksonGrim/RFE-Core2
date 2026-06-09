@@ -2,15 +2,16 @@
 
 - **Date:** 2026-06-08
 - **Substrate:** live generator (isolated) + full live stack.
-- **Probe:** `tests/diagnostic/generator_diversity_audit.py`
-- **Status:** active — **corrects the interpretation** of
-  `2026-06-08-generator-diversity-remeasure.md` (PR #41) and softens
-  `2026-06-08-migration-real-generator.md` (PR #42). The measurements there stand; the
-  "genuine diversity / lock #1 resolved / Fix 2 live" reading was **train-mode
-  (dropout-inflated)** and overstated.
-- **Depends on:** 2026-06-08-generator-diversity-remeasure.md (the reading it corrects),
+- **Probe:** `tests/diagnostic/generator_diversity_audit.py` (diversity, train vs eval),
+  `tests/diagnostic/migration_real_generator_probe.py` (field response on real input).
+- **Status:** active — **THE authoritative generator-diversity finding.** Subsumes and
+  replaces the two interim readings it corrects: `generator-diversity-remeasure` ("lock #1
+  resolved" — overstated, train-mode) and `migration-real-generator` ("RIGID on real
+  diversity" — true, but the "real diversity" was dropout-inflated). Both were folded in
+  here; their separate PRs are closed.
+- **Depends on:** 2026-06-06-multilayer-lock.md (the lock-#1 claim it corrects),
   2026-06-06-read-side-boundary.md (the dropout-control lesson — exactly this trap),
-  2026-06-08-migration-real-generator.md.
+  2026-06-07-reconstruction-ablation.md (the reflective loop, which this re-prioritises).
 
 ## Question
 The "lock #1 resolved — generator emits genuine diversity (mean cos ~0.54)" claim was a
@@ -44,6 +45,15 @@ structure vs per-call dropout noise — and does any of it survive the pipeline?
 |------|----------:|---------------------:|----------------------:|-----------------------:|
 | train | 0.969 | 0.39 | 4.8 | 2.3 |
 | eval  | 0.971 | 0.23 | 2.5 | **1.1 (locked)** |
+
+**[3] Field response (migration on the real generator,
+`migration_real_generator_probe.py`, 3 seeds).** Establishing regime A on one real token
+and switching to the most-separated real token regime, the field does **not** migrate
+(mean migration **+0.002**); what lands stays aligned with the established regime. So the
+reflective loop reconstitutes real input as it did the mock — RIGID holds. *Caveat from
+[1]:* those "most-separated real regimes" (cos −0.02 to −0.15) were measured in train mode,
+so the separation is partly dropout; the deterministic generator can't present
+near-orthogonal regimes at dim 64. RIGID stands; the novelty it withstood was partly noise.
 
 ## Interpretation
 **DROPOUT-INFLATED / PARTIAL.** The control fires: train-mode determinism is 0.37–0.67

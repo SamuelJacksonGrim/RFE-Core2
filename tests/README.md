@@ -173,6 +173,10 @@ keep them in version control.
   full-stack stage-A→stage-C regime monitor. Shows ~half the apparent diversity is
   dropout noise and the deterministic dim-64 generator is collinear (eff_rank ~1.6).
   See `docs/findings/2026-06-08-generator-dropout-diversity.md`.
+- `migration_real_generator_probe.py` — **Migration re-verified on the real generator.**
+  Re-runs the attractor-migration test with the real generator's most-separated token
+  regimes; RIGID holds (mean migration +0.002, 3 seeds). Folded into the
+  generator-dropout-diversity finding.
 - `lockin_source.py` — **Upstream lock decomposition (G5 follow-up).**
   Shows the live field lock is *mechanical* (untrained-generator output
   collinearity + the accumulate-decay magnitude moat), not field-dynamics
