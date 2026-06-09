@@ -173,6 +173,11 @@ keep them in version control.
   untrained generator emits init-dependent directional diversity (mean cos ~0.54 at dim
   64, never 0.998) → lock #1 is RESOLVED. See
   `docs/findings/2026-06-08-generator-diversity-remeasure.md`.
+- `migration_real_generator_probe.py` — **Migration re-verified on the real generator.**
+  Re-runs the attractor-migration test with the real (un-mocked) generator's
+  most-separated token regimes; RIGID confirmed (mean migration +0.002, 3 seeds) → the
+  mock didn't overstate the lock, Fix 2 is live. See
+  `docs/findings/2026-06-08-migration-real-generator.md`.
 - `lockin_source.py` — **Upstream lock decomposition (G5 follow-up).**
   Shows the live field lock is *mechanical* (untrained-generator output
   collinearity + the accumulate-decay magnitude moat), not field-dynamics
