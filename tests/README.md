@@ -230,6 +230,11 @@ keep them in version control.
 - `adversarial/reflective_loop_convergence.py` — **Protective-property baseline.**
   Under a novelty flood the intact loop holds identity (stability stays high, loop
   converges); the property the eventual conditional-attenuation fix must preserve.
+- `fix2_trigger_calibration.py` — **Fix-2 loosen-trigger calibration.** Falsifies
+  `coherence_delta` as the trigger's outside signal (the moat masks it) and validates
+  raw-generator-vs-field novelty (W=10, T≈0.65: benign 0% / novelty 100% / attack 0%,
+  the single-source attack excluded by the ≥2-source gate). See
+  `docs/findings/2026-06-08-fix2-trigger-calibration.md`.
 - `reflective_loop_cost_probe.py` — **The cost probe.** Sweeps the reflect-gain dial
   and weighs plasticity (migration) vs identity (stability, coherence, Tier-2
   manipulation-signal rate). Found a graceful band (gain 0.6–0.8: ~25× plasticity at
