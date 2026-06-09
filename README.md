@@ -553,7 +553,9 @@ RFE-Core2/
 │   │   ├── reconstruction_ablation_probe.py  Which re-injection path locks the attractor (→ reflective loop)
 │   │   ├── identity_stability_baseline.py    Identity-stability metrics + reflect-gain dial (cost-probe harness)
 │   │   ├── reflective_loop_cost_probe.py     Plasticity-vs-identity tradeoff across the reflect-gain dial
-│   │   └── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
+│   │   ├── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
+│   │   ├── generator_diversity_audit.py      Multi-method diversity (train vs eval / dropout; pipeline survival)
+│   │   └── migration_real_generator_probe.py Attractor migration re-verified on the REAL generator
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges

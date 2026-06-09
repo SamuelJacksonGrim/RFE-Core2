@@ -97,7 +97,10 @@ hypothesis lands on the affirmative side: high coherence and rigidity share a ca
 - **Mocked generator (load-bearing asymmetry):** B is a *clean* coherent pull, the
   easiest case for migration. RIGID here is therefore STRONG (a real generator's
   weaker novelty would do no better). A "migrates" would have been the weak read;
-  this is the strong read.
+  this is the strong read. **→ Re-verified on the REAL generator (2026-06-08): RIGID
+  holds** (mean migration +0.002, 3 seeds), with the caveat that the real generator is
+  low-rank + dropout-inflated, so the novelty it withstood was partly noise. See
+  `2026-06-08-generator-dropout-diversity.md`.
 - **Mechanism is inferred, not yet decomposed.** "landed = A regardless of input"
   is measured; *which* subsystem (dream / echo / attractor / expression-blend) does
   the reconstitution is a strong hypothesis from injects/step=3 + the landed-cos,
