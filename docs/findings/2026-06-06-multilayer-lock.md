@@ -5,10 +5,28 @@
   deterministic token→direction stub; full live step loop otherwise — governance,
   coherence_impact, injection, reaper, decay, emotional gradient all real)
 - **Probe:** `tests/diagnostic/trained_generator_sim.py`
-- **Status:** active
+- **Status:** active (all three locks since resolved/struck/downgraded — see status block)
 - **Depends on:** 2026-06-06-read-side-boundary.md (the survival-by-coherence
   mechanism), 2026-06-06-frame-correction.md (read this finding in the corrected
   frame: coherent field is spec, not pathology)
+
+> **CURRENT DISPOSITION (2026-06-08) — read this first.** The three-lock decomposition
+> below was the right *map*; every lock has since been resolved or relocated, so the
+> body is history, not current state:
+> - **Lock #1 (generator 1-D, cos 0.998) — PARTIALLY resolved.** The `sqrt(d_model)`
+>   scale fix moved the generator off cos 0.998, but the *deterministic* generator is
+>   still collinear at dim 64 (effective rank ~1.6) and the live system runs it with
+>   dropout active, so ~half its apparent diversity is noise. The `spread=0.0`/cos-0.998
+>   baseline in this finding reproduces the *pre-fix* bug — a historical control, not the
+>   live generator. `2026-06-08-generator-dropout-diversity.md`.
+> - **Lock #2 (85% governance gate) — STRUCK.** A single-source monopoly artifact, not a
+>   filter; multi-source diverse input passes 100%. `2026-06-07-gate-decomposition.md`.
+> - **Lock #3 (magnitude moat) — DOWNGRADED.** Real but surmountable, not the locker.
+>   `2026-06-07-attractor-migration.md`.
+>
+> The actual reconstitution mechanism is the **reflective loop**
+> (`2026-06-07-reconstruction-ablation.md`) — but it locks *low-rank* input (lock #1), so
+> **generator diversity is the more upstream lever.**
 
 ## Question
 `lockin_source.py` proved the live lock is upstream: the untrained Generator maps
@@ -58,11 +76,6 @@ frame-correction): a coherent field is spec, not pathology.
 3. **Magnitude moat** — the accumulating field swamps each new injection
    (inputCos 0.91 landing despite orthogonal sources); what reaches the field
    looks aligned regardless of source diversity.
-   **→ DOWNGRADED (2026-06-07, `2026-06-07-reconstruction-ablation.md`): the moat is
-   NOT the locker.** With the reflective loop ablated the field migrates fully to a
-   new regime despite the moat being present. Lock #2 was earlier struck (gate
-   decomposition: monopoly artifact); lock #3 (moat) is real context but surmountable.
-   The actual lock is the **reflective loop**, downstream of all three.
 
 The field holding ~0.95 under diverse input is the field *doing its job* (coherent
 integrator by design), not a pathology. The strongest reading: the moat is a real,
@@ -95,8 +108,8 @@ generator is the lock") was **too generous** — it trusted the regime *label*
   the 85% was a **single-source monopoly artifact** of this probe's `sim` workload
   (HHI=1.0 → manipulation detector → trust cascade), *not* the gate rejecting
   diverse input. `field_collapse` never fired; 8-source diverse input blocks at 0%.
-  Lock #2 (governance gate) is **not** an independent locker — strike it. Locks #1
-  (generator) and #3 (moat) stand.
+  Lock #2 (governance gate) is **not** an independent locker — strike it. (Disposition
+  of all three locks: see the status block at the top.)
 - The right metastability read is on `generator_metastability` (stage A) /
   `expression_metastability` (stage C), NOT the field. Re-run watching those.
 - Pin-vs-band for the field was put to Raphael → reframed; see Finding 4

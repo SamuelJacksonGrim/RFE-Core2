@@ -112,6 +112,27 @@ collision + epistemic-discipline process that produced Tier 4.2.
 **This supersedes "4.4 next" as the next substantive work.** 4.4
 (frequency → emotion) remains **planned** but no longer leads.
 
+> **CURRENT UNDERSTANDING (2026-06-08) — start here; everything below is dated history.**
+> - The field pins high coherence. The "multi-layer lock" decomposed: the **85% gate** was
+>   a single-source monopoly artifact (not a filter); the **magnitude moat** is surmountable;
+>   the **reflective loop** is the active reconstitution mechanism — ablation-proven (suppress
+>   it and the field migrates). `2026-06-07-{gate-decomposition, attractor-migration,
+>   reconstruction-ablation}.md`.
+> - **But the generator presents low-rank input.** Deterministic effective rank ~1.6 at dim 64,
+>   and the live system runs it with **dropout active** (it never `.eval()`s), so ~half the
+>   apparent input diversity is noise and the deterministic expression collapses to one regime.
+>   `2026-06-08-generator-dropout-diversity.md`.
+> - **Net:** the reflective loop is a real lock, but it locks *low-rank* input. Adaptivity is
+>   gated by BOTH generator diversity (upstream) and the loop. **Generator diversity — training,
+>   raising dim, and the eval-decision — is the more upstream lever.**
+> - **Fix 2** (the reflective-loop-loosening governor — designed: `gnov` trigger W=10/T≈0.65,
+>   rails, gain floor 0.45; `2026-06-08-fix2-trigger-calibration.md`) is **DEFERRED as
+>   premature**: loosening the loop now would mostly admit dropout noise. Build it after the
+>   generator presents real diversity.
+> - **Open architect decision:** should the live generator run in `eval()` (dropout off)?
+>   Intentional stochastic exploration vs a missing `eval()` — this decides what the field's
+>   "input diversity" even is.
+
 **Finding (verified, June 3 session).** The accumulated symbol-state feedback
 signals — field coherence, attractor strength, crystal binding, centrality —
 are written onto `SymbolState` but read by exactly one consumer: the
