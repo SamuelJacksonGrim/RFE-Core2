@@ -108,7 +108,7 @@ What this leaves unanswered.
 | Date | Finding | Status | Depends on |
 |------|---------|--------|------------|
 | 2026-06-06 | [Read-side boundary — does feedback reach generation?](2026-06-06-read-side-boundary.md) | active | — |
-| 2026-06-06 | [Where is the lock? (generator / governance / moat)](2026-06-06-multilayer-lock.md) | active | read-side-boundary |
+| 2026-06-06 | [Where is the lock? (generator / governance / moat)](2026-06-06-multilayer-lock.md) | active — all 3 locks resolved/struck/downgraded (see status block) | read-side-boundary |
 | 2026-06-06 | [Metastability locus — upstream vs. field](2026-06-06-frame-correction.md) | active | — |
 | 2026-06-06 | [Coherence vs. plasticity — which measures lock-in?](2026-06-06-coherence-is-not-plasticity.md) | active | multilayer-lock, frame-correction |
 | 2026-06-06 | [Conformity bias in the reaper — Fix 0-B candidate](2026-06-06-conformity-bias-fix0b.md) | active | read-side-boundary, coherence-is-not-plasticity |
