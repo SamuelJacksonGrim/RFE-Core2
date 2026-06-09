@@ -5,10 +5,10 @@
 - **Probe:** `tests/diagnostic/generator_diversity_audit.py` (diversity, train vs eval),
   `tests/diagnostic/migration_real_generator_probe.py` (field response on real input).
 - **Status:** active — **THE authoritative generator-diversity finding.** Subsumes and
-  replaces the two interim readings it corrects: `generator-diversity-remeasure` ("lock #1
-  resolved" — overstated, train-mode) and `migration-real-generator` ("RIGID on real
-  diversity" — true, but the "real diversity" was dropout-inflated). Both were folded in
-  here; their separate PRs are closed.
+  replaces the two interim readings it corrects (PRs #41 and #42, now closed): the
+  "remeasure" reading ("lock #1 resolved" — overstated, train-mode) and the real-generator
+  migration reading ("RIGID on real diversity" — true, but the "real diversity" was
+  dropout-inflated). Both were folded in here.
 - **Depends on:** 2026-06-06-multilayer-lock.md (the lock-#1 claim it corrects),
   2026-06-06-read-side-boundary.md (the dropout-control lesson — exactly this trap),
   2026-06-07-reconstruction-ablation.md (the reflective loop, which this re-prioritises).
@@ -77,12 +77,13 @@ at 1.0 (eval):
   or an omission (a missing `eval()`) is an open architectural question. Either way, a
   large fraction of the field's input diversity is random dropout, not learned/token
   structure.
-- **#41 (generator-diversity-remeasure) overstated.** "Genuine directional diversity,
+- **PR #41 (the "remeasure" reading, closed) overstated.** "Genuine directional diversity,
   lock #1 resolved" → at dim 64 the *deterministic* generator is collinear; the diversity
   that made it look resolved is dropout. The measurement stands; the conclusion needs the
   dropout caveat.
-- **#42 (migration-real-generator) softened.** Its most-separated real regimes (cos
-  −0.02 to −0.15) were measured in train mode — that separation is partly dropout; the
+- **PR #42 (the real-generator migration reading, folded in above) softened.** Its
+  most-separated real regimes (cos −0.02 to −0.15) were measured in train mode — that
+  separation is partly dropout; the
   *deterministic* generator can't present near-orthogonal regimes at dim 64 (eval cos
   ~0.79). RIGID likely still holds, but the "real B regime" it migrated-toward was partly
   noise; needs an eval re-run to be clean.
