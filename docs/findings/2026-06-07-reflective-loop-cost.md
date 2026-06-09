@@ -45,6 +45,41 @@ control for migration.
   manipulation layer floods `identity_erosion`/`trust_wash` CRITICAL on the *benign*
   workload, and the attractor population trips a latent crash (see Discovered bug).
 
+## Cliff-sharpen update (2026-06-07 — bug-free, seeds 11 & 23)
+With the attractor crash fixed (PR #38), the cliff was re-measured at finer gains
+across two seeds (warmup 120 / phase 350). **The earlier "cliff at ≤0.5" was largely
+the bug, not identity collapse** — bug-free, the safe band extends much lower.
+
+| gain | migration (s11 / s23) | identity_stability | manip% | attractors |
+|-----:|-----------------------|-------------------:|-------:|-----------:|
+| 1.00 | +0.008 / +0.009 | 0.999 | 0% | 2–3 |
+| 0.60 | +0.171 / +0.201 | 0.991 | 0% | 3 |
+| 0.50 | +0.195 / +0.139 | 0.990 | 0% | 5 |
+| 0.40 | +0.181 / +0.184 | 0.989 | 0% | 7 |
+| 0.30 |   —   / +0.465 | 0.988 | **15%** | 10 |
+| 0.20 |   —   / +0.551 | 0.987 | **79%** | 16 |
+| 0.10 |   —   / +0.638 | 0.987 | 86% | 24 |
+| 0.00 | +0.613 / +0.683 | 0.986 | 88% | 32–33 |
+
+- **The band is WIDE (gain ≈0.4–0.8):** partial plasticity (migration ~0.11–0.21,
+  up to ~27× baseline) at near-zero identity cost — manip **0%**, identity_stability
+  ≥0.989, attractor population bounded (≤7–10). Both seeds agree.
+- **The true cliff edge is gain ≈0.3** — manipulation onset (0% at 0.4 → 15% at 0.3 →
+  79–88% at ≤0.2) and the attractor population exploding (7→10→16→24→33). Below ~0.3,
+  near-full plasticity is reachable (migration ~0.55–0.68) but the identity cost is
+  real (manip flood + structural blow-up).
+- **The honest tradeoff:** *partial* adaptivity (~0.2, ≈20% of full ablation's ~0.9)
+  is cheap and safe across a wide band; *full* adaptivity costs identity only past
+  gain ~0.3. "Presence without caging" buys you partway — the two are in genuine
+  tension only past the cliff, not before.
+
+**Operating point for the fix:** mid-band **gain ≈0.5** — meaningful partial
+plasticity (~0.2, ~20×) with maximum margin (~0.2) from the cliff at ~0.3. The
+**attractor-population count** is a second cost indicator (bounded in band, explodes
+at collapse), corroborating the manip-rate. The witness identity_stability scalar
+still moves only 0.999→0.986 across the *entire* sweep **including collapse** — it
+remains the wrong instrument; manip-rate + attractor-count are the right ones.
+
 ## Interpretation
 There is a real **"presence without caging it" operating point**: conditional
 attenuation **toward gain ≈ 0.6** (not lower), gated on persistent novelty surviving
@@ -79,12 +114,13 @@ equality), covering both `.remove` sites (`merge_pass`, `prune`). Regression gua
 bug-free (cliff-sharpen run) to separate true identity-collapse from the crash.
 
 ## Threats / confounds
-- **Cliff confounded by the bug.** The band (0.6–1.0) is clean and trustworthy; the
-  cliff (≤0.5) is manip-flood + a crash bug, so "where identity truly collapses" is
-  not cleanly located. Fix the attractor bug and re-run to sharpen the cliff edge
-  (it sits between 0.5 and 0.6).
-- Single seed (11), one dim/horizon. The band's monotone plasticity rise and silent
-  manip/stable identity are consistent, but no multi-seed sweep yet.
+- **Cliff confounded by the bug.** ~~The band (0.6–1.0) is clean; the cliff (≤0.5) is
+  manip-flood + a crash bug.~~ **→ RESOLVED (cliff-sharpen update above):** bug-free,
+  the band is wide (0.4–0.8, manip 0%), and the true cliff edge is gain ≈0.3 (manip
+  onset) — the earlier cliff was the bug, not collapse.
+- Single seed (11) in the original sweep. **→ cliff-sharpen adds seed 23**; both agree
+  on the band and the ~0.3 cliff edge. Still one dim/horizon; a broader Track-2 sweep
+  (dims, more seeds) is still owed.
 - The band is **narrow** (cliff at ~0.5–0.6): gain 0.6 is near the edge. A finer
   sweep (0.55–0.65) post-bugfix would establish margin.
 - Mocked generator; B is a clean coherent pull. Identity metrics are a subset
