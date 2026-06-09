@@ -520,7 +520,8 @@ RFE-Core2/
 │   │   ├── tier1_revision_baseline.py    Fresh run vs baseline JSON ranges
 │   │   ├── governance_decision_flow.py   Every GovernanceDecision enum value verified
 │   │   ├── core_promotion_handshake.py   All 5 rejection paths + 2 approval paths
-│   │   └── reflective_loop_lock_guard.py Lock characteristic guard (loop on=RIGID, off=migrates)
+│   │   ├── reflective_loop_lock_guard.py Lock characteristic guard (loop on=RIGID, off=migrates)
+│   │   └── attractor_merge_guard.py      Attractor merge/prune removal (array-__eq__ crash regression)
 │   │
 │   ├── adversarial/
 │   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels
