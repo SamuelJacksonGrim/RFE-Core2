@@ -3,9 +3,12 @@ tests/diagnostic/migration_real_generator_probe.py
 
 Re-verifies the keystone RIGID migration result on the REAL generator (not the B-mock).
 The attractor-migration finding (2026-06-07) measured RIGID by *mocking* an orthogonal
-new regime B into the field. But lock #1 is resolved — the live generator emits genuine
-directional diversity (2026-06-08-generator-diversity-remeasure). So: does the field
-still reconstitute REAL generator diversity, or did the mock overstate the lock?
+new regime B into the field. The generator-diversity finding (2026-06-08) folded in a
+first real-generator migration run but flagged it: separation was measured in train mode
+(dropout active), so the A/B directions were partly dropout noise, not pure token
+structure. This probe re-runs with gen.eval() (dropout off) for a clean test: the
+A-dir and B-dir are fully deterministic, the warmup and phase are deterministic, and
+the separation (~cos 0.36 expected) reflects real token structure.
 
 Design (best case for migration, on real directions):
   For each seed, search the vocab for the MOST-SEPARATED token pair the generator
@@ -84,6 +87,7 @@ def _run(seed, mode):
     random.seed(seed); np.random.seed(seed)
     import torch; torch.manual_seed(seed)
     gen, cycle, gov, ve = build_full_stack(dim=DIM)
+    gen.eval()  # dropout off — deterministic token structure; no noise contamination
     field = cycle.field
     tokA, tokB, A_dir, B_dir, sep = _separated_pair(cycle)
     sources = [f"src_{i}" for i in range(N_SRC)]
@@ -114,7 +118,9 @@ def _run(seed, mode):
 
 def main() -> int:
     print("=" * 84)
-    print("  MIGRATION ON THE REAL GENERATOR — does the field reconstitute real diversity?")
+    print("  MIGRATION — REAL GENERATOR (eval/deterministic) — does the field reconstitute?")
+    print(f"  dim={DIM} warmup={WARMUP} phase={PHASE} sources={N_SRC} seeds={SEEDS}")
+    print(f"  generator in eval() mode: dropout off, real token structure only")
     print("=" * 84)
     migs, confounded = [], 0
     for seed in SEEDS:

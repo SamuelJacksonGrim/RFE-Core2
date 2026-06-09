@@ -86,11 +86,15 @@ at 1.0 (eval):
   separation is partly dropout; the
   *deterministic* generator can't present near-orthogonal regimes at dim 64 (eval cos
   ~0.79). RIGID likely still holds, but the "real B regime" it migrated-toward was partly
-  noise; needs an eval re-run to be clean.
-- **Fix 2's premise is weakened.** "Persistent real novelty surviving the gate" is what
-  the governor loosens for — but the real token-driven novelty at dim 64 is marginal, and
-  the diversity that exists is mostly dropout. Loosening the loop now would mostly admit
-  dropout noise. **Fix 2 may be premature** until the generator presents real diversity.
+  noise. **→ RESOLVED by `2026-06-09-migration-real-generator-eval.md`: eval-mode re-run
+  gives mean migration +0.005 (3 seeds, A·B = 0.19–0.44) — RIGID on genuine token
+  structure. The dropout caveat is closed.**
+- **Fix 2's premise was weakened** by the dropout finding, but is now restored: the
+  eval-mode re-run (`2026-06-09-migration-real-generator-eval.md`) confirms RIGID on
+  genuine token structure (migration +0.005, 3 seeds). The reflective loop reconstitutes
+  real diversity, not just dropout noise. **Fix 2 is needed AND live.** The train/eval
+  mode question (dropout as stochastic exploration vs. missing eval) remains open as an
+  architectural decision, but it does not gate Fix 2.
 - **Training may be more load-bearing than "downstream refinement."** A deterministic
   generator with eff_rank 1.6 needs real token-driven structure; training (contrastive /
   self-distillation) is what would provide it. The "refinement not rescue" framing rested
@@ -110,8 +114,8 @@ at 1.0 (eval):
 1. **Should the live generator run in `eval()` (dropout off)?** Is the per-step dropout
    intentional stochastic exploration or a missing `eval()`? This decides what "the
    field's input diversity" even *is*.
-2. **Is Fix 2 premature?** If real novelty is marginal until the generator is trained /
-   dim raised, building the loop-loosening governor now loosens for dropout noise.
+2. **Is Fix 2 premature?** ~~If real novelty is marginal…~~ **→ CLOSED: RIGID holds on
+   eval-mode generator (2026-06-09-migration-real-generator-eval.md); Fix 2 is unblocked.**
 3. **Re-sequence vs training.** Re-weigh whether generator diversity (train / dim) is the
    real upstream lever, with the reflective loop a downstream symptom of low input rank.
 4. Update #41/#42 conclusions with the dropout caveat (their measurements stand).
