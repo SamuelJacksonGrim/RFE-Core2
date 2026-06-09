@@ -181,4 +181,16 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Optional overrides for cliff-sharpen / Track-2 sweeps:
+    #   python -m ...cost_probe [seed] [g1,g2,...] [warmup] [phase]
+    import sys
+    _a = sys.argv[1:]
+    if len(_a) >= 1:
+        SEED = int(_a[0])
+    if len(_a) >= 2:
+        GAINS = [float(x) for x in _a[1].split(",")]
+    if len(_a) >= 3:
+        WARMUP = int(_a[2])
+    if len(_a) >= 4:
+        PHASE = int(_a[3])
     raise SystemExit(main())
