@@ -65,12 +65,16 @@ signal, in fact *further* outside the loop than Δcoh (pre-attractor-pull, pre-r
 pre-chorus). So this is the pre-declared fallback firing, not a new design direction;
 flagged for ratification before the governor is built on it.
 
-**Architectural caveat (load-bearing).** `gnov` only carries signal once the generator
-can present diversity. With the current untrained 1-D generator (lock #1), every
-output is ~one direction, so `gnov` ≈ 0 always and **the trigger never fires — Fix 2
-is dormant.** That is *safe*: Fix 2 is a no-op until there is genuine novelty to
-respond to (post generator-training, or whatever resolves lock #1). The probes mock
-the generator to supply the counterfactual diversity the trigger will eventually see.
+**Architectural caveat (load-bearing) — CORRECTED 2026-06-08.** An earlier version of
+this caveat claimed the generator is a 1-D projector so `gnov` ≈ 0 and Fix 2 is a "safe
+dormant no-op." That rested on a stale premise. `2026-06-08-generator-dropout-diversity.md`
+showed the generator is **not** 1-D but **low-rank + dropout-inflated**: deterministic
+effective rank ~1.6 at dim 64, and the live system runs it with dropout active so `gnov`
+is *non-zero but partly dropout noise* (live benign gnov ≈ 0.39, ~40% of which is dropout).
+So Fix 2 is **not** dormant and **not** trivially safe — it is **DEFERRED as premature**:
+the real token novelty `gnov` should gate is marginal, and loosening the loop now would
+mostly admit dropout noise. Generator diversity (training / dim / the eval-decision) is
+the upstream lever; Fix 2 waits behind it. See the ROADMAP current-understanding block.
 
 ## Threats / confounds
 - Single seed (11), one dim/horizon. The separation margin is large (0.49 vs 0.885),
@@ -78,10 +82,12 @@ the generator to supply the counterfactual diversity the trigger will eventually
 - `gnov` uses `|cos|` (sign-agnostic): a novel orthogonal direction reads novel; an
   anti-aligned vector (−field) reads non-novel (same axis, opposite sign). Intended —
   novelty = a new *direction*, not a sign flip.
-- Benign `gnov` ≈ 0.39 is non-trivial (the real 1-D generator's output is not perfectly
-  field-aligned), but the margin to novelty's 0.885 floor is still clean at T≥0.5.
-- Dormancy caveat above: the trigger is unfalsifiable on the *real* generator until
-  diversity can arrive; all validation here is on the mocked counterfactual.
+- Benign `gnov` ≈ 0.39 is non-trivial and **~40% dropout-driven** (eval ≈ 0.23), so the
+  trigger's benign baseline is partly noise; the margin to novelty's 0.885 floor is still
+  clean at T≥0.5, but see the corrected caveat above.
+- The "novelty" validated here is the *mock* (deterministic B). On the real generator the
+  available novelty is low-rank + dropout — see `2026-06-08-generator-dropout-diversity.md`;
+  this is why Fix 2 is deferred, not dormant.
 
 ## Open / next
 1. **Council ratification** of the `coherence_delta → gnov` substitution before
