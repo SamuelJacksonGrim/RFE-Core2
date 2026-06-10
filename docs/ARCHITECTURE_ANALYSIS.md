@@ -103,14 +103,14 @@ drift this resolved). For each step below: what it reads → what it writes.
               [7] witness (short/mid/long)     [8] predictive echo          │
                   │                                   │                    │
                   └───────────────┬───────────────────┘              │
-                                  ▼                                        │
+                                     ▼                                     │
                     [9] EMOTION (6 scalars → arousal/valence)              │
-                         │             │                                    │
+                          │            │                                    │
             [9b] dilation │            │ modulation outputs                 │
-              (next tick) ▼            ▼                                   │
+              (next tick) ▼           ▼                                    │
                     [10] GOVERNANCE GATE ──► field.inject ──┐              │
-                                  │                         │               │
-                    [11] crystallize  [12] attractor        │               │
+                                  │                          │              │
+                    [11] crystallize  [12] attractor         │              │
                                   │                         ▼              │
                     [13-18b] log / ecology / manipulation  field grows      │
                                   │                         │               │
