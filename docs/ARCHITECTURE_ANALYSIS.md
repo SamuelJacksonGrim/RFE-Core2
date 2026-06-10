@@ -87,37 +87,37 @@ drift this resolved). For each step below: what it reads → what it writes.
 ### The cycle as a diagram
 
 ```
-                 ┌──────────────────────────────────────────────────────┐
-                 │                                                      │
-                 ▼                                                      │
-  tokens ──► [1] observe field ──► rhythm ──► [2] generate vec         │
-                                                  │                     │
+                 ┌────────────────────────────────────────────────┐
+                 │                                                         │
+                 ▼                                                         │
+  tokens ──► [1] observe field ──► rhythm ──► [2] generate vec           │
+                                                  │                        │
               [3] attractor pull ◄────────────────┘                     │
-                  │                                                      │
-              [4] recursive attention (×3)                              │
-                  │                                                      │
-              [5] WATCHER  ── G,T,R ──► composite C ──┐                  │
-                  │                                   │                  │
-              [6] reflective loop (≤5, if stable)     │                  │
-                  │                                   ▼                  │
-              [7] witness (short/mid/long)     [8] predictive echo       │
-                  │                                   │                  │
-                  └───────────────┬───────────────────┘                  │
-                                  ▼                                       │
-                    [9] EMOTION (6 scalars → arousal/valence)             │
-                         │            │                                   │
-            [9b] dilation │            │ modulation outputs               │
-              (next tick) ▼            ▼                                  │
-                    [10] GOVERNANCE GATE ──► field.inject ──┐             │
-                                  │                         │             │
-                    [11] crystallize  [12] attractor        │             │
-                                  │                         ▼             │
-                    [13-18b] log / ecology / manipulation  field grows    │
-                                  │                         │             │
-                    [19] field.decay ◄──────────────────────┘             │
-                                  │                                       │
-                    [20] rhythm behavior (stabilize/dream/reflect/explore)│
-                                  │                                       │
+                  │                                                        │
+              [4] recursive attention (×3)                                 │
+                  │                                                        │
+              [5] WATCHER  ── G,T,R ──► composite C ──┐                   │
+                  │                                   │                    │
+              [6] reflective loop (≤5, if stable)     │                    │
+                  │                                   ▼                    │
+              [7] witness (short/mid/long)     [8] predictive echo          │
+                  │                                   │                    │
+                  └───────────────┬───────────────────┘              │
+                                  ▼                                        │
+                    [9] EMOTION (6 scalars → arousal/valence)              │
+                         │             │                                    │
+            [9b] dilation │            │ modulation outputs                 │
+              (next tick) ▼            ▼                                   │
+                    [10] GOVERNANCE GATE ──► field.inject ──┐              │
+                                  │                         │               │
+                    [11] crystallize  [12] attractor        │               │
+                                  │                         ▼              │
+                    [13-18b] log / ecology / manipulation  field grows      │
+                                  │                         │               │
+                    [19] field.decay ◄──────────────────────┘           │
+                                  │                                         │
+                    [20] rhythm behavior (stabilize/dream/reflect/explore)  │
+                                  │                                         │
                     [22] StepState ─ self._parent = key ─────────────────┘
                                             (next cycle observes the new field)
 ```
