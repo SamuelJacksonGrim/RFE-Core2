@@ -15,6 +15,8 @@ project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
 - `docs/ARCHITECTURE_ANALYSIS.md` — end-to-end recursion + information-flow
   reference; `docs/lock_in_remediation_plan.md` — the curated remediation plan;
   `docs/tier4_2_validation.md` / `tier4_3_validation.md` — tier validation.
+- `docs/training/` — the generator training path: viability assessment, phased
+  plan, data curation, Tier 5 readiness (proposed direction, not committed).
 - `docs/findings/` — the dated, control-named **empirical ledger** (lab
   notebook). Read its `README.md` for the schema and discipline before recording
   a result; every finding names its control, and negative results count.
