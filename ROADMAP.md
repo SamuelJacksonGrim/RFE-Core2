@@ -140,6 +140,13 @@ collision + epistemic-discipline process that produced Tier 4.2.
 >   the binding constraint.** `2026-06-11-trainer-gradient-path.md`. The phased,
 >   gate-disciplined path from here to Fix-2 un-deferral and a Tier 5 spec is
 >   `docs/training/` (proposed direction, not committed scope).
+> - **Phase 1 complete — Gate G1 passed (2026-06-11).** Curated corpus landed
+>   (`data/corpus/` v1.0.1: 2336 train / 410 holdout, 272 tokens, integrity-gated in CI);
+>   8 epochs of rhythm pretraining generalize to held-out sequences: eff_rank 1.45→3.46 /
+>   1.28→3.55 (≥2× gate), rhythm-NN 0.99+ (≥0.75 gate), determinism 1.0, norms bounded —
+>   two seeds. **Coverage was the binding constraint, and it is paid.**
+>   `2026-06-11-corpus-g1-pretrain.md`. Next: Phase 2 (cost-gated live-stack validation
+>   from the boot checkpoint), then the `.eval()` decision.
 
 **Finding (verified, June 3 session).** The accumulated symbol-state feedback
 signals — field coherence, attractor strength, crystal binding, centrality —

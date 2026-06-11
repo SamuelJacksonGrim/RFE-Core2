@@ -1,5 +1,14 @@
 # Data curation — what the corpus needs
 
+> **Status (2026-06-11, later the same day):** the corpus described in §3
+> **exists** — `data/corpus/` v1.0.1 (2336 train / 410 holdout sequences,
+> 272 tokens, min 15 contexts/token), generated externally per this spec,
+> then validated and cleaned in-repo (dedup + removal of 4 train→holdout
+> leaked sequences). Integrity is CI-gated by
+> `tests/diagnostic/corpus_integrity_check.py`; loader is
+> `training/corpus.py`. **Gate G1 passed on it, two seeds** —
+> `docs/findings/2026-06-11-corpus-g1-pretrain.md`.
+
 - **Date:** 2026-06-11
 - **Why this document:** the 2026-06-11 effect probe showed the training
   mechanism works but only restructures what the corpus covers (the disjoint
