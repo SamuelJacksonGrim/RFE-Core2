@@ -487,9 +487,11 @@ RFE-Core2/
 │   └── resonance_heatmap.py        2D heatmap of field dynamics
 │
 ├── training/
+│   ├── encode.py                   Grad-enabled batch encode shared by trainers
 │   ├── self_distillation.py        Online distillation
 │   ├── contrastive_alignment.py    Rhythm-aware contrastive
-│   └── rhythm_pretraining.py       Supervised rhythm pretraining
+│   ├── rhythm_pretraining.py       Supervised rhythm pretraining
+│   └── run_contrastive_bootstrap.py  Contrastive bootstrap harness (informational)
 │
 ├── api/
 │   ├── inference_api.py            FastAPI REST endpoints
@@ -505,6 +507,7 @@ RFE-Core2/
 │   ├── lock_in_remediation_plan.md      Coherence-pin → metastability plan (shipped/planned)
 │   ├── tier4_2_validation.md            Tier 4.2 validation + findings
 │   ├── tier4_3_validation.md            Tier 4.3 validation + findings
+│   ├── training/                        Training path: viability, plan, data curation, Tier 5 readiness
 │   └── findings/                        Dated empirical findings ledger (lab notebook)
 │
 ├── tests/
@@ -555,7 +558,14 @@ RFE-Core2/
 │   │   ├── reflective_loop_cost_probe.py     Plasticity-vs-identity tradeoff across the reflect-gain dial
 │   │   ├── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
 │   │   ├── generator_diversity_audit.py      Multi-method diversity (train vs eval / dropout; pipeline survival)
-│   │   └── migration_real_generator_probe.py Attractor migration re-verified on the REAL generator
+│   │   ├── migration_real_generator_probe.py Attractor migration re-verified on the REAL generator
+│   │   ├── migration_eval_dimsweep_probe.py  Migration vs dim (eval mode) — moat vs low-rank-input artifact
+│   │   ├── fix2_governor_validation.py       ReflectiveLoopGovernor end-to-end on the mock A/B stack
+│   │   ├── fix2_live_token_probe.py          Fix 2 on the REAL generator (dim sweep, governor ON/OFF)
+│   │   ├── fix2_commonmode_trigger_probe.py  Common-mode-removed gnov trigger + target sweep (dim 256)
+│   │   ├── fix2_dim512.py                    Does dim 512 dilute the common-mode enough for Fix 2?
+│   │   ├── trainer_gradient_path_check.py    Training stack gradient-path validator (backprop + mode restore)
+│   │   └── rhythm_pretrain_effect_probe.py   Before/after diversity effect of rhythm pretraining (eval-mode)
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
