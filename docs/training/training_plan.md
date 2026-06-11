@@ -66,6 +66,13 @@ baseline and rhythm-NN accuracy ≥ 0.75; determinism = 1.0; embedding norms
 bounded (no runaway). FAIL = generalization within-vocabulary doesn't happen →
 revisit corpus design before touching anything else.
 
+> **G1 PASSED (2026-06-11, corpus v1.0.1, seeds 0 & 137):** holdout eff_rank
+> 1.45→3.46 / 1.28→3.55, rhythm-NN 0.995 / 0.990, determinism 1.0, norm growth
+> 1.2×. Probe: `tests/diagnostic/corpus_pretrain_g1_probe.py`; finding:
+> `docs/findings/2026-06-11-corpus-g1-pretrain.md`. The checkpointing and
+> seeds-from-file mechanics shipped (`Generator.save_checkpoint` existed;
+> loader is `training/corpus.py`). **Phase 1 complete; Phase 2 is next.**
+
 ## Phase 2 — cost-gated validation on the live stack (still offline weights)
 
 Boot the full stack with the pretrained generator (no online training yet) and
