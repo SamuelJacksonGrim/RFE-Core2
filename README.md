@@ -488,6 +488,7 @@ RFE-Core2/
 │
 ├── training/
 │   ├── encode.py                   Grad-enabled batch encode shared by trainers
+│   ├── corpus.py                   Curated-corpus loader (data/corpus/ → rhythm seeds)
 │   ├── self_distillation.py        Online distillation
 │   ├── contrastive_alignment.py    Rhythm-aware contrastive
 │   ├── rhythm_pretraining.py       Supervised rhythm pretraining
@@ -501,6 +502,12 @@ RFE-Core2/
 │   ├── field.yaml
 │   ├── recursion.yaml
 │   └── attractors.yaml
+│
+├── data/
+│   └── corpus/                     Curated rhythm corpus (versioned; see MANIFEST.md)
+│       ├── MANIFEST.md             Provenance, counts, split policy, version history
+│       ├── rhythm_train.jsonl      Training split (rhythm/source-labeled sequences)
+│       └── rhythm_holdout.jsonl    Held-out split (Gate G1 generalization readout)
 │
 ├── docs/
 │   ├── ARCHITECTURE_ANALYSIS.md         End-to-end recursion + information-flow reference
@@ -565,7 +572,9 @@ RFE-Core2/
 │   │   ├── fix2_commonmode_trigger_probe.py  Common-mode-removed gnov trigger + target sweep (dim 256)
 │   │   ├── fix2_dim512.py                    Does dim 512 dilute the common-mode enough for Fix 2?
 │   │   ├── trainer_gradient_path_check.py    Training stack gradient-path validator (backprop + mode restore)
-│   │   └── rhythm_pretrain_effect_probe.py   Before/after diversity effect of rhythm pretraining (eval-mode)
+│   │   ├── rhythm_pretrain_effect_probe.py   Before/after diversity effect of rhythm pretraining (eval-mode)
+│   │   ├── corpus_integrity_check.py         Curated-corpus integrity gate (schema, leakage, stratification)
+│   │   └── corpus_pretrain_g1_probe.py       Gate G1: corpus pretraining held-out generalization (trains; minutes)
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges

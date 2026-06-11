@@ -122,3 +122,4 @@ What this leaves unanswered.
 | 2026-06-08 | [Generator diversity — how much is dropout noise?](2026-06-08-generator-dropout-diversity.md) | active | multilayer-lock, read-side-boundary, reconstruction-ablation |
 | 2026-06-09 | [Fix 2 on the live generator — does real token novelty engage it, and what does it cost?](2026-06-09-fix2-live-generator.md) | active | fix2-trigger-calibration, generator-dropout-diversity |
 | 2026-06-11 | [Trainer gradient path — can the training stack actually train?](2026-06-11-trainer-gradient-path.md) | active | generator-dropout-diversity, read-side-boundary |
+| 2026-06-11 | [Corpus pretraining Gate G1 — does coverage buy generalization?](2026-06-11-corpus-g1-pretrain.md) | active | trainer-gradient-path, generator-dropout-diversity |
