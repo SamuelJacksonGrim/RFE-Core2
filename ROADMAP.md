@@ -112,7 +112,7 @@ collision + epistemic-discipline process that produced Tier 4.2.
 **This supersedes "4.4 next" as the next substantive work.** 4.4
 (frequency → emotion) remains **planned** but no longer leads.
 
-> **CURRENT UNDERSTANDING (2026-06-08) — start here; everything below is dated history.**
+> **CURRENT UNDERSTANDING (2026-06-11) — start here; everything below is dated history.**
 > - The field pins high coherence. The "multi-layer lock" decomposed: the **85% gate** was
 >   a single-source monopoly artifact (not a filter); the **magnitude moat** is surmountable;
 >   the **reflective loop** is the active reconstitution mechanism — ablation-proven (suppress
@@ -132,6 +132,14 @@ collision + epistemic-discipline process that produced Tier 4.2.
 > - **Open architect decision:** should the live generator run in `eval()` (dropout off)?
 >   Intentional stochastic exploration vs a missing `eval()` — this decides what the field's
 >   "input diversity" even is.
+> - **The training lever is live (2026-06-11).** The training stack's gradient path was
+>   broken in two of three trainers (training had never been possible); after repair, a
+>   controlled rhythm-pretraining run moved the *deterministic* dim-64 generator from
+>   eff_rank 1.3 / cos 0.855 to eff_rank 3.1 / cos 0.210 on the trained distribution,
+>   with the disjoint-vocab battery unmoved — **the mechanism works; corpus coverage is
+>   the binding constraint.** `2026-06-11-trainer-gradient-path.md`. The phased,
+>   gate-disciplined path from here to Fix-2 un-deferral and a Tier 5 spec is
+>   `docs/training/` (proposed direction, not committed scope).
 
 **Finding (verified, June 3 session).** The accumulated symbol-state feedback
 signals — field coherence, attractor strength, crystal binding, centrality —
