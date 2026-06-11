@@ -22,13 +22,15 @@ at the representation level rather than just the loop level.
 from __future__ import annotations
 
 import logging
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+from training.encode import encode_grad
 
 logger = logging.getLogger(__name__)
 
@@ -92,9 +94,6 @@ class ContrastiveAlignmentTrainer:
         self.max_steps_per_call  = max_steps_per_call
 
         self._buffer: deque = deque(maxlen=buffer_size)
-        # Index: attractor_id → list of sample indices
-        self._attractor_index: Dict[int, List[int]] = defaultdict(list)
-        self._rhythm_index:    Dict[str, List[int]] = defaultdict(list)
 
         self.optimizer = optimizer or torch.optim.AdamW(
             generator.parameters(), lr=5e-5, weight_decay=1e-5
@@ -118,19 +117,13 @@ class ContrastiveAlignmentTrainer:
         if coherence < self.min_coherence:
             return
 
-        idx = len(self._buffer)
-        sample = ContrastiveSample(
+        self._buffer.append(ContrastiveSample(
             tokens       = list(tokens),
             vec          = vec.copy().astype(np.float32),
             rhythm       = rhythm,
             coherence    = coherence,
             attractor_id = attractor_id,
-        )
-        self._buffer.append(sample)
-
-        if attractor_id is not None:
-            self._attractor_index[attractor_id].append(idx % len(self._buffer))
-        self._rhythm_index[rhythm].append(idx % len(self._buffer))
+        ))
 
     # ------------------------------------------------------------------
     # Train
@@ -142,6 +135,10 @@ class ContrastiveAlignmentTrainer:
         if len(self._buffer) < min_required:
             return None
 
+        # The live-loop dropout policy (train vs eval) is an open architect
+        # decision (2026-06-08-generator-dropout-diversity.md) — restore the
+        # caller's mode on exit rather than deciding it here.
+        was_training = self.generator.training
         self.generator.train()
         device = self.generator.device
         buffer = list(self._buffer)
@@ -155,7 +152,7 @@ class ContrastiveAlignmentTrainer:
             accs.append(step_acc)
             self._total_steps += 1
 
-        self.generator.eval()
+        self.generator.train(was_training)
 
         return ContrastiveReport(
             steps     = len(losses),
@@ -224,7 +221,7 @@ class ContrastiveAlignmentTrainer:
         # NOTE: must NOT use generator.encode_batch() here — it is decorated
         # @torch.no_grad(), so its output carries no autograd graph and
         # backward() would fail. Route through the grad-enabled forward().
-        vecs_t = self._encode_grad(all_token_lists, device)
+        vecs_t = encode_grad(self.generator, all_token_lists)
         vecs_t = F.normalize(vecs_t, dim=-1)
 
         # InfoNCE loss per anchor
@@ -263,23 +260,6 @@ class ContrastiveAlignmentTrainer:
         self.optimizer.step()
 
         return float(total_loss.detach()), total_acc
-
-    def _encode_grad(self, token_lists: List[List[str]], device: str) -> torch.Tensor:
-        """
-        Grad-enabled batch encode, mirroring Generator.encode_batch but WITHOUT
-        the @torch.no_grad() wrapper so the contrastive loss can backprop into
-        the generator weights.
-        """
-        g = self.generator
-        encoded = [g._tokens_to_ids(tl or ["<BOS>"], None) for tl in token_lists]
-        g._ensure_embedding_capacity()
-
-        max_len = max(len(s) for s in encoded)
-        pad_id  = g.address_space.pad_id
-        padded  = [s + [pad_id] * (max_len - len(s)) for s in encoded]
-
-        x = torch.tensor(padded, dtype=torch.long, device=device)
-        return g.forward(x)
 
     @property
     def buffer_size(self) -> int:
