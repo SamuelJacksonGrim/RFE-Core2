@@ -187,6 +187,20 @@ keep them in version control.
   mean-cos / eff_rank / rhythm-NN accuracy before vs after, with a disjoint-vocab
   generalization control and the determinism control. First data point for the
   training path (`docs/training/`). Informational; exit 0.
+- `corpus_integrity_check.py` — **Curated-corpus integrity gate.** Mechanically
+  enforces the `data/corpus/` MANIFEST claims and the curation spec
+  (`docs/training/data_curation.md` §3): schema, counts, no duplicates, no
+  train→holdout sequence leakage, label coherence, vocab closure, ≥8 contexts
+  per token, rhythm stratification, sacred-token exclusion. Deterministic, no
+  model build; exits 0/1 and **is in the `run_all_tests.sh` gate** — training
+  data is identity-shaping input, so its guarantees are CI-enforced.
+- `corpus_pretrain_g1_probe.py` — **Gate G1: held-out generalization** (Phase 1,
+  `docs/training/training_plan.md`). Pretrains the canonical dim-64 generator on
+  the corpus train split and reads eff_rank / rhythm-NN accuracy / determinism /
+  norm growth on the holdout split, against the pre-declared gate. Trains for
+  minutes and is init-dependent → run deliberately (`--seed`, `--save` for the
+  boot checkpoint), NEVER in CI. Exits 0/1 on the gate. See
+  `docs/findings/2026-06-11-corpus-g1-pretrain.md`.
 - `lockin_source.py` — **Upstream lock decomposition (G5 follow-up).**
   Shows the live field lock is *mechanical* (untrained-generator output
   collinearity + the accumulate-decay magnitude moat), not field-dynamics

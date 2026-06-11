@@ -83,6 +83,10 @@ run_test "tests.diagnostic.dilation_response_curve"
 run_test "tests.diagnostic.rhythm_dilation_curve"
 
 echo
+echo -e "${BOLD}CORPUS INTEGRITY${RESET}"
+run_test "tests.diagnostic.corpus_integrity_check"
+
+echo
 echo -e "${BOLD}DOCUMENTATION ACCURACY${RESET}"
 run_test "tests.doc_accuracy.verify_docs"
 
@@ -112,5 +116,6 @@ echo "  python3 -m tests.diagnostic.decision_histogram"
 echo "  python3 -m tests.diagnostic.gate_firing_audit"
 echo "  python3 -m tests.diagnostic.trust_trajectory"
 echo "  python3 -m tests.diagnostic.value_polarity_flow"
+echo "  python3 -m tests.diagnostic.corpus_pretrain_g1_probe 8   (minutes; trains)"
 
 exit 0

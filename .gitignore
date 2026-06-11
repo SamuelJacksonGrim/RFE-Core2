@@ -9,6 +9,9 @@ __pycache__/
 venv/
 env/
 
+# Local artifacts (regenerable via corpus_pretrain_g1_probe --save)
+data/checkpoints/
+
 # Editors
 .vscode/
 .idea/
