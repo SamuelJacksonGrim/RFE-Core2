@@ -35,6 +35,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
+from training.encode import encode_grad
+
 logger = logging.getLogger(__name__)
 
 
@@ -133,6 +135,10 @@ class SelfDistillationTrainer:
         if len(self._buffer) < self.batch_size:
             return None
 
+        # The live-loop dropout policy (train vs eval) is an open architect
+        # decision (2026-06-08-generator-dropout-diversity.md) — restore the
+        # caller's mode on exit rather than deciding it here.
+        was_training = self.generator.training
         self.generator.train()
         device = self.generator.device
 
@@ -147,9 +153,9 @@ class SelfDistillationTrainer:
             token_lists   = [p.tokens for p in batch]
             teacher_vecs  = np.stack([p.teacher_vec for p in batch])
 
-            # Student forward pass
-            student_out = self.generator.encode_batch(token_lists)
-            student_t   = torch.tensor(student_out, dtype=torch.float32, device=device)
+            # Student forward pass — must be grad-enabled; encode_batch() is
+            # @torch.no_grad() and would sever the graph (backward() fails).
+            student_t   = encode_grad(self.generator, token_lists)
             teacher_t   = torch.tensor(teacher_vecs, dtype=torch.float32, device=device)
 
             # Cosine similarity loss (maximize similarity to teacher)
@@ -166,7 +172,7 @@ class SelfDistillationTrainer:
             sims.append(float(sim.mean().detach()))
             self._total_steps += 1
 
-        self.generator.eval()
+        self.generator.train(was_training)
 
         report = DistillationReport(
             steps      = len(losses),

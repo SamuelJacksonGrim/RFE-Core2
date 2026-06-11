@@ -31,6 +31,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
+from training.encode import encode_grad
+
 logger = logging.getLogger(__name__)
 
 
@@ -132,6 +134,10 @@ class RhythmPretrainer:
         cfg    = self.config
         device = self.generator.device
 
+        # Restore the caller's mode on exit — the live-loop dropout policy is
+        # an open architect decision (2026-06-08-generator-dropout-diversity.md).
+        was_training = self.generator.training
+
         loss_history = []
         final_acc    = 0.0
 
@@ -163,13 +169,17 @@ class RhythmPretrainer:
                 if len(batch_tokens) < 2:
                     continue
 
-                vecs = self.generator.encode_batch(batch_tokens)
-                vecs_t = torch.tensor(vecs, dtype=torch.float32, device=device)
+                # Grad-enabled forward — encode_batch() is @torch.no_grad()
+                # and would sever the graph (backward() fails).
+                vecs_t = encode_grad(self.generator, batch_tokens)
                 vecs_t = F.normalize(vecs_t, dim=-1)
 
                 labels_t = torch.tensor(batch_labels, dtype=torch.long, device=device)
 
                 loss = self._supervised_contrastive_loss(vecs_t, labels_t)
+                if loss is None:
+                    # batch had no positive pairs — no gradient to take
+                    continue
 
                 self.optimizer.zero_grad()
                 loss.backward()
@@ -191,7 +201,7 @@ class RhythmPretrainer:
                 )
                 final_acc = acc
 
-        self.generator.eval()
+        self.generator.train(was_training)
         logger.info("Rhythm pretraining complete. Final loss=%.4f acc=%.3f",
                     loss_history[-1] if loss_history else 0.0, final_acc)
 
@@ -206,11 +216,13 @@ class RhythmPretrainer:
         self,
         vecs:   torch.Tensor,   # (n, dim)
         labels: torch.Tensor,   # (n,)
-    ) -> torch.Tensor:
+    ) -> Optional[torch.Tensor]:
         """
         Supervised contrastive loss.
         Positives = same rhythm label.
         Negatives = different rhythm label.
+        Returns None when the batch has no (positive, negative) structure at
+        all — a graph-less zero would crash backward().
         """
         n    = vecs.shape[0]
         sim  = vecs @ vecs.T / self.config.temperature  # (n, n)
@@ -242,7 +254,9 @@ class RhythmPretrainer:
             )
             count += 1
 
-        return loss / max(count, 1)
+        if count == 0:
+            return None
+        return loss / count
 
     def _evaluate_rhythm_accuracy(self, device: str) -> float:
         """

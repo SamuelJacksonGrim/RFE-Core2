@@ -177,6 +177,16 @@ keep them in version control.
   Re-runs the attractor-migration test with the real generator's most-separated token
   regimes; RIGID holds (mean migration +0.002, 3 seeds). Folded into the
   generator-dropout-diversity finding.
+- `trainer_gradient_path_check.py` — **Training-stack gradient-path validator.**
+  Verifies all three trainers (self-distillation, contrastive, rhythm pretraining)
+  actually backpropagate into the generator (weights move) and restore the caller's
+  train/eval mode (the live dropout policy is an open architect decision). Structural
+  assertions; exits 0/1. See `docs/findings/2026-06-11-trainer-gradient-path.md`.
+- `rhythm_pretrain_effect_probe.py` — **Does training move diversity?** Pretrains the
+  canonical dim-64 generator on the built-in rhythm seeds and measures eval-mode
+  mean-cos / eff_rank / rhythm-NN accuracy before vs after, with a disjoint-vocab
+  generalization control and the determinism control. First data point for the
+  training path (`docs/training/`). Informational; exit 0.
 - `lockin_source.py` — **Upstream lock decomposition (G5 follow-up).**
   Shows the live field lock is *mechanical* (untrained-generator output
   collinearity + the accumulate-decay magnitude moat), not field-dynamics
