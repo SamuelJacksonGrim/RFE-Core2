@@ -7,7 +7,7 @@
 > §2.1 operational-vocabulary requirement (63 live-workload tokens were
 > missing — extension built by `data/corpus/build_extension_v1_1_0.py`,
 > rhythm assignments hand-curated there, architect review invited). Integrity
-> is CI-gated by `tests/diagnostic/corpus_integrity_check.py`; loader is
+> is CI-gated by `tests/diagnostic/training/corpus_integrity_check.py`; loader is
 > `training/corpus.py`. **Gate G1 passed on v1.0.1 (two seeds) and re-passed
 > on v1.1.0; Gate G2 passed on the live stack** —
 > `docs/findings/2026-06-11-corpus-g1-pretrain.md`,

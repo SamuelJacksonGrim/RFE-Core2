@@ -43,8 +43,8 @@ measure it (Phase 2/4 gates).
 Gradient path fixed in all three trainers (shared
 `training/encode.py::encode_grad`), caller-mode restoration, degenerate-batch
 fix, unbounded-index removal. Instruments:
-`tests/diagnostic/trainer_gradient_path_check.py` (structural, exit 0/1),
-`tests/diagnostic/rhythm_pretrain_effect_probe.py` (effect, informational).
+`tests/diagnostic/training/trainer_gradient_path_check.py` (structural, exit 0/1),
+`tests/diagnostic/training/rhythm_pretrain_effect_probe.py` (effect, informational).
 Finding: `docs/findings/2026-06-11-trainer-gradient-path.md` — TRAINS +
 NARROW.
 
@@ -68,7 +68,7 @@ revisit corpus design before touching anything else.
 
 > **G1 PASSED (2026-06-11, corpus v1.0.1, seeds 0 & 137):** holdout eff_rank
 > 1.45→3.46 / 1.28→3.55, rhythm-NN 0.995 / 0.990, determinism 1.0, norm growth
-> 1.2×. Probe: `tests/diagnostic/corpus_pretrain_g1_probe.py`; finding:
+> 1.2×. Probe: `tests/diagnostic/training/corpus_pretrain_g1_probe.py`; finding:
 > `docs/findings/2026-06-11-corpus-g1-pretrain.md`. The checkpointing and
 > seeds-from-file mechanics shipped (`Generator.save_checkpoint` existed;
 > loader is `training/corpus.py`). **Phase 1 complete; Phase 2 is next.**
@@ -105,7 +105,7 @@ entry, then mitigation round (slower/partial training), not a silent retry.
 > pin persists with trained weights (**SECOND-LOCKER** — Fix 2 re-prioritized,
 > see Phase 5), and the pipeline now *preserves* upstream regime structure
 > (stage A ≡ stage C, metastable/5). Probe:
-> `tests/diagnostic/corpus_boot_phase2_probe.py`; finding:
+> `tests/diagnostic/training/corpus_boot_phase2_probe.py`; finding:
 > `docs/findings/2026-06-12-phase2-fullstack-g2.md`; raw log:
 > `docs/training/logs/2026-06-12-phase2-raw-runs.log`. Required a corpus
 > correction first: v1.1.0 operational-vocabulary extension (63 missing live

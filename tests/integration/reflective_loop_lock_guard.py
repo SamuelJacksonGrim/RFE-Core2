@@ -29,7 +29,7 @@ import sys
 
 import numpy as np
 
-from tests.diagnostic.reconstruction_ablation_probe import run, _unit, DIM
+from tests.diagnostic.lockin.reconstruction_ablation_probe import run, _unit, DIM
 
 RIGID_MAX    = 0.10   # loop intact: migration must stay below this
 MIGRATE_MIN  = 0.50   # loop off:   migration must exceed this

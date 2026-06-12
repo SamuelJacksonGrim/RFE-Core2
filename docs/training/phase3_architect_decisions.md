@@ -47,7 +47,7 @@ generator.eval()  # Set once at startup, maintained by trainers
 
 ### Option B: Pretrained Checkpoint (Gate G1+G2 Recipe)
 - Boot from the checkpoint the G1 probe writes with `--save`:
-  `python3 -m tests.diagnostic.corpus_pretrain_g1_probe 8 --seed 0 --save`
+  `python3 -m tests.diagnostic.training.corpus_pretrain_g1_probe 8 --seed 0 --save`
   → `data/checkpoints/boot_rhythm_corpus_v1.1.0_8ep_s0.pt` (+ `.ecology.json`)
 - Recipe: corpus v1.1.0, 8 epochs, seed 0 or 42, `RhythmPretrainer`
 - Note: `data/checkpoints/` is `.gitignore`d — adoption requires a provenance
@@ -102,7 +102,7 @@ The lock-in plan (§3.2, June 7 plasticity arc) identified the **reflective loop
 
 - **What G2 did *not* measure:** whether training actually reduced the generator's common-mode / separated regime means in high-energy directions. The June 9 conclusion — *"train it so regimes differ in high-energy directions, not just a small perp component"* — set the condition; whether the v1.1.0 boot checkpoint meets it is **unmeasured**. Re-running the June 9 regime-separation probe on the trained checkpoint is the first Phase 5 item and the load-bearing input to this decision.
 
-- **§6.3 gain-sign check (lock-in plan) is a pending hard gate.** The plan states it "gates Fix 0-A and Fix 2" (any coherence→loop coupling). The instrument exists (`tests/diagnostic/gain_sign_check.py`); a recorded verdict does not. No production wiring of the governor before that verdict lands in `docs/findings/`.
+- **§6.3 gain-sign check (lock-in plan) is a pending hard gate.** The plan states it "gates Fix 0-A and Fix 2" (any coherence→loop coupling). The instrument exists (`tests/diagnostic/lockin/gain_sign_check.py`); a recorded verdict does not. No production wiring of the governor before that verdict lands in `docs/findings/`.
 
 **Three implementation options:**
 
@@ -137,7 +137,7 @@ Rationale:
 
 **Action if approved:**
 1. Spec draft exists: `docs/training/fix2_specification_draft.md` (trigger spec with common-mode removal, gain schedule, integration points in `AutonomousCycle.step()`).
-2. Run and record the §6.3 gain-sign verdict (`tests/diagnostic/gain_sign_check.py` → `docs/findings/`).
+2. Run and record the §6.3 gain-sign verdict (`tests/diagnostic/lockin/gain_sign_check.py` → `docs/findings/`).
 3. In Phase 5, re-run the June 9 probes with the trained checkpoint (regime separation measurement, Fix 2 effectiveness on trained gen).
 4. Make final implementation decision post-Phase 5 probes based on actual trained-generator data.
 

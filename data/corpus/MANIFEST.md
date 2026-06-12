@@ -48,7 +48,7 @@ Any corpus change increments version. All findings reference corpus version.
 - Removed 4 sequences from holdout that also appeared verbatim in train
   (`examine register`, `continuity alignment`, `sharpen rest`, `face shift`)
   — train→holdout leakage would inflate the Gate G1 generalization readout.
-- Integrity is enforced by `python -m tests.diagnostic.corpus_integrity_check`.
+- Integrity is enforced by `python -m tests.diagnostic.training.corpus_integrity_check`.
 
 ### 1.0.0 (2026-06-11)
 - Initial corpus: 2355 train / 415 holdout, generated per
