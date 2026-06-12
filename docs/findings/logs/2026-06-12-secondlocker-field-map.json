@@ -1,0 +1,5540 @@
+{
+ "corpus_version": "1.1.0",
+ "band_defs": "v1",
+ "n_steps": 500,
+ "n_epochs": 8,
+ "seeds": [
+  42,
+  7,
+  11
+ ],
+ "bands": [
+  "canonical",
+  "broad",
+  "rhythm",
+  "entry",
+  "mixed"
+ ],
+ "cells": [
+  {
+   "band": "canonical",
+   "seed": 42,
+   "arm": "control",
+   "coherence_mean": 0.9717,
+   "coherence_std": 0.0062,
+   "identity_stability": 0.9986,
+   "anchor_velocity": 0.0014,
+   "eff_rank": 6.521,
+   "mean_cos": 0.882,
+   "pc_mean": 0.9738,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 2,
+   "crystals": 2,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2637,
+    "bonds_formed": 1,
+    "active_values": 46,
+    "strong_values": 1,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.052083,
+     "novel_mean": -0.052192,
+     "anti_mean": -0.052063
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.034317,
+     "novel_mean": -0.034317,
+     "anti_mean": -0.034317
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.027858,
+     "novel_mean": -0.027858,
+     "anti_mean": -0.027858
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.024588,
+     "novel_mean": -0.024588,
+     "anti_mean": -0.024588
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.021069,
+     "novel_mean": -0.021069,
+     "anti_mean": -0.021069
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.019909,
+     "novel_mean": -0.019909,
+     "anti_mean": -0.019909
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.019246,
+     "novel_mean": -0.019246,
+     "anti_mean": -0.019246
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.017085,
+     "novel_mean": -0.017085,
+     "anti_mean": -0.017085
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.016578,
+     "novel_mean": -0.016578,
+     "anti_mean": -0.016578
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.016402,
+     "novel_mean": -0.016402,
+     "anti_mean": -0.016402
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.015721,
+     "novel_mean": -0.015721,
+     "anti_mean": -0.015721
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.014286,
+     "novel_mean": -0.014286,
+     "anti_mean": -0.014286
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.013568,
+     "novel_mean": -0.013568,
+     "anti_mean": -0.013568
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.01342,
+     "novel_mean": -0.01342,
+     "anti_mean": -0.01342
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.012623,
+     "novel_mean": -0.012623,
+     "anti_mean": -0.012623
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.012134,
+     "novel_mean": -0.012134,
+     "anti_mean": -0.012134
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.011837,
+     "novel_mean": -0.011837,
+     "anti_mean": -0.011837
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.012105,
+     "novel_mean": -0.012105,
+     "anti_mean": -0.012105
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.011235,
+     "novel_mean": -0.011235,
+     "anti_mean": -0.011235
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5038,
+    "state": "metastable",
+    "n_regimes": 6
+   },
+   "expression_metastability": {
+    "metastability": 0.5463,
+    "state": "metastable",
+    "n_regimes": 3
+   }
+  },
+  {
+   "band": "canonical",
+   "seed": 42,
+   "arm": "pretrained",
+   "coherence_mean": 0.9728,
+   "coherence_std": 0.0058,
+   "identity_stability": 0.9984,
+   "anchor_velocity": 0.0016,
+   "eff_rank": 2.417,
+   "mean_cos": 0.589,
+   "pc_mean": 0.9723,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 2,
+   "crystals": 2,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2637,
+    "bonds_formed": 1,
+    "active_values": 46,
+    "strong_values": 1,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.053425,
+     "novel_mean": -0.053587,
+     "anti_mean": -0.053179
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.034373,
+     "novel_mean": -0.034373,
+     "anti_mean": -0.034373
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.026624,
+     "novel_mean": -0.026624,
+     "anti_mean": -0.026624
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.024442,
+     "novel_mean": -0.024442,
+     "anti_mean": -0.024442
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.021227,
+     "novel_mean": -0.021227,
+     "anti_mean": -0.021227
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.020147,
+     "novel_mean": -0.020147,
+     "anti_mean": -0.020147
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.017831,
+     "novel_mean": -0.017831,
+     "anti_mean": -0.017831
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.015944,
+     "novel_mean": -0.015944,
+     "anti_mean": -0.015944
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.01449,
+     "novel_mean": -0.01449,
+     "anti_mean": -0.01449
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.014212,
+     "novel_mean": -0.014212,
+     "anti_mean": -0.014212
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.014171,
+     "novel_mean": -0.014171,
+     "anti_mean": -0.014171
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.012879,
+     "novel_mean": -0.012879,
+     "anti_mean": -0.012879
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.012397,
+     "novel_mean": -0.012397,
+     "anti_mean": -0.012397
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.01189,
+     "novel_mean": -0.01189,
+     "anti_mean": -0.01189
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.011228,
+     "novel_mean": -0.011228,
+     "anti_mean": -0.011228
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.010992,
+     "novel_mean": -0.010992,
+     "anti_mean": -0.010992
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.009855,
+     "novel_mean": -0.009855,
+     "anti_mean": -0.009855
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.010452,
+     "novel_mean": -0.010452,
+     "anti_mean": -0.010452
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.010028,
+     "novel_mean": -0.010028,
+     "anti_mean": -0.010028
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5519,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.5519,
+    "state": "metastable",
+    "n_regimes": 5
+   }
+  },
+  {
+   "band": "broad",
+   "seed": 42,
+   "arm": "control",
+   "coherence_mean": 0.9713,
+   "coherence_std": 0.0056,
+   "identity_stability": 0.9986,
+   "anchor_velocity": 0.0015,
+   "eff_rank": 8.765,
+   "mean_cos": 0.861,
+   "pc_mean": 0.9605,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 3,
+   "crystals": 3,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.99,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2885,
+    "bonds_formed": 2,
+    "active_values": 1,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9987,
+     "recent_mean": -0.054574,
+     "novel_mean": -0.05457,
+     "anti_mean": -0.054546
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.040288,
+     "novel_mean": -0.040288,
+     "anti_mean": -0.040288
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.032982,
+     "novel_mean": -0.032982,
+     "anti_mean": -0.032982
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.028773,
+     "novel_mean": -0.028773,
+     "anti_mean": -0.028773
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.026019,
+     "novel_mean": -0.026019,
+     "anti_mean": -0.026019
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.024475,
+     "novel_mean": -0.024475,
+     "anti_mean": -0.024475
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.022497,
+     "novel_mean": -0.022497,
+     "anti_mean": -0.022497
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.020993,
+     "novel_mean": -0.020993,
+     "anti_mean": -0.020993
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.020377,
+     "novel_mean": -0.020377,
+     "anti_mean": -0.020377
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.019756,
+     "novel_mean": -0.019756,
+     "anti_mean": -0.019756
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.019273,
+     "novel_mean": -0.019273,
+     "anti_mean": -0.019273
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.018554,
+     "novel_mean": -0.018554,
+     "anti_mean": -0.018554
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.017757,
+     "novel_mean": -0.017757,
+     "anti_mean": -0.017757
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.999,
+     "recent_mean": -0.017531,
+     "novel_mean": -0.017531,
+     "anti_mean": -0.017531
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.999,
+     "recent_mean": -0.017015,
+     "novel_mean": -0.017015,
+     "anti_mean": -0.017015
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.999,
+     "recent_mean": -0.016713,
+     "novel_mean": -0.016713,
+     "anti_mean": -0.016713
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9988,
+     "recent_mean": -0.017163,
+     "novel_mean": -0.017163,
+     "anti_mean": -0.017163
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.999,
+     "recent_mean": -0.015758,
+     "novel_mean": -0.015758,
+     "anti_mean": -0.015758
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.010921,
+     "novel_mean": -0.010921,
+     "anti_mean": -0.010921
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5804,
+    "state": "metastable",
+    "n_regimes": 10
+   },
+   "expression_metastability": {
+    "metastability": 0.6171,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "broad",
+   "seed": 42,
+   "arm": "pretrained",
+   "coherence_mean": 0.9666,
+   "coherence_std": 0.0029,
+   "identity_stability": 0.9978,
+   "anchor_velocity": 0.0022,
+   "eff_rank": 2.689,
+   "mean_cos": 0.63,
+   "pc_mean": 0.9793,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 3,
+   "crystals": 3,
+   "bonds": 3,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.99,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2885,
+    "bonds_formed": 3,
+    "active_values": 4,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.056364,
+     "novel_mean": -0.056099,
+     "anti_mean": -0.055995
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.037766,
+     "novel_mean": -0.037766,
+     "anti_mean": -0.037766
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9971,
+     "recent_mean": -0.003407,
+     "novel_mean": -0.003407,
+     "anti_mean": -0.003407
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9983,
+     "recent_mean": -0.003571,
+     "novel_mean": -0.003571,
+     "anti_mean": -0.003571
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.999,
+     "recent_mean": -0.004009,
+     "novel_mean": -0.004009,
+     "anti_mean": -0.004009
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.003748,
+     "novel_mean": -0.003748,
+     "anti_mean": -0.003748
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.003133,
+     "novel_mean": -0.003133,
+     "anti_mean": -0.003133
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.003078,
+     "novel_mean": -0.003078,
+     "anti_mean": -0.003078
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.002902,
+     "novel_mean": -0.002902,
+     "anti_mean": -0.002902
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.002412,
+     "novel_mean": -0.002412,
+     "anti_mean": -0.002412
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002461,
+     "novel_mean": -0.002461,
+     "anti_mean": -0.002461
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002187,
+     "novel_mean": -0.002187,
+     "anti_mean": -0.002187
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002311,
+     "novel_mean": -0.002311,
+     "anti_mean": -0.002311
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002048,
+     "novel_mean": -0.002048,
+     "anti_mean": -0.002048
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002106,
+     "novel_mean": -0.002106,
+     "anti_mean": -0.002106
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001955,
+     "novel_mean": -0.001955,
+     "anti_mean": -0.001955
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001927,
+     "novel_mean": -0.001927,
+     "anti_mean": -0.001927
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001663,
+     "novel_mean": -0.001663,
+     "anti_mean": -0.001663
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001756,
+     "novel_mean": -0.001756,
+     "anti_mean": -0.001756
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5467,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.5827,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "rhythm",
+   "seed": 42,
+   "arm": "control",
+   "coherence_mean": 0.9735,
+   "coherence_std": 0.0054,
+   "identity_stability": 0.9985,
+   "anchor_velocity": 0.0015,
+   "eff_rank": 6.936,
+   "mean_cos": 0.894,
+   "pc_mean": 0.9464,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 3,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2797,
+    "bonds_formed": 2,
+    "active_values": 56,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.064539,
+     "novel_mean": -0.064335,
+     "anti_mean": -0.064365
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.038009,
+     "novel_mean": -0.038002,
+     "anti_mean": -0.038007
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.037147,
+     "novel_mean": -0.037147,
+     "anti_mean": -0.037147
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.032167,
+     "novel_mean": -0.032167,
+     "anti_mean": -0.032167
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.028761,
+     "novel_mean": -0.028761,
+     "anti_mean": -0.028761
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.02609,
+     "novel_mean": -0.02609,
+     "anti_mean": -0.02609
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.024413,
+     "novel_mean": -0.024413,
+     "anti_mean": -0.024413
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.023264,
+     "novel_mean": -0.023264,
+     "anti_mean": -0.023264
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.02158,
+     "novel_mean": -0.02158,
+     "anti_mean": -0.02158
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.020531,
+     "novel_mean": -0.020531,
+     "anti_mean": -0.020531
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.019395,
+     "novel_mean": -0.019395,
+     "anti_mean": -0.019395
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.019218,
+     "novel_mean": -0.019218,
+     "anti_mean": -0.019218
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.018109,
+     "novel_mean": -0.018109,
+     "anti_mean": -0.018109
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.017491,
+     "novel_mean": -0.017491,
+     "anti_mean": -0.017491
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.017286,
+     "novel_mean": -0.017286,
+     "anti_mean": -0.017286
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.999,
+     "recent_mean": -0.0171,
+     "novel_mean": -0.0171,
+     "anti_mean": -0.0171
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.016229,
+     "novel_mean": -0.016229,
+     "anti_mean": -0.016229
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.999,
+     "recent_mean": -0.016304,
+     "novel_mean": -0.016304,
+     "anti_mean": -0.016304
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.999,
+     "recent_mean": -0.015684,
+     "novel_mean": -0.015684,
+     "anti_mean": -0.015684
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.57,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "cycling",
+    "n_regimes": 2
+   }
+  },
+  {
+   "band": "rhythm",
+   "seed": 42,
+   "arm": "pretrained",
+   "coherence_mean": 0.9737,
+   "coherence_std": 0.0028,
+   "identity_stability": 0.9974,
+   "anchor_velocity": 0.0026,
+   "eff_rank": 2.545,
+   "mean_cos": 0.56,
+   "pc_mean": 0.9743,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 3,
+    "explore": 495
+   },
+   "attractors": 2,
+   "crystals": 1,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2797,
+    "bonds_formed": 1,
+    "active_values": 59,
+    "strong_values": 1,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9918,
+     "recent_mean": -0.064565,
+     "novel_mean": -0.064277,
+     "anti_mean": -0.064127
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9972,
+     "recent_mean": -0.032859,
+     "novel_mean": -0.032858,
+     "anti_mean": -0.032858
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.022801,
+     "novel_mean": -0.022801,
+     "anti_mean": -0.022801
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.013864,
+     "novel_mean": -0.013864,
+     "anti_mean": -0.013864
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.006711,
+     "novel_mean": -0.006711,
+     "anti_mean": -0.006711
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.005328,
+     "novel_mean": -0.005328,
+     "anti_mean": -0.005328
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.005293,
+     "novel_mean": -0.005293,
+     "anti_mean": -0.005293
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.003355,
+     "novel_mean": -0.003355,
+     "anti_mean": -0.003355
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002835,
+     "novel_mean": -0.002835,
+     "anti_mean": -0.002835
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002201,
+     "novel_mean": -0.002201,
+     "anti_mean": -0.002201
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002333,
+     "novel_mean": -0.002333,
+     "anti_mean": -0.002333
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002148,
+     "novel_mean": -0.002148,
+     "anti_mean": -0.002148
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001544,
+     "novel_mean": -0.001544,
+     "anti_mean": -0.001544
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001222,
+     "novel_mean": -0.001222,
+     "anti_mean": -0.001222
+    },
+    {
+     "step": 375,
+     "coherence_level": 1.0,
+     "recent_mean": -0.00157,
+     "novel_mean": -0.00157,
+     "anti_mean": -0.00157
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001085,
+     "novel_mean": -0.001085,
+     "anti_mean": -0.001085
+    },
+    {
+     "step": 425,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001235,
+     "novel_mean": -0.001235,
+     "anti_mean": -0.001235
+    },
+    {
+     "step": 450,
+     "coherence_level": 1.0,
+     "recent_mean": -0.000981,
+     "novel_mean": -0.000981,
+     "anti_mean": -0.000981
+    },
+    {
+     "step": 475,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001032,
+     "novel_mean": -0.001032,
+     "anti_mean": -0.001032
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5157,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.5157,
+    "state": "metastable",
+    "n_regimes": 5
+   }
+  },
+  {
+   "band": "entry",
+   "seed": 42,
+   "arm": "control",
+   "coherence_mean": 0.9682,
+   "coherence_std": 0.0038,
+   "identity_stability": 0.9982,
+   "anchor_velocity": 0.0018,
+   "eff_rank": 6.107,
+   "mean_cos": 0.894,
+   "pc_mean": 0.9573,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 2,
+   "crystals": 2,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2637,
+    "bonds_formed": 1,
+    "active_values": 43,
+    "strong_values": 2,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.05284,
+     "novel_mean": -0.0527,
+     "anti_mean": -0.052586
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.042557,
+     "novel_mean": -0.042546,
+     "anti_mean": -0.042531
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.034508,
+     "novel_mean": -0.034508,
+     "anti_mean": -0.034508
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.029974,
+     "novel_mean": -0.029974,
+     "anti_mean": -0.029974
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.027222,
+     "novel_mean": -0.027222,
+     "anti_mean": -0.027222
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.024587,
+     "novel_mean": -0.024587,
+     "anti_mean": -0.024587
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.02321,
+     "novel_mean": -0.02321,
+     "anti_mean": -0.02321
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.022173,
+     "novel_mean": -0.022173,
+     "anti_mean": -0.022173
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.020792,
+     "novel_mean": -0.020792,
+     "anti_mean": -0.020792
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.020234,
+     "novel_mean": -0.020234,
+     "anti_mean": -0.020234
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.018998,
+     "novel_mean": -0.018998,
+     "anti_mean": -0.018998
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.018427,
+     "novel_mean": -0.018427,
+     "anti_mean": -0.018427
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.017431,
+     "novel_mean": -0.017431,
+     "anti_mean": -0.017431
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.017319,
+     "novel_mean": -0.017319,
+     "anti_mean": -0.017319
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.016448,
+     "novel_mean": -0.016448,
+     "anti_mean": -0.016448
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.015725,
+     "novel_mean": -0.015725,
+     "anti_mean": -0.015725
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.015535,
+     "novel_mean": -0.015535,
+     "anti_mean": -0.015535
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.015436,
+     "novel_mean": -0.015436,
+     "anti_mean": -0.015436
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.015343,
+     "novel_mean": -0.015343,
+     "anti_mean": -0.015343
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5853,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "locked",
+    "n_regimes": 1
+   }
+  },
+  {
+   "band": "entry",
+   "seed": 42,
+   "arm": "pretrained",
+   "coherence_mean": 0.9732,
+   "coherence_std": 0.0048,
+   "identity_stability": 0.9982,
+   "anchor_velocity": 0.0018,
+   "eff_rank": 1.842,
+   "mean_cos": 0.546,
+   "pc_mean": 0.9671,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 2,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2637,
+    "bonds_formed": 2,
+    "active_values": 43,
+    "strong_values": 5,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9974,
+     "recent_mean": -0.04328,
+     "novel_mean": -0.042924,
+     "anti_mean": -0.043169
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.023677,
+     "novel_mean": -0.023668,
+     "anti_mean": -0.02366
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.019752,
+     "novel_mean": -0.019752,
+     "anti_mean": -0.019752
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.016934,
+     "novel_mean": -0.016934,
+     "anti_mean": -0.016934
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.014649,
+     "novel_mean": -0.014649,
+     "anti_mean": -0.014649
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.014037,
+     "novel_mean": -0.014037,
+     "anti_mean": -0.014037
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.011751,
+     "novel_mean": -0.011751,
+     "anti_mean": -0.011751
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.011396,
+     "novel_mean": -0.011396,
+     "anti_mean": -0.011396
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.009694,
+     "novel_mean": -0.009694,
+     "anti_mean": -0.009694
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.008995,
+     "novel_mean": -0.008995,
+     "anti_mean": -0.008995
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.008645,
+     "novel_mean": -0.008645,
+     "anti_mean": -0.008645
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.008311,
+     "novel_mean": -0.008311,
+     "anti_mean": -0.008311
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.007959,
+     "novel_mean": -0.007959,
+     "anti_mean": -0.007959
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.007278,
+     "novel_mean": -0.007278,
+     "anti_mean": -0.007278
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.006883,
+     "novel_mean": -0.006883,
+     "anti_mean": -0.006883
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.00664,
+     "novel_mean": -0.00664,
+     "anti_mean": -0.00664
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.006364,
+     "novel_mean": -0.006364,
+     "anti_mean": -0.006364
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.006585,
+     "novel_mean": -0.006585,
+     "anti_mean": -0.006585
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.006338,
+     "novel_mean": -0.006338,
+     "anti_mean": -0.006338
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.545,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.545,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "mixed",
+   "seed": 42,
+   "arm": "control",
+   "coherence_mean": 0.97,
+   "coherence_std": 0.0045,
+   "identity_stability": 0.9986,
+   "anchor_velocity": 0.0014,
+   "eff_rank": 8.41,
+   "mean_cos": 0.879,
+   "pc_mean": 0.9861,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 2,
+   "crystals": 3,
+   "bonds": 3,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.99,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2823,
+    "bonds_formed": 3,
+    "active_values": 27,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.060423,
+     "novel_mean": -0.060149,
+     "anti_mean": -0.060027
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.045715,
+     "novel_mean": -0.045712,
+     "anti_mean": -0.045708
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9972,
+     "recent_mean": -0.006512,
+     "novel_mean": -0.006512,
+     "anti_mean": -0.006512
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9984,
+     "recent_mean": -0.00638,
+     "novel_mean": -0.00638,
+     "anti_mean": -0.00638
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.005443,
+     "novel_mean": -0.005443,
+     "anti_mean": -0.005443
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.005292,
+     "novel_mean": -0.005292,
+     "anti_mean": -0.005292
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.004971,
+     "novel_mean": -0.004971,
+     "anti_mean": -0.004971
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.004462,
+     "novel_mean": -0.004462,
+     "anti_mean": -0.004462
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.003612,
+     "novel_mean": -0.003612,
+     "anti_mean": -0.003612
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.003779,
+     "novel_mean": -0.003779,
+     "anti_mean": -0.003779
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.002983,
+     "novel_mean": -0.002983,
+     "anti_mean": -0.002983
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002835,
+     "novel_mean": -0.002835,
+     "anti_mean": -0.002835
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002783,
+     "novel_mean": -0.002783,
+     "anti_mean": -0.002783
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002686,
+     "novel_mean": -0.002686,
+     "anti_mean": -0.002686
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002715,
+     "novel_mean": -0.002715,
+     "anti_mean": -0.002715
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002377,
+     "novel_mean": -0.002377,
+     "anti_mean": -0.002377
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002219,
+     "novel_mean": -0.002219,
+     "anti_mean": -0.002219
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002317,
+     "novel_mean": -0.002317,
+     "anti_mean": -0.002317
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002326,
+     "novel_mean": -0.002326,
+     "anti_mean": -0.002326
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.6428,
+    "state": "metastable",
+    "n_regimes": 6
+   },
+   "expression_metastability": {
+    "metastability": 0.6914,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "mixed",
+   "seed": 42,
+   "arm": "pretrained",
+   "coherence_mean": 0.9733,
+   "coherence_std": 0.0029,
+   "identity_stability": 0.9976,
+   "anchor_velocity": 0.0024,
+   "eff_rank": 2.366,
+   "mean_cos": 0.539,
+   "pc_mean": 0.9666,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 2,
+    "reflect": 2,
+    "explore": 495
+   },
+   "attractors": 2,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.99,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2858,
+    "bonds_formed": 2,
+    "active_values": 30,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9942,
+     "recent_mean": -0.059939,
+     "novel_mean": -0.059689,
+     "anti_mean": -0.059816
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9965,
+     "recent_mean": -0.024274,
+     "novel_mean": -0.024274,
+     "anti_mean": -0.024269
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.998,
+     "recent_mean": -0.012036,
+     "novel_mean": -0.012036,
+     "anti_mean": -0.012036
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9986,
+     "recent_mean": -0.004826,
+     "novel_mean": -0.004826,
+     "anti_mean": -0.004826
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.004666,
+     "novel_mean": -0.004666,
+     "anti_mean": -0.004666
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.00412,
+     "novel_mean": -0.00412,
+     "anti_mean": -0.00412
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.003622,
+     "novel_mean": -0.003622,
+     "anti_mean": -0.003622
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.003671,
+     "novel_mean": -0.003671,
+     "anti_mean": -0.003671
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002988,
+     "novel_mean": -0.002988,
+     "anti_mean": -0.002988
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002597,
+     "novel_mean": -0.002597,
+     "anti_mean": -0.002597
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002231,
+     "novel_mean": -0.002231,
+     "anti_mean": -0.002231
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001919,
+     "novel_mean": -0.001919,
+     "anti_mean": -0.001919
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001451,
+     "novel_mean": -0.001451,
+     "anti_mean": -0.001451
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001404,
+     "novel_mean": -0.001404,
+     "anti_mean": -0.001404
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.0012,
+     "novel_mean": -0.0012,
+     "anti_mean": -0.0012
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001294,
+     "novel_mean": -0.001294,
+     "anti_mean": -0.001294
+    },
+    {
+     "step": 425,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001439,
+     "novel_mean": -0.001439,
+     "anti_mean": -0.001439
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.00106,
+     "novel_mean": -0.00106,
+     "anti_mean": -0.00106
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001038,
+     "novel_mean": -0.001038,
+     "anti_mean": -0.001038
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5022,
+    "state": "metastable",
+    "n_regimes": 6
+   },
+   "expression_metastability": {
+    "metastability": 0.5281,
+    "state": "metastable",
+    "n_regimes": 5
+   }
+  },
+  {
+   "band": "canonical",
+   "seed": 7,
+   "arm": "control",
+   "coherence_mean": 0.9685,
+   "coherence_std": 0.0039,
+   "identity_stability": 0.9989,
+   "anchor_velocity": 0.0011,
+   "eff_rank": 5.333,
+   "mean_cos": 0.914,
+   "pc_mean": 0.9825,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 1,
+   "crystals": 3,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.98,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3146,
+    "bonds_formed": 1,
+    "active_values": 46,
+    "strong_values": 2,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.074466,
+     "novel_mean": -0.074242,
+     "anti_mean": -0.074195
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9978,
+     "recent_mean": -0.018617,
+     "novel_mean": -0.018614,
+     "anti_mean": -0.018617
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.999,
+     "recent_mean": -0.015458,
+     "novel_mean": -0.015458,
+     "anti_mean": -0.015458
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.013413,
+     "novel_mean": -0.013413,
+     "anti_mean": -0.013413
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.011918,
+     "novel_mean": -0.011918,
+     "anti_mean": -0.011918
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.010832,
+     "novel_mean": -0.010832,
+     "anti_mean": -0.010832
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.009843,
+     "novel_mean": -0.009843,
+     "anti_mean": -0.009843
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.008637,
+     "novel_mean": -0.008637,
+     "anti_mean": -0.008637
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.008026,
+     "novel_mean": -0.008026,
+     "anti_mean": -0.008026
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.007931,
+     "novel_mean": -0.007931,
+     "anti_mean": -0.007931
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.007332,
+     "novel_mean": -0.007332,
+     "anti_mean": -0.007332
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006964,
+     "novel_mean": -0.006964,
+     "anti_mean": -0.006964
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006926,
+     "novel_mean": -0.006926,
+     "anti_mean": -0.006926
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006297,
+     "novel_mean": -0.006297,
+     "anti_mean": -0.006297
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.005849,
+     "novel_mean": -0.005849,
+     "anti_mean": -0.005849
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.005648,
+     "novel_mean": -0.005648,
+     "anti_mean": -0.005648
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.005721,
+     "novel_mean": -0.005721,
+     "anti_mean": -0.005721
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.005265,
+     "novel_mean": -0.005265,
+     "anti_mean": -0.005265
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.005119,
+     "novel_mean": -0.005119,
+     "anti_mean": -0.005119
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.0,
+    "state": "cycling",
+    "n_regimes": 2
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "locked",
+    "n_regimes": 1
+   }
+  },
+  {
+   "band": "canonical",
+   "seed": 7,
+   "arm": "pretrained",
+   "coherence_mean": 0.9739,
+   "coherence_std": 0.0053,
+   "identity_stability": 0.999,
+   "anchor_velocity": 0.001,
+   "eff_rank": 2.577,
+   "mean_cos": 0.742,
+   "pc_mean": 0.9786,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 2,
+    "reflect": 3,
+    "explore": 494
+   },
+   "attractors": 2,
+   "crystals": 1,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.984,
+    "allow_weakened_rate": 0.016,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3153,
+    "bonds_formed": 1,
+    "active_values": 46,
+    "strong_values": 1,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9945,
+     "recent_mean": -0.050864,
+     "novel_mean": -0.050754,
+     "anti_mean": -0.050642
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9975,
+     "recent_mean": -0.022292,
+     "novel_mean": -0.022292,
+     "anti_mean": -0.022292
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.028139,
+     "novel_mean": -0.028139,
+     "anti_mean": -0.028139
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.024401,
+     "novel_mean": -0.024401,
+     "anti_mean": -0.024401
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.021827,
+     "novel_mean": -0.021827,
+     "anti_mean": -0.021827
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.020217,
+     "novel_mean": -0.020217,
+     "anti_mean": -0.020217
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.018383,
+     "novel_mean": -0.018383,
+     "anti_mean": -0.018383
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.017796,
+     "novel_mean": -0.017796,
+     "anti_mean": -0.017796
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.016367,
+     "novel_mean": -0.016367,
+     "anti_mean": -0.016367
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.015758,
+     "novel_mean": -0.015758,
+     "anti_mean": -0.015758
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.014994,
+     "novel_mean": -0.014994,
+     "anti_mean": -0.014994
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.014192,
+     "novel_mean": -0.014192,
+     "anti_mean": -0.014192
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.01366,
+     "novel_mean": -0.01366,
+     "anti_mean": -0.01366
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.999,
+     "recent_mean": -0.013564,
+     "novel_mean": -0.013564,
+     "anti_mean": -0.013564
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.999,
+     "recent_mean": -0.013211,
+     "novel_mean": -0.013211,
+     "anti_mean": -0.013211
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.013035,
+     "novel_mean": -0.013035,
+     "anti_mean": -0.013035
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.999,
+     "recent_mean": -0.012487,
+     "novel_mean": -0.012487,
+     "anti_mean": -0.012487
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.012553,
+     "novel_mean": -0.012553,
+     "anti_mean": -0.012553
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.011744,
+     "novel_mean": -0.011744,
+     "anti_mean": -0.011744
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5483,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.5515,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "broad",
+   "seed": 7,
+   "arm": "control",
+   "coherence_mean": 0.9695,
+   "coherence_std": 0.0046,
+   "identity_stability": 0.9985,
+   "anchor_velocity": 0.0015,
+   "eff_rank": 9.192,
+   "mean_cos": 0.901,
+   "pc_mean": 0.9774,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 3,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.98,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3395,
+    "bonds_formed": 2,
+    "active_values": 3,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.051463,
+     "novel_mean": -0.051281,
+     "anti_mean": -0.051063
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.039314,
+     "novel_mean": -0.039311,
+     "anti_mean": -0.039316
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.03284,
+     "novel_mean": -0.03284,
+     "anti_mean": -0.03284
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.028987,
+     "novel_mean": -0.028987,
+     "anti_mean": -0.028987
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.026901,
+     "novel_mean": -0.026901,
+     "anti_mean": -0.026901
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.024841,
+     "novel_mean": -0.024841,
+     "anti_mean": -0.024841
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.023353,
+     "novel_mean": -0.023353,
+     "anti_mean": -0.023353
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.021706,
+     "novel_mean": -0.021706,
+     "anti_mean": -0.021706
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.021362,
+     "novel_mean": -0.021362,
+     "anti_mean": -0.021362
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.020013,
+     "novel_mean": -0.020013,
+     "anti_mean": -0.020013
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.019193,
+     "novel_mean": -0.019193,
+     "anti_mean": -0.019193
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.018443,
+     "novel_mean": -0.018443,
+     "anti_mean": -0.018443
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.018308,
+     "novel_mean": -0.018308,
+     "anti_mean": -0.018308
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.017265,
+     "novel_mean": -0.017265,
+     "anti_mean": -0.017265
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.017544,
+     "novel_mean": -0.017544,
+     "anti_mean": -0.017544
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.016282,
+     "novel_mean": -0.016282,
+     "anti_mean": -0.016282
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.016364,
+     "novel_mean": -0.016364,
+     "anti_mean": -0.016364
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.016152,
+     "novel_mean": -0.016152,
+     "anti_mean": -0.016152
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.015394,
+     "novel_mean": -0.015394,
+     "anti_mean": -0.015394
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5358,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "locked",
+    "n_regimes": 1
+   }
+  },
+  {
+   "band": "broad",
+   "seed": 7,
+   "arm": "pretrained",
+   "coherence_mean": 0.9735,
+   "coherence_std": 0.0048,
+   "identity_stability": 0.9987,
+   "anchor_velocity": 0.0013,
+   "eff_rank": 2.765,
+   "mean_cos": 0.693,
+   "pc_mean": 0.978,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 2,
+    "reflect": 2,
+    "explore": 495
+   },
+   "attractors": 2,
+   "crystals": 3,
+   "bonds": 3,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.984,
+    "allow_weakened_rate": 0.016,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3508,
+    "bonds_formed": 3,
+    "active_values": 6,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9982,
+     "recent_mean": -0.064204,
+     "novel_mean": -0.06411,
+     "anti_mean": -0.063901
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.038494,
+     "novel_mean": -0.038488,
+     "anti_mean": -0.038492
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9983,
+     "recent_mean": -0.007019,
+     "novel_mean": -0.007019,
+     "anti_mean": -0.007019
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.006225,
+     "novel_mean": -0.006225,
+     "anti_mean": -0.006225
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.005106,
+     "novel_mean": -0.005106,
+     "anti_mean": -0.005106
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.004196,
+     "novel_mean": -0.004196,
+     "anti_mean": -0.004196
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.003633,
+     "novel_mean": -0.003633,
+     "anti_mean": -0.003633
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.0029,
+     "novel_mean": -0.0029,
+     "anti_mean": -0.0029
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002779,
+     "novel_mean": -0.002779,
+     "anti_mean": -0.002779
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002398,
+     "novel_mean": -0.002398,
+     "anti_mean": -0.002398
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.00199,
+     "novel_mean": -0.00199,
+     "anti_mean": -0.00199
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001742,
+     "novel_mean": -0.001742,
+     "anti_mean": -0.001742
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001805,
+     "novel_mean": -0.001805,
+     "anti_mean": -0.001805
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001722,
+     "novel_mean": -0.001722,
+     "anti_mean": -0.001722
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.00139,
+     "novel_mean": -0.00139,
+     "anti_mean": -0.00139
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001365,
+     "novel_mean": -0.001365,
+     "anti_mean": -0.001365
+    },
+    {
+     "step": 425,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001259,
+     "novel_mean": -0.001259,
+     "anti_mean": -0.001259
+    },
+    {
+     "step": 450,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001289,
+     "novel_mean": -0.001289,
+     "anti_mean": -0.001289
+    },
+    {
+     "step": 475,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001248,
+     "novel_mean": -0.001248,
+     "anti_mean": -0.001248
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5473,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.5576,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "rhythm",
+   "seed": 7,
+   "arm": "control",
+   "coherence_mean": 0.9684,
+   "coherence_std": 0.0039,
+   "identity_stability": 0.9985,
+   "anchor_velocity": 0.0016,
+   "eff_rank": 6.298,
+   "mean_cos": 0.917,
+   "pc_mean": 0.9826,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 1,
+   "crystals": 3,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.98,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3339,
+    "bonds_formed": 1,
+    "active_values": 59,
+    "strong_values": 1,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.079503,
+     "novel_mean": -0.079076,
+     "anti_mean": -0.079072
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9976,
+     "recent_mean": -0.017199,
+     "novel_mean": -0.017198,
+     "anti_mean": -0.017198
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.999,
+     "recent_mean": -0.014857,
+     "novel_mean": -0.014857,
+     "anti_mean": -0.014857
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.013265,
+     "novel_mean": -0.013265,
+     "anti_mean": -0.013265
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.011616,
+     "novel_mean": -0.011616,
+     "anti_mean": -0.011616
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.010503,
+     "novel_mean": -0.010503,
+     "anti_mean": -0.010503
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.009566,
+     "novel_mean": -0.009566,
+     "anti_mean": -0.009566
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.00859,
+     "novel_mean": -0.00859,
+     "anti_mean": -0.00859
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.008147,
+     "novel_mean": -0.008147,
+     "anti_mean": -0.008147
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.007235,
+     "novel_mean": -0.007235,
+     "anti_mean": -0.007235
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006824,
+     "novel_mean": -0.006824,
+     "anti_mean": -0.006824
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006563,
+     "novel_mean": -0.006563,
+     "anti_mean": -0.006563
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.00621,
+     "novel_mean": -0.00621,
+     "anti_mean": -0.00621
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006372,
+     "novel_mean": -0.006372,
+     "anti_mean": -0.006372
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.005705,
+     "novel_mean": -0.005705,
+     "anti_mean": -0.005705
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.005442,
+     "novel_mean": -0.005442,
+     "anti_mean": -0.005442
+    },
+    {
+     "step": 425,
+     "coherence_level": 1.0,
+     "recent_mean": -0.005374,
+     "novel_mean": -0.005374,
+     "anti_mean": -0.005374
+    },
+    {
+     "step": 450,
+     "coherence_level": 1.0,
+     "recent_mean": -0.005393,
+     "novel_mean": -0.005393,
+     "anti_mean": -0.005393
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.005111,
+     "novel_mean": -0.005111,
+     "anti_mean": -0.005111
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5771,
+    "state": "metastable",
+    "n_regimes": 3
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "cycling",
+    "n_regimes": 2
+   }
+  },
+  {
+   "band": "rhythm",
+   "seed": 7,
+   "arm": "pretrained",
+   "coherence_mean": 0.97,
+   "coherence_std": 0.003,
+   "identity_stability": 0.9982,
+   "anchor_velocity": 0.0018,
+   "eff_rank": 2.996,
+   "mean_cos": 0.679,
+   "pc_mean": 0.9657,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 1,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.98,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3339,
+    "bonds_formed": 2,
+    "active_values": 59,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.049718,
+     "novel_mean": -0.049695,
+     "anti_mean": -0.049558
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.039472,
+     "novel_mean": -0.039469,
+     "anti_mean": -0.03945
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.031683,
+     "novel_mean": -0.031683,
+     "anti_mean": -0.031683
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.027265,
+     "novel_mean": -0.027265,
+     "anti_mean": -0.027265
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.024865,
+     "novel_mean": -0.024865,
+     "anti_mean": -0.024865
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.023226,
+     "novel_mean": -0.023226,
+     "anti_mean": -0.023226
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.021897,
+     "novel_mean": -0.021897,
+     "anti_mean": -0.021897
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.02004,
+     "novel_mean": -0.02004,
+     "anti_mean": -0.02004
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.018535,
+     "novel_mean": -0.018535,
+     "anti_mean": -0.018535
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.018109,
+     "novel_mean": -0.018109,
+     "anti_mean": -0.018109
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.017397,
+     "novel_mean": -0.017397,
+     "anti_mean": -0.017397
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.016852,
+     "novel_mean": -0.016852,
+     "anti_mean": -0.016852
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.015551,
+     "novel_mean": -0.015551,
+     "anti_mean": -0.015551
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.015192,
+     "novel_mean": -0.015192,
+     "anti_mean": -0.015192
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.999,
+     "recent_mean": -0.015622,
+     "novel_mean": -0.015622,
+     "anti_mean": -0.015622
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.01375,
+     "novel_mean": -0.01375,
+     "anti_mean": -0.01375
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.013902,
+     "novel_mean": -0.013902,
+     "anti_mean": -0.013902
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.999,
+     "recent_mean": -0.013665,
+     "novel_mean": -0.013665,
+     "anti_mean": -0.013665
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.999,
+     "recent_mean": -0.013319,
+     "novel_mean": -0.013319,
+     "anti_mean": -0.013319
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5331,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.5331,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "entry",
+   "seed": 7,
+   "arm": "control",
+   "coherence_mean": 0.9689,
+   "coherence_std": 0.0049,
+   "identity_stability": 0.9988,
+   "anchor_velocity": 0.0012,
+   "eff_rank": 5.463,
+   "mean_cos": 0.925,
+   "pc_mean": 0.9851,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 1,
+   "crystals": 3,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.98,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3146,
+    "bonds_formed": 2,
+    "active_values": 43,
+    "strong_values": 3,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.076068,
+     "novel_mean": -0.076094,
+     "anti_mean": -0.075466
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9977,
+     "recent_mean": -0.020892,
+     "novel_mean": -0.020907,
+     "anti_mean": -0.020887
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.017112,
+     "novel_mean": -0.017112,
+     "anti_mean": -0.017112
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.014378,
+     "novel_mean": -0.014378,
+     "anti_mean": -0.014378
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.012899,
+     "novel_mean": -0.012899,
+     "anti_mean": -0.012899
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.011603,
+     "novel_mean": -0.011603,
+     "anti_mean": -0.011603
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.01075,
+     "novel_mean": -0.01075,
+     "anti_mean": -0.01075
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.009819,
+     "novel_mean": -0.009819,
+     "anti_mean": -0.009819
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.009403,
+     "novel_mean": -0.009403,
+     "anti_mean": -0.009403
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.008646,
+     "novel_mean": -0.008646,
+     "anti_mean": -0.008646
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.007924,
+     "novel_mean": -0.007924,
+     "anti_mean": -0.007924
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.007849,
+     "novel_mean": -0.007849,
+     "anti_mean": -0.007849
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.00743,
+     "novel_mean": -0.00743,
+     "anti_mean": -0.00743
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.007016,
+     "novel_mean": -0.007016,
+     "anti_mean": -0.007016
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.00653,
+     "novel_mean": -0.00653,
+     "anti_mean": -0.00653
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006327,
+     "novel_mean": -0.006327,
+     "anti_mean": -0.006327
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006341,
+     "novel_mean": -0.006341,
+     "anti_mean": -0.006341
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.006131,
+     "novel_mean": -0.006131,
+     "anti_mean": -0.006131
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.00617,
+     "novel_mean": -0.00617,
+     "anti_mean": -0.00617
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5993,
+    "state": "metastable",
+    "n_regimes": 3
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "locked",
+    "n_regimes": 1
+   }
+  },
+  {
+   "band": "entry",
+   "seed": 7,
+   "arm": "pretrained",
+   "coherence_mean": 0.975,
+   "coherence_std": 0.0017,
+   "identity_stability": 0.9985,
+   "anchor_velocity": 0.0015,
+   "eff_rank": 2.273,
+   "mean_cos": 0.8,
+   "pc_mean": 0.9762,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 2,
+    "reflect": 2,
+    "explore": 495
+   },
+   "attractors": 3,
+   "crystals": 3,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.984,
+    "allow_weakened_rate": 0.016,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3153,
+    "bonds_formed": 2,
+    "active_values": 43,
+    "strong_values": 3,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9984,
+     "recent_mean": -0.055899,
+     "novel_mean": -0.055573,
+     "anti_mean": -0.055699
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.037914,
+     "novel_mean": -0.037873,
+     "anti_mean": -0.037939
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9964,
+     "recent_mean": -0.002748,
+     "novel_mean": -0.002748,
+     "anti_mean": -0.002748
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9979,
+     "recent_mean": -0.003014,
+     "novel_mean": -0.003014,
+     "anti_mean": -0.003014
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9988,
+     "recent_mean": -0.00341,
+     "novel_mean": -0.00341,
+     "anti_mean": -0.00341
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.002818,
+     "novel_mean": -0.002818,
+     "anti_mean": -0.002818
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.002431,
+     "novel_mean": -0.002431,
+     "anti_mean": -0.002431
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.002326,
+     "novel_mean": -0.002326,
+     "anti_mean": -0.002326
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.002226,
+     "novel_mean": -0.002226,
+     "anti_mean": -0.002226
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.001925,
+     "novel_mean": -0.001925,
+     "anti_mean": -0.001925
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.002022,
+     "novel_mean": -0.002022,
+     "anti_mean": -0.002022
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.001913,
+     "novel_mean": -0.001913,
+     "anti_mean": -0.001913
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.001704,
+     "novel_mean": -0.001704,
+     "anti_mean": -0.001704
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.001578,
+     "novel_mean": -0.001578,
+     "anti_mean": -0.001578
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001503,
+     "novel_mean": -0.001503,
+     "anti_mean": -0.001503
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001356,
+     "novel_mean": -0.001356,
+     "anti_mean": -0.001356
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001351,
+     "novel_mean": -0.001351,
+     "anti_mean": -0.001351
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001185,
+     "novel_mean": -0.001185,
+     "anti_mean": -0.001185
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001286,
+     "novel_mean": -0.001286,
+     "anti_mean": -0.001286
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.7001,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.6909,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "mixed",
+   "seed": 7,
+   "arm": "control",
+   "coherence_mean": 0.9701,
+   "coherence_std": 0.0047,
+   "identity_stability": 0.9987,
+   "anchor_velocity": 0.0013,
+   "eff_rank": 9.226,
+   "mean_cos": 0.912,
+   "pc_mean": 0.9512,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 1,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.98,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3102,
+    "bonds_formed": 2,
+    "active_values": 17,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.059765,
+     "novel_mean": -0.059308,
+     "anti_mean": -0.059024
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.040773,
+     "novel_mean": -0.040772,
+     "anti_mean": -0.040772
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.033761,
+     "novel_mean": -0.033761,
+     "anti_mean": -0.033761
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.030854,
+     "novel_mean": -0.030854,
+     "anti_mean": -0.030854
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.027791,
+     "novel_mean": -0.027791,
+     "anti_mean": -0.027791
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.025544,
+     "novel_mean": -0.025544,
+     "anti_mean": -0.025544
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.023123,
+     "novel_mean": -0.023123,
+     "anti_mean": -0.023123
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.021945,
+     "novel_mean": -0.021945,
+     "anti_mean": -0.021945
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.021033,
+     "novel_mean": -0.021033,
+     "anti_mean": -0.021033
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.020079,
+     "novel_mean": -0.020079,
+     "anti_mean": -0.020079
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.019747,
+     "novel_mean": -0.019747,
+     "anti_mean": -0.019747
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.018352,
+     "novel_mean": -0.018352,
+     "anti_mean": -0.018352
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.018105,
+     "novel_mean": -0.018105,
+     "anti_mean": -0.018105
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.017394,
+     "novel_mean": -0.017394,
+     "anti_mean": -0.017394
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.016955,
+     "novel_mean": -0.016955,
+     "anti_mean": -0.016955
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.016412,
+     "novel_mean": -0.016412,
+     "anti_mean": -0.016412
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.015876,
+     "novel_mean": -0.015876,
+     "anti_mean": -0.015876
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.015275,
+     "novel_mean": -0.015275,
+     "anti_mean": -0.015275
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.015683,
+     "novel_mean": -0.015683,
+     "anti_mean": -0.015683
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.7422,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "locked",
+    "n_regimes": 1
+   }
+  },
+  {
+   "band": "mixed",
+   "seed": 7,
+   "arm": "pretrained",
+   "coherence_mean": 0.9707,
+   "coherence_std": 0.0044,
+   "identity_stability": 0.9983,
+   "anchor_velocity": 0.0017,
+   "eff_rank": 2.766,
+   "mean_cos": 0.722,
+   "pc_mean": 0.9492,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 3,
+   "crystals": 3,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.98,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.3102,
+    "bonds_formed": 2,
+    "active_values": 17,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9986,
+     "recent_mean": -0.037565,
+     "novel_mean": -0.037415,
+     "anti_mean": -0.036983
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.034695,
+     "novel_mean": -0.034681,
+     "anti_mean": -0.034695
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.027186,
+     "novel_mean": -0.027186,
+     "anti_mean": -0.027186
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.023257,
+     "novel_mean": -0.023257,
+     "anti_mean": -0.023257
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.020678,
+     "novel_mean": -0.020678,
+     "anti_mean": -0.020678
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.019589,
+     "novel_mean": -0.019589,
+     "anti_mean": -0.019589
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.017846,
+     "novel_mean": -0.017846,
+     "anti_mean": -0.017846
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.017647,
+     "novel_mean": -0.017647,
+     "anti_mean": -0.017647
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.015531,
+     "novel_mean": -0.015531,
+     "anti_mean": -0.015531
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.015033,
+     "novel_mean": -0.015033,
+     "anti_mean": -0.015033
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.013932,
+     "novel_mean": -0.013932,
+     "anti_mean": -0.013932
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.013198,
+     "novel_mean": -0.013198,
+     "anti_mean": -0.013198
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.012216,
+     "novel_mean": -0.012216,
+     "anti_mean": -0.012216
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.012818,
+     "novel_mean": -0.012818,
+     "anti_mean": -0.012818
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.011752,
+     "novel_mean": -0.011752,
+     "anti_mean": -0.011752
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.011739,
+     "novel_mean": -0.011739,
+     "anti_mean": -0.011739
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.011411,
+     "novel_mean": -0.011411,
+     "anti_mean": -0.011411
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.01147,
+     "novel_mean": -0.01147,
+     "anti_mean": -0.01147
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.011174,
+     "novel_mean": -0.011174,
+     "anti_mean": -0.011174
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.6043,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.6043,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "canonical",
+   "seed": 11,
+   "arm": "control",
+   "coherence_mean": 0.9699,
+   "coherence_std": 0.003,
+   "identity_stability": 0.999,
+   "anchor_velocity": 0.001,
+   "eff_rank": 5.121,
+   "mean_cos": 0.928,
+   "pc_mean": 0.9604,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 1,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.986,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2861,
+    "bonds_formed": 2,
+    "active_values": 46,
+    "strong_values": 1,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.048652,
+     "novel_mean": -0.049098,
+     "anti_mean": -0.048789
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.040216,
+     "novel_mean": -0.040212,
+     "anti_mean": -0.040208
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.033149,
+     "novel_mean": -0.033148,
+     "anti_mean": -0.033148
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.030088,
+     "novel_mean": -0.030088,
+     "anti_mean": -0.030088
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.027037,
+     "novel_mean": -0.027037,
+     "anti_mean": -0.027037
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.024931,
+     "novel_mean": -0.024931,
+     "anti_mean": -0.024931
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.023344,
+     "novel_mean": -0.023344,
+     "anti_mean": -0.023344
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.021901,
+     "novel_mean": -0.021901,
+     "anti_mean": -0.021901
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.021004,
+     "novel_mean": -0.021004,
+     "anti_mean": -0.021004
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.020206,
+     "novel_mean": -0.020206,
+     "anti_mean": -0.020206
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.019463,
+     "novel_mean": -0.019463,
+     "anti_mean": -0.019463
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.018583,
+     "novel_mean": -0.018583,
+     "anti_mean": -0.018583
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.018257,
+     "novel_mean": -0.018257,
+     "anti_mean": -0.018257
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.017664,
+     "novel_mean": -0.017664,
+     "anti_mean": -0.017664
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.017279,
+     "novel_mean": -0.017279,
+     "anti_mean": -0.017279
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.016624,
+     "novel_mean": -0.016624,
+     "anti_mean": -0.016624
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.016377,
+     "novel_mean": -0.016377,
+     "anti_mean": -0.016377
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.015943,
+     "novel_mean": -0.015943,
+     "anti_mean": -0.015943
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.015565,
+     "novel_mean": -0.015565,
+     "anti_mean": -0.015565
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5228,
+    "state": "metastable",
+    "n_regimes": 3
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "locked",
+    "n_regimes": 1
+   }
+  },
+  {
+   "band": "canonical",
+   "seed": 11,
+   "arm": "pretrained",
+   "coherence_mean": 0.9758,
+   "coherence_std": 0.0013,
+   "identity_stability": 0.9987,
+   "anchor_velocity": 0.0013,
+   "eff_rank": 1.61,
+   "mean_cos": 0.701,
+   "pc_mean": 0.9713,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 2,
+    "reflect": 3,
+    "explore": 494
+   },
+   "attractors": 2,
+   "crystals": 1,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.984,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2833,
+    "bonds_formed": 1,
+    "active_values": 46,
+    "strong_values": 2,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9904,
+     "recent_mean": -0.05394,
+     "novel_mean": -0.05369,
+     "anti_mean": -0.053408
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9958,
+     "recent_mean": -0.02822,
+     "novel_mean": -0.028219,
+     "anti_mean": -0.028219
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9984,
+     "recent_mean": -0.019683,
+     "novel_mean": -0.019683,
+     "anti_mean": -0.019683
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.011106,
+     "novel_mean": -0.011106,
+     "anti_mean": -0.011106
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.005884,
+     "novel_mean": -0.005884,
+     "anti_mean": -0.005884
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.004559,
+     "novel_mean": -0.004559,
+     "anti_mean": -0.004559
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.003829,
+     "novel_mean": -0.003829,
+     "anti_mean": -0.003829
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.003272,
+     "novel_mean": -0.003272,
+     "anti_mean": -0.003272
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002651,
+     "novel_mean": -0.002651,
+     "anti_mean": -0.002651
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002098,
+     "novel_mean": -0.002098,
+     "anti_mean": -0.002098
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.002332,
+     "novel_mean": -0.002332,
+     "anti_mean": -0.002332
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001713,
+     "novel_mean": -0.001713,
+     "anti_mean": -0.001713
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001625,
+     "novel_mean": -0.001625,
+     "anti_mean": -0.001625
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001577,
+     "novel_mean": -0.001577,
+     "anti_mean": -0.001577
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.001306,
+     "novel_mean": -0.001306,
+     "anti_mean": -0.001306
+    },
+    {
+     "step": 400,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001276,
+     "novel_mean": -0.001276,
+     "anti_mean": -0.001276
+    },
+    {
+     "step": 425,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001186,
+     "novel_mean": -0.001186,
+     "anti_mean": -0.001186
+    },
+    {
+     "step": 450,
+     "coherence_level": 1.0,
+     "recent_mean": -0.001034,
+     "novel_mean": -0.001034,
+     "anti_mean": -0.001034
+    },
+    {
+     "step": 475,
+     "coherence_level": 1.0,
+     "recent_mean": -0.000815,
+     "novel_mean": -0.000815,
+     "anti_mean": -0.000815
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.6043,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.6043,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "broad",
+   "seed": 11,
+   "arm": "control",
+   "coherence_mean": 0.9689,
+   "coherence_std": 0.0028,
+   "identity_stability": 0.9989,
+   "anchor_velocity": 0.0011,
+   "eff_rank": 8.953,
+   "mean_cos": 0.918,
+   "pc_mean": 0.9473,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 2,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2721,
+    "bonds_formed": 2,
+    "active_values": 2,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9988,
+     "recent_mean": -0.039426,
+     "novel_mean": -0.038829,
+     "anti_mean": -0.03892
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.031293,
+     "novel_mean": -0.03129,
+     "anti_mean": -0.031289
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.02642,
+     "novel_mean": -0.02642,
+     "anti_mean": -0.02642
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.023612,
+     "novel_mean": -0.023612,
+     "anti_mean": -0.023612
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.021553,
+     "novel_mean": -0.021553,
+     "anti_mean": -0.021553
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.019695,
+     "novel_mean": -0.019695,
+     "anti_mean": -0.019695
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.018994,
+     "novel_mean": -0.018994,
+     "anti_mean": -0.018994
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.017507,
+     "novel_mean": -0.017507,
+     "anti_mean": -0.017507
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.017121,
+     "novel_mean": -0.017121,
+     "anti_mean": -0.017121
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.015954,
+     "novel_mean": -0.015954,
+     "anti_mean": -0.015954
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.015924,
+     "novel_mean": -0.015924,
+     "anti_mean": -0.015924
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.01478,
+     "novel_mean": -0.01478,
+     "anti_mean": -0.01478
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.014216,
+     "novel_mean": -0.014216,
+     "anti_mean": -0.014216
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.014353,
+     "novel_mean": -0.014353,
+     "anti_mean": -0.014353
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.013819,
+     "novel_mean": -0.013819,
+     "anti_mean": -0.013819
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.013154,
+     "novel_mean": -0.013154,
+     "anti_mean": -0.013154
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.013165,
+     "novel_mean": -0.013165,
+     "anti_mean": -0.013165
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.01306,
+     "novel_mean": -0.01306,
+     "anti_mean": -0.01306
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.012821,
+     "novel_mean": -0.012821,
+     "anti_mean": -0.012821
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5207,
+    "state": "metastable",
+    "n_regimes": 3
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "cycling",
+    "n_regimes": 2
+   }
+  },
+  {
+   "band": "broad",
+   "seed": 11,
+   "arm": "pretrained",
+   "coherence_mean": 0.9725,
+   "coherence_std": 0.0045,
+   "identity_stability": 0.9979,
+   "anchor_velocity": 0.0021,
+   "eff_rank": 2.459,
+   "mean_cos": 0.621,
+   "pc_mean": 0.9701,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 3,
+   "crystals": 2,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2721,
+    "bonds_formed": 1,
+    "active_values": 3,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.998,
+     "recent_mean": -0.036139,
+     "novel_mean": -0.036041,
+     "anti_mean": -0.035957
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.024766,
+     "novel_mean": -0.024766,
+     "anti_mean": -0.024765
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.018982,
+     "novel_mean": -0.018982,
+     "anti_mean": -0.018982
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.017112,
+     "novel_mean": -0.017112,
+     "anti_mean": -0.017112
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.015376,
+     "novel_mean": -0.015376,
+     "anti_mean": -0.015376
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.012924,
+     "novel_mean": -0.012924,
+     "anti_mean": -0.012924
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.012458,
+     "novel_mean": -0.012458,
+     "anti_mean": -0.012458
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.011821,
+     "novel_mean": -0.011821,
+     "anti_mean": -0.011821
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.01121,
+     "novel_mean": -0.01121,
+     "anti_mean": -0.01121
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.009987,
+     "novel_mean": -0.009987,
+     "anti_mean": -0.009987
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.010292,
+     "novel_mean": -0.010292,
+     "anti_mean": -0.010292
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.009451,
+     "novel_mean": -0.009451,
+     "anti_mean": -0.009451
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.008992,
+     "novel_mean": -0.008992,
+     "anti_mean": -0.008992
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.008744,
+     "novel_mean": -0.008744,
+     "anti_mean": -0.008744
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.008772,
+     "novel_mean": -0.008772,
+     "anti_mean": -0.008772
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.008376,
+     "novel_mean": -0.008376,
+     "anti_mean": -0.008376
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.008475,
+     "novel_mean": -0.008475,
+     "anti_mean": -0.008475
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.007939,
+     "novel_mean": -0.007939,
+     "anti_mean": -0.007939
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.00773,
+     "novel_mean": -0.00773,
+     "anti_mean": -0.00773
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5363,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.5363,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "rhythm",
+   "seed": 11,
+   "arm": "control",
+   "coherence_mean": 0.9719,
+   "coherence_std": 0.0029,
+   "identity_stability": 0.9983,
+   "anchor_velocity": 0.0017,
+   "eff_rank": 5.612,
+   "mean_cos": 0.923,
+   "pc_mean": 0.9467,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 1,
+   "crystals": 2,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2882,
+    "bonds_formed": 1,
+    "active_values": 56,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.053049,
+     "novel_mean": -0.052832,
+     "anti_mean": -0.052325
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.043534,
+     "novel_mean": -0.043534,
+     "anti_mean": -0.04352
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.036112,
+     "novel_mean": -0.036112,
+     "anti_mean": -0.036112
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.03182,
+     "novel_mean": -0.03182,
+     "anti_mean": -0.03182
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.029409,
+     "novel_mean": -0.029409,
+     "anti_mean": -0.029409
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.026823,
+     "novel_mean": -0.026823,
+     "anti_mean": -0.026823
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.025122,
+     "novel_mean": -0.025122,
+     "anti_mean": -0.025122
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.02401,
+     "novel_mean": -0.02401,
+     "anti_mean": -0.02401
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.022682,
+     "novel_mean": -0.022682,
+     "anti_mean": -0.022682
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.021455,
+     "novel_mean": -0.021455,
+     "anti_mean": -0.021455
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.020337,
+     "novel_mean": -0.020337,
+     "anti_mean": -0.020337
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.019839,
+     "novel_mean": -0.019839,
+     "anti_mean": -0.019839
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.019539,
+     "novel_mean": -0.019539,
+     "anti_mean": -0.019539
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.01884,
+     "novel_mean": -0.01884,
+     "anti_mean": -0.01884
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.018193,
+     "novel_mean": -0.018193,
+     "anti_mean": -0.018193
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.017842,
+     "novel_mean": -0.017842,
+     "anti_mean": -0.017842
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.017628,
+     "novel_mean": -0.017628,
+     "anti_mean": -0.017628
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.999,
+     "recent_mean": -0.017277,
+     "novel_mean": -0.017277,
+     "anti_mean": -0.017277
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.999,
+     "recent_mean": -0.017077,
+     "novel_mean": -0.017077,
+     "anti_mean": -0.017077
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.0,
+    "state": "cycling",
+    "n_regimes": 2
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "cycling",
+    "n_regimes": 2
+   }
+  },
+  {
+   "band": "rhythm",
+   "seed": 11,
+   "arm": "pretrained",
+   "coherence_mean": 0.9696,
+   "coherence_std": 0.0039,
+   "identity_stability": 0.9982,
+   "anchor_velocity": 0.0018,
+   "eff_rank": 2.194,
+   "mean_cos": 0.672,
+   "pc_mean": 0.9578,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 3,
+   "crystals": 2,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.992,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2882,
+    "bonds_formed": 1,
+    "active_values": 56,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9979,
+     "recent_mean": -0.055699,
+     "novel_mean": -0.055077,
+     "anti_mean": -0.055213
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.028226,
+     "novel_mean": -0.028226,
+     "anti_mean": -0.028223
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.030558,
+     "novel_mean": -0.030558,
+     "anti_mean": -0.030558
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.025202,
+     "novel_mean": -0.025202,
+     "anti_mean": -0.025202
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.022106,
+     "novel_mean": -0.022106,
+     "anti_mean": -0.022106
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.019983,
+     "novel_mean": -0.019983,
+     "anti_mean": -0.019983
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.018069,
+     "novel_mean": -0.018069,
+     "anti_mean": -0.018069
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.017162,
+     "novel_mean": -0.017162,
+     "anti_mean": -0.017162
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.016325,
+     "novel_mean": -0.016325,
+     "anti_mean": -0.016325
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.015058,
+     "novel_mean": -0.015058,
+     "anti_mean": -0.015058
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.014112,
+     "novel_mean": -0.014112,
+     "anti_mean": -0.014112
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.013304,
+     "novel_mean": -0.013304,
+     "anti_mean": -0.013304
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.012722,
+     "novel_mean": -0.012722,
+     "anti_mean": -0.012722
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.01215,
+     "novel_mean": -0.01215,
+     "anti_mean": -0.01215
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.011754,
+     "novel_mean": -0.011754,
+     "anti_mean": -0.011754
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.011524,
+     "novel_mean": -0.011524,
+     "anti_mean": -0.011524
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.010833,
+     "novel_mean": -0.010833,
+     "anti_mean": -0.010833
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.01064,
+     "novel_mean": -0.01064,
+     "anti_mean": -0.01064
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.999,
+     "recent_mean": -0.010611,
+     "novel_mean": -0.010611,
+     "anti_mean": -0.010611
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5839,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.5889,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "entry",
+   "seed": 11,
+   "arm": "control",
+   "coherence_mean": 0.9723,
+   "coherence_std": 0.0037,
+   "identity_stability": 0.9991,
+   "anchor_velocity": 0.0009,
+   "eff_rank": 4.405,
+   "mean_cos": 0.918,
+   "pc_mean": 0.9519,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 1,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.986,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2861,
+    "bonds_formed": 2,
+    "active_values": 43,
+    "strong_values": 3,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.047096,
+     "novel_mean": -0.047081,
+     "anti_mean": -0.046741
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.035977,
+     "novel_mean": -0.036091,
+     "anti_mean": -0.036003
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.034534,
+     "novel_mean": -0.034535,
+     "anti_mean": -0.034523
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.029771,
+     "novel_mean": -0.029771,
+     "anti_mean": -0.029771
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.027647,
+     "novel_mean": -0.027647,
+     "anti_mean": -0.027647
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.024952,
+     "novel_mean": -0.024952,
+     "anti_mean": -0.024952
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.023603,
+     "novel_mean": -0.023603,
+     "anti_mean": -0.023603
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.022016,
+     "novel_mean": -0.022016,
+     "anti_mean": -0.022016
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.02104,
+     "novel_mean": -0.02104,
+     "anti_mean": -0.02104
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.019965,
+     "novel_mean": -0.019965,
+     "anti_mean": -0.019965
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.019376,
+     "novel_mean": -0.019376,
+     "anti_mean": -0.019376
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.018374,
+     "novel_mean": -0.018374,
+     "anti_mean": -0.018374
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9994,
+     "recent_mean": -0.017672,
+     "novel_mean": -0.017672,
+     "anti_mean": -0.017672
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.017315,
+     "novel_mean": -0.017315,
+     "anti_mean": -0.017315
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9993,
+     "recent_mean": -0.016576,
+     "novel_mean": -0.016576,
+     "anti_mean": -0.016576
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.016568,
+     "novel_mean": -0.016568,
+     "anti_mean": -0.016568
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.016088,
+     "novel_mean": -0.016088,
+     "anti_mean": -0.016088
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9991,
+     "recent_mean": -0.015972,
+     "novel_mean": -0.015972,
+     "anti_mean": -0.015972
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9992,
+     "recent_mean": -0.014907,
+     "novel_mean": -0.014907,
+     "anti_mean": -0.014907
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5018,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "cycling",
+    "n_regimes": 2
+   }
+  },
+  {
+   "band": "entry",
+   "seed": 11,
+   "arm": "pretrained",
+   "coherence_mean": 0.9756,
+   "coherence_std": 0.0061,
+   "identity_stability": 0.9976,
+   "anchor_velocity": 0.0024,
+   "eff_rank": 2.188,
+   "mean_cos": 0.683,
+   "pc_mean": 0.9676,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 3,
+    "explore": 495
+   },
+   "attractors": 2,
+   "crystals": 2,
+   "bonds": 1,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.986,
+    "allow_weakened_rate": 0.012,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2861,
+    "bonds_formed": 1,
+    "active_values": 43,
+    "strong_values": 4,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9981,
+     "recent_mean": -0.033762,
+     "novel_mean": -0.033861,
+     "anti_mean": -0.033613
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.020475,
+     "novel_mean": -0.02048,
+     "anti_mean": -0.020484
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.017169,
+     "novel_mean": -0.017169,
+     "anti_mean": -0.017169
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.014403,
+     "novel_mean": -0.014403,
+     "anti_mean": -0.014403
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.012437,
+     "novel_mean": -0.012437,
+     "anti_mean": -0.012437
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.011392,
+     "novel_mean": -0.011392,
+     "anti_mean": -0.011392
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.010042,
+     "novel_mean": -0.010042,
+     "anti_mean": -0.010042
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.009364,
+     "novel_mean": -0.009364,
+     "anti_mean": -0.009364
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.00934,
+     "novel_mean": -0.00934,
+     "anti_mean": -0.00934
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.008247,
+     "novel_mean": -0.008247,
+     "anti_mean": -0.008247
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.00778,
+     "novel_mean": -0.00778,
+     "anti_mean": -0.00778
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.007318,
+     "novel_mean": -0.007318,
+     "anti_mean": -0.007318
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.007606,
+     "novel_mean": -0.007606,
+     "anti_mean": -0.007606
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.006845,
+     "novel_mean": -0.006845,
+     "anti_mean": -0.006845
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.006467,
+     "novel_mean": -0.006467,
+     "anti_mean": -0.006467
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.006239,
+     "novel_mean": -0.006239,
+     "anti_mean": -0.006239
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.006328,
+     "novel_mean": -0.006328,
+     "anti_mean": -0.006328
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.005863,
+     "novel_mean": -0.005863,
+     "anti_mean": -0.005863
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.005826,
+     "novel_mean": -0.005826,
+     "anti_mean": -0.005826
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.6381,
+    "state": "metastable",
+    "n_regimes": 4
+   },
+   "expression_metastability": {
+    "metastability": 0.6381,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  },
+  {
+   "band": "mixed",
+   "seed": 11,
+   "arm": "control",
+   "coherence_mean": 0.97,
+   "coherence_std": 0.0031,
+   "identity_stability": 0.9986,
+   "anchor_velocity": 0.0014,
+   "eff_rank": 7.215,
+   "mean_cos": 0.927,
+   "pc_mean": 0.9805,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 2,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.99,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2626,
+    "bonds_formed": 2,
+    "active_values": 22,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9989,
+     "recent_mean": -0.041348,
+     "novel_mean": -0.041207,
+     "anti_mean": -0.040811
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.028908,
+     "novel_mean": -0.028908,
+     "anti_mean": -0.028908
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.024065,
+     "novel_mean": -0.024065,
+     "anti_mean": -0.024065
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.021132,
+     "novel_mean": -0.021132,
+     "anti_mean": -0.021132
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9999,
+     "recent_mean": -0.018788,
+     "novel_mean": -0.018788,
+     "anti_mean": -0.018788
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.017218,
+     "novel_mean": -0.017218,
+     "anti_mean": -0.017218
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.016187,
+     "novel_mean": -0.016187,
+     "anti_mean": -0.016187
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.014976,
+     "novel_mean": -0.014976,
+     "anti_mean": -0.014976
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.013707,
+     "novel_mean": -0.013707,
+     "anti_mean": -0.013707
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.013786,
+     "novel_mean": -0.013786,
+     "anti_mean": -0.013786
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.013048,
+     "novel_mean": -0.013048,
+     "anti_mean": -0.013048
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.012307,
+     "novel_mean": -0.012307,
+     "anti_mean": -0.012307
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.012229,
+     "novel_mean": -0.012229,
+     "anti_mean": -0.012229
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.011785,
+     "novel_mean": -0.011785,
+     "anti_mean": -0.011785
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.011177,
+     "novel_mean": -0.011177,
+     "anti_mean": -0.011177
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.010996,
+     "novel_mean": -0.010996,
+     "anti_mean": -0.010996
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.010806,
+     "novel_mean": -0.010806,
+     "anti_mean": -0.010806
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.010569,
+     "novel_mean": -0.010569,
+     "anti_mean": -0.010569
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.010254,
+     "novel_mean": -0.010254,
+     "anti_mean": -0.010254
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.7416,
+    "state": "metastable",
+    "n_regimes": 3
+   },
+   "expression_metastability": {
+    "metastability": 0.0,
+    "state": "cycling",
+    "n_regimes": 2
+   }
+  },
+  {
+   "band": "mixed",
+   "seed": 11,
+   "arm": "pretrained",
+   "coherence_mean": 0.9752,
+   "coherence_std": 0.005,
+   "identity_stability": 0.9981,
+   "anchor_velocity": 0.0019,
+   "eff_rank": 2.065,
+   "mean_cos": 0.642,
+   "pc_mean": 0.9792,
+   "pc_min_post0": 0.5,
+   "rhythm_transitions": 3,
+   "rhythm_mean_dwell": 125.0,
+   "rhythm_mix": {
+    "stabilize": 1,
+    "dream": 1,
+    "reflect": 2,
+    "explore": 496
+   },
+   "attractors": 3,
+   "crystals": 2,
+   "bonds": 2,
+   "manip_steps": 0,
+   "health": {
+    "total_decisions": 500,
+    "allow_rate": 0.99,
+    "allow_weakened_rate": 0.008,
+    "quarantine_rate": 0.0,
+    "all_sources_trust_max": true,
+    "min_source_trust": 5.0,
+    "hhi": 0.2626,
+    "bonds_formed": 2,
+    "active_values": 21,
+    "strong_values": 0,
+    "core_values": 0,
+    "boredom_overrides": 0
+   },
+   "gain_samples": [
+    {
+     "step": 25,
+     "coherence_level": 0.9982,
+     "recent_mean": -0.044877,
+     "novel_mean": -0.044813,
+     "anti_mean": -0.044712
+    },
+    {
+     "step": 50,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.022784,
+     "novel_mean": -0.022784,
+     "anti_mean": -0.022784
+    },
+    {
+     "step": 75,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.017598,
+     "novel_mean": -0.017598,
+     "anti_mean": -0.017598
+    },
+    {
+     "step": 100,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.014739,
+     "novel_mean": -0.014739,
+     "anti_mean": -0.014739
+    },
+    {
+     "step": 125,
+     "coherence_level": 0.9998,
+     "recent_mean": -0.013119,
+     "novel_mean": -0.013119,
+     "anti_mean": -0.013119
+    },
+    {
+     "step": 150,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.011656,
+     "novel_mean": -0.011656,
+     "anti_mean": -0.011656
+    },
+    {
+     "step": 175,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.010676,
+     "novel_mean": -0.010676,
+     "anti_mean": -0.010676
+    },
+    {
+     "step": 200,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.009653,
+     "novel_mean": -0.009653,
+     "anti_mean": -0.009653
+    },
+    {
+     "step": 225,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.008781,
+     "novel_mean": -0.008781,
+     "anti_mean": -0.008781
+    },
+    {
+     "step": 250,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.008047,
+     "novel_mean": -0.008047,
+     "anti_mean": -0.008047
+    },
+    {
+     "step": 275,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.007878,
+     "novel_mean": -0.007878,
+     "anti_mean": -0.007878
+    },
+    {
+     "step": 300,
+     "coherence_level": 0.9997,
+     "recent_mean": -0.007381,
+     "novel_mean": -0.007381,
+     "anti_mean": -0.007381
+    },
+    {
+     "step": 325,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.007153,
+     "novel_mean": -0.007153,
+     "anti_mean": -0.007153
+    },
+    {
+     "step": 350,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.006795,
+     "novel_mean": -0.006795,
+     "anti_mean": -0.006795
+    },
+    {
+     "step": 375,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.006664,
+     "novel_mean": -0.006664,
+     "anti_mean": -0.006664
+    },
+    {
+     "step": 400,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.006253,
+     "novel_mean": -0.006253,
+     "anti_mean": -0.006253
+    },
+    {
+     "step": 425,
+     "coherence_level": 0.9996,
+     "recent_mean": -0.005979,
+     "novel_mean": -0.005979,
+     "anti_mean": -0.005979
+    },
+    {
+     "step": 450,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.006072,
+     "novel_mean": -0.006072,
+     "anti_mean": -0.006072
+    },
+    {
+     "step": 475,
+     "coherence_level": 0.9995,
+     "recent_mean": -0.005946,
+     "novel_mean": -0.005946,
+     "anti_mean": -0.005946
+    }
+   ],
+   "generator_metastability": {
+    "metastability": 0.5156,
+    "state": "metastable",
+    "n_regimes": 5
+   },
+   "expression_metastability": {
+    "metastability": 0.5261,
+    "state": "metastable",
+    "n_regimes": 4
+   }
+  }
+ ]
+}

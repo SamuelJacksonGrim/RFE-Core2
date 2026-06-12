@@ -169,7 +169,7 @@ collision + epistemic-discipline process that produced Tier 4.2.
 >   `2026-06-12-secondlocker-field-map.md`.
 >   **(b) §6.3 gain-sign** — the synthetic-warm instrument is CONFOUNDED by its own
 >   criteria (sub-0.49 coherence structurally unreachable by phase seeding); relocated
->   in-run on real field states: the live system never leaves coherence [0.993, 1.0]
+>   in-run on real field states: the live system never leaves coherence [0.99, 1.0]
 >   under any tested workload, and in that bin marginal `coherence_impact` is uniformly
 >   slightly **negative and direction-insensitive** (recent ≈ novel ≈ anti) — no
 >   positive-feedback signal at the margin; the low-coherence regime where runaway
