@@ -124,3 +124,4 @@ What this leaves unanswered.
 | 2026-06-11 | [Trainer gradient path — can the training stack actually train?](2026-06-11-trainer-gradient-path.md) | active | generator-dropout-diversity, read-side-boundary |
 | 2026-06-11 | [Corpus pretraining Gate G1 — does coverage buy generalization?](2026-06-11-corpus-g1-pretrain.md) | active | trainer-gradient-path, generator-dropout-diversity |
 | 2026-06-12 | [Phase 2 — pretrained boot on the live stack: identity-safe, and the lock is NOT the generator](2026-06-12-phase2-fullstack-g2.md) | active | corpus-g1-pretrain, reconstruction-ablation, fix2-live-generator |
+| 2026-06-12 | [Checkpoint round-trip — is loading a boot checkpoint behaviorally equivalent to in-process training?](2026-06-12-checkpoint-registry-orphan.md) | active — defect fixed + guarded | phase2-fullstack-g2 |
