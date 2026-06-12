@@ -3,7 +3,7 @@
 - **Date:** 2026-06-07
 - **Substrate:** live full stack (generator output mocked A/B/diverse, as in the
   migration probe); one re-injection path ablated at a time, nothing else changed.
-- **Probe:** `tests/diagnostic/reconstruction_ablation_probe.py` (seeds 11/23/37,
+- **Probe:** `tests/diagnostic/lockin/reconstruction_ablation_probe.py` (seeds 11/23/37,
   dim 64, warmup 200 + phase 700, 4 sources HHI≈0.25)
 - **Status:** active — isolates the remediation lever from
   `2026-06-07-attractor-migration.md` (Open/next #1).

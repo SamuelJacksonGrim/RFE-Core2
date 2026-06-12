@@ -5,7 +5,7 @@
   `trust_ledger.evaluate` → `arbitrate`, all real). The generator output mapping
   is mocked with `TrainedGeneratorStub` in the diverse regimes only — same setup
   as multilayer-lock, so the 85% is reproduced under identical conditions.
-- **Probe:** `tests/diagnostic/gate_decomposition_probe.py` (seed 7, 600 steps)
+- **Probe:** `tests/diagnostic/lockin/gate_decomposition_probe.py` (seed 7, 600 steps)
 - **Status:** active — executes step 1 of `2026-06-06-coherence-is-not-plasticity.md`
   (the input-channel check owed before the attractor-migration probe).
 - **Depends on:** 2026-06-06-multilayer-lock.md (the ~85% gate block this

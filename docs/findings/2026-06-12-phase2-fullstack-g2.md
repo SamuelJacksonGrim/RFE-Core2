@@ -3,7 +3,7 @@
 - **Date:** 2026-06-12
 - **Substrate:** full live stack (Tier 0–3 + temporal tiers), canonical
   Resonance-Family 500-step workload, seed 42, `origin_type="internal"`.
-- **Probe:** `tests/diagnostic/corpus_boot_phase2_probe.py`. Raw output:
+- **Probe:** `tests/diagnostic/training/corpus_boot_phase2_probe.py`. Raw output:
   `docs/training/logs/2026-06-12-phase2-raw-runs.log`.
 - **Corpus:** `data/corpus/` **v1.1.0** (operational-vocabulary extension —
   see provenance below). Gate G1 re-passed on v1.1.0 before this probe

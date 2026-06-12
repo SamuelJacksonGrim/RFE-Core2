@@ -3,7 +3,7 @@
 - **Date:** 2026-06-06
 - **Substrate:** isolated (pure-function `DecayProfile.compute`; the reaper's
   retention math in isolation, NOT the full live loop)
-- **Probe:** `tests/diagnostic/conformity_bias_probe.py`
+- **Probe:** `tests/diagnostic/lockin/conformity_bias_probe.py`
 - **Status:** active — Fix 0-B candidate validated *in isolation only*; full-loop
   validation owed before the strong version ships
 - **Depends on:** 2026-06-06-read-side-boundary.md (survival is currencied by

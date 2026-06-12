@@ -6,7 +6,7 @@
   the baseline-safety arm monkeypatches each formula into the **live** loop for a
   canonical 500-step run. Only the reaper reinforcement formula is varied;
   nothing is written to `symbolic_memory.py`.
-- **Probe:** `tests/diagnostic/fix0b_fullloop_probe.py` (seed 42, dim 64, 600 steps)
+- **Probe:** `tests/diagnostic/lockin/fix0b_fullloop_probe.py` (seed 42, dim 64, 600 steps)
 - **Status:** active — resolves Open/next #1 of
   `2026-06-06-conformity-bias-fix0b.md` (the owed full-loop run).
 - **Depends on:** 2026-06-06-conformity-bias-fix0b.md (the isolated result this

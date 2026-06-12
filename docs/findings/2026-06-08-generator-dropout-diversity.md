@@ -2,8 +2,8 @@
 
 - **Date:** 2026-06-08
 - **Substrate:** live generator (isolated) + full live stack.
-- **Probe:** `tests/diagnostic/generator_diversity_audit.py` (diversity, train vs eval),
-  `tests/diagnostic/migration_real_generator_probe.py` (field response on real input).
+- **Probe:** `tests/diagnostic/training/generator_diversity_audit.py` (diversity, train vs eval),
+  `tests/diagnostic/lockin/migration_real_generator_probe.py` (field response on real input).
 - **Status:** active — **THE authoritative generator-diversity finding.** Subsumes and
   replaces the two interim readings it corrects (PRs #41 and #42, now closed): the
   "remeasure" reading ("lock #1 resolved" — overstated, train-mode) and the real-generator

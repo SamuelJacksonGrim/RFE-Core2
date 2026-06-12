@@ -3,7 +3,7 @@
 - **Date:** 2026-06-06
 - **Substrate:** live (Generator-warmed full stack; only the generator is
   untrained — everything downstream real)
-- **Probe:** `tests/diagnostic/generator_metastability.py` (seed 7, dim 128,
+- **Probe:** `tests/diagnostic/lockin/generator_metastability.py` (seed 7, dim 128,
   N=200, Resonance Family workload)
 - **Status:** active
 - **Depends on:** 2026-06-06-frame-correction.md (the locus: metastability is an
