@@ -79,12 +79,12 @@ run_test "tests.adversarial.identity_drift"
 
 echo
 echo -e "${BOLD}PHYSICS VALIDATORS (regression guards)${RESET}"
-run_test "tests.diagnostic.dilation_response_curve"
-run_test "tests.diagnostic.rhythm_dilation_curve"
+run_test "tests.diagnostic.tier4.dilation_response_curve"
+run_test "tests.diagnostic.tier4.rhythm_dilation_curve"
 
 echo
 echo -e "${BOLD}CORPUS INTEGRITY${RESET}"
-run_test "tests.diagnostic.corpus_integrity_check"
+run_test "tests.diagnostic.training.corpus_integrity_check"
 
 echo
 echo -e "${BOLD}DOCUMENTATION ACCURACY${RESET}"
@@ -110,13 +110,13 @@ fi
 
 echo
 echo "Informational diagnostics (not gated — always exit 0; run manually):"
-echo "  python3 -m tests.diagnostic.affective_state_probe 500"
-echo "  python3 -m tests.diagnostic.rhythm_inertness_probe 500"
-echo "  python3 -m tests.diagnostic.decision_histogram"
-echo "  python3 -m tests.diagnostic.gate_firing_audit"
-echo "  python3 -m tests.diagnostic.trust_trajectory"
-echo "  python3 -m tests.diagnostic.value_polarity_flow"
-echo "  python3 -m tests.diagnostic.corpus_pretrain_g1_probe 8   (minutes; trains)"
-echo "  python3 -m tests.diagnostic.corpus_boot_phase2_probe 8 500   (minutes; trains + live stack)"
+echo "  python3 -m tests.diagnostic.tier4.affective_state_probe 500"
+echo "  python3 -m tests.diagnostic.tier4.rhythm_inertness_probe 500"
+echo "  python3 -m tests.diagnostic.audit.decision_histogram"
+echo "  python3 -m tests.diagnostic.audit.gate_firing_audit"
+echo "  python3 -m tests.diagnostic.audit.trust_trajectory"
+echo "  python3 -m tests.diagnostic.audit.value_polarity_flow"
+echo "  python3 -m tests.diagnostic.training.corpus_pretrain_g1_probe 8   (minutes; trains)"
+echo "  python3 -m tests.diagnostic.training.corpus_boot_phase2_probe 8 500   (minutes; trains + live stack)"
 
 exit 0

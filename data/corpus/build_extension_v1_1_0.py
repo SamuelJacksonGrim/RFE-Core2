@@ -261,7 +261,7 @@ def main():
     print(f"totals: train={len(train)}  holdout={len(holdout)}  "
           f"frac={len(holdout)/(len(train)+len(holdout)):.3f}")
     print("update MANIFEST.md to v1.1.0 and re-run "
-          "tests.diagnostic.corpus_integrity_check + corpus_pretrain_g1_probe.")
+          "tests.diagnostic.training.corpus_integrity_check + corpus_pretrain_g1_probe.")
 
 
 if __name__ == "__main__":

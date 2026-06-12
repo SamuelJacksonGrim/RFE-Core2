@@ -353,7 +353,7 @@ Once Phase 1 (corpus v1.1.0 boot checkpoint) is complete:
 
 ## 10. Dependencies
 
-- **§6.3 gain-sign check (HARD GATE, verdict pending):** the lock-in plan gates *any* coherence→loop coupling — explicitly including Fix 2 — on the gain-sign verdict. The instrument exists (`tests/diagnostic/gain_sign_check.py`, pre-declared STABILIZING / RUNAWAY / CONFOUNDED signatures); a recorded run does not. No production wiring before that verdict lands in `docs/findings/`.
+- **§6.3 gain-sign check (HARD GATE, verdict pending):** the lock-in plan gates *any* coherence→loop coupling — explicitly including Fix 2 — on the gain-sign verdict. The instrument exists (`tests/diagnostic/lockin/gain_sign_check.py`, pre-declared STABILIZING / RUNAWAY / CONFOUNDED signatures); a recorded run does not. No production wiring before that verdict lands in `docs/findings/`.
 - **Trainer gradient path** (`docs/findings/2026-06-11-trainer-gradient-path.md`): Must be fixed (done).
 - **Phase 1 corpus + boot checkpoint:** Must exist before re-validation (done — G1/G2 passed; adoption is Phase 3 Decision 2).
 - **ManipulationResistanceEngine integration:** the governor *reads* manipulation reports (per-step flag); it must not alter how governance arbitrates them. Authority hierarchy unchanged: resistance subsystems emit, governance decides — the governor is a loop-gain modulator downstream of those reports, and its wiring is itself an architect tier-direction decision per the lock-in plan.

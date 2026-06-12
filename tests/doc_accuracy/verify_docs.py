@@ -115,39 +115,49 @@ def _readme_listed_files_in_subdir(subdir_label: str) -> Optional[List[str]]:
     or None if the subdir section can't be located in the README.
 
     Parses the README's tests/ block, finds the line that opens the
-    `<subdir_label>/` block, and collects .py filenames until the next
-    same-or-shallower indented directory marker.
+    `<subdir_label>/` block, and collects every .py filename in it — including
+    nested group subfolders (e.g. diagnostic/lockin/) — stopping only at the
+    next directory marker at the same-or-shallower indentation (a true sibling).
     """
     if not _README_TEXT:
         return None
 
-    # Find the opening "├── <subdir_label>/" line
+    # Find the opening "├── <subdir_label>/" line, capturing its indent column.
     open_re = re.compile(
-        r"^[│ ]*├──\s+" + re.escape(subdir_label) + r"/\s*$",
+        r"^(?P<indent>[│ ]*)├──\s+" + re.escape(subdir_label) + r"/\s*$",
         re.MULTILINE,
     )
     m = open_re.search(_README_TEXT)
     if not m:
         return None
 
-    # Collect lines until the next sibling directory entry at the same level,
-    # OR a closing of the tests block. Sibling = "│   ├── <name>/" — match
-    # the leading column count of our opener to detect sibling depth.
+    # Collect until the next directory entry at the same or shallower indent.
+    # Deeper directory markers are nested group folders that belong to this
+    # block (their .py files are this subdir's files), so we do NOT stop there.
+    opener_indent = len(m.group("indent"))
     start = m.end()
-    next_sibling = re.compile(r"^[│ ]*[├└]──\s+\S+/", re.MULTILINE)
-    n = next_sibling.search(_README_TEXT, start)
-    block = _README_TEXT[start : n.start() if n else len(_README_TEXT)]
+    dir_line = re.compile(r"^(?P<indent>[│ ]*)[├└]──\s+\S+/", re.MULTILINE)
+    end = len(_README_TEXT)
+    for dm in dir_line.finditer(_README_TEXT, start):
+        if len(dm.group("indent")) <= opener_indent:
+            end = dm.start()
+            break
+    block = _README_TEXT[start:end]
 
     return _TREE_PY_FILE.findall(block)
 
 
 def _actual_py_files(subdir: Path) -> List[str]:
-    """List .py filenames in subdir, excluding __init__.py."""
+    """List .py filenames under subdir (recursively), excluding __init__.py.
+
+    Recursive so the diagnostic/ topical subfolders (tier4/, lockin/, fix2/,
+    training/, audit/) are all covered by the one diagnostic/ tree block.
+    """
     if not subdir.is_dir():
         return []
     return sorted(
-        p.name for p in subdir.iterdir()
-        if p.is_file() and p.suffix == ".py" and p.name != "__init__.py"
+        p.name for p in subdir.rglob("*.py")
+        if p.is_file() and p.name != "__init__.py"
     )
 
 
@@ -763,7 +773,7 @@ def check_stability_floor_consistency() -> CheckResult:
 
     library = EthicalBoundarySystem.DEFAULT_CONFIG["stability_floor"]
     try:
-        from tests.diagnostic.affective_state_probe import STABILITY_FLOOR as probe
+        from tests.diagnostic.tier4.affective_state_probe import STABILITY_FLOOR as probe
     except ImportError as exc:
         return failed(
             name,

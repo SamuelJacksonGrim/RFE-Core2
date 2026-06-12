@@ -11,7 +11,7 @@ established, and — with deliberate epistemic precision — what they did
 
 ## 1. The physics is proven
 
-`tests/diagnostic/dilation_response_curve.py` sweeps the full
+`tests/diagnostic/tier4/dilation_response_curve.py` sweeps the full
 `(arousal, valence)` grid and calls `TemporalStream.update_dilation()`
 directly, with no emotional gradient and no token stream in the loop.
 
@@ -37,7 +37,7 @@ require no further validation.
 
 ## 2. The psychology — the finding
 
-`tests/diagnostic/affective_state_probe.py` runs four workload profiles
+`tests/diagnostic/tier4/affective_state_probe.py` runs four workload profiles
 and reports the *defensive depth* that determines the system's affective
 trajectory, using only real queryable signals.
 
