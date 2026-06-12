@@ -112,7 +112,7 @@ collision + epistemic-discipline process that produced Tier 4.2.
 **This supersedes "4.4 next" as the next substantive work.** 4.4
 (frequency → emotion) remains **planned** but no longer leads.
 
-> **CURRENT UNDERSTANDING (2026-06-11) — start here; everything below is dated history.**
+> **CURRENT UNDERSTANDING (2026-06-12) — start here; everything below is dated history.**
 > - The field pins high coherence. The "multi-layer lock" decomposed: the **85% gate** was
 >   a single-source monopoly artifact (not a filter); the **magnitude moat** is surmountable;
 >   the **reflective loop** is the active reconstitution mechanism — ablation-proven (suppress
@@ -158,6 +158,29 @@ collision + epistemic-discipline process that produced Tier 4.2.
 >   data). `2026-06-12-phase2-fullstack-g2.md`. **Phase 3 — the `.eval()` decision,
 >   boot-checkpoint adoption, online go/no-go — is now the blocking step, and it is the
 >   architect's.**
+> - **Phase 3 decided (2026-06-12, architect):** eval-mode is the operating regime;
+>   boot-checkpoint adoption and Fix 2 are SHELVED pending the §6.3 verdict + a
+>   SECOND-LOCKER field map (`docs/training/phase3_architect_decisions.md`, DECIDED
+>   block). Both tracks were then run:
+>   **(a) Field map** — 30 cells (5 token bands incl. the full-corpus broad band ×
+>   3 seeds × control/pretrained, eval-mode): **SECOND-LOCKER GENERALIZES** — the
+>   pin (0.967–0.976) is seed-, band-, and regime-invariant; identity rail clean
+>   everywhere; Tier 4.3's chaotic regime still unreached even on the broad band.
+>   `2026-06-12-secondlocker-field-map.md`.
+>   **(b) §6.3 gain-sign** — the synthetic-warm instrument is CONFOUNDED by its own
+>   criteria (sub-0.49 coherence structurally unreachable by phase seeding); relocated
+>   in-run on real field states: the live system never leaves coherence [0.993, 1.0]
+>   under any tested workload, and in that bin marginal `coherence_impact` is uniformly
+>   slightly **negative and direction-insensitive** (recent ≈ novel ≈ anti) — no
+>   positive-feedback signal at the margin; the low-coherence regime where runaway
+>   would live is unreachable, so any future Fix 0-A wiring needs a runtime coherence
+>   guard. `2026-06-12-gain-sign-reachable-range.md`.
+>   **(c) Checkpoint round-trip defect found + fixed** — the field map's first run
+>   caught `load_ecology` rebinding the registry, silently orphaning governance + the
+>   value engine (Tier 3 formed zero values in all 15 loaded cells). In-place load
+>   shipped; standing guard `tests/integration/checkpoint_registry_identity.py`.
+>   `2026-06-12-checkpoint-registry-orphan.md`. **Decision 2's reopen-condition is now
+>   met on both tracks; adoption remains the architect's call.**
 
 **Finding (verified, June 3 session).** The accumulated symbol-state feedback
 signals — field coherence, attractor strength, crystal binding, centrality —
