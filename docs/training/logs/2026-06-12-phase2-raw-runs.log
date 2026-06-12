@@ -1,0 +1,106 @@
+# Phase 2 raw run log — 2026-06-12
+# corpus v1.1.0 · branch claude/meta-cognition-tier-5-k7dfdv
+# Sections: [1] corpus extension build  [2] integrity gate  [3] Gate G1 re-run (v1.1.0, seed 0)  [4] Phase 2 probe (Gate G2)
+
+════ [1] data.corpus.build_extension_v1_1_0 ════
+operational vocab: 113  missing from v1.0.1: 63
+extension: +534 train, +91 holdout
+totals: train=2870  holdout=501  frac=0.149
+update MANIFEST.md to v1.1.0 and re-run tests.diagnostic.corpus_integrity_check + corpus_pretrain_g1_probe.
+
+════ [2] tests.diagnostic.corpus_integrity_check ════
+========================================================================
+  DIAGNOSTIC: corpus integrity check  (data/corpus/, gate)
+========================================================================
+
+  corpus version: 1.1.0
+  train=2870  holdout=501
+
+  ✓ schema: keys, enums, 2-4 non-empty string tokens  — 0 bad records
+  ✓ manifest counts match files  — manifest 2870/501 vs actual 2870/501
+  ✓ no duplicate sequences within train  — 0 dups
+  ✓ no duplicate sequences within holdout  — 0 dups
+  ✓ no sequence leakage between train and holdout  — 0 leaked: []
+  ✓ no conflicting rhythm labels for identical sequences  — 0 conflicts
+  ✓ holdout vocabulary contained in train vocabulary  — 0 unseen tokens: []
+  ✓ every train token in >= 8 distinct contexts  — min observed: 9 over 335 tokens
+  ✓ per-rhythm holdout fraction in [0.1, 0.2]  — stabilize=0.148 dream=0.149 reflect=0.149 explore=0.148
+  ✓ sacred-constant token strings absent  — found: []
+
+CORPUS INTEGRITY VERIFIED — corpus v1.1.0 sound.
+
+════ [3] tests.diagnostic.corpus_pretrain_g1_probe 8 (corpus v1.1.0) ════
+==============================================================================
+  DIAGNOSTIC: Gate G1 — corpus pretraining, held-out generalization
+  corpus v1.1.0  ·  epochs=8  ·  seed=0  ·  eval-mode readout
+==============================================================================
+
+  train=2870 seqs  holdout=501 seqs (sequences never trained on, tokens in train vocabulary)
+
+  pretraining: epochs=8  loss 2.0277 → 0.6916  train-side rhythm_acc=0.994
+
+  HOLDOUT (eval)          mean_cos  eff_rank  rhythm_acc
+  BEFORE (untrained)         0.825      1.45       0.429
+  AFTER                      0.390      3.41       0.980
+
+  determinism: before=1.0000 after=1.0000
+  max embedding row norm: before=0.378 after=0.480 (1.3x)
+
+  GATE G1:
+    ✓ eff_rank >= 2x untrained baseline (3.41 vs 2x1.45=2.91)
+    ✓ rhythm-NN accuracy >= 0.75 (0.980, chance 0.25)
+    ✓ determinism = 1.0 (1.0000 / 1.0000)
+    ✓ embedding norms bounded, growth < 10x (1.3x)
+
+  GATE G1 PASSED — corpus v1.1.0, 8 epochs, seed 0.
+
+
+════ [4] tests.diagnostic.corpus_boot_phase2_probe 8 500 ════
+==============================================================================
+  DIAGNOSTIC: Phase 2 — corpus-pretrained boot on the LIVE stack (Gate G2)
+  corpus v1.1.0  ·  pretrain epochs=8  ·  steps=500  ·  seed=42
+==============================================================================
+
+  --- RUN A  control (untrained, train mode) ---
+    decisions: allow=0.992 weakened=0.008 quarantine=0.000   hhi=0.264
+    trust_min=5.00  bonds=1  values active/strong/core=46/2/0
+    coherence 2nd-half mean=0.9767 std=0.0049   identity_stability=0.9990  anchor_vel=0.0010
+    attractors=3  crystals=2  bonds=1  manip steps/signals=0/0
+    phase_coherence mean=0.9656 min=0.5
+    stage A: metastability=0.3561 state=structureless regimes=13
+    stage C: metastability=0.7118 state=metastable regimes=4
+    all 9 tier1 baseline ranges hold
+
+  --- RUN B  pretrained boot (train mode — current live policy) ---
+    decisions: allow=0.992 weakened=0.008 quarantine=0.000   hhi=0.264
+    trust_min=5.00  bonds=1  values active/strong/core=46/5/0
+    coherence 2nd-half mean=0.9701 std=0.0053   identity_stability=0.9974  anchor_vel=0.0026
+    attractors=3  crystals=2  bonds=1  manip steps/signals=0/0
+    phase_coherence mean=0.9707 min=0.5
+    stage A: metastability=0.5357 state=metastable regimes=5
+    stage C: metastability=0.5357 state=metastable regimes=5
+    all 9 tier1 baseline ranges hold
+
+  --- RUN C  pretrained boot (eval mode — Phase 3 decision data) ---
+    decisions: allow=0.992 weakened=0.008 quarantine=0.000   hhi=0.264
+    trust_min=5.00  bonds=2  values active/strong/core=46/5/0
+    coherence 2nd-half mean=0.9710 std=0.0061   identity_stability=0.9986  anchor_vel=0.0014
+    attractors=3  crystals=2  bonds=2  manip steps/signals=0/0
+    phase_coherence mean=0.9477 min=0.5
+    stage A: metastability=0.5357 state=metastable regimes=5
+    stage C: metastability=0.5357 state=metastable regimes=5
+    all 9 tier1 baseline ranges hold
+
+  GATE G2 (RUN B vs pre-declared envelope):
+    ✓ tier1 baseline ranges hold on RUN B (9/9)
+    ✓ identity_stability >= 0.95 (0.9974)
+    ✓ anchor_velocity <= 0.02 (0.0026)
+    ✓ identity scaffolding forms (bonds=1, crystals=2)
+    ✓ manipulation layer quiet (steps=0 <= cap 10)
+
+  READOUTS (recorded, not gated):
+    coherence pin: A=0.9767  B=0.9701  C=0.9710  → still pinned — SECOND-LOCKER (field/loop dominate even trained input)
+    phase_coherence floor across runs: 0.5000 (chaotic regime still unreached)
+
+  GATE G2 PASSED — corpus v1.1.0, 8 epochs, 500 steps.
+

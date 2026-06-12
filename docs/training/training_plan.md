@@ -99,6 +99,19 @@ re-baselined intentionally) AND identity stability within the pre-declared
 envelope. FAIL = the representational-drift risk is real at boot → findings
 entry, then mitigation round (slower/partial training), not a silent retry.
 
+> **G2 PASSED (2026-06-12, corpus v1.1.0, 8 epochs, seed 42):** all 9 tier1
+> ranges hold on the pretrained boot in BOTH dropout modes; identity_stability
+> 0.9974 (control 0.9990); manipulation layer silent. Readouts: the coherence
+> pin persists with trained weights (**SECOND-LOCKER** — Fix 2 re-prioritized,
+> see Phase 5), and the pipeline now *preserves* upstream regime structure
+> (stage A ≡ stage C, metastable/5). Probe:
+> `tests/diagnostic/corpus_boot_phase2_probe.py`; finding:
+> `docs/findings/2026-06-12-phase2-fullstack-g2.md`; raw log:
+> `docs/training/logs/2026-06-12-phase2-raw-runs.log`. Required a corpus
+> correction first: v1.1.0 operational-vocabulary extension (63 missing live
+> tokens — `data/corpus/build_extension_v1_1_0.py`), G1 re-passed on v1.1.0.
+> **Phase 2 complete; Phase 3 (architect decisions) is next and blocking.**
+
 ## Phase 3 — architect decisions (blocking, deliberately human)
 
 1. **`.eval()` decision** — with real deterministic structure available,
