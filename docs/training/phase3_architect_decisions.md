@@ -4,6 +4,34 @@
 
 **Date:** 2026-06-12
 
+---
+
+## DECIDED — 2026-06-12 (architect, via cross-instance plan review)
+
+1. **Decision 1 → eval-mode only**, held as the operating regime until the
+   SECOND-LOCKER field map is complete (it now is — see below) and re-reviewed.
+2. **Decision 2 → boot-checkpoint adoption SHELVED**, reopening only after the
+   §6.3 verdict + the field map. *Execution note:* the field map immediately
+   vindicated this caution — its first run surfaced a silent defect in the
+   load path itself (`load_ecology` rebinding orphaned governance + the value
+   engine; Tier 3 died silently). Fixed in-place + guarded
+   (`tests/integration/checkpoint_registry_identity.py`); finding:
+   `docs/findings/2026-06-12-checkpoint-registry-orphan.md`.
+3. **Decision 3 → Fix 2 SHELVED** pending (a) the §6.3 gain-sign verdict and
+   (b) the SECOND-LOCKER field map. Spec stays ready
+   (`fix2_specification_draft.md`); no production wiring.
+
+**Track A (§6.3)** — the standalone synthetic-warm instrument run came back
+CONFOUNDED by its own pre-declared criterion (low-coherence regime
+structurally unreachable by phase seeding; probe/control metric mismatch).
+The measurement was relocated into the field-map probe as in-run
+`coherence_impact` sampling on real field states — verdict recorded in
+`docs/findings/2026-06-12-gain-sign-reachable-range.md`.
+
+**Track B (field map)** — 30-cell matrix (5 token bands × 3 seeds ×
+control/pretrained, eval-mode):
+`docs/findings/2026-06-12-secondlocker-field-map.md`.
+
 **Context:** Phase 2 (corpus v1.1.0 extension + Gate G2 live-stack validation) confirmed the SECOND-LOCKER finding: with a trained generator on real operational vocabulary, the coherence lock persists but barely moves (0.9767 → 0.9701). The reflective loop is the operative lock, not generator low-rank. This finding **re-prioritizes Fix 2** (its premise is finally testable on real signal — the 2026-06-09 "wait until trained" condition is now satisfied) and confirms boot-time training is identity-safe and effective at the representation level — while showing that **training alone does not release the lock**.
 
 Phase 3 is **three explicit decisions** that only the architect can make, informed by the evidence Phase 2 delivered.
