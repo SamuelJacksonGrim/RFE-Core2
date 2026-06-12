@@ -69,6 +69,7 @@ echo -e "${BOLD}INTEGRATION TESTS${RESET}"
 run_test "tests.integration.tier1_revision_baseline"
 run_test "tests.integration.governance_decision_flow"
 run_test "tests.integration.core_promotion_handshake"
+run_test "tests.integration.checkpoint_registry_identity"
 
 echo
 echo -e "${BOLD}ADVERSARIAL PROBES${RESET}"
@@ -118,5 +119,6 @@ echo "  python3 -m tests.diagnostic.audit.trust_trajectory"
 echo "  python3 -m tests.diagnostic.audit.value_polarity_flow"
 echo "  python3 -m tests.diagnostic.training.corpus_pretrain_g1_probe 8   (minutes; trains)"
 echo "  python3 -m tests.diagnostic.training.corpus_boot_phase2_probe 8 500   (minutes; trains + live stack)"
+echo "  python3 -m tests.diagnostic.lockin.secondlocker_field_map_probe 500   (~45 min; 30-cell matrix, trains per seed)"
 
 exit 0
