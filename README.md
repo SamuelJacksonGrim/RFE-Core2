@@ -579,13 +579,16 @@ RFE-Core2/
 │   │   │   ├── corpus_integrity_check.py         Curated-corpus integrity gate (schema, leakage, stratification)
 │   │   │   ├── corpus_pretrain_g1_probe.py       Gate G1: corpus pretraining held-out generalization (trains; minutes)
 │   │   │   └── corpus_boot_phase2_probe.py       Gate G2: pretrained boot on the live stack (control + train/eval modes)
-│   │   └── audit/                        Runtime behavior audits
-│   │       ├── decision_histogram.py         GovernanceDecision distribution
-│   │       ├── gate_firing_audit.py          Hard gates + soft warnings per source
-│   │       ├── trust_trajectory.py           Per-source trust sparklines
-│   │       ├── value_polarity_flow.py        Births, deaths, transitions
-│   │       ├── identity_stability_baseline.py    Identity-stability metrics + reflect-gain dial (cost-probe harness)
-│   │       └── rubedo_return_canary.py       Recursive stability / recovery canary
+│   │   ├── audit/                        Runtime behavior audits
+│   │   │   ├── decision_histogram.py         GovernanceDecision distribution
+│   │   │   ├── gate_firing_audit.py          Hard gates + soft warnings per source
+│   │   │   ├── trust_trajectory.py           Per-source trust sparklines
+│   │   │   ├── value_polarity_flow.py        Births, deaths, transitions
+│   │   │   ├── identity_stability_baseline.py    Identity-stability metrics + reflect-gain dial (cost-probe harness)
+│   │   │   └── rubedo_return_canary.py       Recursive stability / recovery canary
+│   │   └── sidecar/                      External measurement engines (LAE + PLE, observe-only)
+│   │       ├── sidecar_harness.py            CycleTap + LAE/PLE sidecar adapters (terminal sinks)
+│   │       └── engine_sidecar_probe.py       Control vs pretrained sidecar measurement (twin + latency controls)
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
