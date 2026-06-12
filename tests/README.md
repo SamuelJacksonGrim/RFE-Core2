@@ -326,15 +326,23 @@ The per-probe descriptions below are grouped to match.
   produce feeds back into the cognitive/governance loop. Requires the sibling
   `Liminal-Anchor-Engine` and `Paradox-Lattice-Engine` checkouts (zero-dep,
   `pip install -e` or sibling-directory layout).
-- `sidecar/engine_sidecar_probe.py` — **First sidecar instrumentation run
-  (control vs pretrained).** seeds × {control, pretrained} × {sidecars off, on}
-  on the canonical band, with a replay-noise control (the substrate is
-  wall-clock-coupled — same-seed re-runs jitter), a latency control (off-run
-  with sidecar-matched per-step sleep, isolating the timing channel), and
-  twin verdicts per cell (clean / timing-explained / CONFOUNDED). Reports LAE
-  activation/trigger structure and PLE contradiction ecology per arm, and the
-  control→pretrained differential. Trains once per seed (cached); run
-  with `python -m tests.diagnostic.sidecar.engine_sidecar_probe 500
+- `sidecar/engine_sidecar_probe.py` — **Sidecar instrumentation + governed
+  feedback (control vs pretrained).** seeds × {control, pretrained} ×
+  mode {off, on, feedback} on the canonical band, with per-arm replay-noise
+  controls (the substrate is wall-clock-coupled — same-seed re-runs jitter,
+  and the pretrained arm's identity-metric jitter is ~50× the control arm's),
+  a latency control (off-run with sidecar-matched per-step sleep, isolating
+  the timing channel), and twin verdicts per cell (clean / timing-explained /
+  CONFOUNDED). The **feedback** mode closes the loop through the front door:
+  sister offers (`["liminal", top1, top2]` on LAE activation,
+  `["paradox", claim, type]` on a new PLE finding) re-enter as
+  `cycle.step(tokens, source_id="lae_engine"/"ple_engine")` — gated by
+  ethics, trust, resistance, and governance like any other source; the
+  observe-only cells are the feedback cells' control. Reports LAE/PLE
+  readouts per arm, the control→pretrained differential, the observe→feedback
+  differential, gate decisions on sister inputs, and sister trust
+  trajectories. Trains once per seed (cached); run with
+  `python -m tests.diagnostic.sidecar.engine_sidecar_probe 500
   --seeds 42,7,11 --epochs 8 --json PATH`. Informational; exit 0; NEVER in CI.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the

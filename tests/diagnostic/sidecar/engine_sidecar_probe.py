@@ -7,12 +7,29 @@ defs v1 in ple/integration/rfecore2hook.py): can the two engines measure
 the running core without perturbing it, and does generator training change
 what they read?
 
-Matrix: seeds {42, 7, 11} x arm {control, pretrained} x sidecars {off, on}
-= 12 runs of n_steps on the canonical Resonance-Family band (one variable —
-the training condition — varies; band sweeps belong to the lockin arc),
-plus a REPLAY-NOISE CONTROL (seed 42, control, sidecars-off, run 3x).
-Pretrained boot reuses the lockin field-map checkpoint stem (trained once
-per seed, cached); both arms run eval-mode (Phase 3 Decision 1).
+Matrix: seeds {42, 7, 11} x arm {control, pretrained} x mode {off, on,
+feedback} = 18 runs of n_steps on the canonical Resonance-Family band
+(band sweeps belong to the lockin arc), plus per-arm REPLAY-NOISE CONTROLS
+and a LATENCY CONTROL. Pretrained boot reuses the lockin field-map
+checkpoint stem (trained once per seed, cached); both arms run eval-mode
+(Phase 3 Decision 1).
+
+Phase 2 — governed feedback (mode "feedback"): sister offers re-enter the
+host through the FRONT DOOR, never directly into the field. An LAE
+activation offers ["liminal", top1, top2]; a new validated PLE finding
+offers ["paradox", claim, attractor_type]. Offers are submitted on the
+next cycle as cycle.step(tokens, source_id="lae_engine"/"ple_engine") —
+subject to the ethical gate, trust ledger, manipulation resistance, and
+SelfhoodGovernance.arbitrate() like any other source (the sidecars emit;
+governance decides). The pending queue is bounded (8). Feedback cells are
+NOT twin-checked — perturbation is the point; the observe-only cells are
+their control.
+FEEDBACK signatures (pre-declared): SUCCESS = sister inputs pass the gate
+in >=1 cell AND identity_stability >= 0.95 everywhere (the observe->
+feedback differential, including null, is the recordable result).
+FAILURE = the gate rejects every sister input (immune system treats the
+family as hostile — recordable), or no offers reach the gate anywhere.
+RAIL = identity_stability < 0.95 in any feedback cell: record and stop.
 
 Non-perturbation check (signatures v2): probe bring-up showed same-seed
 sidecars-OFF replays diverge numerically from step 1 — the substrate is
@@ -65,7 +82,7 @@ PRE-DECLARED SIGNATURES v2 (before the measurement run — discipline #3/#4):
       cell (oscillation trigger structurally unreachable there — scope the
       LAE verdict to cells where it can fire).
 
-Informational. exit 0. Trains once per seed (~minutes, cached) + 16 x
+Informational. exit 0. Trains once per seed (~minutes, cached) + 22 x
 n_steps cycles. NEVER in run_all_tests.sh.
 
 Run:
@@ -134,10 +151,15 @@ def fingerprint(state) -> tuple:
     return tuple(sorted(d.items()))
 
 
-def run_cell(seed: int, pretrained: bool, sidecars: bool, n_steps: int,
+def run_cell(seed: int, pretrained: bool, mode: str, n_steps: int,
              n_epochs: int, step_sleep: float = 0.0) -> dict:
-    """One (seed, arm, sidecars) run: eval-mode boot + n_steps.
-    step_sleep > 0 is the latency control: sidecars-off with a matched
+    """One (seed, arm, mode) run: eval-mode boot + n_steps.
+
+    mode: "off" (bare host), "on" (sidecars observe), "feedback" (sidecars
+    observe AND their token offers re-enter through the front door —
+    cycle.step with source_id "lae_engine"/"ple_engine", subject to the
+    ethical gate, trust ledger, and governance like any other source).
+    step_sleep > 0 is the latency control: an "off" run with a matched
     per-step delay, isolating the wall-clock channel."""
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
     gen, cycle, gov, ve = build_full_stack()
@@ -150,6 +172,7 @@ def run_cell(seed: int, pretrained: bool, sidecars: bool, n_steps: int,
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
 
     arm = "pretrained" if pretrained else "control"
+    sidecars = mode in ("on", "feedback")
     tap = lae = ple = None
     if sidecars:
         tap = CycleTap(cycle, gov)
@@ -160,8 +183,32 @@ def run_cell(seed: int, pretrained: bool, sidecars: bool, n_steps: int,
     weights = [RESONANCE_FAMILY_WEIGHTS[s] for s in sids]
 
     prints, cohs, rhythms = [], [], []
+    pending, feedback_log = [], []
     t_loop0 = time.perf_counter()
     for _ in range(n_steps):
+        # Phase 2: flush sister offers from the previous cycle through the
+        # front door BEFORE this cycle's workload step. Feedback steps are
+        # full cycle steps — the sisters observe their own echo.
+        if mode == "feedback" and pending:
+            flushed, pending = pending, []   # echo offers accumulate fresh
+            for src_id, f_toks in flushed:
+                st_f = cycle.step(f_toks, source_id=src_id,
+                                  origin_type="internal")
+                cap_f = tap.read(st_f)
+                lae_offer = lae.after_step(st_f)
+                ple_offers = ple.after_step(st_f, cap_f, arm)
+                feedback_log.append({
+                    "cycle":     st_f.step,
+                    "source_id": src_id,
+                    "tokens":    f_toks,
+                    "decision":  cap_f.decision,
+                    "coherence": round(st_f.coherence, 4),
+                })
+                if lae_offer:
+                    pending.append(("lae_engine", lae_offer))
+                pending.extend(("ple_engine", o) for o in ple_offers)
+            pending = pending[:8]   # bounded: never flood the gate
+
         src = random.choices(sids, weights=weights)[0]
         toks = random.choice(RESONANCE_FAMILY_SOURCES[src])
         st = cycle.step(toks, source_id=src, origin_type="internal")
@@ -170,8 +217,13 @@ def run_cell(seed: int, pretrained: bool, sidecars: bool, n_steps: int,
         rhythms.append(st.rhythm)
         if sidecars:
             cap = tap.read(st)
-            lae.after_step(st)
-            ple.after_step(st, cap, arm)
+            lae_offer = lae.after_step(st)
+            ple_offers = ple.after_step(st, cap, arm)
+            if mode == "feedback":
+                if lae_offer:
+                    pending.append(("lae_engine", lae_offer))
+                pending.extend(("ple_engine", o) for o in ple_offers)
+                pending = pending[:8]
         elif step_sleep > 0.0:
             time.sleep(step_sleep)
     per_step_s = (time.perf_counter() - t_loop0) / n_steps
@@ -181,8 +233,8 @@ def run_cell(seed: int, pretrained: bool, sidecars: bool, n_steps: int,
     half = np.array(cohs[n_steps // 2:])
     transitions = sum(1 for a, b in zip(rhythms, rhythms[1:]) if a != b)
     mix = Counter(rhythms)
-    return {
-        "seed": seed, "arm": arm, "sidecars": sidecars,
+    cell = {
+        "seed": seed, "arm": arm, "mode": mode,
         "per_step_s": round(per_step_s, 6),
         "fingerprint": prints,   # stripped before JSON dump
         "host": {
@@ -198,6 +250,21 @@ def run_cell(seed: int, pretrained: bool, sidecars: bool, n_steps: int,
         "lae": lae.summary() if sidecars else None,
         "ple": ple.summary() if sidecars else None,
     }
+    if mode == "feedback":
+        sisters = {}
+        for sid in ("lae_engine", "ple_engine"):
+            rec = gov.trust_ledger.sources.get(sid)
+            sisters[sid] = {
+                "trust_score":  round(float(rec.trust_score), 4) if rec else None,
+                "interactions": rec.interaction_count if rec else 0,
+            }
+        cell["feedback"] = {
+            "steps":          len(feedback_log),
+            "decisions":      dict(Counter(e["decision"] for e in feedback_log)),
+            "log":            feedback_log[:64],
+            "sister_sources": sisters,
+        }
+    return cell
 
 
 def host_metrics(cell: dict) -> dict:
@@ -272,7 +339,7 @@ def main(argv) -> int:
     noise_by_arm, spread_by_arm = {}, {}
     for pretrained in (False, True):
         arm = "pretrained" if pretrained else "control"
-        noise_by_arm[arm] = [run_cell(seeds[0], pretrained, False,
+        noise_by_arm[arm] = [run_cell(seeds[0], pretrained, "off",
                                       n_steps, n_epochs)
                              for _ in range(NOISE_RUNS)]
         spread_by_arm[arm] = replay_spread(noise_by_arm[arm])
@@ -286,10 +353,10 @@ def main(argv) -> int:
                   for k, v in sorted(spread_by_arm[arm].items()) if v > 0))
 
     # ----- latency control: off-run with sidecar-matched per-step delay --
-    probe_on = run_cell(seeds[0], False, True, n_steps, n_epochs)
+    probe_on = run_cell(seeds[0], False, "on", n_steps, n_epochs)
     base_run = noise_by_arm["control"][0]
     overhead = max(0.0, probe_on["per_step_s"] - base_run["per_step_s"])
-    latency_run = run_cell(seeds[0], False, False, n_steps, n_epochs,
+    latency_run = run_cell(seeds[0], False, "off", n_steps, n_epochs,
                            step_sleep=overhead)
     m_base, m_lat = host_metrics(base_run), host_metrics(latency_run)
     latency_delta = {k: abs(m_base[k] - m_lat[k]) for k in m_base}
@@ -302,12 +369,13 @@ def main(argv) -> int:
         for pretrained in (False, True):
             arm_name = "pretrained" if pretrained else "control"
             off = (noise_by_arm[arm_name][0] if seed == seeds[0]
-                   else run_cell(seed, pretrained, False, n_steps, n_epochs))
+                   else run_cell(seed, pretrained, "off", n_steps, n_epochs))
             on = (probe_on if (seed == seeds[0] and not pretrained)
-                  else run_cell(seed, pretrained, True, n_steps, n_epochs))
+                  else run_cell(seed, pretrained, "on", n_steps, n_epochs))
+            fb = run_cell(seed, pretrained, "feedback", n_steps, n_epochs)
             tw = twin_check(off, on, spread_by_arm[arm_name], latency_delta)
             twins.append(tw)
-            cells.extend([off, on])
+            cells.extend([off, on, fb])
             lae_act = on["lae"]["diagnostics"]["activation"]["activations"]
             trig = on["lae"]["trigger_counts"]
             ple_eco = on["ple"]["ecology"]
@@ -318,10 +386,16 @@ def main(argv) -> int:
                   f'lae_act={lae_act:<3} trig={dict(trig)} '
                   f'ple_trig={on["ple"]["triggered_cycles"]}/{n_steps} '
                   f'attr={len(ple_eco["attractors"])} find={ple_eco["findings"]}')
+            fbk = fb["feedback"]
+            print(f'       feedback   coh={fb["host"]["coherence_mean"]:.4f} '
+                  f'id={fb["host"]["identity_stability"]:.4f} '
+                  f'steps={fbk["steps"]} decisions={fbk["decisions"]} '
+                  f'sisters={fbk["sister_sources"]}')
 
     # ----- verdicts (pre-declared, v2) -----
     print("-" * 78)
-    on_cells = [c for c in cells if c["sidecars"]]
+    on_cells = [c for c in cells if c["mode"] == "on"]
+    fb_cells = [c for c in cells if c["mode"] == "feedback"]
     bad_twins = [t for t in twins if t["verdict"] == "CONFOUNDED"]
     timing = [t for t in twins if t["verdict"] == "timing-explained"]
     if bad_twins:
@@ -364,6 +438,37 @@ def main(argv) -> int:
         print(f'  PLE: contradictions in {len(on_cells) - len(ple_dead)}/'
               f'{len(on_cells)} cells; attractors in '
               f'{len(on_cells) - len(ple_no_attr)}/{len(on_cells)} cells')
+
+    # ----- feedback verdicts (Phase 2, pre-declared) -----
+    fb_silent = [c for c in fb_cells if c["feedback"]["steps"] == 0]
+    fb_allowed = [c for c in fb_cells
+                  if any(d in c["feedback"]["decisions"]
+                         for d in ("allow", "allow_weakened", "monitor"))]
+    fb_rails = [c for c in fb_cells
+                if c["host"]["identity_stability"] < 0.95]
+    if fb_rails:
+        print(f'  FEEDBACK: IDENTITY RAIL breached in '
+              f'{[(c["seed"], c["arm"]) for c in fb_rails]} — record and stop')
+    elif fb_silent and len(fb_silent) == len(fb_cells):
+        print('  FEEDBACK: no sister offers reached the gate in any cell '
+              '(no findings/activations under this workload)')
+    elif not fb_allowed:
+        print('  FEEDBACK: the gate rejected every sister input — the '
+              'immune system treats the family as hostile (recordable)')
+    else:
+        print(f'  FEEDBACK: sister inputs gated through in '
+              f'{len(fb_allowed)}/{len(fb_cells)} cells; identity rail held '
+              f'in all (min id={min(c["host"]["identity_stability"] for c in fb_cells):.4f})')
+
+    # ----- differential structure: observe-only vs feedback -----
+    print("-" * 78)
+    print("  feedback differential (mean across seeds+arms, observe -> feedback):")
+    for metric in ("coherence_mean", "identity_stability",
+                   "rhythm_transitions", "crystals", "attractors"):
+        on_v = [c["host"][metric] for c in on_cells]
+        fb_v = [c["host"][metric] for c in fb_cells]
+        print(f'    host_{metric:<22} {np.mean(on_v):>10.4f} (sd {np.std(on_v):.4f}) '
+              f'-> {np.mean(fb_v):>10.4f} (sd {np.std(fb_v):.4f})')
 
     # ----- differential structure: control vs pretrained -----
     print("-" * 78)
