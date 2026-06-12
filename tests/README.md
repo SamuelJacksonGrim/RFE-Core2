@@ -153,6 +153,7 @@ The probes are grouped into subfolders by investigation (run as
 | `fix2/`     | Fix-2 reflective-loop governor investigation (trigger calibration, governor validation, live/common-mode/dim sweeps) |
 | `training/` | Generator training path (gradient-path check, corpus integrity + G1/G2 gates, diversity audit, trained-generator sim) |
 | `audit/`    | Runtime behavior audits (decision histogram, gate firing, trust, value polarity, identity-stability baseline, return canary) |
+| `sidecar/`  | External measurement engines — LAE (transitions) + PLE (contradictions) wired observe-only around the cycle |
 
 The per-probe descriptions below are grouped to match.
 
@@ -314,6 +315,35 @@ The per-probe descriptions below are grouped to match.
   in-run `coherence_impact` sampling (recent/novel/anti probe classes, observe-only,
   pre-injection). Run 1 of this matrix is what surfaced the checkpoint
   registry-orphan defect. Trains once per seed (cached); ~45 min.
+- `sidecar/sidecar_harness.py` — **LAE + PLE sidecar adapters (observe-only).**
+  `CycleTap` latches the per-step values StepState doesn't carry (watcher
+  components, governance decision, manipulation severity, phase coherence)
+  with the non-invasive wrapper pattern; `LAESidecar` feeds a soft
+  rhythm-hypothesis profile (mapping v1: log-energy distance to the sacred
+  band boundaries) to a Liminal Anchor Engine; `PLESidecar` feeds discretized
+  evaluator opinions (frame defs v1, `ple.integration.rfecore2hook`) to a
+  Paradox Lattice Engine. Both engines are terminal sinks — nothing they
+  produce feeds back into the cognitive/governance loop. Requires the sibling
+  `Liminal-Anchor-Engine` and `Paradox-Lattice-Engine` checkouts (zero-dep,
+  `pip install -e` or sibling-directory layout).
+- `sidecar/engine_sidecar_probe.py` — **Sidecar instrumentation + governed
+  feedback (control vs pretrained).** seeds × {control, pretrained} ×
+  mode {off, on, feedback} on the canonical band, with per-arm replay-noise
+  controls (the substrate is wall-clock-coupled — same-seed re-runs jitter,
+  and the pretrained arm's identity-metric jitter is ~50× the control arm's),
+  a latency control (off-run with sidecar-matched per-step sleep, isolating
+  the timing channel), and twin verdicts per cell (clean / timing-explained /
+  CONFOUNDED). The **feedback** mode closes the loop through the front door:
+  sister offers (`["liminal", top1, top2]` on LAE activation,
+  `["paradox", claim, type]` on a new PLE finding) re-enter as
+  `cycle.step(tokens, source_id="lae_engine"/"ple_engine")` — gated by
+  ethics, trust, resistance, and governance like any other source; the
+  observe-only cells are the feedback cells' control. Reports LAE/PLE
+  readouts per arm, the control→pretrained differential, the observe→feedback
+  differential, gate decisions on sister inputs, and sister trust
+  trajectories. Trains once per seed (cached); run with
+  `python -m tests.diagnostic.sidecar.engine_sidecar_probe 500
+  --seeds 42,7,11 --epochs 8 --json PATH`. Informational; exit 0; NEVER in CI.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and

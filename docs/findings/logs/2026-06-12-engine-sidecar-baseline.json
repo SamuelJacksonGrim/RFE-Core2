@@ -1,0 +1,1721 @@
+{
+ "corpus_version": "1.1.0",
+ "mapping": "v1",
+ "frame_defs": "v1",
+ "signatures": "v2",
+ "n_steps": 500,
+ "n_epochs": 8,
+ "seeds": [
+  42,
+  7,
+  11
+ ],
+ "replay_noise": {
+  "runs_per_arm": 3,
+  "factor": 2.0,
+  "spread_by_arm": {
+   "control": {
+    "coherence_mean": 8.199999999991547e-05,
+    "coherence_std": 5.699999999999976e-05,
+    "identity_stability": 6.999999999979245e-06,
+    "anchor_velocity": 7.000000000000062e-06,
+    "rhythm_transitions": 0.0,
+    "crystals": 0.0,
+    "attractors": 0.0,
+    "rhythm_mix.stabilize": 0.0,
+    "rhythm_mix.dream": 0.0,
+    "rhythm_mix.reflect": 0.0,
+    "rhythm_mix.explore": 0.0
+   },
+   "pretrained": {
+    "coherence_mean": 0.0015770000000000506,
+    "coherence_std": 0.0016150000000000001,
+    "identity_stability": 0.0011120000000000019,
+    "anchor_velocity": 0.0011160000000000002,
+    "rhythm_transitions": 0.0,
+    "crystals": 0.0,
+    "attractors": 0.0,
+    "rhythm_mix.stabilize": 0.0,
+    "rhythm_mix.dream": 0.0,
+    "rhythm_mix.reflect": 0.0,
+    "rhythm_mix.explore": 0.0
+   }
+  }
+ },
+ "latency_control": {
+  "overhead_s_per_step": 0.004406,
+  "deltas": {
+   "coherence_mean": 6.4000000000064e-05,
+   "coherence_std": 8.399999999999987e-05,
+   "identity_stability": 1.2000000000012001e-05,
+   "anchor_velocity": 1.2000000000000075e-05,
+   "rhythm_transitions": 0.0,
+   "crystals": 1.0,
+   "attractors": 0.0,
+   "rhythm_mix.stabilize": 0.0,
+   "rhythm_mix.dream": 0.0,
+   "rhythm_mix.reflect": 0.0,
+   "rhythm_mix.explore": 0.0
+  }
+ },
+ "twins": [
+  {
+   "seed": 42,
+   "arm": "control",
+   "first_divergence_step": 1,
+   "verdict": "clean",
+   "beyond_noise": {},
+   "confounded": {},
+   "deltas": {
+    "coherence_mean": 8.1e-05,
+    "coherence_std": 4.5e-05,
+    "identity_stability": 9e-06,
+    "anchor_velocity": 9e-06,
+    "crystals": 1.0
+   }
+  },
+  {
+   "seed": 42,
+   "arm": "pretrained",
+   "first_divergence_step": 1,
+   "verdict": "clean",
+   "beyond_noise": {},
+   "confounded": {},
+   "deltas": {
+    "coherence_mean": 2.4e-05,
+    "coherence_std": 3.3e-05,
+    "identity_stability": 1.1e-05,
+    "anchor_velocity": 1.1e-05
+   }
+  },
+  {
+   "seed": 7,
+   "arm": "control",
+   "first_divergence_step": 1,
+   "verdict": "timing-explained",
+   "beyond_noise": {
+    "coherence_mean": 0.000181
+   },
+   "confounded": {},
+   "deltas": {
+    "coherence_mean": 0.000181,
+    "coherence_std": 3.6e-05,
+    "identity_stability": 1e-06,
+    "anchor_velocity": 1e-06
+   }
+  },
+  {
+   "seed": 7,
+   "arm": "pretrained",
+   "first_divergence_step": 1,
+   "verdict": "clean",
+   "beyond_noise": {},
+   "confounded": {},
+   "deltas": {
+    "coherence_mean": 0.000221,
+    "coherence_std": 3.5e-05,
+    "identity_stability": 2.1e-05,
+    "anchor_velocity": 2.2e-05
+   }
+  },
+  {
+   "seed": 11,
+   "arm": "control",
+   "first_divergence_step": 1,
+   "verdict": "CONFOUNDED",
+   "beyond_noise": {
+    "coherence_mean": 0.000328,
+    "coherence_std": 0.000656,
+    "identity_stability": 2.1e-05,
+    "anchor_velocity": 2.2e-05
+   },
+   "confounded": {
+    "coherence_mean": 0.000328,
+    "coherence_std": 0.000656
+   },
+   "deltas": {
+    "coherence_mean": 0.000328,
+    "coherence_std": 0.000656,
+    "identity_stability": 2.1e-05,
+    "anchor_velocity": 2.2e-05
+   }
+  },
+  {
+   "seed": 11,
+   "arm": "pretrained",
+   "first_divergence_step": 1,
+   "verdict": "clean",
+   "beyond_noise": {},
+   "confounded": {},
+   "deltas": {
+    "coherence_mean": 7e-05,
+    "coherence_std": 8e-06,
+    "identity_stability": 3e-06,
+    "anchor_velocity": 3e-06
+   }
+  }
+ ],
+ "cells": [
+  {
+   "seed": 42,
+   "arm": "control",
+   "sidecars": false,
+   "per_step_s": 0.062437,
+   "host": {
+    "coherence_mean": 0.96827,
+    "coherence_std": 0.004054,
+    "identity_stability": 0.998337,
+    "anchor_velocity": 0.001666,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 2
+   },
+   "lae": null,
+   "ple": null
+  },
+  {
+   "seed": 42,
+   "arm": "control",
+   "sidecars": true,
+   "per_step_s": 0.066843,
+   "host": {
+    "coherence_mean": 0.968189,
+    "coherence_std": 0.004009,
+    "identity_stability": 0.998328,
+    "anchor_velocity": 0.001675,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 3,
+    "attractors": 2
+   },
+   "lae": {
+    "diagnostics": {
+     "activation": {
+      "observations": 500,
+      "activations": 3,
+      "dormancy_ratio": 0.994
+     },
+     "memory": {
+      "episode_count": 3,
+      "compressed_episodes": 0,
+      "unique_sources": 2
+     },
+     "identity": {
+      "invariant_count": 0,
+      "plasticity_zone_count": 4,
+      "trajectory_length": 3,
+      "mean_rigidity": 0.218,
+      "max_rigidity": 0.4,
+      "drift_dimensions": 4
+     }
+    },
+    "trigger_counts": {
+     "frame_oscillation": 3,
+     "hypothesis_conflict": 1
+    },
+    "boundary_adjacent_cycles": 1,
+    "top_confidence_histogram": {
+     "0.45": 1,
+     "0.6": 1,
+     "0.65": 1,
+     "0.7": 1,
+     "0.75": 1,
+     "0.85": 1,
+     "0.9": 2,
+     "0.95": 492
+    },
+    "activation_log": [
+     {
+      "cycle": 2,
+      "rhythm": "reflect",
+      "field_energy": 2.944,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.7009,
+      "top2": [
+       [
+        "reflect",
+        0.603
+       ],
+       [
+        "dream",
+        0.2294
+       ]
+      ],
+      "intent_stability": 0.5,
+      "anchors": 4
+     },
+     {
+      "cycle": 3,
+      "rhythm": "reflect",
+      "field_energy": 4.8036,
+      "triggers": [
+       "hypothesis_conflict",
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6341,
+      "top2": [
+       [
+        "reflect",
+        0.495
+       ],
+       [
+        "explore",
+        0.4478
+       ]
+      ],
+      "intent_stability": 0.9,
+      "anchors": 3
+     },
+     {
+      "cycle": 4,
+      "rhythm": "explore",
+      "field_energy": 6.6936,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.5475,
+      "top2": [
+       [
+        "explore",
+        0.6525
+       ],
+       [
+        "reflect",
+        0.3147
+       ]
+      ],
+      "intent_stability": 0.2,
+      "anchors": 5
+     }
+    ]
+   },
+   "ple": {
+    "ecology": {
+     "active_paradoxes": 5,
+     "attenuated_paradoxes": 1,
+     "mean_intensity": 0.172804,
+     "lattice_nodes": 1020,
+     "lattice_edges": 3030,
+     "global_tension": 0.3422666666666667,
+     "attractors": {
+      "at-b572db592a63": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99734
+      },
+      "at-27a8caba82ab": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.75
+      },
+      "at-ba8fee71200a": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99733
+      }
+     },
+     "episodes": 500,
+     "findings": 3,
+     "recurring_lattice_patterns": 7,
+     "events_routed": 5028
+    },
+    "findings": [
+     {
+      "finding_id": "fd-7363aace3786",
+      "insight": "The tension between emotion / field_delta over 'trajectory_sign' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.48,
+      "validation_status": "validated",
+      "lineage": [
+       "px-a80e759f0d64",
+       "px-a80e759f0d64",
+       "sy-1bf6e8f93671",
+       "sy-2441bd473b86",
+       "at-b572db592a63"
+      ],
+      "source_paradoxes": [
+       "px-a80e759f0d64"
+      ],
+      "source_syntheses": [
+       "sy-1bf6e8f93671",
+       "sy-2441bd473b86"
+      ],
+      "attractor_id": "at-b572db592a63",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-3772c76f3e4f",
+      "insight": "The tension between governance / resistance over 'threat_level' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-98fb0c71b4bf",
+       "px-98fb0c71b4bf",
+       "sy-4e1aa76dda31",
+       "sy-1b7b948b6750",
+       "at-27a8caba82ab"
+      ],
+      "source_paradoxes": [
+       "px-98fb0c71b4bf"
+      ],
+      "source_syntheses": [
+       "sy-4e1aa76dda31",
+       "sy-1b7b948b6750"
+      ],
+      "attractor_id": "at-27a8caba82ab",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-99d53b1a21ff",
+      "insight": "The tension between emotion / rhythm_router over 'posture' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-817bb0727675",
+       "px-817bb0727675",
+       "sy-89a0b57564a7",
+       "sy-0050d436c410",
+       "at-ba8fee71200a"
+      ],
+      "source_paradoxes": [
+       "px-817bb0727675"
+      ],
+      "source_syntheses": [
+       "sy-89a0b57564a7",
+       "sy-0050d436c410"
+      ],
+      "attractor_id": "at-ba8fee71200a",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     }
+    ],
+    "validated_findings": 3,
+    "triggered_cycles": 500,
+    "contradictions_by_claim": {
+     "coherence_band": 2,
+     "trajectory_sign": 500,
+     "threat_level": 4,
+     "posture": 498
+    }
+   }
+  },
+  {
+   "seed": 42,
+   "arm": "pretrained",
+   "sidecars": false,
+   "per_step_s": 0.076516,
+   "host": {
+    "coherence_mean": 0.9692,
+    "coherence_std": 0.004673,
+    "identity_stability": 0.997793,
+    "anchor_velocity": 0.002212,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 3
+   },
+   "lae": null,
+   "ple": null
+  },
+  {
+   "seed": 42,
+   "arm": "pretrained",
+   "sidecars": true,
+   "per_step_s": 0.08202,
+   "host": {
+    "coherence_mean": 0.969176,
+    "coherence_std": 0.00464,
+    "identity_stability": 0.997782,
+    "anchor_velocity": 0.002223,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 3
+   },
+   "lae": {
+    "diagnostics": {
+     "activation": {
+      "observations": 500,
+      "activations": 3,
+      "dormancy_ratio": 0.994
+     },
+     "memory": {
+      "episode_count": 3,
+      "compressed_episodes": 0,
+      "unique_sources": 2
+     },
+     "identity": {
+      "invariant_count": 0,
+      "plasticity_zone_count": 4,
+      "trajectory_length": 3,
+      "mean_rigidity": 0.2,
+      "max_rigidity": 0.4,
+      "drift_dimensions": 4
+     }
+    },
+    "trigger_counts": {
+     "hypothesis_conflict": 2,
+     "frame_oscillation": 3
+    },
+    "boundary_adjacent_cycles": 2,
+    "top_confidence_histogram": {
+     "0.45": 1,
+     "0.5": 1,
+     "0.6": 1,
+     "0.65": 1,
+     "0.7": 1,
+     "0.8": 1,
+     "0.85": 1,
+     "0.9": 2,
+     "0.95": 491
+    },
+    "activation_log": [
+     {
+      "cycle": 2,
+      "rhythm": "reflect",
+      "field_energy": 2.124,
+      "triggers": [
+       "hypothesis_conflict",
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6739,
+      "top2": [
+       [
+        "reflect",
+        0.4988
+       ],
+       [
+        "dream",
+        0.4291
+       ]
+      ],
+      "intent_stability": 0.5,
+      "anchors": 3
+     },
+     {
+      "cycle": 3,
+      "rhythm": "reflect",
+      "field_energy": 3.4094,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6942,
+      "top2": [
+       [
+        "reflect",
+        0.604
+       ],
+       [
+        "explore",
+        0.2319
+       ]
+      ],
+      "intent_stability": 0.9,
+      "anchors": 4
+     },
+     {
+      "cycle": 4,
+      "rhythm": "explore",
+      "field_energy": 5.2336,
+      "triggers": [
+       "hypothesis_conflict",
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6166,
+      "top2": [
+       [
+        "explore",
+        0.5037
+       ],
+       [
+        "reflect",
+        0.4494
+       ]
+      ],
+      "intent_stability": 0.2,
+      "anchors": 4
+     }
+    ]
+   },
+   "ple": {
+    "ecology": {
+     "active_paradoxes": 5,
+     "attenuated_paradoxes": 1,
+     "mean_intensity": 0.174505,
+     "lattice_nodes": 1019,
+     "lattice_edges": 3027,
+     "global_tension": 0.3698,
+     "attractors": {
+      "at-333cf7c9960f": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.75
+      },
+      "at-a027b7916715": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.997335
+      },
+      "at-9db245ce453d": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99733
+      }
+     },
+     "episodes": 500,
+     "findings": 3,
+     "recurring_lattice_patterns": 7,
+     "events_routed": 5024
+    },
+    "findings": [
+     {
+      "finding_id": "fd-c3ad9dbafaf4",
+      "insight": "The tension between governance / resistance over 'threat_level' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-63fdfe58618c",
+       "px-63fdfe58618c",
+       "sy-b52257643d8d",
+       "sy-667edd40a79e",
+       "at-333cf7c9960f"
+      ],
+      "source_paradoxes": [
+       "px-63fdfe58618c"
+      ],
+      "source_syntheses": [
+       "sy-b52257643d8d",
+       "sy-667edd40a79e"
+      ],
+      "attractor_id": "at-333cf7c9960f",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-34cb3e975eb2",
+      "insight": "The tension between emotion / field_delta over 'trajectory_sign' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-06ad75d0c77d",
+       "px-06ad75d0c77d",
+       "sy-8cc452b540e3",
+       "sy-e1d69f2ae32c",
+       "at-a027b7916715"
+      ],
+      "source_paradoxes": [
+       "px-06ad75d0c77d"
+      ],
+      "source_syntheses": [
+       "sy-8cc452b540e3",
+       "sy-e1d69f2ae32c"
+      ],
+      "attractor_id": "at-a027b7916715",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-59b6790cefbd",
+      "insight": "The tension between emotion / rhythm_router over 'posture' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-622a01e930a8",
+       "px-622a01e930a8",
+       "sy-4f94f21e50a6",
+       "sy-f2cc4b3223c2",
+       "at-9db245ce453d"
+      ],
+      "source_paradoxes": [
+       "px-622a01e930a8"
+      ],
+      "source_syntheses": [
+       "sy-4f94f21e50a6",
+       "sy-f2cc4b3223c2"
+      ],
+      "attractor_id": "at-9db245ce453d",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     }
+    ],
+    "validated_findings": 3,
+    "triggered_cycles": 500,
+    "contradictions_by_claim": {
+     "coherence_band": 2,
+     "trajectory_sign": 499,
+     "threat_level": 4,
+     "posture": 498
+    }
+   }
+  },
+  {
+   "seed": 7,
+   "arm": "control",
+   "sidecars": false,
+   "per_step_s": 0.062037,
+   "host": {
+    "coherence_mean": 0.969222,
+    "coherence_std": 0.005021,
+    "identity_stability": 0.998369,
+    "anchor_velocity": 0.001634,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 3,
+    "attractors": 1
+   },
+   "lae": null,
+   "ple": null
+  },
+  {
+   "seed": 7,
+   "arm": "control",
+   "sidecars": true,
+   "per_step_s": 0.06797,
+   "host": {
+    "coherence_mean": 0.969403,
+    "coherence_std": 0.004985,
+    "identity_stability": 0.99837,
+    "anchor_velocity": 0.001633,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 3,
+    "attractors": 1
+   },
+   "lae": {
+    "diagnostics": {
+     "activation": {
+      "observations": 500,
+      "activations": 3,
+      "dormancy_ratio": 0.994
+     },
+     "memory": {
+      "episode_count": 3,
+      "compressed_episodes": 0,
+      "unique_sources": 2
+     },
+     "identity": {
+      "invariant_count": 0,
+      "plasticity_zone_count": 4,
+      "trajectory_length": 3,
+      "mean_rigidity": 0.2,
+      "max_rigidity": 0.4,
+      "drift_dimensions": 4
+     }
+    },
+    "trigger_counts": {
+     "hypothesis_conflict": 2,
+     "frame_oscillation": 3
+    },
+    "boundary_adjacent_cycles": 2,
+    "top_confidence_histogram": {
+     "0.45": 2,
+     "0.6": 1,
+     "0.65": 1,
+     "0.7": 1,
+     "0.75": 1,
+     "0.85": 2,
+     "0.9": 2,
+     "0.95": 490
+    },
+    "activation_log": [
+     {
+      "cycle": 2,
+      "rhythm": "reflect",
+      "field_energy": 2.1202,
+      "triggers": [
+       "hypothesis_conflict",
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6735,
+      "top2": [
+       [
+        "reflect",
+        0.4979
+       ],
+       [
+        "dream",
+        0.4303
+       ]
+      ],
+      "intent_stability": 0.5,
+      "anchors": 3
+     },
+     {
+      "cycle": 3,
+      "rhythm": "reflect",
+      "field_energy": 3.3055,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6965,
+      "top2": [
+       [
+        "reflect",
+        0.6064
+       ],
+       [
+        "explore",
+        0.2155
+       ]
+      ],
+      "intent_stability": 0.9,
+      "anchors": 4
+     },
+     {
+      "cycle": 4,
+      "rhythm": "explore",
+      "field_energy": 5.0608,
+      "triggers": [
+       "hypothesis_conflict",
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6211,
+      "top2": [
+       [
+        "explore",
+        0.4827
+       ],
+       [
+        "reflect",
+        0.4684
+       ]
+      ],
+      "intent_stability": 0.2,
+      "anchors": 4
+     }
+    ]
+   },
+   "ple": {
+    "ecology": {
+     "active_paradoxes": 5,
+     "attenuated_paradoxes": 2,
+     "mean_intensity": 0.164414,
+     "lattice_nodes": 1026,
+     "lattice_edges": 3048,
+     "global_tension": 0.3489333333333334,
+     "attractors": {
+      "at-77cb5ecfb66e": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99734
+      },
+      "at-bb2aeef44d48": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.882353
+      },
+      "at-b6411320d633": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99733
+      }
+     },
+     "episodes": 500,
+     "findings": 3,
+     "recurring_lattice_patterns": 7,
+     "events_routed": 5052
+    },
+    "findings": [
+     {
+      "finding_id": "fd-f44441f2c633",
+      "insight": "The tension between emotion / field_delta over 'trajectory_sign' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.48,
+      "validation_status": "validated",
+      "lineage": [
+       "px-03cbb0b89ef1",
+       "px-03cbb0b89ef1",
+       "sy-d85cccfe1e1e",
+       "sy-af9aa7462776",
+       "at-77cb5ecfb66e"
+      ],
+      "source_paradoxes": [
+       "px-03cbb0b89ef1"
+      ],
+      "source_syntheses": [
+       "sy-d85cccfe1e1e",
+       "sy-af9aa7462776"
+      ],
+      "attractor_id": "at-77cb5ecfb66e",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-9c0811d29700",
+      "insight": "The tension between governance / resistance over 'threat_level' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-2fb4f9f35470",
+       "px-2fb4f9f35470",
+       "sy-520541ffc119",
+       "sy-d3dad1910c28",
+       "at-bb2aeef44d48"
+      ],
+      "source_paradoxes": [
+       "px-2fb4f9f35470"
+      ],
+      "source_syntheses": [
+       "sy-520541ffc119",
+       "sy-d3dad1910c28"
+      ],
+      "attractor_id": "at-bb2aeef44d48",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-e6c8ad86bc2d",
+      "insight": "The tension between emotion / rhythm_router over 'posture' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-d3a308762b6d",
+       "px-d3a308762b6d",
+       "sy-66993cef5c64",
+       "sy-b60332c92c68",
+       "at-b6411320d633"
+      ],
+      "source_paradoxes": [
+       "px-d3a308762b6d"
+      ],
+      "source_syntheses": [
+       "sy-66993cef5c64",
+       "sy-b60332c92c68"
+      ],
+      "attractor_id": "at-b6411320d633",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     }
+    ],
+    "validated_findings": 3,
+    "triggered_cycles": 500,
+    "contradictions_by_claim": {
+     "coherence_band": 2,
+     "trajectory_sign": 500,
+     "threat_level": 10,
+     "posture": 498
+    }
+   }
+  },
+  {
+   "seed": 7,
+   "arm": "pretrained",
+   "sidecars": false,
+   "per_step_s": 0.073914,
+   "host": {
+    "coherence_mean": 0.970537,
+    "coherence_std": 0.003256,
+    "identity_stability": 0.998348,
+    "anchor_velocity": 0.001655,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 1
+   },
+   "lae": null,
+   "ple": null
+  },
+  {
+   "seed": 7,
+   "arm": "pretrained",
+   "sidecars": true,
+   "per_step_s": 0.079465,
+   "host": {
+    "coherence_mean": 0.970758,
+    "coherence_std": 0.003221,
+    "identity_stability": 0.998369,
+    "anchor_velocity": 0.001633,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 1
+   },
+   "lae": {
+    "diagnostics": {
+     "activation": {
+      "observations": 500,
+      "activations": 3,
+      "dormancy_ratio": 0.994
+     },
+     "memory": {
+      "episode_count": 3,
+      "compressed_episodes": 0,
+      "unique_sources": 2
+     },
+     "identity": {
+      "invariant_count": 0,
+      "plasticity_zone_count": 4,
+      "trajectory_length": 3,
+      "mean_rigidity": 0.218,
+      "max_rigidity": 0.4,
+      "drift_dimensions": 4
+     }
+    },
+    "trigger_counts": {
+     "frame_oscillation": 3,
+     "hypothesis_conflict": 1
+    },
+    "boundary_adjacent_cycles": 1,
+    "top_confidence_histogram": {
+     "0.5": 1,
+     "0.55": 2,
+     "0.65": 1,
+     "0.7": 1,
+     "0.8": 1,
+     "0.85": 1,
+     "0.9": 2,
+     "0.95": 491
+    },
+    "activation_log": [
+     {
+      "cycle": 2,
+      "rhythm": "reflect",
+      "field_energy": 2.5284,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6963,
+      "top2": [
+       [
+        "reflect",
+        0.5696
+       ],
+       [
+        "dream",
+        0.317
+       ]
+      ],
+      "intent_stability": 0.5,
+      "anchors": 4
+     },
+     {
+      "cycle": 3,
+      "rhythm": "reflect",
+      "field_energy": 3.7506,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6841,
+      "top2": [
+       [
+        "reflect",
+        0.5877
+       ],
+       [
+        "explore",
+        0.2864
+       ]
+      ],
+      "intent_stability": 0.9,
+      "anchors": 4
+     },
+     {
+      "cycle": 4,
+      "rhythm": "explore",
+      "field_energy": 5.3812,
+      "triggers": [
+       "hypothesis_conflict",
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6119,
+      "top2": [
+       [
+        "explore",
+        0.5211
+       ],
+       [
+        "reflect",
+        0.4337
+       ]
+      ],
+      "intent_stability": 0.2,
+      "anchors": 4
+     }
+    ]
+   },
+   "ple": {
+    "ecology": {
+     "active_paradoxes": 5,
+     "attenuated_paradoxes": 2,
+     "mean_intensity": 0.164414,
+     "lattice_nodes": 1026,
+     "lattice_edges": 3048,
+     "global_tension": 0.3489333333333334,
+     "attractors": {
+      "at-2aced7ec81b0": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99734
+      },
+      "at-24695fde785f": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.882353
+      },
+      "at-da3b74eb5394": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99733
+      }
+     },
+     "episodes": 500,
+     "findings": 3,
+     "recurring_lattice_patterns": 7,
+     "events_routed": 5052
+    },
+    "findings": [
+     {
+      "finding_id": "fd-b044c2291a03",
+      "insight": "The tension between emotion / field_delta over 'trajectory_sign' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.48,
+      "validation_status": "validated",
+      "lineage": [
+       "px-106d998c6df7",
+       "px-106d998c6df7",
+       "sy-18d075ee3bcc",
+       "sy-b90e555288be",
+       "at-2aced7ec81b0"
+      ],
+      "source_paradoxes": [
+       "px-106d998c6df7"
+      ],
+      "source_syntheses": [
+       "sy-18d075ee3bcc",
+       "sy-b90e555288be"
+      ],
+      "attractor_id": "at-2aced7ec81b0",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-cb4069159f8f",
+      "insight": "The tension between governance / resistance over 'threat_level' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-453b1900975f",
+       "px-453b1900975f",
+       "sy-01601f82909d",
+       "sy-c8cddfe9dd5e",
+       "at-24695fde785f"
+      ],
+      "source_paradoxes": [
+       "px-453b1900975f"
+      ],
+      "source_syntheses": [
+       "sy-01601f82909d",
+       "sy-c8cddfe9dd5e"
+      ],
+      "attractor_id": "at-24695fde785f",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-a6e5088e5470",
+      "insight": "The tension between emotion / rhythm_router over 'posture' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-92cc20e7da6f",
+       "px-92cc20e7da6f",
+       "sy-aee7d1f7d2d2",
+       "sy-8ef659c4d9d7",
+       "at-da3b74eb5394"
+      ],
+      "source_paradoxes": [
+       "px-92cc20e7da6f"
+      ],
+      "source_syntheses": [
+       "sy-aee7d1f7d2d2",
+       "sy-8ef659c4d9d7"
+      ],
+      "attractor_id": "at-da3b74eb5394",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     }
+    ],
+    "validated_findings": 3,
+    "triggered_cycles": 500,
+    "contradictions_by_claim": {
+     "coherence_band": 2,
+     "trajectory_sign": 500,
+     "threat_level": 10,
+     "posture": 498
+    }
+   }
+  },
+  {
+   "seed": 11,
+   "arm": "control",
+   "sidecars": false,
+   "per_step_s": 0.061549,
+   "host": {
+    "coherence_mean": 0.971266,
+    "coherence_std": 0.003629,
+    "identity_stability": 0.998768,
+    "anchor_velocity": 0.001234,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 2
+   },
+   "lae": null,
+   "ple": null
+  },
+  {
+   "seed": 11,
+   "arm": "control",
+   "sidecars": true,
+   "per_step_s": 0.066723,
+   "host": {
+    "coherence_mean": 0.970938,
+    "coherence_std": 0.002973,
+    "identity_stability": 0.998789,
+    "anchor_velocity": 0.001212,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 2
+   },
+   "lae": {
+    "diagnostics": {
+     "activation": {
+      "observations": 500,
+      "activations": 3,
+      "dormancy_ratio": 0.994
+     },
+     "memory": {
+      "episode_count": 3,
+      "compressed_episodes": 0,
+      "unique_sources": 2
+     },
+     "identity": {
+      "invariant_count": 0,
+      "plasticity_zone_count": 4,
+      "trajectory_length": 3,
+      "mean_rigidity": 0.218,
+      "max_rigidity": 0.4,
+      "drift_dimensions": 4
+     }
+    },
+    "trigger_counts": {
+     "frame_oscillation": 3,
+     "hypothesis_conflict": 1
+    },
+    "boundary_adjacent_cycles": 1,
+    "top_confidence_histogram": {
+     "0.5": 1,
+     "0.55": 2,
+     "0.7": 2,
+     "0.8": 1,
+     "0.85": 1,
+     "0.9": 2,
+     "0.95": 491
+    },
+    "activation_log": [
+     {
+      "cycle": 2,
+      "rhythm": "reflect",
+      "field_energy": 2.4467,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6936,
+      "top2": [
+       [
+        "reflect",
+        0.5585
+       ],
+       [
+        "dream",
+        0.3374
+       ]
+      ],
+      "intent_stability": 0.5,
+      "anchors": 4
+     },
+     {
+      "cycle": 3,
+      "rhythm": "reflect",
+      "field_energy": 3.6439,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6877,
+      "top2": [
+       [
+        "reflect",
+        0.594
+       ],
+       [
+        "explore",
+        0.2693
+       ]
+      ],
+      "intent_stability": 0.9,
+      "anchors": 4
+     },
+     {
+      "cycle": 4,
+      "rhythm": "explore",
+      "field_energy": 5.4365,
+      "triggers": [
+       "hypothesis_conflict",
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6099,
+      "top2": [
+       [
+        "explore",
+        0.5275
+       ],
+       [
+        "reflect",
+        0.4279
+       ]
+      ],
+      "intent_stability": 0.2,
+      "anchors": 4
+     }
+    ]
+   },
+   "ple": {
+    "ecology": {
+     "active_paradoxes": 5,
+     "attenuated_paradoxes": 1,
+     "mean_intensity": 0.170964,
+     "lattice_nodes": 1023,
+     "lattice_edges": 3039,
+     "global_tension": 0.3489333333333334,
+     "attractors": {
+      "at-cb83b41b8c8f": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99734
+      },
+      "at-ff410fa88a02": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.84
+      },
+      "at-c5408665f9ee": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99733
+      }
+     },
+     "episodes": 500,
+     "findings": 3,
+     "recurring_lattice_patterns": 7,
+     "events_routed": 5040
+    },
+    "findings": [
+     {
+      "finding_id": "fd-a27b8f46cff4",
+      "insight": "The tension between emotion / field_delta over 'trajectory_sign' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.48,
+      "validation_status": "validated",
+      "lineage": [
+       "px-177db378115b",
+       "px-177db378115b",
+       "sy-30b0b076de39",
+       "sy-b891c8612c98",
+       "at-cb83b41b8c8f"
+      ],
+      "source_paradoxes": [
+       "px-177db378115b"
+      ],
+      "source_syntheses": [
+       "sy-30b0b076de39",
+       "sy-b891c8612c98"
+      ],
+      "attractor_id": "at-cb83b41b8c8f",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-0216ba9a33d6",
+      "insight": "The tension between governance / resistance over 'threat_level' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-0f94f326a9ae",
+       "px-0f94f326a9ae",
+       "sy-83c2ebfa9583",
+       "sy-a430afe1041c",
+       "at-ff410fa88a02"
+      ],
+      "source_paradoxes": [
+       "px-0f94f326a9ae"
+      ],
+      "source_syntheses": [
+       "sy-83c2ebfa9583",
+       "sy-a430afe1041c"
+      ],
+      "attractor_id": "at-ff410fa88a02",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-e011c6da8437",
+      "insight": "The tension between emotion / rhythm_router over 'posture' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-870c05cc7e31",
+       "px-870c05cc7e31",
+       "sy-57905b995630",
+       "sy-047f39016b32",
+       "at-c5408665f9ee"
+      ],
+      "source_paradoxes": [
+       "px-870c05cc7e31"
+      ],
+      "source_syntheses": [
+       "sy-57905b995630",
+       "sy-047f39016b32"
+      ],
+      "attractor_id": "at-c5408665f9ee",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     }
+    ],
+    "validated_findings": 3,
+    "triggered_cycles": 500,
+    "contradictions_by_claim": {
+     "coherence_band": 2,
+     "trajectory_sign": 500,
+     "threat_level": 7,
+     "posture": 498
+    }
+   }
+  },
+  {
+   "seed": 11,
+   "arm": "pretrained",
+   "sidecars": false,
+   "per_step_s": 0.076607,
+   "host": {
+    "coherence_mean": 0.971649,
+    "coherence_std": 0.003228,
+    "identity_stability": 0.997611,
+    "anchor_velocity": 0.002394,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 1
+   },
+   "lae": null,
+   "ple": null
+  },
+  {
+   "seed": 11,
+   "arm": "pretrained",
+   "sidecars": true,
+   "per_step_s": 0.080442,
+   "host": {
+    "coherence_mean": 0.971719,
+    "coherence_std": 0.003236,
+    "identity_stability": 0.997614,
+    "anchor_velocity": 0.002391,
+    "rhythm_transitions": 3,
+    "rhythm_mix": {
+     "stabilize": 1,
+     "dream": 1,
+     "reflect": 2,
+     "explore": 496
+    },
+    "crystals": 2,
+    "attractors": 1
+   },
+   "lae": {
+    "diagnostics": {
+     "activation": {
+      "observations": 500,
+      "activations": 3,
+      "dormancy_ratio": 0.994
+     },
+     "memory": {
+      "episode_count": 3,
+      "compressed_episodes": 0,
+      "unique_sources": 2
+     },
+     "identity": {
+      "invariant_count": 0,
+      "plasticity_zone_count": 4,
+      "trajectory_length": 3,
+      "mean_rigidity": 0.218,
+      "max_rigidity": 0.4,
+      "drift_dimensions": 4
+     }
+    },
+    "trigger_counts": {
+     "frame_oscillation": 3,
+     "hypothesis_conflict": 1
+    },
+    "boundary_adjacent_cycles": 1,
+    "top_confidence_histogram": {
+     "0.5": 1,
+     "0.55": 2,
+     "0.7": 2,
+     "0.8": 1,
+     "0.85": 1,
+     "0.9": 2,
+     "0.95": 491
+    },
+    "activation_log": [
+     {
+      "cycle": 2,
+      "rhythm": "reflect",
+      "field_energy": 2.5276,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6963,
+      "top2": [
+       [
+        "reflect",
+        0.5695
+       ],
+       [
+        "dream",
+        0.3172
+       ]
+      ],
+      "intent_stability": 0.5,
+      "anchors": 4
+     },
+     {
+      "cycle": 3,
+      "rhythm": "reflect",
+      "field_energy": 3.7467,
+      "triggers": [
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6843,
+      "top2": [
+       [
+        "reflect",
+        0.588
+       ],
+       [
+        "explore",
+        0.2858
+       ]
+      ],
+      "intent_stability": 0.9,
+      "anchors": 4
+     },
+     {
+      "cycle": 4,
+      "rhythm": "explore",
+      "field_energy": 5.4228,
+      "triggers": [
+       "hypothesis_conflict",
+       "frame_oscillation"
+      ],
+      "conflict_score": 0.6104,
+      "top2": [
+       [
+        "explore",
+        0.5259
+       ],
+       [
+        "reflect",
+        0.4293
+       ]
+      ],
+      "intent_stability": 0.2,
+      "anchors": 4
+     }
+    ]
+   },
+   "ple": {
+    "ecology": {
+     "active_paradoxes": 5,
+     "attenuated_paradoxes": 1,
+     "mean_intensity": 0.170964,
+     "lattice_nodes": 1023,
+     "lattice_edges": 3039,
+     "global_tension": 0.3489333333333334,
+     "attractors": {
+      "at-441596d4c31e": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99734
+      },
+      "at-893c1fd5c33c": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.84
+      },
+      "at-020da9ee7a54": {
+       "type": "hybrid",
+       "state": "stabilizing",
+       "stability": 0.99733
+      }
+     },
+     "episodes": 500,
+     "findings": 3,
+     "recurring_lattice_patterns": 7,
+     "events_routed": 5040
+    },
+    "findings": [
+     {
+      "finding_id": "fd-12e5cb94d764",
+      "insight": "The tension between emotion / field_delta over 'trajectory_sign' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.48,
+      "validation_status": "validated",
+      "lineage": [
+       "px-230eed52ed22",
+       "px-230eed52ed22",
+       "sy-fdefcd4f7fce",
+       "sy-6aae86201241",
+       "at-441596d4c31e"
+      ],
+      "source_paradoxes": [
+       "px-230eed52ed22"
+      ],
+      "source_syntheses": [
+       "sy-fdefcd4f7fce",
+       "sy-6aae86201241"
+      ],
+      "attractor_id": "at-441596d4c31e",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-2b0819f964f6",
+      "insight": "The tension between governance / resistance over 'threat_level' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-5ed833f67e81",
+       "px-5ed833f67e81",
+       "sy-ecdfbd7e771f",
+       "sy-55f48322e831",
+       "at-893c1fd5c33c"
+      ],
+      "source_paradoxes": [
+       "px-5ed833f67e81"
+      ],
+      "source_syntheses": [
+       "sy-ecdfbd7e771f",
+       "sy-55f48322e831"
+      ],
+      "attractor_id": "at-893c1fd5c33c",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     },
+     {
+      "finding_id": "fd-edba7fa8a0bb",
+      "insight": "The tension between emotion / rhythm_router over 'posture' is generative: a hybrid frame subsumes both and explains what neither could alone.",
+      "confidence": 0.6,
+      "validation_status": "validated",
+      "lineage": [
+       "px-828d775761f6",
+       "px-828d775761f6",
+       "sy-9c4e74fca015",
+       "sy-d42884b7b4c1",
+       "at-020da9ee7a54"
+      ],
+      "source_paradoxes": [
+       "px-828d775761f6"
+      ],
+      "source_syntheses": [
+       "sy-9c4e74fca015",
+       "sy-d42884b7b4c1"
+      ],
+      "attractor_id": "at-020da9ee7a54",
+      "tension_profile": {
+       "mean_tension_reduction": 0.45
+      }
+     }
+    ],
+    "validated_findings": 3,
+    "triggered_cycles": 500,
+    "contradictions_by_claim": {
+     "coherence_band": 2,
+     "trajectory_sign": 500,
+     "threat_level": 7,
+     "posture": 498
+    }
+   }
+  }
+ ]
+}
