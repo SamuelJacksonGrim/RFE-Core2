@@ -1,13 +1,17 @@
 # Data curation — what the corpus needs
 
-> **Status (2026-06-11, later the same day):** the corpus described in §3
-> **exists** — `data/corpus/` v1.0.1 (2336 train / 410 holdout sequences,
-> 272 tokens, min 15 contexts/token), generated externally per this spec,
-> then validated and cleaned in-repo (dedup + removal of 4 train→holdout
-> leaked sequences). Integrity is CI-gated by
-> `tests/diagnostic/corpus_integrity_check.py`; loader is
-> `training/corpus.py`. **Gate G1 passed on it, two seeds** —
-> `docs/findings/2026-06-11-corpus-g1-pretrain.md`.
+> **Status (2026-06-12):** the corpus described in §3 **exists** —
+> `data/corpus/` **v1.1.0** (2870 train / 501 holdout sequences, 335 tokens).
+> v1.0.x was generated externally per this spec, validated and cleaned in-repo
+> (dedup + removal of 4 train→holdout leaked sequences); v1.1.0 closed the
+> §2.1 operational-vocabulary requirement (63 live-workload tokens were
+> missing — extension built by `data/corpus/build_extension_v1_1_0.py`,
+> rhythm assignments hand-curated there, architect review invited). Integrity
+> is CI-gated by `tests/diagnostic/corpus_integrity_check.py`; loader is
+> `training/corpus.py`. **Gate G1 passed on v1.0.1 (two seeds) and re-passed
+> on v1.1.0; Gate G2 passed on the live stack** —
+> `docs/findings/2026-06-11-corpus-g1-pretrain.md`,
+> `docs/findings/2026-06-12-phase2-fullstack-g2.md`.
 
 - **Date:** 2026-06-11
 - **Why this document:** the 2026-06-11 effect probe showed the training

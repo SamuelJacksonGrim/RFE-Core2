@@ -507,7 +507,8 @@ RFE-Core2/
 │   └── corpus/                     Curated rhythm corpus (versioned; see MANIFEST.md)
 │       ├── MANIFEST.md             Provenance, counts, split policy, version history
 │       ├── rhythm_train.jsonl      Training split (rhythm/source-labeled sequences)
-│       └── rhythm_holdout.jsonl    Held-out split (Gate G1 generalization readout)
+│       ├── rhythm_holdout.jsonl    Held-out split (Gate G1 generalization readout)
+│       └── build_extension_v1_1_0.py  v1.1.0 operational-vocabulary extension builder (seeded)
 │
 ├── docs/
 │   ├── ARCHITECTURE_ANALYSIS.md         End-to-end recursion + information-flow reference
@@ -515,6 +516,7 @@ RFE-Core2/
 │   ├── tier4_2_validation.md            Tier 4.2 validation + findings
 │   ├── tier4_3_validation.md            Tier 4.3 validation + findings
 │   ├── training/                        Training path: viability, plan, data curation, Tier 5 readiness
+│   │   └── logs/                        Raw run logs from training-phase gates
 │   └── findings/                        Dated empirical findings ledger (lab notebook)
 │
 ├── tests/
@@ -574,7 +576,8 @@ RFE-Core2/
 │   │   ├── trainer_gradient_path_check.py    Training stack gradient-path validator (backprop + mode restore)
 │   │   ├── rhythm_pretrain_effect_probe.py   Before/after diversity effect of rhythm pretraining (eval-mode)
 │   │   ├── corpus_integrity_check.py         Curated-corpus integrity gate (schema, leakage, stratification)
-│   │   └── corpus_pretrain_g1_probe.py       Gate G1: corpus pretraining held-out generalization (trains; minutes)
+│   │   ├── corpus_pretrain_g1_probe.py       Gate G1: corpus pretraining held-out generalization (trains; minutes)
+│   │   └── corpus_boot_phase2_probe.py       Gate G2: pretrained boot on the live stack (control + train/eval modes)
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges

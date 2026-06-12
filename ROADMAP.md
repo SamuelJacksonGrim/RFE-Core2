@@ -147,6 +147,17 @@ collision + epistemic-discipline process that produced Tier 4.2.
 >   two seeds. **Coverage was the binding constraint, and it is paid.**
 >   `2026-06-11-corpus-g1-pretrain.md`. Next: Phase 2 (cost-gated live-stack validation
 >   from the boot checkpoint), then the `.eval()` decision.
+> - **Phase 2 complete — Gate G2 passed (2026-06-12).** Corpus extended to v1.1.0 first
+>   (63 missing *operational* tokens — the live workload's own vocabulary; G1 re-passed).
+>   Pretrained boot on the full live stack: all baselines hold in both dropout modes,
+>   identity_stability 0.9974, manipulation layer silent. Two pivotal readouts:
+>   (1) **SECOND-LOCKER** — the coherence pin persists with real trained input, so the
+>   reflective loop / field moat is the operative lock and **Fix 2 is re-prioritized on
+>   real signal**; (2) the expression pipeline now *preserves* upstream regime structure
+>   (stage A ≡ stage C) instead of collapsing it. Eval-mode boot is live-viable (Phase 3
+>   data). `2026-06-12-phase2-fullstack-g2.md`. **Phase 3 — the `.eval()` decision,
+>   boot-checkpoint adoption, online go/no-go — is now the blocking step, and it is the
+>   architect's.**
 
 **Finding (verified, June 3 session).** The accumulated symbol-state feedback
 signals — field coherence, attractor strength, crystal binding, centrality —
