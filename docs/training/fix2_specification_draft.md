@@ -1,6 +1,6 @@
 # Fix 2 Specification Draft — Reflective Loop Governor
 
-**Status:** Specification draft pending architect decision (Phase 3, Decision 3, Option C). This is the "ready-to-implement" design if Decision 3 chooses to move forward post-Phase-1 training validation.
+**Status:** Specification draft pending architect decision (Phase 3, Decision 3, Option C). This is the "ready-to-implement" design if Decision 3 chooses to move forward post-Phase-1 training validation. **Hard gate before any production wiring:** the §6.3 gain-sign verdict (lock-in plan — gates any coherence→loop coupling; instrument built, verdict pending) and the Phase 5 regime-separation re-measurement on the trained checkpoint.
 
 **Date:** 2026-06-12
 
@@ -25,22 +25,40 @@
 
 ## 2. Novelty Trigger (Common-Mode-Aware)
 
-### 2.1 Regime Separation Metric
+### 2.1 Novelty Metric (use the validated instrument)
 
-Define **novelty (gnov)** as the cosine distance of the current generator output from the dominant principal direction (common-mode):
+The calibrated instrument (`2026-06-08-fix2-trigger-calibration.md`) is the
+**windowed generator-vs-field novelty**:
 
 ```
-1. Extract the dominant singular vector u_dominant from recent generator outputs (ring buffer, 50-output window).
-2. Project the current output v onto the orthogonal complement: v_perp = v - (v·u_dominant) * u_dominant.
-3. gnov = |v_perp| / (|v| + ε)  [normalized perpendicular component]
+gnov_t = 1 − |cos(generator_output_t, field_state_t)|
+gnov   = mean over window W = 10 steps
 ```
 
-**Rationale:** The June 9 probe showed the standard `gnov = cos(v, field_state)` trigger is dormant on real regimes due to common-mode collinearity. Projecting out the dominant direction lifts the threshold-crossing rate to 98% loosen without forcing orthogonality. The common-mode is structural (eff_rank ~1.6–3.2 even with training), so this will remain relevant post-training.
+The 2026-06-09 live-generator finding showed this standard form is
+**permanently dormant on real regimes** (the untrained generator's common-mode
+keeps regime means collinear at dim 64/256/512). The validated fix is the
+**common-mode-removed variant**: estimate the dominant shared axis `u_cm`
+from a ring of recent generator outputs (50-output window, recomputed every
+10 steps), project it out of both the output and the field state, and measure
+gnov on the perpendicular components. This engaged at 98% on real tokens with
+no retraining (perp-gnov 0.86 vs threshold 0.65).
+
+**Open for Phase 5 re-calibration:** with the trained checkpoint the
+common-mode may be weaker — re-measure raw and perp regime separation before
+freezing the trigger form. Do not invent a new metric variant without
+re-running the calibration probe against it.
 
 ### 2.2 Threshold and Engagement
 
-- **gnov_threshold:** 0.50 (tunable, higher = more conservative)
-  - June 9 data: common-mode-removed gnov reaches ~0.86 during real novelty. Threshold 0.50 gives margin.
+- **gnov_threshold:** **0.65** (calibrated — not tunable without re-running
+  the calibration probe)
+  - June 8 calibration (W=10): benign steady-state reads ≈ 0.49, real novelty
+    ≈ 0.885; the safe band is the gap, and 0.65 maximizes margin from both.
+    (A 0.50 threshold would sit on the benign reading and fire constantly.)
+  - Dropout caveat: train-mode inflates benign gnov (~0.39 inflation,
+    2026-06-09). If Decision 1 lands on train-mode, re-run the calibration in
+    train mode before trusting this threshold.
   - Below threshold: benign traffic, governor dormant.
   - Above threshold: potential novelty detected, condition on source diversity below.
 
@@ -55,23 +73,24 @@ Define **novelty (gnov)** as the cosine distance of the current generator output
 ### 3.1 Gain Value
 
 ```
-gain = 1.0 - loosening_magnitude * manip_penalty
+gain = 1.0 - loosening_magnitude * (1.0 - manip_rail)
 ```
 
 Where:
 
 - **loosening_magnitude:** How much to suppress the loop's pull. Linearly ramps with novelty duration:
   - gnov crosses threshold → `loosening = 0.0` (still locked)
-  - 5 steps above threshold → `loosening` ramps to 0.5 (half the pull)
-  - 10+ steps above threshold → `loosening = 0.5` (capped, avoid collapse)
+  - 5 steps above threshold → `loosening` ramps to 0.4
+  - 10+ steps above threshold → `loosening = 0.4` (capped → gain floor 0.6, the 0%-manip operating point from June 9)
 
-- **manip_penalty:** Manipulation-detection de-rating. If `ManipulationResistanceEngine` reports any signals in the current step:
+- **manip_rail:** Manipulation-detection rail. If `ManipulationResistanceEngine` reported any signals (per-step flag, rolled prev←cur — a sticky flag permanently trips the rail; see the harness-correctness note in `fix2_governor_validation.py`):
   ```
   if any(signals):
-      manip_penalty = 1.0  # Full gain restored to defend
+      manip_rail = 1.0  # rail engaged → gain forced back to 1.0 (loop locks to defend)
   else:
-      manip_penalty = 0.0
+      manip_rail = 0.0  # no manipulation → loosening applies as ramped
   ```
+  With the rail engaged the formula yields `gain = 1.0` regardless of novelty — manipulation always restores the full loop. (An earlier draft of this formula was inverted — loosening *under* attack; the form above matches the validated harness in `fix2_governor_validation.py`.)
 
 ### 3.2 Reflection Gain Application
 
@@ -101,9 +120,9 @@ if gov.gain < 1.0:
 ```python
 @dataclass
 class ReflectiveLoopGovernor:
-    gnov_threshold: float = 0.50
+    gnov_threshold: float = 0.65   # calibrated (2026-06-08); do not lower without re-calibration
     loosening_ramp_steps: int = 5
-    max_loosening: float = 0.5
+    max_loosening: float = 0.4     # gain floor 0.6 — the 0%-manip operating point
     manip_gate: bool = True
     
     # Runtime state
@@ -172,10 +191,10 @@ def compute_gain(self, manip_signals: List) -> float:
     else:
         loosening = self.max_loosening
     
-    # Manipulation penalty
-    manip_penalty = 1.0 if (self.manip_gate and manip_signals) else 0.0
-    
-    return 1.0 - loosening * (1.0 - manip_penalty)
+    # Manipulation rail — signals force the loop back to full gain
+    manip_rail = 1.0 if (self.manip_gate and manip_signals) else 0.0
+
+    return 1.0 - loosening * (1.0 - manip_rail)
 ```
 
 ---
@@ -265,9 +284,9 @@ Config file location: `configs/governor.yaml`
 
 ```yaml
 # ReflectiveLoopGovernor tuning
-gnov_threshold: 0.50  # Novelty threshold (higher = more conservative)
+gnov_threshold: 0.65  # Calibrated 2026-06-08 (benign 0.49 / novelty 0.885); re-calibrate before changing
 loosening_ramp_steps: 5  # Steps to ramp to max_loosening
-max_loosening: 0.5  # Max suppression of loop gain [0, 1]
+max_loosening: 0.4  # Max suppression of loop gain — gain floor 0.6 (0%-manip operating point)
 multi_source_gate: true  # Require >= 2 sources to enable loosening
 min_sources: 2  # Minimum distinct sources in last 20 steps
 max_source_dominance: 0.60  # Max fraction of recent steps from single source
@@ -334,7 +353,8 @@ Once Phase 1 (corpus v1.1.0 boot checkpoint) is complete:
 
 ## 10. Dependencies
 
+- **§6.3 gain-sign check (HARD GATE, verdict pending):** the lock-in plan gates *any* coherence→loop coupling — explicitly including Fix 2 — on the gain-sign verdict. The instrument exists (`tests/diagnostic/gain_sign_check.py`, pre-declared STABILIZING / RUNAWAY / CONFOUNDED signatures); a recorded run does not. No production wiring before that verdict lands in `docs/findings/`.
 - **Trainer gradient path** (`docs/findings/2026-06-11-trainer-gradient-path.md`): Must be fixed (done).
-- **Phase 1 corpus + boot checkpoint:** Must exist before re-validation.
-- **ManipulationResistanceEngine integration:** Must export signals to governance loop.
-- **Generator capability:** Phase 5 re-validation depends on Phase 1 training improving regime separation.
+- **Phase 1 corpus + boot checkpoint:** Must exist before re-validation (done — G1/G2 passed; adoption is Phase 3 Decision 2).
+- **ManipulationResistanceEngine integration:** the governor *reads* manipulation reports (per-step flag); it must not alter how governance arbitrates them. Authority hierarchy unchanged: resistance subsystems emit, governance decides — the governor is a loop-gain modulator downstream of those reports, and its wiring is itself an architect tier-direction decision per the lock-in plan.
+- **Generator regime separation:** Phase 5 re-validation must measure whether training improved regime separation before the cost-benefit of this spec is trusted.

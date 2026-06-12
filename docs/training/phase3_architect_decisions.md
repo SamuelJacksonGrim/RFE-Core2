@@ -4,7 +4,7 @@
 
 **Date:** 2026-06-12
 
-**Context:** Phase 2 (corpus v1.1.0 extension + Gate G2 live-stack validation) confirmed the SECOND-LOCKER finding: with a trained generator on real operational vocabulary, the coherence lock persists but barely moves (0.9767 → 0.9701). The reflective loop is the operative lock, not generator low-rank. This finding un-defers **Fix 2** (the loop-governing intervention) and validates **training as the viable path forward**.
+**Context:** Phase 2 (corpus v1.1.0 extension + Gate G2 live-stack validation) confirmed the SECOND-LOCKER finding: with a trained generator on real operational vocabulary, the coherence lock persists but barely moves (0.9767 → 0.9701). The reflective loop is the operative lock, not generator low-rank. This finding **re-prioritizes Fix 2** (its premise is finally testable on real signal — the 2026-06-09 "wait until trained" condition is now satisfied) and confirms boot-time training is identity-safe and effective at the representation level — while showing that **training alone does not release the lock**.
 
 Phase 3 is **three explicit decisions** that only the architect can make, informed by the evidence Phase 2 delivered.
 
@@ -16,9 +16,9 @@ Phase 3 is **three explicit decisions** that only the architect can make, inform
 
 **Evidence:**
 
-- **Tier 4.3 phase_coherence depends on consistent field state.** Dropout nondeterminism in the generator adds stochastic jitter to the field, making the FFT-derived rhythm coupling less stable.
-- **Phase 2 Gate G2 Run C (pretrained/eval):** All baselines held, identity_stability 0.9986, no representational drift, no formation blockers. The eval-mode boot is live-viable.
-- **Prior decision:** Line ~204 in `training/rhythm_pretrainer.py` restores the caller's train/eval state on exit. Trainers no longer decide this unilaterally.
+- **Dropout breaks measurement determinism and inflates novelty readings.** The 2026-06-08 trap: train-mode nondeterminism once mimicked a feedback effect (Δ ≈ 0.63) that vanished under the eval control (Δ = 0.0). The 2026-06-09 probe: benign `gnov` inflates ~0.39 under dropout, polluting any trigger calibrated in eval mode.
+- **Phase 2 Gate G2 Run C (pretrained/eval):** All baselines held, identity_stability 0.9986, no representational drift, and a *second* bond formed. The eval-mode boot is live-viable. (Honest counterpoint: Tier 4.3 `phase_coherence` read slightly *higher* in train mode — 0.971 vs 0.948 — so there is no measured Tier 4.3 cost to either mode on the canonical workload.)
+- **Prior decision:** all three trainers (`training/rhythm_pretraining.py` and peers) restore the caller's train/eval state on exit. Trainers no longer decide this unilaterally; the live mode is the architect's call (open since 2026-06-08).
 - **Trade-off:**
   - `eval()` → Deterministic, clean Tier 4.3 coupling, reproducible behavior, fixed embeddings post-training.
   - `train()` → Stochastic exploration, dropout regularization, potential for online micro-updates (Phase 4), but less stable Tier 4.3 signal and less reproducible behavior.
@@ -46,10 +46,16 @@ generator.eval()  # Set once at startup, maintained by trainers
 - No corpus/training coupling in prod
 
 ### Option B: Pretrained Checkpoint (Gate G1+G2 Recipe)
-- Boot from `checkpoints/phase1_boot_v1.1.0.pt` (training plan §5.1)
-- Recipe: corpus v1.1.0, 8 epochs, seed 0 or 42, contrastive-alignment trainer
+- Boot from the checkpoint the G1 probe writes with `--save`:
+  `python3 -m tests.diagnostic.corpus_pretrain_g1_probe 8 --seed 0 --save`
+  → `data/checkpoints/boot_rhythm_corpus_v1.1.0_8ep_s0.pt` (+ `.ecology.json`)
+- Recipe: corpus v1.1.0, 8 epochs, seed 0 or 42, `RhythmPretrainer`
+- Note: `data/checkpoints/` is `.gitignore`d — adoption requires a provenance
+  decision: either commit the artifact, or treat the committed corpus + build
+  script + probe recipe as the canonical (re-derivable) source and record the
+  recipe in the MANIFEST/ROADMAP
 - Gate G1 (held-out) PASSED: eff_rank 1.45→3.41, rhythm-NN 0.995, determinism 1.0
-- Gate G2 (live-stack) PASSED: all baselines held, identity_stability 0.9986, no drift
+- Gate G2 (live-stack) PASSED on RUN B, the gated run: all baselines held, identity_stability 0.9974 (eval RUN C: 0.9986), no drift
 - Immediate operational vocabulary coverage vs learning from scratch
 - Ties training and deployment (corpus version, checkpoint version)
 
@@ -68,10 +74,10 @@ generator.eval()  # Set once at startup, maintained by trainers
 **Recommendation:** **Option B (pretrained checkpoint).** The gates passed; the vocabulary coverage is complete; the safety evidence is strong. The corpus versioning and checkpoint management are minor costs for guaranteed live-vocabulary coverage. The no-drift constraint is real — Phase 4 (online training) will write new sequences to the corpus, and the boot checkpoint must remain reproducible for debugging/audit.
 
 **Action if approved:**
-1. Implement checkpoint save/load in `training/rhythm_pretrainer.py` (Phase 1 output; currently trained in-memory).
-2. Run `training/train_phase1_boot.py` once with seed 0 (or 42) and save to `data/checkpoints/phase1_boot_v1.1.0.pt`.
-3. In `loop/recursion1188.py` or startup: conditionally load the checkpoint if `BOOT_PRETRAINED=True` (config flag).
-4. Document checkpoint version in ROADMAP current-understanding and in any deployment guide.
+1. Checkpoint save/load already exists (`agents/generator.py::save_checkpoint`; the G1 probe's `--save` flag uses it). Run the probe with `--save` (seed 0 or 42) to produce the boot artifact.
+2. In `loop/recursion1188.py` CONFIG (the runtime source of truth for entry-point parameters): add a boot-checkpoint path flag, default off; load it at stack construction when set.
+3. Resolve the provenance question (commit the `.pt`, or document the deterministic re-derivation recipe — corpus version + epochs + seed — in the MANIFEST).
+4. Document checkpoint adoption in ROADMAP current-understanding.
 
 ---
 
@@ -92,24 +98,27 @@ The lock-in plan (§3.2, June 7 plasticity arc) identified the **reflective loop
   - Common-mode-removed trigger (per-regime projection) engages Fix 2 at 98% loosening but recovers only **+0.024 migration** (untrained generator baseline). With dropout the manip cost is ~1% at gain 0.5, **0% at gain 0.6**.
   - The mock orthogonal-B used in governor validation (+0.166 migration) **overstated the real-token value by 7×**. On real regimes, Fix 2 is a small-signal intervention.
   
-- **SECOND-LOCKER finding (Phase 2, 2026-06-12):** With a trained generator (eff_rank 3.41, proper structure), the coherence barely moves (0.9767 → 0.9701). The loop is the operative lock **and training addresses it by putting regime differences in high-energy directions** (reducing the common-mode dominance).
+- **SECOND-LOCKER finding (Phase 2, 2026-06-12):** With a trained generator (eff_rank 3.41, proper structure), the coherence barely moves (0.9767 → 0.9701). The loop is the operative lock.
 
-- **Conclusion from June 9 probe:** *"The real work is the generator — train (or architecturally constrain) it so regimes differ in high-energy directions, not just a small perp component."*
+- **What G2 did *not* measure:** whether training actually reduced the generator's common-mode / separated regime means in high-energy directions. The June 9 conclusion — *"train it so regimes differ in high-energy directions, not just a small perp component"* — set the condition; whether the v1.1.0 boot checkpoint meets it is **unmeasured**. Re-running the June 9 regime-separation probe on the trained checkpoint is the first Phase 5 item and the load-bearing input to this decision.
+
+- **§6.3 gain-sign check (lock-in plan) is a pending hard gate.** The plan states it "gates Fix 0-A and Fix 2" (any coherence→loop coupling). The instrument exists (`tests/diagnostic/gain_sign_check.py`); a recorded verdict does not. No production wiring of the governor before that verdict lands in `docs/findings/`.
 
 **Three implementation options:**
 
-### Option A: Defer Fix 2 (Training First)
-- **Rationale:** The untrained generator's common-mode makes Fix 2 dormant. Once trained (Phase 1 checkpoint), the regime separation improves and the loop's lock becomes less tight anyway (SECOND-LOCKER evidence).
-- **Timing:** Validate that the trained generator separates regimes in high-energy directions (re-run the June 9 probe with pretrained checkpoint). If separation improves, Fix 2 becomes more targeted and valuable.
-- **Risk:** If training doesn't improve regime separation (common-mode persists), deferral leaves the lock operative longer than necessary.
+### Option A: Defer Fix 2 (Measure First)
+- **Rationale:** The untrained generator's common-mode made Fix 2's standard trigger dormant. Training *may* have improved regime separation — that is unmeasured. Note SECOND-LOCKER cuts the other way on the lock itself: the pin did **not** loosen with training, so deferral is justified only to get the Phase 5 separation re-measurement, not because training relieves the lock.
+- **Timing:** Validate whether the trained generator separates regimes in high-energy directions (re-run the June 9 probe with pretrained checkpoint). If separation improved, Fix 2 becomes more targeted and valuable.
+- **Risk:** If training didn't improve regime separation (common-mode persists), deferral leaves the lock operative longer than necessary.
 
 ### Option B: Add Loop-Governor as Defensive Layer (No Defer)
 - **Rationale:** Build the ReflectiveLoopGovernor anyway (skeleton exists in test harness; needs production integration). Even if it recovers only +0.024 migration on untrained gens, it's a defensive layer that can't hurt (0% manip at gain 0.6).
 - **Requirements:**
-  1. Implement `cognition/reflective_loop_governor.py` (common-mode-aware trigger, gain scheduling).
-  2. Wire into `AutonomousCycle.step()` (e.g., post-generation novelty observation, pre-reflection gain blend).
-  3. Gate on ≥2 sources (prevent single-source attack from opening the loop).
-  4. Set operating point to gain ≥ 0.6 (0% manip at that threshold).
+  1. Run and record the §6.3 gain-sign check first (hard gate, verdict pending).
+  2. Implement `cognition/reflective_loop_governor.py` (common-mode-aware trigger, gain scheduling).
+  3. Wire into `AutonomousCycle.step()` (e.g., post-generation novelty observation, pre-reflection gain blend).
+  4. Gate on ≥2 sources (prevent single-source attack from opening the loop).
+  5. Set operating point to gain ≥ 0.6 (0% manip at that threshold).
 - **Timeline:** Can run in parallel with Phase 1 pretraining; doesn't block it.
 - **Trade-off:** Small real-world effect (dormant until trained + even when engaged, +0.024 is marginal) vs. defensive completeness.
 
@@ -121,15 +130,16 @@ The lock-in plan (§3.2, June 7 plasticity arc) identified the **reflective loop
 **Recommendation:** **Option C (design + defer implementation, re-validate post-training).**
 
 Rationale:
-1. The June 9 probe was run on an untrained generator. Phase 1 training should improve regime separation, changing the cost-benefit calculus.
-2. SECOND-LOCKER shows that training addresses the lock directly (not just small-signal interventions).
-3. Deferring gives you post-Phase 1 data to decide whether Fix 2 is worth the integration cost.
+1. The June 9 probe was run on an untrained generator. Phase 1 training *may* have improved regime separation — re-measure before paying integration cost.
+2. SECOND-LOCKER shows training alone does *not* release the lock — which is exactly why a loop-side intervention is back on the table, and why its real effect size must be measured on trained weights first (on untrained weights it recovered only +0.024 migration).
+3. The §6.3 gain-sign verdict is pending and gates any production wiring regardless of this decision.
 4. The spec can be ready in parallel (common-mode trigger, gain 0.6 operating point, integration sketch).
 
 **Action if approved:**
-1. Create `docs/training/fix2_specification_draft.md` with trigger spec (common-mode removal), gain schedule, integration points in `AutonomousCycle.step()`.
-2. In Phase 5, re-run the June 9 probes with the trained checkpoint (regime separation measurement, Fix 2 effectiveness on trained gen).
-3. Make final implementation decision post-Phase 5 probes based on actual trained-generator data.
+1. Spec draft exists: `docs/training/fix2_specification_draft.md` (trigger spec with common-mode removal, gain schedule, integration points in `AutonomousCycle.step()`).
+2. Run and record the §6.3 gain-sign verdict (`tests/diagnostic/gain_sign_check.py` → `docs/findings/`).
+3. In Phase 5, re-run the June 9 probes with the trained checkpoint (regime separation measurement, Fix 2 effectiveness on trained gen).
+4. Make final implementation decision post-Phase 5 probes based on actual trained-generator data.
 
 ---
 
