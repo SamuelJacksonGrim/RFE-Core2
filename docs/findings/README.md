@@ -127,3 +127,4 @@ What this leaves unanswered.
 | 2026-06-12 | [Checkpoint round-trip — is loading a boot checkpoint behaviorally equivalent to in-process training?](2026-06-12-checkpoint-registry-orphan.md) | active — defect fixed + guarded | phase2-fullstack-g2 |
 | 2026-06-12 | [SECOND-LOCKER field map — does the pin survive seeds, token bands, and regimes?](2026-06-12-secondlocker-field-map.md) | active | phase2-fullstack-g2, checkpoint-registry-orphan, gate-decomposition |
 | 2026-06-12 | [§6.3 gain-sign — what is the feedback sign on the reachable coherence range?](2026-06-12-gain-sign-reachable-range.md) | active — conditional verdict (low arm unreachable) | secondlocker-field-map |
+| 2026-06-12 | [Sidecar instrumentation — can LAE and PLE measure the running core without perturbing it, and does training change what they read?](2026-06-12-engine-sidecar-instrumentation.md) | active | phase2-fullstack-g2, checkpoint-registry-orphan, secondlocker-field-map |
