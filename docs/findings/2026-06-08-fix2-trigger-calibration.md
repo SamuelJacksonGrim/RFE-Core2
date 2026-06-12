@@ -3,7 +3,7 @@
 - **Date:** 2026-06-08
 - **Substrate:** live full stack; generator mocked (A/B) for the novelty/attack
   workloads, real generator for benign. No substrate change.
-- **Probe:** `tests/diagnostic/fix2_trigger_calibration.py` (seed 11, warmup 120 /
+- **Probe:** `tests/diagnostic/fix2/fix2_trigger_calibration.py` (seed 11, warmup 120 /
   phase 350)
 - **Status:** active — step 4 of Fix 2 (the relocated reflective-loop remediation):
   calibrate the loosen-trigger's outside signal + window + threshold (Q3 — measure,

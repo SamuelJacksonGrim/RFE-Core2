@@ -41,7 +41,7 @@ terminal sink (see §4) — no feedback loop is introduced.
 
 ## 1. The physics is proven
 
-`tests/diagnostic/rhythm_dilation_curve.py` isolates `update_dilation()`
+`tests/diagnostic/tier4/rhythm_dilation_curve.py` isolates `update_dilation()`
 from the token stream and sweeps `(arousal, valence, phase_coherence)`
 directly. It establishes, mechanically:
 
@@ -73,7 +73,7 @@ The formula's mathematics are sound and require no further validation.
 
 ## 2. The psychology — the finding
 
-`tests/diagnostic/rhythm_inertness_probe.py` wraps `update_dilation()`
+`tests/diagnostic/tier4/rhythm_inertness_probe.py` wraps `update_dilation()`
 non-invasively and records, per step, the exact `(arousal, valence,
 phase_coherence)` that fed it plus the resulting dilation, across three
 workloads (canonical, adversarial, mixed). It does **not** inject a

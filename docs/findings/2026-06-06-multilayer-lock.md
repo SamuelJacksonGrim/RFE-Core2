@@ -4,7 +4,7 @@
 - **Substrate:** sim (untrained Generator's output mapping mocked with a
   deterministic token→direction stub; full live step loop otherwise — governance,
   coherence_impact, injection, reaper, decay, emotional gradient all real)
-- **Probe:** `tests/diagnostic/trained_generator_sim.py`
+- **Probe:** `tests/diagnostic/training/trained_generator_sim.py`
 - **Status:** active (all three locks since resolved/struck/downgraded — see status block)
 - **Depends on:** 2026-06-06-read-side-boundary.md (the survival-by-coherence
   mechanism), 2026-06-06-frame-correction.md (read this finding in the corrected

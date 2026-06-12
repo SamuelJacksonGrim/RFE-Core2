@@ -55,7 +55,7 @@ Revisit only after a trained generator changes what flows into it.
 | `training/self_distillation.py` | cosine pull toward own high-coherence outputs (coherence ≥ 0.80 = teacher) | **online** | gradient path repaired; **works** (path check) |
 
 Repair details (all empirically verified by
-`tests/diagnostic/trainer_gradient_path_check.py`):
+`tests/diagnostic/training/trainer_gradient_path_check.py`):
 
 - Self-distillation and rhythm pretraining built their loss on
   `encode_batch()` output — `@torch.no_grad()`, numpy — so `backward()` raised
@@ -71,15 +71,15 @@ Repair details (all empirically verified by
 
 ### The instruments
 
-- `tests/diagnostic/generator_diversity_audit.py` — the measurement standard
+- `tests/diagnostic/training/generator_diversity_audit.py` — the measurement standard
   (eval-mode eff_rank / mean cos / determinism control).
-- `tests/diagnostic/rhythm_pretrain_effect_probe.py` — before/after training
+- `tests/diagnostic/training/rhythm_pretrain_effect_probe.py` — before/after training
   effect, with generalization + determinism controls.
-- `tests/diagnostic/trained_generator_sim.py` — pre-declared
+- `tests/diagnostic/training/trained_generator_sim.py` — pre-declared
   GENERATOR-IS-THE-LOCK vs SECOND-LOCKER predictions for what a diverse
   generator does to the field; built for mocks, ready to be confirmed on a
   genuinely trained generator.
-- `tests/diagnostic/identity_stability_baseline.py` +
+- `tests/diagnostic/audit/identity_stability_baseline.py` +
   `reflective_loop_cost_probe.py` — the identity-cost harness the live
   training phase must ride.
 - `tests/baselines/*.json` + smoke/integration gate — regression rails.

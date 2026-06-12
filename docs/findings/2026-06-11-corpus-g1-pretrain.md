@@ -3,8 +3,8 @@
 - **Date:** 2026-06-11
 - **Substrate:** live generator (isolated; canonical config vocab 4096 /
   dim 64 / depth 3 / heads 4). No field/governance attached.
-- **Probe:** `tests/diagnostic/corpus_pretrain_g1_probe.py`; corpus integrity
-  enforced by `tests/diagnostic/corpus_integrity_check.py`.
+- **Probe:** `tests/diagnostic/training/corpus_pretrain_g1_probe.py`; corpus integrity
+  enforced by `tests/diagnostic/training/corpus_integrity_check.py`.
 - **Corpus:** `data/corpus/` **v1.0.1** (2336 train / 410 holdout, 272 tokens,
   rhythm-stratified ~15% holdout).
 - **Status:** active
