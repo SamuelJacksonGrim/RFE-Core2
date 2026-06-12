@@ -4,7 +4,7 @@
 - **Substrate:** live full stack (Tier 0–3, crystals/attractors/dream/echo all
   live); only the generator's output mapping is mocked (controllable A / B / diverse
   directions), same convention as multilayer-lock.
-- **Probe:** `tests/diagnostic/attractor_migration_probe.py` (seed 11, dim 64,
+- **Probe:** `tests/diagnostic/lockin/attractor_migration_probe.py` (seed 11, dim 64,
   warmup 250 + phase 900, 4 sources HHI≈0.25)
 - **Status:** active — executes step 2 of `2026-06-06-coherence-is-not-plasticity.md`,
   the real lock-in test the arc was built toward.

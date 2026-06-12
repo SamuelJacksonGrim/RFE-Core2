@@ -185,7 +185,7 @@ control):
   ~85% governance **gate block** of diverse internal input · the accumulate-decay
   **magnitude moat** (what lands averages ~0.91 cosine even under maximal source
   diversity). `2026-06-06-multilayer-lock.md` /
-  `tests/diagnostic/trained_generator_sim.py`.
+  `tests/diagnostic/training/trained_generator_sim.py`.
 - **Locus correction** — a coherent *field* is the spec (the integrator that holds
   identity); lock-in is real only if survival-by-coherence flattens the
   *generator/expression* into monoculture. Metastability belongs **upstream**.
@@ -231,7 +231,7 @@ dependencies, validation gates, and the load-bearing epistemic warnings — is
    term (a perfect limit cycle reads LOW) and coherence *level* folded into the
    regime label (locked-at-0.99 vs structureless-at-0.50 must not share a label).
    Validated G1–G5 incl. on the live-Generator field
-   (`tests/diagnostic/metastability_validation.py`). **shipped + validated** (PR #23).
+   (`tests/diagnostic/lockin/metastability_validation.py`). **shipped + validated** (PR #23).
 2. **Generator scale fix** — embeddings scaled by `sqrt(d_model)` + raised init
    std (AIAYN §3.4), fixing the positional-dominance collinearity that made the
    untrained generator emit one near-collinear direction. Precondition for
@@ -254,7 +254,7 @@ dependencies, validation gates, and the load-bearing epistemic warnings — is
 
 5. **Feedback gain-sign check at low coherence** — analysis only; gates Fix 0-A
    and the paper-boat operator. The gating **diagnostic is built**
-   (`tests/diagnostic/gain_sign_check.py`); a recorded run/verdict is still
+   (`tests/diagnostic/lockin/gain_sign_check.py`); a recorded run/verdict is still
    pending (results go in `docs/findings/`).
 
 **Planned (the structural counterbalance — not yet built):**

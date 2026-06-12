@@ -5,8 +5,8 @@
   (deterministic — gnov reflects real token structure, not dropout). Real token
   vocabularies injected by the experimenter (two disjoint 8-word sets, A and B), 3-token
   samples per step, 4 sources.
-- **Probes:** `tests/diagnostic/fix2_live_token_probe.py` (dim sweep 64/256, governor
-  ON/OFF), `tests/diagnostic/fix2_commonmode_trigger_probe.py` (common-mode-removed
+- **Probes:** `tests/diagnostic/fix2/fix2_live_token_probe.py` (dim sweep 64/256, governor
+  ON/OFF), `tests/diagnostic/fix2/fix2_commonmode_trigger_probe.py` (common-mode-removed
   trigger + target sweep, dim 256). seed 11, warmup 100 / phase 250.
 - **Status:** active — first Fix-2 evaluation on the REAL generator. Everything prior
   (governor validation, cost probe, trigger calibration novelty/attack arms) used a MOCK
@@ -142,7 +142,7 @@ a small signal, and Fix 2's practical priority should drop accordingly.
 
 ## ADDENDUM 2026-06-09 — dim-512 check ("is dim the lever?")
 
-Probe: `tests/diagnostic/_fix2_dim512.py` (live generator, eval, seed 11, warmup 100 /
+Probe: `tests/diagnostic/fix2/fix2_dim512.py` (live generator, eval, seed 11, warmup 100 /
 phase 200). Tests whether higher dim dilutes the common-mode enough to (a) separate regime
 distributions and (b) give the off-common-mode signal more field-moving energy.
 

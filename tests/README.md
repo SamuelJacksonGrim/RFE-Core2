@@ -63,10 +63,10 @@ python -m tests.adversarial.identity_drift
 
 Diagnostic tools *(coming next)*:
 ```bash
-python -m tests.diagnostic.decision_histogram
-python -m tests.diagnostic.gate_firing_audit
-python -m tests.diagnostic.trust_trajectory
-python -m tests.diagnostic.value_polarity_flow
+python -m tests.diagnostic.audit.decision_histogram
+python -m tests.diagnostic.audit.gate_firing_audit
+python -m tests.diagnostic.audit.trust_trajectory
+python -m tests.diagnostic.audit.value_polarity_flow
 ```
 
 ### What "success" looks like
@@ -136,6 +136,19 @@ the resistance layer's specific guarantees.
 actually solve problems when something doesn't behave as expected.
 They print rich output you read; they don't assert. Keep them runnable;
 keep them in version control.
+
+The probes are grouped into subfolders by investigation (run as
+`python -m tests.diagnostic.<group>.<name>`):
+
+| Subfolder | What lives there |
+|---|---|
+| `tier4/`    | Tier 4.2/4.3 physics validators + affective-state probe |
+| `lockin/`   | The coherence lock-in research arc (migration, ablation, gate decomposition, metastability, gain-sign) |
+| `fix2/`     | Fix-2 reflective-loop governor investigation (trigger calibration, governor validation, live/common-mode/dim sweeps) |
+| `training/` | Generator training path (gradient-path check, corpus integrity + G1/G2 gates, diversity audit, trained-generator sim) |
+| `audit/`    | Runtime behavior audits (decision histogram, gate firing, trust, value polarity, identity-stability baseline, return canary) |
+
+The per-probe descriptions below are grouped to match.
 
 - `decision_histogram.py` — Counts every `GovernanceDecision` issued
   over N steps. The first signal when something is off-axis.

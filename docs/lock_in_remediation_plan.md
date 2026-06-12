@@ -89,7 +89,7 @@ Kimi's defensive-depth reframe.)
 ### Fix 1 — metastability metric **(SHIPPED + validated — PR #23)**
 
 `substrate/metastability.py` now exists and is validated (G1–G5,
-`tests/diagnostic/metastability_validation.py`). It is simultaneously the
+`tests/diagnostic/lockin/metastability_validation.py`). It is simultaneously the
 *measurement*, the missing *selection signal* (Fix 0-B will feed it into
 reinforcement), and the *safety detector* (it catches the limit-cycle failure
 mode the structural fixes can produce). Requirements (all met):
@@ -164,14 +164,14 @@ band `[0.4, 0.6]` is a diagnostic reference, not a hard contract — the exposed
 knob lets a governance/rhythm layer tune the operating point from live
 `expression_metastability` readings. Invariant: keep `0 < diversity_blend < 1`
 (`0` re-collapses, `1` bypasses refinement). Validated by
-`tests/diagnostic/generator_metastability.py`.
+`tests/diagnostic/lockin/generator_metastability.py`.
 
 ### §6.3 — feedback gain-sign check at low coherence **(INSTRUMENT SHIPPED — verdict pending)**
 
 Analysis only, no substrate change. Confirm the sign of the feedback gain at low
 coherence before *any* coherence → loop coupling. It **gates Fix 0-A and Fix 2**
 (both are that kind of coupling). Cheap and gating, so front-load it. The gating
-diagnostic is built (`tests/diagnostic/gain_sign_check.py`) with pre-declared
+diagnostic is built (`tests/diagnostic/lockin/gain_sign_check.py`) with pre-declared
 STABILIZING / RUNAWAY / CONFOUNDED signatures; a recorded run/verdict is still
 pending and will be written to `docs/findings/`.
 

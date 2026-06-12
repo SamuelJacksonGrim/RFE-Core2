@@ -3,8 +3,8 @@
 - **Date:** 2026-06-11
 - **Substrate:** live generator (isolated; canonical config vocab 4096 / dim 64 /
   depth 3 / heads 4 for the effect probe, small config for the path check).
-- **Probe:** `tests/diagnostic/trainer_gradient_path_check.py` (structural),
-  `tests/diagnostic/rhythm_pretrain_effect_probe.py` (before/after effect).
+- **Probe:** `tests/diagnostic/training/trainer_gradient_path_check.py` (structural),
+  `tests/diagnostic/training/rhythm_pretrain_effect_probe.py` (before/after effect).
 - **Status:** active
 - **Depends on:** 2026-06-08-generator-dropout-diversity.md (the "training may be
   more load-bearing than downstream refinement" consequence this tests, and the

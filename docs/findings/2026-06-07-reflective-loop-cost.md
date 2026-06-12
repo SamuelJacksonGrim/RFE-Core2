@@ -4,12 +4,12 @@
 - **Substrate:** live full stack. The reflective loop's convergence is dialed by a
   gain (1.0 intact → 0.0 ablated) via `identity_stability_baseline.attenuate_reflect`;
   plasticity and identity measured at each gain. No substrate change.
-- **Probe:** `tests/diagnostic/reflective_loop_cost_probe.py` (dim 64, warmup 150 +
+- **Probe:** `tests/diagnostic/lockin/reflective_loop_cost_probe.py` (dim 64, warmup 150 +
   phase 500, 4 sources HHI<0.70, seed 11)
 - **Status:** active — the cost side of the tradeoff for the relocated Fix 2
   (`2026-06-07-reconstruction-ablation.md`).
 - **Depends on:** 2026-06-07-reconstruction-ablation.md (loop = the lock),
-  tests/diagnostic/identity_stability_baseline.py (the dial + metrics).
+  tests/diagnostic/audit/identity_stability_baseline.py (the dial + metrics).
 
 ## Question
 The reflective loop is the lock; ablating it fully frees plasticity. What does

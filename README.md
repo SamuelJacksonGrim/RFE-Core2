@@ -518,6 +518,7 @@ RFE-Core2/
 │   ├── training/                        Training path: viability, plan, data curation, Tier 5 readiness
 │   │   └── logs/                        Raw run logs from training-phase gates
 │   └── findings/                        Dated empirical findings ledger (lab notebook)
+│       └── logs/                        Raw run outputs + session manifests supporting findings
 │
 ├── tests/
 │   ├── README.md                         How to run tests and interpret output
@@ -543,41 +544,46 @@ RFE-Core2/
 │   │   └── reflective_loop_convergence.py  Loop holds identity under novelty flood
 │   │
 │   ├── diagnostic/
-│   │   ├── decision_histogram.py         GovernanceDecision distribution
-│   │   ├── gate_firing_audit.py          Hard gates + soft warnings per source
-│   │   ├── trust_trajectory.py           Per-source trust sparklines
-│   │   ├── value_polarity_flow.py        Births, deaths, transitions
-│   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
-│   │   ├── rhythm_dilation_curve.py      Tier 4.3 physics validator (rhythm coupling)
-│   │   ├── rhythm_inertness_probe.py     Tier 4.3 inertness / footprint probe
-│   │   ├── affective_state_probe.py      Tier 4.2 psychology / defensive-depth
-│   │   ├── coherence_diagnostic.py       Field coherence metrics
-│   │   ├── rubedo_return_canary.py       Recursive stability / recovery canary
-│   │   ├── metastability_validation.py   Fix 1 metastability metric gate (G1–G5)
-│   │   ├── lockin_source.py              Upstream lock decomposition (G5 follow-up)
-│   │   ├── generator_metastability.py    Relocated (upstream) metastability readout
-│   │   ├── gain_sign_check.py            §6.3 feedback gain-sign check (gates Fix 0-A)
-│   │   ├── trained_generator_sim.py      Mocked-generator lock decomposition (3-lock finding)
-│   │   ├── conformity_bias_probe.py      Fix 0-B conformity-bias probe + symmetric-gate prototype
-│   │   ├── fix0b_fullloop_probe.py       Fix 0-B full-loop validation (in-vivo lean + gate decision tree)
-│   │   ├── gate_decomposition_probe.py   ~85% gate block decomposed by reason (input-channel check)
-│   │   ├── attractor_migration_probe.py  Attractor mobility under a surviving new regime (lock-in test)
-│   │   ├── reconstruction_ablation_probe.py  Which re-injection path locks the attractor (→ reflective loop)
-│   │   ├── identity_stability_baseline.py    Identity-stability metrics + reflect-gain dial (cost-probe harness)
-│   │   ├── reflective_loop_cost_probe.py     Plasticity-vs-identity tradeoff across the reflect-gain dial
-│   │   ├── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
-│   │   ├── generator_diversity_audit.py      Multi-method diversity (train vs eval / dropout; pipeline survival)
-│   │   ├── migration_real_generator_probe.py Attractor migration re-verified on the REAL generator
-│   │   ├── migration_eval_dimsweep_probe.py  Migration vs dim (eval mode) — moat vs low-rank-input artifact
-│   │   ├── fix2_governor_validation.py       ReflectiveLoopGovernor end-to-end on the mock A/B stack
-│   │   ├── fix2_live_token_probe.py          Fix 2 on the REAL generator (dim sweep, governor ON/OFF)
-│   │   ├── fix2_commonmode_trigger_probe.py  Common-mode-removed gnov trigger + target sweep (dim 256)
-│   │   ├── fix2_dim512.py                    Does dim 512 dilute the common-mode enough for Fix 2?
-│   │   ├── trainer_gradient_path_check.py    Training stack gradient-path validator (backprop + mode restore)
-│   │   ├── rhythm_pretrain_effect_probe.py   Before/after diversity effect of rhythm pretraining (eval-mode)
-│   │   ├── corpus_integrity_check.py         Curated-corpus integrity gate (schema, leakage, stratification)
-│   │   ├── corpus_pretrain_g1_probe.py       Gate G1: corpus pretraining held-out generalization (trains; minutes)
-│   │   └── corpus_boot_phase2_probe.py       Gate G2: pretrained boot on the live stack (control + train/eval modes)
+│   │   ├── tier4/                        Tier 4 physics validators + affect
+│   │   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
+│   │   │   ├── rhythm_dilation_curve.py      Tier 4.3 physics validator (rhythm coupling)
+│   │   │   ├── rhythm_inertness_probe.py     Tier 4.3 inertness / footprint probe
+│   │   │   └── affective_state_probe.py      Tier 4.2 psychology / defensive-depth
+│   │   ├── lockin/                       Coherence lock-in research arc
+│   │   │   ├── coherence_diagnostic.py       Field coherence metrics
+│   │   │   ├── metastability_validation.py   Fix 1 metastability metric gate (G1–G5)
+│   │   │   ├── lockin_source.py              Upstream lock decomposition (G5 follow-up)
+│   │   │   ├── generator_metastability.py    Relocated (upstream) metastability readout
+│   │   │   ├── gain_sign_check.py            §6.3 feedback gain-sign check (gates Fix 0-A)
+│   │   │   ├── conformity_bias_probe.py      Fix 0-B conformity-bias probe + symmetric-gate prototype
+│   │   │   ├── fix0b_fullloop_probe.py       Fix 0-B full-loop validation (in-vivo lean + gate decision tree)
+│   │   │   ├── gate_decomposition_probe.py   ~85% gate block decomposed by reason (input-channel check)
+│   │   │   ├── attractor_migration_probe.py  Attractor mobility under a surviving new regime (lock-in test)
+│   │   │   ├── reconstruction_ablation_probe.py  Which re-injection path locks the attractor (→ reflective loop)
+│   │   │   ├── reflective_loop_cost_probe.py     Plasticity-vs-identity tradeoff across the reflect-gain dial
+│   │   │   ├── migration_real_generator_probe.py Attractor migration re-verified on the REAL generator
+│   │   │   └── migration_eval_dimsweep_probe.py  Migration vs dim (eval mode) — moat vs low-rank-input artifact
+│   │   ├── fix2/                         Fix-2 reflective-loop governor investigation
+│   │   │   ├── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
+│   │   │   ├── fix2_governor_validation.py       ReflectiveLoopGovernor end-to-end on the mock A/B stack
+│   │   │   ├── fix2_live_token_probe.py          Fix 2 on the REAL generator (dim sweep, governor ON/OFF)
+│   │   │   ├── fix2_commonmode_trigger_probe.py  Common-mode-removed gnov trigger + target sweep (dim 256)
+│   │   │   └── fix2_dim512.py                    Does dim 512 dilute the common-mode enough for Fix 2?
+│   │   ├── training/                     Generator training path (gradient, corpus, gates)
+│   │   │   ├── trained_generator_sim.py      Mocked-generator lock decomposition (3-lock finding)
+│   │   │   ├── generator_diversity_audit.py      Multi-method diversity (train vs eval / dropout; pipeline survival)
+│   │   │   ├── trainer_gradient_path_check.py    Training stack gradient-path validator (backprop + mode restore)
+│   │   │   ├── rhythm_pretrain_effect_probe.py   Before/after diversity effect of rhythm pretraining (eval-mode)
+│   │   │   ├── corpus_integrity_check.py         Curated-corpus integrity gate (schema, leakage, stratification)
+│   │   │   ├── corpus_pretrain_g1_probe.py       Gate G1: corpus pretraining held-out generalization (trains; minutes)
+│   │   │   └── corpus_boot_phase2_probe.py       Gate G2: pretrained boot on the live stack (control + train/eval modes)
+│   │   └── audit/                        Runtime behavior audits
+│   │       ├── decision_histogram.py         GovernanceDecision distribution
+│   │       ├── gate_firing_audit.py          Hard gates + soft warnings per source
+│   │       ├── trust_trajectory.py           Per-source trust sparklines
+│   │       ├── value_polarity_flow.py        Births, deaths, transitions
+│   │       ├── identity_stability_baseline.py    Identity-stability metrics + reflect-gain dial (cost-probe harness)
+│   │       └── rubedo_return_canary.py       Recursive stability / recovery canary
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
@@ -675,8 +681,8 @@ Runs every pass/fail test — smoke (full-stack bring-up), integration (governan
 ### Physics validators (regression guards)
 
 ```bash
-python -m tests.diagnostic.dilation_response_curve     # Tier 4.2 dilation surface
-python -m tests.diagnostic.rhythm_dilation_curve       # Tier 4.3 rhythm coupling
+python -m tests.diagnostic.tier4.dilation_response_curve     # Tier 4.2 dilation surface
+python -m tests.diagnostic.tier4.rhythm_dilation_curve       # Tier 4.3 rhythm coupling
 ```
 
 Pass/fail (exit 0/1). These prove the time-dilation formulas mathematically and guard against regression — the Tier 4.3 validator confirms its surface is byte-identical to Tier 4.2 at a neutral `phase_coherence` of 0.5.
@@ -684,16 +690,16 @@ Pass/fail (exit 0/1). These prove the time-dilation formulas mathematically and 
 ### Diagnostics (informational)
 
 ```bash
-python -m tests.diagnostic.affective_state_probe 500   # Tier 4.2 affect + dilation under load
-python -m tests.diagnostic.rhythm_inertness_probe 500  # Tier 4.3 phase-coherence distribution + footprint
-python -m tests.diagnostic.decision_histogram          # governance decision mix
-python -m tests.diagnostic.gate_firing_audit           # which gates fire, and when
-python -m tests.diagnostic.trust_trajectory            # per-source trust over time
-python -m tests.diagnostic.value_polarity_flow         # value emergence + polarity
-python -m tests.diagnostic.metastability_validation    # Fix 1 metric gate (G1–G5)
-python -m tests.diagnostic.generator_metastability     # upstream readout + refinement de-collapse
-python -m tests.diagnostic.trained_generator_sim       # mocked-generator lock decomposition (3 locks)
-python -m tests.diagnostic.gain_sign_check             # §6.3 feedback gain-sign (gates Fix 0-A)
+python -m tests.diagnostic.tier4.affective_state_probe 500   # Tier 4.2 affect + dilation under load
+python -m tests.diagnostic.tier4.rhythm_inertness_probe 500  # Tier 4.3 phase-coherence distribution + footprint
+python -m tests.diagnostic.audit.decision_histogram          # governance decision mix
+python -m tests.diagnostic.audit.gate_firing_audit           # which gates fire, and when
+python -m tests.diagnostic.audit.trust_trajectory            # per-source trust over time
+python -m tests.diagnostic.audit.value_polarity_flow         # value emergence + polarity
+python -m tests.diagnostic.lockin.metastability_validation    # Fix 1 metric gate (G1–G5)
+python -m tests.diagnostic.lockin.generator_metastability     # upstream readout + refinement de-collapse
+python -m tests.diagnostic.training.trained_generator_sim       # mocked-generator lock decomposition (3 locks)
+python -m tests.diagnostic.lockin.gain_sign_check             # §6.3 feedback gain-sign (gates Fix 0-A)
 ```
 
 Empirical results from these runs are recorded in `docs/findings/` — the dated lab notebook (every finding names its control; negative results count).

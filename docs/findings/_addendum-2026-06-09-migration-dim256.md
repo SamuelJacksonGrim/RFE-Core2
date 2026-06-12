@@ -1,7 +1,7 @@
 > **ADDENDUM 2026-06-09 (dim-sweep eval extension) — resolves Open/next #3 of
 > 2026-06-09-migration-real-generator-eval.md.** Independent re-run on a second instance
 > plus the dim-256 high-separation stress test that finding flagged as future work. Probe:
-> `tests/diagnostic/migration_eval_dimsweep_probe.py` (generator AND RecursiveAttention loop
+> `tests/diagnostic/lockin/migration_eval_dimsweep_probe.py` (generator AND RecursiveAttention loop
 > both `.eval()`'d; seeds [0,1,2]; warmup 150 / phase 400; N_CAND=48). Append-only.
 >
 > **⚠ FRAMING CORRECTED by `2026-06-09-fix2-live-generator.md`:** the dim-256 orthogonal
