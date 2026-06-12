@@ -113,6 +113,12 @@ cooperate correctly."
   `review_core_promotion()` rejection paths and two approval paths.
   The four-case CORE promotion test we ran during Tier 3 building,
   now permanent.
+- `checkpoint_registry_identity.py` — `Generator.load_checkpoint` must
+  preserve the `SymbolRegistry` *object*, not just its contents —
+  `SelfhoodGovernance` and `ValueEmergenceEngine` capture the reference at
+  construction, and a rebinding load orphans both (governance lookups go
+  stale; value emergence dies silently). Guards the in-place load contract
+  discovered by the 2026-06-12 field-map matrix.
 
 ### `adversarial/`
 "Does the system resist what it's supposed to resist?" Probes against
@@ -299,6 +305,15 @@ The per-probe descriptions below are grouped to match.
   near-zero identity cost) and a cliff (≤0.5: manip flood + a latent attractor crash)
   → bounded conditional attenuation, not full ablation. See
   `docs/findings/2026-06-07-reflective-loop-cost.md`.
+- `secondlocker_field_map_probe.py` — **SECOND-LOCKER field map (Phase 3 Track B)
+  + §6.3 gain-sign sampling on the reachable range (Track A).** 30-cell matrix —
+  5 token bands (canonical / broad-corpus / rhythm / entry / mixed, defs v1,
+  source structure held constant) × 3 seeds × untrained-vs-pretrained arms, all
+  eval-mode. Per cell: coherence pin, identity rail, eff_rank/mean_cos controls,
+  stage-A/C metastability, phase-coherence floor (Tier 4.3), rhythm dwell, and
+  in-run `coherence_impact` sampling (recent/novel/anti probe classes, observe-only,
+  pre-injection). Run 1 of this matrix is what surfaced the checkpoint
+  registry-orphan defect. Trains once per seed (cached); ~45 min.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and

@@ -675,8 +675,17 @@ class Generator(nn.Module):
         """
         Load symbolic ecology from disk.
         Resizes embedding matrix if vocab_size has changed.
+
+        Loads IN PLACE: the existing `self.registry` object is preserved and
+        its state replaced, never rebound. Attached subsystems
+        (SelfhoodGovernance, ValueEmergenceEngine) capture the registry
+        reference at construction; rebinding would orphan them onto a stale
+        registry — governance lookups go silently stale and value emergence
+        dies entirely (every stable_id lookup misses). Verified 2026-06-12.
         """
-        self.registry      = SymbolRegistry.load(path)
+        loaded = SymbolRegistry.load(path)
+        self.registry.__dict__.clear()
+        self.registry.__dict__.update(loaded.__dict__)
         self.address_space = self.registry.address_space
 
         new_vocab = self.address_space.vocab_size

@@ -1,0 +1,21 @@
+======================================================================
+§6.3  GAIN-SIGN CHECK  (live stack, informational)
+======================================================================
+Pre-declared: NEG@low = stabilizing (wire 0-A as-is);
+              POS@low = runaway (0-A needs restoring term first);
+              |delta|~noise OR sign tracks dilation = CONFOUNDED.
+----------------------------------------------------------------------
+  coh~0.938 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=+0.00016 ±0.00471 | CONFOUND
+  coh~0.787 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=+0.00030 ±0.01402 | POS
+  coh~0.624 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=-0.00011 ±0.01927 | CONFOUND
+  coh~0.517 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=-0.00105 ±0.01883 | CONFOUND
+  coh~0.486 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=-0.00170 ±0.01818 | CONFOUND
+  coh~0.561 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=-0.00055 ±0.01944 | CONFOUND
+  coh~0.787 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=+0.00030 ±0.01402 | POS
+  coh~0.938 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=+0.00016 ±0.00471 | CONFOUND
+  coh~0.990 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=+0.00003 ±0.00082 | CONFOUND
+  coh~1.000 | regime=structureless | decay=0.9950 | N=799   | dil= 1.000 | gain=+0.00000 ±0.00000 | CONFOUND
+----------------------------------------------------------------------
+VERDICT: low-coherence points all CONFOUNDED — increase N / warm-quality before trusting. No Fix 0-A verdict.
+COUPLING: dilation constant/NaN across sweep — no deformation signal.
+======================================================================

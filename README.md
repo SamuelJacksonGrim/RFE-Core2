@@ -534,7 +534,8 @@ RFE-Core2/
 │   │   ├── governance_decision_flow.py   Every GovernanceDecision enum value verified
 │   │   ├── core_promotion_handshake.py   All 5 rejection paths + 2 approval paths
 │   │   ├── reflective_loop_lock_guard.py Lock characteristic guard (loop on=RIGID, off=migrates)
-│   │   └── attractor_merge_guard.py      Attractor merge/prune removal (array-__eq__ crash regression)
+│   │   ├── attractor_merge_guard.py      Attractor merge/prune removal (array-__eq__ crash regression)
+│   │   └── checkpoint_registry_identity.py  Checkpoint load preserves registry object (orphaned-subsystem guard)
 │   │
 │   ├── adversarial/
 │   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels
@@ -562,7 +563,8 @@ RFE-Core2/
 │   │   │   ├── reconstruction_ablation_probe.py  Which re-injection path locks the attractor (→ reflective loop)
 │   │   │   ├── reflective_loop_cost_probe.py     Plasticity-vs-identity tradeoff across the reflect-gain dial
 │   │   │   ├── migration_real_generator_probe.py Attractor migration re-verified on the REAL generator
-│   │   │   └── migration_eval_dimsweep_probe.py  Migration vs dim (eval mode) — moat vs low-rank-input artifact
+│   │   │   ├── migration_eval_dimsweep_probe.py  Migration vs dim (eval mode) — moat vs low-rank-input artifact
+│   │   │   └── secondlocker_field_map_probe.py   SECOND-LOCKER across seeds × token bands + reachable-range gain-sign
 │   │   ├── fix2/                         Fix-2 reflective-loop governor investigation
 │   │   │   ├── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
 │   │   │   ├── fix2_governor_validation.py       ReflectiveLoopGovernor end-to-end on the mock A/B stack
