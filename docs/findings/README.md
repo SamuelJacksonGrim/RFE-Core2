@@ -125,3 +125,5 @@ What this leaves unanswered.
 | 2026-06-11 | [Corpus pretraining Gate G1 — does coverage buy generalization?](2026-06-11-corpus-g1-pretrain.md) | active | trainer-gradient-path, generator-dropout-diversity |
 | 2026-06-12 | [Phase 2 — pretrained boot on the live stack: identity-safe, and the lock is NOT the generator](2026-06-12-phase2-fullstack-g2.md) | active | corpus-g1-pretrain, reconstruction-ablation, fix2-live-generator |
 | 2026-06-12 | [Checkpoint round-trip — is loading a boot checkpoint behaviorally equivalent to in-process training?](2026-06-12-checkpoint-registry-orphan.md) | active — defect fixed + guarded | phase2-fullstack-g2 |
+| 2026-06-12 | [SECOND-LOCKER field map — does the pin survive seeds, token bands, and regimes?](2026-06-12-secondlocker-field-map.md) | active | phase2-fullstack-g2, checkpoint-registry-orphan, gate-decomposition |
+| 2026-06-12 | [§6.3 gain-sign — what is the feedback sign on the reachable coherence range?](2026-06-12-gain-sign-reachable-range.md) | active — conditional verdict (low arm unreachable) | secondlocker-field-map |
