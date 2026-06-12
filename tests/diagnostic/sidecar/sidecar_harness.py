@@ -254,7 +254,12 @@ class LAESidecar:
                 fired.append("frame_oscillation")
         return fired
 
-    def after_step(self, state: StepState) -> None:
+    def after_step(self, state: StepState) -> Optional[List[str]]:
+        """Observe one host step. Returns a token *offer* when a liminal
+        crossing fires (Phase 2 governed feedback): ["liminal", top1, top2]
+        names the boundary being crossed. The caller decides whether to
+        route the offer through the host's front door (cycle.step with
+        source_id="lae_engine") — this sidecar never injects anything."""
         hypotheses = rhythm_hypotheses(state.field_energy)
         ts = state.step * LAE_TICK_SECONDS
         triggers = self._derive_triggers(hypotheses, ts)
@@ -269,19 +274,21 @@ class LAESidecar:
             "hypotheses": hypotheses,
             "timestamp":  ts,
         })
-        if outcome.activated:
-            self.trigger_counts.update(triggers)
-            intent = outcome.result.intent
-            self.activation_log.append({
-                "cycle":          state.step,
-                "rhythm":         state.rhythm,
-                "field_energy":   round(state.field_energy, 4),
-                "triggers":       triggers,
-                "conflict_score": round(outcome.result.event.conflict_score, 4),
-                "top2":           [(r, round(c, 4)) for r, c in ranked[:2]],
-                "intent_stability": round(float(intent.stability_score), 4),
-                "anchors":        len(outcome.result.anchors),
-            })
+        if not outcome.activated:
+            return None
+        self.trigger_counts.update(triggers)
+        intent = outcome.result.intent
+        self.activation_log.append({
+            "cycle":          state.step,
+            "rhythm":         state.rhythm,
+            "field_energy":   round(state.field_energy, 4),
+            "triggers":       triggers,
+            "conflict_score": round(outcome.result.event.conflict_score, 4),
+            "top2":           [(r, round(c, 4)) for r, c in ranked[:2]],
+            "intent_stability": round(float(intent.stability_score), 4),
+            "anchors":        len(outcome.result.anchors),
+        })
+        return ["liminal", ranked[0][0], ranked[1][0]]
 
     def summary(self) -> dict:
         return {
@@ -306,7 +313,14 @@ class PLESidecar:
         self.triggered_cycles = 0
         self.contradictions_by_claim: Counter = Counter()   # 4 claim keys
 
-    def after_step(self, state: StepState, cap: CycleCapture, arm: str) -> None:
+    def after_step(self, state: StepState, cap: CycleCapture,
+                   arm: str) -> List[List[str]]:
+        """Observe one host step. Returns token *offers* for each newly
+        validated finding (Phase 2 governed feedback):
+        ["paradox", claim, attractor_type] names the insight. The caller
+        decides whether to route offers through the host's front door
+        (cycle.step with source_id="ple_engine") — this sidecar never
+        injects anything."""
         telemetry = {
             "watcher_geometric":     cap.watcher_geometric,
             "watcher_temporal":      cap.watcher_temporal,
@@ -322,11 +336,21 @@ class PLESidecar:
             "host": "rfe-core2", "cycle": state.step,
             "rhythm": state.rhythm, "arm": arm,
         })
+        offers: List[List[str]] = []
         if result.triggered:
             self.triggered_cycles += 1
+            by_id = {n.paradox_id: n for n in result.paradox_nodes}
+            types = {a.attractor_id: a.type for a in result.attractors}
             for node in result.paradox_nodes:
                 key = node.context_window.get("claim_key", "unknown")
                 self.contradictions_by_claim[key] += 1
+            for finding in result.findings:
+                node = by_id.get(finding.source_paradoxes[0])
+                claim = (node.context_window.get("claim_key", "claim")
+                         if node else "claim")
+                offers.append(["paradox", claim.split("_")[0],
+                               types.get(finding.attractor_id, "hybrid")])
+        return offers
 
     def summary(self) -> dict:
         return {
