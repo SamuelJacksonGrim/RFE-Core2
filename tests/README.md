@@ -201,6 +201,14 @@ keep them in version control.
   minutes and is init-dependent → run deliberately (`--seed`, `--save` for the
   boot checkpoint), NEVER in CI. Exits 0/1 on the gate. See
   `docs/findings/2026-06-11-corpus-g1-pretrain.md`.
+- `corpus_boot_phase2_probe.py` — **Gate G2: pretrained boot on the live stack**
+  (Phase 2, `docs/training/training_plan.md`). Three identical canonical
+  500-step runs — untrained control, pretrained boot in train mode, pretrained
+  boot in eval mode — checked against the tier1 baseline ranges and the
+  pre-declared identity envelope, with the coherence-pin / pipeline-survival /
+  phase-coherence readouts recorded. Trains + simulates for minutes; NEVER in
+  CI. Exits 0/1 on Gate G2. See
+  `docs/findings/2026-06-12-phase2-fullstack-g2.md`.
 - `lockin_source.py` — **Upstream lock decomposition (G5 follow-up).**
   Shows the live field lock is *mechanical* (untrained-generator output
   collinearity + the accumulate-decay magnitude moat), not field-dynamics

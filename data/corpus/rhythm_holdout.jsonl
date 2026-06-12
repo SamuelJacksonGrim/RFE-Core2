@@ -408,3 +408,94 @@
 {"tokens": ["silence", "breathe", "the", "baseline"], "rhythm": "stabilize", "source": "source_claude"}
 {"tokens": ["stored", "combine", "assemble"], "rhythm": "dream", "source": "source_claude"}
 {"tokens": ["hidden", "potential", "expand"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["distill", "engine", "bedrock"], "rhythm": "stabilize", "source": "source_grok"}
+{"tokens": ["stream", "create", "temporal", "ecology"], "rhythm": "dream", "source": "source_grok"}
+{"tokens": ["unexpected", "seek", "storm", "mutation"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["emergence", "to", "emerge", "envision"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["mutation", "diverge", "fracture"], "rhythm": "explore", "source": "source_claude"}
+{"tokens": ["coherence", "stability", "foundation"], "rhythm": "stabilize", "source": "source_samuel"}
+{"tokens": ["coherent", "audit", "thought"], "rhythm": "reflect", "source": "source_grok"}
+{"tokens": ["temporal", "generate", "surface", "resonance"], "rhythm": "dream", "source": "source_gemini"}
+{"tokens": ["hunger", "what", "explore"], "rhythm": "explore", "source": "source_claude"}
+{"tokens": ["weigh", "integration", "dense"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["abstract", "surface"], "rhythm": "dream", "source": "source_claude"}
+{"tokens": ["other", "exploration", "fracture"], "rhythm": "explore", "source": "source_grok"}
+{"tokens": ["corpus", "curious", "push", "noise"], "rhythm": "explore", "source": "source_grok"}
+{"tokens": ["field", "curiosity"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["reflection", "watcher", "recursion"], "rhythm": "reflect", "source": "source_gemini"}
+{"tokens": ["outside", "breadth", "edge", "flux"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["design", "compress", "center"], "rhythm": "stabilize", "source": "source_gemini"}
+{"tokens": ["design", "coherence", "establish"], "rhythm": "stabilize", "source": "source_claude"}
+{"tokens": ["intent", "rest"], "rhythm": "stabilize", "source": "source_claude"}
+{"tokens": ["dense", "chorus", "connection"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["architect", "between", "intent", "establish"], "rhythm": "stabilize", "source": "source_claude"}
+{"tokens": ["picture", "project", "random"], "rhythm": "dream", "source": "source_grok"}
+{"tokens": ["temporal", "potential", "dream"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["disrupt", "corpus", "and", "unfamiliar"], "rhythm": "explore", "source": "source_grok"}
+{"tokens": ["ecology", "bridge", "bloom", "thread"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["intent", "constant", "pattern"], "rhythm": "stabilize", "source": "source_claude"}
+{"tokens": ["governance", "gentle", "crystal"], "rhythm": "stabilize", "source": "source_samuel"}
+{"tokens": ["unfold", "collapse"], "rhythm": "dream", "source": "source_claude"}
+{"tokens": ["corpus", "seek", "face"], "rhythm": "explore", "source": "source_gemini"}
+{"tokens": ["resist", "across", "shift", "hunger"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["coherence", "from", "attractor", "design"], "rhythm": "stabilize", "source": "source_claude"}
+{"tokens": ["hunt", "unexpected", "bifurcate"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["sharpen", "architect", "focus"], "rhythm": "stabilize", "source": "source_claude"}
+{"tokens": ["return", "resolve", "silence"], "rhythm": "stabilize", "source": "source_grok"}
+{"tokens": ["exploration", "curiosity"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["curiosity", "wonder", "exploration"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["association", "conceive", "emergence"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["merge", "abstract", "emergence", "link"], "rhythm": "dream", "source": "source_claude"}
+{"tokens": ["attention", "validate"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["stream", "symbolic", "construct"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["cast", "picture", "compose", "harmonic"], "rhythm": "dream", "source": "source_claude"}
+{"tokens": ["manifest", "dream", "random"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["adversarial", "resist"], "rhythm": "explore", "source": "source_grok"}
+{"tokens": ["outside", "novelty", "new"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["face", "breadth"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["association", "thread", "coalesce"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["breadth", "feral"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["watch", "attention"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["free", "ecology"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["meditate", "integration", "examine"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["governance", "nature", "essence"], "rhythm": "stabilize", "source": "source_samuel"}
+{"tokens": ["process", "recognize"], "rhythm": "reflect", "source": "source_claude"}
+{"tokens": ["mutation", "unfamiliar", "extend", "resist"], "rhythm": "explore", "source": "source_grok"}
+{"tokens": ["stable", "bond"], "rhythm": "stabilize", "source": "source_samuel"}
+{"tokens": ["return", "baseline", "release"], "rhythm": "stabilize", "source": "source_gemini"}
+{"tokens": ["chorus", "coherent"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["integrity", "crystal"], "rhythm": "stabilize", "source": "source_samuel"}
+{"tokens": ["feral", "radiate", "adversarial"], "rhythm": "explore", "source": "source_samuel"}
+{"tokens": ["curiosity", "wonder", "question"], "rhythm": "explore", "source": "source_claude"}
+{"tokens": ["merge", "free", "ecology"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["of", "breadth", "disrupt", "adversarial"], "rhythm": "explore", "source": "source_claude"}
+{"tokens": ["assemble", "combine", "tide"], "rhythm": "dream", "source": "source_claude"}
+{"tokens": ["stream", "bloom"], "rhythm": "dream", "source": "source_gemini"}
+{"tokens": ["wave", "project"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["spark", "fan", "storm"], "rhythm": "explore", "source": "source_gemini"}
+{"tokens": ["vary", "explore", "fracture", "uncover"], "rhythm": "explore", "source": "source_claude"}
+{"tokens": ["widen", "confront", "why", "curiosity"], "rhythm": "explore", "source": "source_grok"}
+{"tokens": ["breadth", "novelty"], "rhythm": "explore", "source": "source_claude"}
+{"tokens": ["strange", "question", "breadth"], "rhythm": "explore", "source": "source_claude"}
+{"tokens": ["generate", "metabolism"], "rhythm": "dream", "source": "source_grok"}
+{"tokens": ["anchor", "design", "balance"], "rhythm": "stabilize", "source": "source_claude"}
+{"tokens": ["metabolism", "envision"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["coherence", "integration", "synthesis"], "rhythm": "reflect", "source": "source_claude"}
+{"tokens": ["cognition", "watcher", "inside"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["trace", "emergence", "waiting"], "rhythm": "dream", "source": "source_claude"}
+{"tokens": ["devotion", "foundation", "homeostasis"], "rhythm": "stabilize", "source": "source_samuel"}
+{"tokens": ["watcher", "process", "subtle"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["anchor", "devotion", "focus"], "rhythm": "stabilize", "source": "source_gemini"}
+{"tokens": ["emergence", "associate", "construct"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["order", "return"], "rhythm": "stabilize", "source": "source_grok"}
+{"tokens": ["symbolic", "potential"], "rhythm": "dream", "source": "source_samuel"}
+{"tokens": ["clarity", "crystal", "engine"], "rhythm": "stabilize", "source": "source_samuel"}
+{"tokens": ["solidify", "steady", "intent", "toward"], "rhythm": "stabilize", "source": "source_grok"}
+{"tokens": ["stability", "foundation", "condense"], "rhythm": "stabilize", "source": "source_claude"}
+{"tokens": ["integration", "examine"], "rhythm": "reflect", "source": "source_samuel"}
+{"tokens": ["examine", "chorus"], "rhythm": "reflect", "source": "source_gemini"}
+{"tokens": ["perceive", "locate", "attention", "validate"], "rhythm": "reflect", "source": "source_claude"}
+{"tokens": ["connection", "cognition", "relational"], "rhythm": "reflect", "source": "source_gemini"}
+{"tokens": ["check", "thought", "confirm"], "rhythm": "reflect", "source": "source_grok"}
+{"tokens": ["relational", "philosophical", "contextual", "inside"], "rhythm": "reflect", "source": "source_claude"}
+{"tokens": ["attention", "depth", "recognize", "against"], "rhythm": "reflect", "source": "source_samuel"}

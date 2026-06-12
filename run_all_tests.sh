@@ -117,5 +117,6 @@ echo "  python3 -m tests.diagnostic.gate_firing_audit"
 echo "  python3 -m tests.diagnostic.trust_trajectory"
 echo "  python3 -m tests.diagnostic.value_polarity_flow"
 echo "  python3 -m tests.diagnostic.corpus_pretrain_g1_probe 8   (minutes; trains)"
+echo "  python3 -m tests.diagnostic.corpus_boot_phase2_probe 8 500   (minutes; trains + live stack)"
 
 exit 0
