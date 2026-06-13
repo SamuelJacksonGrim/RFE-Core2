@@ -293,7 +293,10 @@ corpus.
   the model to fit the box.
 - **VRAM:** rough floor — gpt-oss-20b ≈ 13–16 GB (MXFP4/4-bit), Gemma-4-31B
   ≈ 20–24 GB (4-bit, incl. the unused vision tower), Llama-3.1-70B Q4_K_M
-  ≈ 40–44 GB. The 70B wants a 48 GB card
+  ≈ 40–44 GB. (Lighter all-Apache-2.0 Gemma 4 options exist if compute is tight:
+  `gemma-4-26B-A4B` is MoE with only ~4B active params, and `gemma-4-12B` fits a
+  ~16 GB card — both with official QAT GGUFs. See the integration README.) The
+  70B wants a 48 GB card
   or two 24 GB cards or CPU+GGUF (slow).
 - **Training changes shape.** You no longer train the encoder (frozen LLM); you
   train **only the projection head** with the existing rhythm/contrastive
