@@ -206,6 +206,14 @@ class LLMBackend:
 Notes:
 - Use `AutoModel`, not `AutoModelForCausalLM` — you want hidden states, never
   logits. (For gpt-oss the MoE routing happens transparently inside.)
+- **Multimodal models (gpt-oss-20b, gemma-4-31B) load as `AutoModelForMultimodalLM`.**
+  Passing text-only inputs (`input_ids` + `attention_mask`, no `pixel_values`)
+  routes through the text tower and `output_hidden_states=True` returns the text
+  hidden states — exactly what you want. If a given checkpoint nests the language
+  model, read `self.model.config.text_config.hidden_size` and, if
+  `out.hidden_states` is absent at the top level, call the text submodule
+  (`self.model.language_model` / `self.model.model.language_model`) directly. The
+  ~550M vision tower stays loaded but unused; it's dead VRAM, not a blocker.
 - `pool="last"` suits causal decoders (the final token attends to everything).
   Try `pool="mean"` as an A/B; record which gives better rank in
   `generator_diversity_audit`.
@@ -358,8 +366,8 @@ from loop.autonomous_cycle import AutonomousCycle
 # Pick one:
 #   GPT-OSS-20B (Apache-2.0, ungated, ~24GB card):
 backend = LLMBackend("openai/gpt-oss-20b", backend="hf", load_in_4bit=True)
-#   Gemma-3-27B (gated; hidden 5376):
-# backend = LLMBackend("google/gemma-3-27b-it", backend="hf", load_in_4bit=True)
+#   Gemma-4-31B (Apache-2.0, ungated; hidden 5376; multimodal — text tower only):
+# backend = LLMBackend("google/gemma-4-31B-it", backend="hf", load_in_4bit=True)
 #   Llama-3.1-70B Q4_K_M (GGUF; ~42GB):
 # backend = LLMBackend("/models/Llama-3.1-70B-Instruct-Q4_K_M.gguf", backend="gguf")
 

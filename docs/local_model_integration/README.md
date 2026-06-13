@@ -109,12 +109,14 @@ mandatory, not optional). See the guide's *Performance* and *Caveats* sections.
 | If you want… | Use | Why |
 |---|---|---|
 | Lowest friction, first proof-of-life | **GPT-OSS-20B** | Apache-2.0, ungated, MoE (~3.6B active), fits a 24 GB card |
-| Best quality on one big card | **Gemma-3-27B-it** | strong dense 27B; gated `gemma` license; ~20 GB at 4-bit |
+| Best quality on one big card | **Gemma-4-31B-it** | dense 32.7B, Apache-2.0 (ungated), hidden 5376, 256K context; ~20–24 GB at 4-bit; multimodal — we use the text tower only |
 | Maximum capability, you have the VRAM | **Llama-3.1-70B Q4_K_M** | ~42 GB GGUF; needs 48 GB / 2×24 GB / CPU offload |
 
-> Note: there is **no "Gemma 4 31B"**. The real current Gemma is
-> `google/gemma-3-27b-it` (27.4B, hidden 5376). The guide uses it as the
-> Gemma representative.
+> Note (corrected 2026-06-13): `google/gemma-4-31B` **is** real — it shipped
+> 3 Jun 2026 and is Apache-2.0 / ungated (a license win over Gemma 3). 32.7B
+> params, hidden size 5376, multimodal (text+image in). We feed text only, so
+> the ~550M vision tower is unused weight. The guide uses it as the Gemma
+> representative.
 
 Recommended path: **prove the loop on GPT-OSS-20B**, measure whether the field
 still pins at ~0.998. That single number is the highest-value readout in the
