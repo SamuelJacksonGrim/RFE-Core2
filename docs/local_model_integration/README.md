@@ -112,11 +112,24 @@ mandatory, not optional). See the guide's *Performance* and *Caveats* sections.
 | Best quality on one big card | **Gemma-4-31B-it** | dense 32.7B, Apache-2.0 (ungated), hidden 5376, 256K context; ~20–24 GB at 4-bit; multimodal — we use the text tower only |
 | Maximum capability, you have the VRAM | **Llama-3.1-70B Q4_K_M** | ~42 GB GGUF; needs 48 GB / 2×24 GB / CPU offload |
 
-> Note (corrected 2026-06-13): `google/gemma-4-31B` **is** real — it shipped
-> 3 Jun 2026 and is Apache-2.0 / ungated (a license win over Gemma 3). 32.7B
-> params, hidden size 5376, multimodal (text+image in). We feed text only, so
-> the ~550M vision tower is unused weight. The guide uses it as the Gemma
-> representative.
+### Lighter Gemma 4 alternatives (verified 2026-06-13) — best compute/quality
+
+Compute, not wiring, is the real cost (see the guide §5). The Gemma 4 family ships
+lighter, all-Apache-2.0 members that ease it dramatically — and Google publishes
+**official QAT GGUFs** for two of them, a cleaner local path than community quants:
+
+| Model | Params | Hidden | Notes |
+|---|---|---|---|
+| `google/gemma-4-26B-A4B-it` | 26B **MoE, ~4B active** | **2816** | the sweet spot — near-31B quality at ~4B active compute; official QAT q4_0 GGUF (`gemma-4-26B-A4B-it-qat-q4_0-gguf`) |
+| `google/gemma-4-12B-it` | 12B dense | **3840** | fits ~16 GB / a laptop; official QAT GGUF (`gemma-4-12B-it-qat-q4_0-gguf`); `gemma4_unified` (text+vision+audio) |
+| `google/gemma-4-E2B` / `-E4B` | ~2B / ~4B effective | — | tiniest; for smoke-testing the wiring before committing VRAM |
+
+> Note (corrected 2026-06-13): `google/gemma-4-31B` **is** real — shipped Mar–Jun
+> 2026, Apache-2.0 / ungated (a license win over Gemma 3). 32.7B params, hidden
+> 5376, multimodal (text+image in). We feed text only, so the ~550M vision tower
+> is unused weight. The whole Gemma 4 line is Apache-2.0. The projection head
+> auto-sizes to whichever `hidden_size` you load, so switching family members is a
+> one-line change (`LLMBackend(model_id=...)`) — no other code edits.
 
 Recommended path: **prove the loop on GPT-OSS-20B**, measure whether the field
 still pins at ~0.998. That single number is the highest-value readout in the

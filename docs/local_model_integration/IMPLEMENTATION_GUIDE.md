@@ -368,7 +368,12 @@ from loop.autonomous_cycle import AutonomousCycle
 backend = LLMBackend("openai/gpt-oss-20b", backend="hf", load_in_4bit=True)
 #   Gemma-4-31B (Apache-2.0, ungated; hidden 5376; multimodal — text tower only):
 # backend = LLMBackend("google/gemma-4-31B-it", backend="hf", load_in_4bit=True)
-#   Llama-3.1-70B Q4_K_M (GGUF; ~42GB):
+#   Gemma-4-26B-A4B (MoE ~4B active, hidden 2816 — best compute/quality):
+# backend = LLMBackend("google/gemma-4-26B-A4B-it", backend="hf", load_in_4bit=True)
+#   Gemma-4-12B (dense, hidden 3840, fits ~16GB) — or its official QAT GGUF:
+# backend = LLMBackend("google/gemma-4-12B-it", backend="hf", load_in_4bit=True)
+# backend = LLMBackend("/models/gemma-4-12B-it-qat-q4_0.gguf", backend="gguf")
+#   Llama-3.1-70B Q4_K_M (community GGUF; ~42GB):
 # backend = LLMBackend("/models/Llama-3.1-70B-Instruct-Q4_K_M.gguf", backend="gguf")
 
 g     = LLMGenerator(backend, vocab_size=8192, dim=128)   # dim STAYS 128
