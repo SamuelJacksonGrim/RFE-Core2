@@ -207,10 +207,19 @@ does not, by itself, give the system a voice.**
 | Model | Params | Hidden size `d_model` | Arch | Notes |
 |---|---|---|---|---|
 | `openai/gpt-oss-20b` | 21.5B (MoE, ~3.6B active) | **2880** | decoder, Apache-2.0 (ungated) | easiest license; MoE; native MXFP4 |
-| `google/gemma-3-27b-it` | 27.4B | **5376** | decoder, multimodal | *this is the real "Gemma" — there is no "Gemma 4 31B"*; gated; `gemma` license |
+| `google/gemma-4-31B` (`-it`) | 32.7B | **5376** | decoder + vision tower, Apache-2.0 (ungated), multimodal | released 3 Jun 2026; `gemma4` arch; 60 layers; 256K context; we feed **text only** |
 | `meta-llama/Llama-3.1-70B-Instruct` | 70.6B | **8192** | decoder | gated; `Q4_K_M` is a community GGUF (~42 GB) |
 
-All three are **causal decoders**, not bidirectional encoders. That's fine — you
+> Correction (2026-06-13): an earlier draft of this review said "there is no
+> Gemma 4 31B." That was wrong — it shipped 3 Jun 2026, after this analyst's
+> Jan-2026 knowledge cutoff. `google/gemma-4-31B` is real, Apache-2.0 (ungated,
+> a license win over Gemma 3), ~32.7B params, hidden size **5376**, 256K context,
+> multimodal (text+image in, text out). For RFE we use the text tower only, so
+> the vision encoder is dead weight you can ignore but still load. Verified from
+> its `config.json` (`text_config.hidden_size = 5376`).
+
+All three are **causal decoders** (Gemma 4 is a decoder + a vision tower we don't
+use), not bidirectional encoders. That's fine — you
 use them as feature extractors: run the sequence, take the last hidden layer,
 pool it (last-token or mean-pool) → a `d_model`-dim sentence vector. You never
 need their LM head.
@@ -282,8 +291,9 @@ corpus.
   encodings by canonical token-tuple (Chorus/reflective reuse the same tokens
   constantly), **batch**, consider **disabling Chorus** or shrinking it, and pick
   the model to fit the box.
-- **VRAM:** rough floor — gpt-oss-20b ≈ 13–16 GB (MXFP4/4-bit), Gemma-3-27B
-  ≈ 18–22 GB (4-bit), Llama-3.1-70B Q4_K_M ≈ 40–44 GB. The 70B wants a 48 GB card
+- **VRAM:** rough floor — gpt-oss-20b ≈ 13–16 GB (MXFP4/4-bit), Gemma-4-31B
+  ≈ 20–24 GB (4-bit, incl. the unused vision tower), Llama-3.1-70B Q4_K_M
+  ≈ 40–44 GB. The 70B wants a 48 GB card
   or two 24 GB cards or CPU+GGUF (slow).
 - **Training changes shape.** You no longer train the encoder (frozen LLM); you
   train **only the projection head** with the existing rhythm/contrastive
