@@ -375,6 +375,12 @@ backend = LLMBackend("openai/gpt-oss-20b", backend="hf", load_in_4bit=True)
 # backend = LLMBackend("/models/gemma-4-12B-it-qat-q4_0.gguf", backend="gguf")
 #   Llama-3.1-70B Q4_K_M (community GGUF; ~42GB):
 # backend = LLMBackend("/models/Llama-3.1-70B-Instruct-Q4_K_M.gguf", backend="gguf")
+#   Qwen3-30B-A3B (MoE ~3B active, hidden 2048, Apache-2.0, text-only — clean path):
+# backend = LLMBackend("Qwen/Qwen3-30B-A3B-Instruct-2507", backend="hf", load_in_4bit=True)
+#   Qwen3-235B-A22B flagship (MoE ~22B active, Apache-2.0; multi-GPU):
+# backend = LLMBackend("Qwen/Qwen3-235B-A22B-Instruct-2507", backend="hf", load_in_4bit=True)
+#   Llama-4-Scout (109B/17B-active MoE, hidden 5120; Llama 4 Community License — gated):
+# backend = LLMBackend("meta-llama/Llama-4-Scout-17B-16E-Instruct", backend="hf", load_in_4bit=True)
 
 g     = LLMGenerator(backend, vocab_size=8192, dim=128)   # dim STAYS 128
 cycle = AutonomousCycle(generator=g, dim=128,
