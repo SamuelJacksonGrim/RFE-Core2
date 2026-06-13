@@ -131,6 +131,22 @@ lighter, all-Apache-2.0 members that ease it dramatically — and Google publish
 > auto-sizes to whichever `hidden_size` you load, so switching family members is a
 > one-line change (`LLMBackend(model_id=...)`) — no other code edits.
 
+### Other frontier families (verified 2026-06-13)
+
+Not the originally-named three, but worth knowing — same wrap-don't-replace
+design applies unchanged, projection auto-sizes to `hidden_size`:
+
+| Model | Params | Hidden | License | Notes |
+|---|---|---|---|---|
+| `Qwen/Qwen3-30B-A3B-Instruct-2507` | 30B **MoE, ~3B active** | **2048** | Apache-2.0 (ungated) | excellent local sweet spot; 256K ctx; text-only (clean encode path, no vision tower) |
+| `Qwen/Qwen3-235B-A22B-Instruct-2507` | 235B **MoE, ~22B active** | (auto) | Apache-2.0 | the flagship — top general reasoning/coding in 2026 surveys; for multi-GPU rigs |
+| `meta-llama/Llama-4-Scout-17B-16E-Instruct` | 109B total / **17B active** (16 experts) | **5120** | Llama 4 Community (gated; **not** standard OSS) | multimodal, very long context; license is more restrictive than Apache-2.0 |
+
+Qwen 3's small-active MoE designs (`~3B active`) are the most compute-friendly
+high-quality encoders here. Llama 4 Scout is capable but its license is the
+catch — read it before relying on it. The pure-text Qwen models are the cleanest
+fit because there's no unused vision tower to load.
+
 Recommended path: **prove the loop on GPT-OSS-20B**, measure whether the field
 still pins at ~0.998. That single number is the highest-value readout in the
 project. Then scale up.
