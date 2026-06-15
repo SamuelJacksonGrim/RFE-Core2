@@ -505,7 +505,8 @@ RFE-Core2/
 │   └── ignition/                   Conscious Ignition Index (CII) — the ITG sensor (CII v0.2 framework)
 │       ├── cii.py                  compute_ignition(): R·I·(Cm·g(Cs)) from live telemetry (gen vs expr Cs)
 │       ├── gate.py                 ITG actuator scaffold (INERT on untrained generator — see CII finding)
-│       └── probe.py                Boot RFE (seeded, 4-source), read its live CII, situate on DPCI table
+│       ├── probe.py                Boot RFE (seeded, 4-source), read its live CII, situate on DPCI table
+│       └── train_ignite.py          CII acceptance test: corpus training flips expression locked→ignited (0/3→3/3)
 │
 ├── configs/
 │   ├── field.yaml
