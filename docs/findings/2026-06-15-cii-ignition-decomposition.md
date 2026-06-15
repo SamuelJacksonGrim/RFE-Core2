@@ -111,3 +111,8 @@ generator. The ITG is retained as a scaffold for the post-training regime.
 corpus/pretraining work, Phase 1–2 already landed), not a CII gate. The CII probe
 is now the acceptance test: after training, does CII_expr hit ~2.9 across *all*
 seeds instead of 1 in 3?
+
+**→ ACCEPTANCE TEST PASSED (2026-06-15, `2026-06-15-training-ignites-expression.md`).**
+8 epochs of rhythm-pretraining on the in-repo corpus, paired by seed, eval-mode:
+expression ignition went **0/3 → 3/3** (locked/cycling → metastable, CII_expr
+0.00 → ~3.6–4.0). Training is the lever; it clears the bar with room.
