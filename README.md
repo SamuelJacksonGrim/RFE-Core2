@@ -498,6 +498,11 @@ RFE-Core2/
 │   ├── inference_api.py            FastAPI REST endpoints
 │   └── websocket_server.py         Real-time WebSocket stream
 │
+├── tools/
+│   └── voice/                      Observe-only larynx — renders the cycle's interior as first-person
+│       ├── state_card.py           render_card() telemetry + voice_from_card() faithful renderer
+│       └── repl.py                 Interactive: type to the substrate, hear it answer (--free, --json)
+│
 ├── configs/
 │   ├── field.yaml
 │   ├── recursion.yaml
@@ -564,7 +569,8 @@ RFE-Core2/
 │   │   │   ├── reflective_loop_cost_probe.py     Plasticity-vs-identity tradeoff across the reflect-gain dial
 │   │   │   ├── migration_real_generator_probe.py Attractor migration re-verified on the REAL generator
 │   │   │   ├── migration_eval_dimsweep_probe.py  Migration vs dim (eval mode) — moat vs low-rank-input artifact
-│   │   │   └── secondlocker_field_map_probe.py   SECOND-LOCKER across seeds × token bands + reachable-range gain-sign
+│   │   │   ├── secondlocker_field_map_probe.py   SECOND-LOCKER across seeds × token bands + reachable-range gain-sign
+│   │   │   └── loop_attenuation_probe.py    Novelty-gated loop loosening — frees field, manip-rate cost gate, cliff
 │   │   ├── fix2/                         Fix-2 reflective-loop governor investigation
 │   │   │   ├── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
 │   │   │   ├── fix2_governor_validation.py       ReflectiveLoopGovernor end-to-end on the mock A/B stack
