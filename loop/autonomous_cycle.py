@@ -188,6 +188,7 @@ class AutonomousCycle:
         crystal_decay_interval:       int   = 100,
         log_interval:                 int   = 10,
         track_metastability:          bool  = True,
+        reflect_novelty_attenuation:  bool  = False,
     ):
         self.generator                     = generator
         self.dim                           = dim
@@ -216,7 +217,9 @@ class AutonomousCycle:
         self.predictor      = PredictiveEcho(dim=dim)
         self.emotion        = EmotionalGradient()
         self.rec_attn       = RecursiveAttention(dim=dim)
-        self.reflector      = ReflectiveLoop()
+        self.reflector      = ReflectiveLoop(
+            novelty_attenuation = reflect_novelty_attenuation,
+        )
         self.binding        = SymbolicBinding()
 
         self.dreamer        = Dreamer(
