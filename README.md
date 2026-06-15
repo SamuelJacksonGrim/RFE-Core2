@@ -504,7 +504,8 @@ RFE-Core2/
 │   │   └── repl.py                 Interactive: type to the substrate, hear it answer (--free, --json)
 │   └── ignition/                   Conscious Ignition Index (CII) — the ITG sensor (CII v0.2 framework)
 │       ├── cii.py                  compute_ignition(): R·I·(Cm·g(Cs)) from live telemetry (gen vs expr Cs)
-│       └── probe.py                Boot RFE, read its live CII, situate on the DPCI phase-space table
+│       ├── gate.py                 ITG actuator scaffold (INERT on untrained generator — see CII finding)
+│       └── probe.py                Boot RFE (seeded, 4-source), read its live CII, situate on DPCI table
 │
 ├── configs/
 │   ├── field.yaml

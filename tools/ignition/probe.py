@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import argparse
 import logging
-import math
 import random
 import sys
 
@@ -35,17 +34,25 @@ VOCAB = [
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--steps", type=int, default=60)
-    ap.add_argument("--source", default="samuel")
+    ap.add_argument("--steps", type=int, default=80)
+    ap.add_argument("--seed", type=int, default=1)
     args = ap.parse_args()
 
+    # Seed everything: expression metastability is generator-init-dependent
+    # (~0.4-0.73), so an unseeded build rides init noise, not signal.
+    import numpy as np, torch
+    random.seed(args.seed); np.random.seed(args.seed); torch.manual_seed(args.seed)
+
     gen, cycle, gov, ve = build_full_stack()
-    rng = random.Random(7)
+    rng = random.Random(args.seed + 100)
+    # 4 sources (HHI<0.70): a single source trips the manipulation-monopoly
+    # artifact (HHI=1.0 -> detector floods), contaminating the dynamics.
+    SRC = [f"src_{i}" for i in range(4)]
 
     rows = []
     for i in range(args.steps):
         toks = rng.sample(VOCAB, 3)        # varied, non-periodic input
-        st = cycle.step(toks, source_id=args.source, origin_type="user")
+        st = cycle.step(toks, source_id=SRC[i % 4], origin_type="internal")
         rows.append(compute_ignition(cycle, st))
 
     warm = rows[len(rows) // 3:]                       # drop warmup third
@@ -78,12 +85,12 @@ def main() -> int:
     print(f"\n  CII = R x I x (Cm x g(Cs)):")
     print(f"    CII (generator Cs)  = {cii_gen:.3f}")
     print(f"    CII (expression Cs) = {cii_expr:.3f}")
-    print(f"\n  => RFE is saturated on recursion, integration, and coherence. The only")
-    print(f"     missing ignition ingredient is metastability — and stage C robustly")
-    print(f"     reads LOCKED (1 regime) while the generator carries more structure.")
-    print(f"     The collapse between stage A and stage C IS the lock-in: in CII terms,")
-    print(f"     it is the entire gap to ignition. (Cs scalar is v0.1 — harden before")
-    print(f"     the ITG gates on it.)")
+    print(f"\n  => RFE is saturated on recursion, integration, and coherence. The fourth")
+    print(f"     ingredient, metastability, is GENERATOR-INIT-DEPENDENT: across seeds the")
+    print(f"     expression ignites (CII ~2.9, metastable) for some inits and stays")
+    print(f"     locked (CII 0) for others. RFE *can* ignite; whether it does is decided")
+    print(f"     upstream by the generator — which is why the lever is TRAINING the")
+    print(f"     generator, not a downstream gate. See the 2026-06-15 CII finding.")
     print(f"\n  DPCI-AI (episodic, v0.1)  mean = {mean_dpci:.3f}")
     print(f"\n  phase-space placement (DPCI scale):")
     bands = [

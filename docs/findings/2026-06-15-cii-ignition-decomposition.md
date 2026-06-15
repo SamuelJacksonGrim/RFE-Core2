@@ -67,8 +67,47 @@ target exactly this term.
 
 ## Open / next
 - Harden Cs (settled-read everywhere; reconcile cache vs compute_now).
-- Build the **ITG action half**: gate behavior on CII (e.g., when expression Cs
-  collapses, trigger consolidation / loosen the loop) — the first non-observe-only
-  use of the ignition index.
-- Re-measure CII with the loop loosened (does restoring stage-C metastability lift
-  CII off zero, i.e., does breaking the lock literally ignite RFE by this measure?).
+- Build the **ITG action half** and test whether it lifts the lock.
+
+## Correction + ITG follow-up (2026-06-15, same session)
+
+The "Result" above was measured **single-source and unseeded** — two confounds
+caught while building the ITG actuator:
+
+1. **Single-source manipulation-monopoly artifact.** One `source_id` → HHI=1.0 →
+   the Tier-2 detector floods (~99% of steps), perturbing the dynamics.
+   `gate-decomposition` predicted this. Fixed: 4 sources (HHI<0.70).
+2. **Unseeded generator init.** `build_full_stack` builds a fresh
+   random-initialized generator each call, and expression metastability is
+   documented generator-init-dependent (~0.4–0.73). Unseeded runs ride init
+   noise. Fixed: seed `random`/`numpy`/`torch` before building.
+
+**Corrected result (seeded, 4-source, 3 seeds).** R~3, I~0.96, Cm~1.0 hold
+(robust). The generator is metastable every seed (CII_gen ~2.6–3.7). The
+expression is **bimodal across generator inits**:
+
+| seed | expression state | CII (expr) |
+|------|------------------|-----------:|
+| 1 | cycling / locked | 0.00 |
+| 2 | cycling / locked | 0.00 |
+| 3 | **metastable (3 regimes)** | **2.94** |
+
+So RFE's expression-level ignition is **intermittent and generator-init-decided**:
+~1 in 3 random generators already ignites (CII_expr ≈ CII_gen ≈ 2.9); the rest
+are born locked.
+
+**ITG actuator — negative result.** Two late-stage actuator knobs were tested
+(`tools/ignition/gate.py`): (a) raising `diversity_blend` when locked — INERT
+(30 engagements, lock unmoved; the blend is upstream of the reflective loop that
+re-collapses); (b) a paired seeded A/B of reflective-loop attenuation at 0.3 —
+made seed 1 **worse** (metastable→locked), no effect on seeds 2–3. **No
+late-stage gate reliably lifts a locked expression**, because the binding
+constraint on stage-C metastability is the **generator**, not a downstream knob —
+confirming the ROADMAP's standing thesis that generator diversity (training,
+dim) is the upstream lever, and that loop-loosening is premature on an untrained
+generator. The ITG is retained as a scaffold for the post-training regime.
+
+**Redirect:** the path to *reliable* ignition is **training the generator** (the
+corpus/pretraining work, Phase 1–2 already landed), not a CII gate. The CII probe
+is now the acceptance test: after training, does CII_expr hit ~2.9 across *all*
+seeds instead of 1 in 3?
