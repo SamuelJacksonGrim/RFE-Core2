@@ -52,6 +52,34 @@ class ReflectiveLoop:
         How strongly the nearest attractor pulls each pass.
     coherence_gate : float
         Minimum coherence to continue refining. Below this, reflection halts.
+    novelty_attenuation : bool
+        EXPERIMENTAL, default OFF. When False the loop behaves exactly as before
+        (byte-identical) — the survival-by-coherence pin holds, by design. When
+        True, the loop's final anchor-pulled vector is blended back toward the
+        raw input *in proportion to how novel that input is relative to the
+        anchor* (novelty = 1 - cos(input, anchor)). Reaching this method already
+        means the input survived the governance gate and is stable, so this is
+        the "gated on surviving novelty" lever (ROADMAP item 7): genuinely-new
+        survivors stop being dragged back to the established anchor, while
+        non-novel repetition is left to converge as before (identity held).
+        Validated multi-seed in tests/diagnostic/lockin/loop_attenuation_probe.py
+        and docs/findings/2026-06-15-loop-attenuation-novelty-gate.md: at the
+        default attenuation_max=0.30 it frees the field under sustained novelty
+        (migration +0.11..+0.15, ~15× the RIGID baseline) with the Tier-2
+        manipulation layer SILENT (0% of steps) and attractors bounded, and is
+        gate-safe under non-novel repetition (~-0.001). CAVEAT: the cost-clean
+        band is a KNIFE EDGE — at attenuation_max=0.33 the manipulation layer
+        floods (>75% of steps reading the less-converged expression as
+        identity-erosion) and migration margin over the free-the-field bar is
+        thin. So this is shippable OFF, NOT ready to be default-ON. Raising
+        attenuation_max without re-running the manip-rate instrument is a
+        guardrail violation.
+    novelty_gain : float
+        Slope from novelty to attenuation. attenuation = clip(gain·novelty, 0, max).
+    attenuation_max : float
+        Ceiling on the blend-back weight (the operative knob). 0.30 is the
+        validated cost-clean ceiling; the manip cliff is at ~0.33. Do not raise
+        without a fresh manip-rate measurement.
     """
 
     def __init__(
@@ -61,12 +89,18 @@ class ReflectiveLoop:
         field_blend:          float = 0.1,
         attractor_blend:      float = 0.08,
         coherence_gate:       float = 0.2,
+        novelty_attenuation:  bool  = False,
+        novelty_gain:         float = 1.0,
+        attenuation_max:      float = 0.30,
     ):
         self.max_depth             = max_depth
         self.convergence_threshold = convergence_threshold
         self.field_blend           = field_blend
         self.attractor_blend       = attractor_blend
         self.coherence_gate        = coherence_gate
+        self.novelty_attenuation   = novelty_attenuation
+        self.novelty_gain          = novelty_gain
+        self.attenuation_max       = attenuation_max
 
     def reflect(
         self,
@@ -139,6 +173,24 @@ class ReflectiveLoop:
             if delta >= self.convergence_threshold:
                 converged = True
                 break
+
+        # --- Novelty-gated attenuation (EXPERIMENTAL, off by default) ---
+        # Blend the converged (anchor-pulled) vector back toward the raw input
+        # in proportion to the input's novelty vs the anchor. Skipped entirely
+        # when disabled, so default behavior is byte-identical.
+        if self.novelty_attenuation and anchor is not None:
+            inp  = np.asarray(vec, dtype=np.float32)
+            i_n  = np.linalg.norm(inp)
+            a_n  = np.linalg.norm(anchor)
+            if i_n > 1e-8 and a_n > 1e-8:
+                cos_in  = float(np.dot(inp, anchor) / (i_n * a_n))
+                novelty = max(0.0, 1.0 - cos_in)
+                att     = float(np.clip(self.novelty_gain * novelty,
+                                        0.0, self.attenuation_max))
+                if att > 0.0:
+                    mixed   = (1.0 - att) * current + att * inp
+                    m_n     = np.linalg.norm(mixed)
+                    current = (mixed / (m_n + 1e-8)).astype(np.float32)
 
         return ReflectionResult(
             vector          = current,
