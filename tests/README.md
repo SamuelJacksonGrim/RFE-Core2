@@ -306,6 +306,15 @@ The per-probe descriptions below are grouped to match.
   near-zero identity cost) and a cliff (≤0.5: manip flood + a latent attractor crash)
   → bounded conditional attenuation, not full ablation. See
   `docs/findings/2026-06-07-reflective-loop-cost.md`.
+- `loop_attenuation_probe.py` — **The remediation, shipped + cost-gated.** Tests the
+  real `ReflectiveLoop.novelty_attenuation` flag (OFF by default) on the migration
+  metric across 3 seeds, with two arms beside it: `emotion_knobs` (a NEGATIVE
+  control — coupling boredom into mutation/attractor knobs — proven INERT) and the
+  identity-safety arm (same flag, non-novel input → stays rigid). Gates on the
+  manip-rate + attractor-count cost instrument, not the witness scalar: frees the
+  field (~15× baseline) at 0% manip at the validated ceiling `attenuation_max=0.30`,
+  with a near-vertical cliff at 0.33. See
+  `docs/findings/2026-06-15-loop-attenuation-novelty-gate.md`.
 - `secondlocker_field_map_probe.py` — **SECOND-LOCKER field map (Phase 3 Track B)
   + §6.3 gain-sign sampling on the reachable range (Track A).** 30-cell matrix —
   5 token bands (canonical / broad-corpus / rhythm / entry / mixed, defs v1,
