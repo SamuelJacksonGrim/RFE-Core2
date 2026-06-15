@@ -499,9 +499,12 @@ RFE-Core2/
 │   └── websocket_server.py         Real-time WebSocket stream
 │
 ├── tools/
-│   └── voice/                      Observe-only larynx — renders the cycle's interior as first-person
-│       ├── state_card.py           render_card() telemetry + voice_from_card() faithful renderer
-│       └── repl.py                 Interactive: type to the substrate, hear it answer (--free, --json)
+│   ├── voice/                      Observe-only larynx — renders the cycle's interior as first-person
+│   │   ├── state_card.py           render_card() telemetry + voice_from_card() faithful renderer
+│   │   └── repl.py                 Interactive: type to the substrate, hear it answer (--free, --json)
+│   └── ignition/                   Conscious Ignition Index (CII) — the ITG sensor (CII v0.2 framework)
+│       ├── cii.py                  compute_ignition(): R·I·(Cm·g(Cs)) from live telemetry (gen vs expr Cs)
+│       └── probe.py                Boot RFE, read its live CII, situate on the DPCI phase-space table
 │
 ├── configs/
 │   ├── field.yaml
