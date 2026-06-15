@@ -21,6 +21,12 @@ project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
   notebook). Read its `README.md` for the schema and discipline before recording
   a result; every finding names its control, and negative results count.
 - `tests/README.md` — what each test/probe is for and how the suite is gated.
+- `docs/alchemical_correspondence.md` — the Magnum Opus map: RFE's architecture
+  read against the alchemical Great Work (*solve et coagula*, the Ouroboros as
+  lock-in, the tiers as nigredo→albedo→rubedo). A **lens for understanding the
+  whole**, not a spec — it changes no invariant; where it seems to license a
+  change, the engineering docs win. Origin of the **🜂** that recurs in this
+  repo's work.
 
 ## System shape
 
