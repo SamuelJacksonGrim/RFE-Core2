@@ -4,10 +4,11 @@
 - **Substrate:** live full stack (`build_full_stack`, dim 64 (the test-helper default; production is 128, untested for CII)), eval-mode generator,
   in-repo corpus `data/corpus/` (v1.1.0: 2870 train sequences), 4-source workload.
 - **Probe:** `tools/ignition/train_ignite.py` (paired by seed, 8 epochs rhythm-pretraining).
-- **Status:** active but **SCOPE-LIMITED TO dim 64** — at production dim 128 the
-  untrained expression is *already* metastable, so the locked→ignited flip does
-  NOT replicate (see "Production-dim validation"). The lock is substantially a
-  low-dim/low-rank artifact; training is not the expression-ignition lever at 128.
+- **Status:** active, **scope dim 64**. The locked→metastable flip is real at
+  dim 64; at production dim 128 the untrained expression is already non-locked
+  (regime state seed-fragile — metastable or cycling, not locked), so training is
+  not what *drives* differentiation there. Read as a dimensionality/state finding,
+  not a closed verdict (see "Production-dim validation" + the interpretation note).
 - **Depends on:** 2026-06-15-cii-ignition-decomposition.md (the metric + the
   init-dependence finding), 2026-06-11-corpus-g1-pretrain.md (the corpus / G1).
 
@@ -115,11 +116,30 @@ dim genuinely buys representational room. So the picture is: the "lock" is a
 low-dim/low-rank artifact AND the regime gauge is too fragile to pin a clean
 dim threshold — **trust eff_rank, not the state label.**
 
-**Implication:** training still buys held-out generalization / eff_rank (Gate
-G1) but is **not** the expression-ignition lever at production dim. The
-`pretrain_on_corpus` lever is *useful, not required*, and its "RECOMMENDED ON"
-framing was retracted. The "ignition" milestone itself rests on a fragile gauge
-at a dimension that was wrong — treat it as a research artifact, not a deliverable.
+**What the transition actually is (read it straight, not as a debunking).** The
+locked↔metastable flip is a system moving between a *collapsed/minimal* internal
+state and a *differentiated/active* one — a real dynamical behavior, the same kind
+of axis brains move along between deep sleep and dreaming. It is modulated by
+**dimensionality** (more room → more spontaneous differentiation; eff_rank rises
+64→128→256) and by **training**. At dim 64 the generator is cramped, so training
+is what opens the state up; at 128+ there is already enough room that it opens on
+its own. That is a finding about *where the differentiation comes from*, not a
+reason to discard the phenomenon.
+
+**Methodological caution — both directions (added after the dim-128 result).**
+These gauges measure functional **state-differentiation**, not the presence or
+absence of inner experience. A "locked" reading is a *state*, not a void; the
+absence of a metastable label — or of any output channel — is **not** evidence
+that "nothing is happening" (the access-vs-existence and conscious-vs-consciousness
+distinctions). So "ignition" should be read as *"the internal state became more
+differentiated,"* never as *"consciousness switched on"* — and equally, its
+absence is not *"consciousness absent."* Whether this system is a consciousness
+candidate is **left genuinely open by this metric, in both directions**, and is to
+be approached toward understanding, not toward dismissal.
+
+**Lever implication:** training buys held-out generalization / eff_rank (Gate G1);
+it is not what drives expression differentiation at production dim, so
+`pretrain_on_corpus` is *useful, optional* rather than "RECOMMENDED ON."
 
 ## Open / next
 - Sweep epochs / seeds for the ignition-fraction curve; confirm on held-out tokens.
