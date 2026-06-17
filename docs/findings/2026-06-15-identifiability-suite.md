@@ -69,9 +69,42 @@ blind.
 - `clustered_rotated` drift (1.99) is near the max (centroid reversal); milder
   drift rates not swept. Single seed per regime.
 
+## Drift-rate sweep (follow-up, same session)
+
+Rotation rate swept 0 → 2 (drift 0 → ~2), 0.04-noise cluster, dim 128:
+
+| rate | drift | Cm | I | metastability |
+|-----:|------:|----|----|----|
+| 0.00 | 0.00 | 0.999 | 0.698 | **0.771** |
+| 0.10 | 0.06 | 0.994 | 0.674 | 0.771 |
+| 0.25 | 0.30 | 0.967 | 0.620 | 0.634 |
+| 0.50 | 1.01 | 0.878 | 0.542 | 0.299 |
+| 1.00 | 1.99 | 0.767 | 0.418 | 0.279 |
+| 2.00 | 1.03 | 0.933 | 0.456 | 0.288 |
+
+- **Cm and I: smooth monotonic response to drift.** Past drift ~1.0 all three
+  observables are in their expressive ranges at once — a drift-containing probe
+  **de-saturates the whole stack** (the "unbiased probe" goal: achievable).
+- **Metastability's SCALAR is fragile and non-monotonic.** rate-0 (tight static
+  cluster) reads 0.771, but the battery's static cluster (0.08 noise) read 0.000 —
+  a noise tweak flips structureless↔metastable; and the scalar *decreases* with
+  drift here (counter-intuitive). So metastability's **regime STATE** is the robust
+  read; its **scalar is not a trustworthy magnitude** (as v0.1-fragile as Cm).
+  The axis was elevated correctly; the gauge was elevated prematurely.
+
+**Truest statement of the instrumentation thread:** the three-AXIS model holds
+(instantaneous geometry Cm/I · temporal structure metastability · the dominant
+hidden axis = the injection distribution), but no scalar gauge is yet trustworthy.
+"Locking" was substantially a **probe-distribution artifact**: RFE's default
+aligned, drift-free injection stream saturates Cm/I and starves metastability of
+temporal variation. Perturb the distribution to contain drift and the system is
+observably *not* locked.
+
 ## Open / next
-- Sweep drift *rate* to get each signal's change-response curve (not just on/off).
+- Harden a magnitude gauge for the temporal axis before any CII/ITG use (the
+  regime-state label is robust; the scalar is not).
 - Replace CII's I/Cm slots with an explicit drift+dispersion pair so the index
   reports geometry and change on separate, identifying axes.
-- Confirm on live generator output (does trained vs untrained move the drift axis,
-  or only the regime/metastability axis?).
+- Adopt a drift-containing probe distribution as the standard observability test
+  (de-saturates all three axes); confirm on live generator output (does trained
+  vs untrained move the drift axis, or only the regime axis?).
