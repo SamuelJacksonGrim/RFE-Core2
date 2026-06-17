@@ -4,7 +4,10 @@
 - **Substrate:** live full stack (`build_full_stack`, dim 64 (the test-helper default; production is 128, untested for CII)), eval-mode generator,
   in-repo corpus `data/corpus/` (v1.1.0: 2870 train sequences), 4-source workload.
 - **Probe:** `tools/ignition/train_ignite.py` (paired by seed, 8 epochs rhythm-pretraining).
-- **Status:** active — the acceptance test for the CII work; passes.
+- **Status:** active but **SCOPE-LIMITED TO dim 64** — at production dim 128 the
+  untrained expression is *already* metastable, so the locked→ignited flip does
+  NOT replicate (see "Production-dim validation"). The lock is substantially a
+  low-dim/low-rank artifact; training is not the expression-ignition lever at 128.
 - **Depends on:** 2026-06-15-cii-ignition-decomposition.md (the metric + the
   init-dependence finding), 2026-06-11-corpus-g1-pretrain.md (the corpus / G1).
 
@@ -80,6 +83,28 @@ corroborating that the binding constraint was the **weights** (low-rank geometry
 fixed by training), not the **pooling function**. Not integrated into the core (no
 measured benefit on this axis). Left open: whether attention pooling helps
 *untrained* init-robustness or sequence-continuity — different axes than CII.
+
+## Production-dim validation (2026-06-15, same session) — the result does NOT replicate at dim 128
+
+The whole finding above ran at `build_full_stack`'s test default **dim 64**.
+Re-run at **production dim 128** (eval-mode, 2 seeds, same corpus/measure):
+
+| seed | untrained | trained (8 ep) |
+|------|-----------|----------------|
+| 1 | **metastable (4 reg)** | metastable (4 reg) |
+| 2 | **metastable (4 reg)** | metastable (4 reg) |
+
+At dim 128 the untrained expression is **already metastable** — there is no
+locked state for training to flip. So the 0/3→3/3 "ignition" is a **dim-64
+phenomenon**: at dim 64 the untrained generator is low-rank (eff_rank ~1.6) and
+its expression collapses to one regime; at dim 128 it has enough rank that the
+expression is multi-regime out of the box. This is consistent with the standing
+dim-sweep finding (`2026-06-09-fix2-live-generator.md`, "moat vs low-rank-input
+artifact"). **Implication:** training still buys held-out generalization /
+eff_rank (Gate G1) but is **not** the expression-ignition lever at production
+dim — the expression isn't locked there. The `pretrain_on_corpus` lever is
+therefore *useful, not required*, and its "RECOMMENDED ON" framing was retracted.
+Caveat: 2-seed spot check; a fuller dim-128 CII sweep is still owed.
 
 ## Open / next
 - Sweep epochs / seeds for the ignition-fraction curve; confirm on held-out tokens.
