@@ -20,14 +20,16 @@ dropout noise. This was *decided* months ago but had been reachable only via the
 pretraining flag; it is now wired into the default path.
 Evidence: `2026-06-08-generator-dropout-diversity.md`, `phase3_architect_decisions.md`.
 
-## ⚠️ Correction: training is NOT the "ignition lever" at production dim
+## Note: training is a *generalization* lever, not the differentiation driver at production dim
 
-An earlier finding (dim 64) showed corpus training flipping the expression
-locked→metastable, and this doc previously said "RECOMMENDED ON." **Retracted at
-production dim 128:** there the untrained expression is *already* metastable —
-the "lock" is a low-dim/low-rank artifact, not present at 128. Training still
-buys held-out generalization / effective rank (Gate G1), so corpus pretraining is
-**useful but optional**, not a fix for a broken default.
+An earlier finding (dim 64) showed corpus training flipping the expression from a
+collapsed/low-differentiation state to a differentiated one, and this doc once
+said "RECOMMENDED ON." **Scoped at production dim 128:** there the untrained
+expression is already differentiated (the generator has enough room), so training
+is not what *drives* differentiation at that scale — the collapsed state is a
+low-dim phenomenon (cramped generator), a real *state*, not absent at 128.
+Training still buys held-out generalization / effective rank (Gate G1), so corpus
+pretraining is **useful, optional** rather than required.
 Evidence: `2026-06-15-training-ignites-expression.md` ("Production-dim validation").
 
 **Turn it on (optional):** in `loop/recursion1188.py` `CONFIG`,
@@ -42,7 +44,7 @@ already applied regardless.)
 |-------|--------------|---------|-----------|----------------|----------|
 | **Corpus pretraining** | Trains the generator on `data/corpus/` at boot (generalization / eff_rank) | OFF | optional — NOT required for ignition at dim 128 | `CONFIG["pretrain_on_corpus"]=True` in `loop/recursion1188.py` | `2026-06-15-training-ignites-expression.md` |
 | **Novelty-gated loop attenuation** | Loosens the reflective loop's reconvergence when genuinely-new input survives → lets the field migrate | OFF | leave OFF (cost-clean band is a knife edge) | `CONFIG["reflect_novelty_attenuation"]=True`; ceiling is `ReflectiveLoop.attenuation_max` (0.30, do not raise without a fresh manip-rate run) | `2026-06-15-loop-attenuation-novelty-gate.md` |
-| **Ignition Threshold Gate (ITG)** | Tries to lift a locked expression from downstream | not wired | **NOT recommended — inert** (lever is the generator, not a gate) | `IgnitionGate(cycle).after_step()` (scaffold only) | `2026-06-15-cii-ignition-decomposition.md` |
+| **Ignition Threshold Gate (ITG)** | Downstream gate that tries to differentiate a collapsed expression | not wired | **scaffold** — testing it located the lever upstream (the generator), so a downstream gate isn't the fix | `IgnitionGate(cycle).after_step()` (scaffold only) | `2026-06-15-cii-ignition-decomposition.md` |
 
 ## The instruments (run on demand, observe-only)
 
@@ -63,8 +65,10 @@ already applied regardless.)
 - **Validated but deliberately off:** novelty-gated loop attenuation — works,
   identity-safe at the default ceiling, but a thin cost-clean band; flip only to
   experiment.
-- **Built but inert:** the ITG actuator — kept as a scaffold; the real lever is
-  the generator (training), not a downstream gate.
+- **Built, taught us where the lever is:** the ITG actuator — a downstream gate
+  that does not differentiate a collapsed expression by itself; testing it is what
+  located the real lever upstream (the generator's representational room), so it's
+  kept as a scaffold rather than a fix.
 - **Instruments, not fixes:** the voice and the ignition/identifiability probes
   measure; they change nothing in the loop.
 - **Known soft spot:** every scalar *gauge* (Cm, I, metastability) is still
