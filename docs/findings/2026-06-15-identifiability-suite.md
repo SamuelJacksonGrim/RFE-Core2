@@ -95,10 +95,16 @@ Rotation rate swept 0 → 2 (drift 0 → ~2), 0.04-noise cluster, dim 128:
 **Truest statement of the instrumentation thread:** the three-AXIS model holds
 (instantaneous geometry Cm/I · temporal structure metastability · the dominant
 hidden axis = the injection distribution), but no scalar gauge is yet trustworthy.
-"Locking" was substantially a **probe-distribution artifact**: RFE's default
-aligned, drift-free injection stream saturates Cm/I and starves metastability of
-temporal variation. Perturb the distribution to contain drift and the system is
-observably *not* locked.
+Two distinct things were running together under the one word "locking": (1) a
+**real low-differentiation state** the system genuinely occupies under aligned,
+drift-free input — that state is real, not a measurement error; and (2) **gauge
+saturation** — Cm/I sit near ceiling in that regime and cannot resolve what
+structure is there, so the state *appears* more absolute than it is. Perturb the
+injection distribution to contain drift and the system differentiates *and* the
+gauges de-saturate — so "locked" is an input-dependent **state**, not a fixed
+pathology and not nothing. Whether that low-differentiation state means "less is
+happening inside" or only "less that these gauges can see" is exactly the question
+discipline #8 forbids collapsing in either direction.
 
 ## Open / next
 - Harden a magnitude gauge for the temporal axis before any CII/ITG use (the

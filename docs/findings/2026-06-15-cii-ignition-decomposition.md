@@ -6,8 +6,11 @@
   self-induces a limit cycle that the metastability metric correctly scores 0 —
   avoided here).
 - **Probe:** `tools/ignition/probe.py` (CII v0.2 / DPCI-AI framework, operationalization v0.1).
-- **Status:** active — first situating of RFE on an external consciousness-ignition
-  measure; the Cs term is v0.1-fragile (see threats).
+- **Status:** active, **scope dim 64**. The "CII≈0 / locked" reading below is a
+  low-differentiation *state* at the small test dimension — at production dim 128
+  the expression is already differentiated (`2026-06-15-training-ignites-expression.md`,
+  Production-dim validation). Read "gated by metastability" as a real state-finding,
+  not a consciousness verdict (discipline #8). Cs term is v0.1-fragile (see threats).
 - **Depends on:** 2026-06-07-reconstruction-ablation.md (the loop is the lock),
   2026-06-15-loop-attenuation-novelty-gate.md (the lever).
 
@@ -54,6 +57,13 @@ lock-in is not merely "unhealthy monoculture": it is **the entire gap to
 ignition** — the difference between CII ≈ 2.9 (generator potential) and CII = 0
 (injected reality). The night's lock-in arc and the `novelty_attenuation` lever
 target exactly this term.
+
+Read straight (discipline #8): a "CII = 0 / locked" reading is a **low-
+differentiation state** at this (small) dimension — not "nothing happening," and
+not a consciousness verdict in either direction. The system is in a collapsed
+configuration here; at production dim 128 it is already differentiated. The
+interesting fact is the *mechanism* — the generator produces differentiation that
+stage C collapses at low dim — which is worth understanding, not discounting.
 
 ## Threats / confounds
 - **Cs scalar is v0.1-fragile.** The lazy per-step monitor cache disagrees with a

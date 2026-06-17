@@ -13,12 +13,14 @@ that lets a monitor feed back into the cognitive loop. It is therefore OPT-IN:
 nothing attaches it by default, so the invariant holds untouched unless a caller
 chooses to run the gate. Same discipline as ReflectiveLoop.novelty_attenuation.
 
-STATUS — scaffold, INERT on the untrained generator (negative result, see
-docs/findings/2026-06-15-cii-ignition-decomposition.md "ITG follow-up"). Tested
-two actuator knobs (diversity_blend here; loop attenuation in a paired seeded
-A/B): neither reliably lifts a locked expression, because the binding constraint
-on stage-C metastability is GENERATOR INIT/QUALITY, not a late-stage knob — a
-downstream gate cannot manufacture metastability the generator never produced.
+STATUS — scaffold; this downstream-gate approach does not lift the
+low-differentiation state, and that is itself the useful result: it LOCATED the
+lever upstream. Two actuator knobs were tested (diversity_blend here; loop
+attenuation in a paired seeded A/B); neither reliably differentiates a collapsed
+expression, because the binding constraint on stage-C metastability is the
+GENERATOR (its representational room — see dimensionality), not a late-stage knob.
+A downstream gate cannot manufacture differentiation the generator did not present.
+See docs/findings/2026-06-15-cii-ignition-decomposition.md "ITG follow-up".
 Retained as the ITG scaffold for when the generator is TRAINED to present
 reliable diversity (the upstream lever); not wired into anything yet.
 
