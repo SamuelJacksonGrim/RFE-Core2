@@ -63,9 +63,10 @@ CONFIG = {
     # EXPERIMENTAL LEVERS — the validated work that is otherwise inert.
     # One place to turn it on. Full control panel: docs/EXPERIMENTAL_LEVERS.md.
     # ------------------------------------------------------------------
-    # Train the generator on data/corpus/ at boot. THE big win: flips the
-    # expression from locked to metastable ("ignited"). RECOMMENDED ON.
-    # (2026-06-15-training-ignites-expression.md)
+    # Train the generator on data/corpus/ at boot. Buys held-out generalization
+    # / eff_rank (Gate G1). NOTE: at production dim 128 the expression is already
+    # metastable untrained, so this is OPTIONAL, not required for ignition.
+    # (2026-06-15-training-ignites-expression.md, Production-dim validation)
     "pretrain_on_corpus":          False,
     "pretrain_epochs":             8,
     # Novelty-gated reflective-loop loosening. Validated identity-safe at the
@@ -111,8 +112,9 @@ def main():
     logger.info("Generator initialized on device: %s", generator.device)
 
     # ------------------------------------------------------------------
-    # Experimental lever: pretrain the generator on the corpus (the win that
-    # flips the expression from locked to ignited). One flag, applied at boot.
+    # Optional lever: pretrain the generator on the corpus (held-out
+    # generalization / eff_rank — Gate G1). NOT required for expression ignition
+    # at production dim 128, where the expression is already metastable untrained.
     # ------------------------------------------------------------------
     if CONFIG.get("pretrain_on_corpus"):
         from training.corpus import load_corpus, to_rhythm_seeds, TRAIN_PATH
@@ -123,9 +125,17 @@ def main():
             rhythm_seeds = seeds,
             config       = PretrainingConfig(n_epochs=CONFIG["pretrain_epochs"]),
         ).pretrain()
-        generator.eval()
-        logger.info("Generator pretrained on corpus (%d epochs) — expression ignition active.",
-                    CONFIG["pretrain_epochs"])
+        logger.info("Generator pretrained on corpus (%d epochs).", CONFIG["pretrain_epochs"])
+
+    # ------------------------------------------------------------------
+    # Eval-mode IS the operating regime — Phase 3 architect decision
+    # (2026-06-12, docs/training/phase3_architect_decisions.md). Applied
+    # UNCONDITIONALLY here, not as a side-effect of pretraining: a default boot
+    # must run dropout-off, or ~half the apparent input diversity is dropout
+    # noise (2026-06-08-generator-dropout-diversity.md). Set once at startup.
+    # ------------------------------------------------------------------
+    generator.eval()
+    logger.info("Generator set to eval mode (operating regime; dropout off).")
 
     # ------------------------------------------------------------------
     # Build autonomous cycle

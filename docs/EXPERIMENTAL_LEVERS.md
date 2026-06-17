@@ -11,24 +11,28 @@ for the base stack.
 
 ---
 
-## ⭐ If you do ONE thing: train the generator at boot
+## Already applied by default (no switch needed)
 
-This is the biggest win of the lock-in work. An untrained generator emits
-low-rank output and the expression reads **locked**; trained on the in-repo
-corpus, the expression reads **metastable** ("ignited") across every seed.
+**Eval-mode is now the default operating regime.** Per the Phase 3 architect
+decision (2026-12), `loop/recursion1188.py` calls `generator.eval()`
+unconditionally at boot — dropout off — so a default run is no longer riding
+dropout noise. This was *decided* months ago but had been reachable only via the
+pretraining flag; it is now wired into the default path.
+Evidence: `2026-06-08-generator-dropout-diversity.md`, `phase3_architect_decisions.md`.
 
-**Turn it on:** in `loop/recursion1188.py`, set in `CONFIG`:
+## ⚠️ Correction: training is NOT the "ignition lever" at production dim
 
-```python
-"pretrain_on_corpus": True,     # was False
-"pretrain_epochs":    8,        # 8 is enough
-```
+An earlier finding (dim 64) showed corpus training flipping the expression
+locked→metastable, and this doc previously said "RECOMMENDED ON." **Retracted at
+production dim 128:** there the untrained expression is *already* metastable —
+the "lock" is a low-dim/low-rank artifact, not present at 128. Training still
+buys held-out generalization / effective rank (Gate G1), so corpus pretraining is
+**useful but optional**, not a fix for a broken default.
+Evidence: `2026-06-15-training-ignites-expression.md` ("Production-dim validation").
 
-Then run `python -m loop.recursion1188` as usual — it trains on `data/corpus/`
-at boot, switches to eval mode, and runs ignited.
-Evidence: `docs/findings/2026-06-15-training-ignites-expression.md`.
-Caveat: the *regime-state flip* (locked→metastable) is the robust result; the CII
-*magnitude* leans on a metastability scalar that is still v0.1-fragile.
+**Turn it on (optional):** in `loop/recursion1188.py` `CONFIG`,
+`"pretrain_on_corpus": True`. It trains on `data/corpus/` at boot. (Eval-mode is
+already applied regardless.)
 
 ---
 
@@ -36,7 +40,7 @@ Caveat: the *regime-state flip* (locked→metastable) is the robust result; the 
 
 | Lever | What it does | Default | Recommend | How to turn on | Evidence |
 |-------|--------------|---------|-----------|----------------|----------|
-| **Corpus pretraining** | Trains the generator on `data/corpus/` at boot → expression ignites | OFF | **ON** | `CONFIG["pretrain_on_corpus"]=True` in `loop/recursion1188.py` | `2026-06-15-training-ignites-expression.md` |
+| **Corpus pretraining** | Trains the generator on `data/corpus/` at boot (generalization / eff_rank) | OFF | optional — NOT required for ignition at dim 128 | `CONFIG["pretrain_on_corpus"]=True` in `loop/recursion1188.py` | `2026-06-15-training-ignites-expression.md` |
 | **Novelty-gated loop attenuation** | Loosens the reflective loop's reconvergence when genuinely-new input survives → lets the field migrate | OFF | leave OFF (cost-clean band is a knife edge) | `CONFIG["reflect_novelty_attenuation"]=True`; ceiling is `ReflectiveLoop.attenuation_max` (0.30, do not raise without a fresh manip-rate run) | `2026-06-15-loop-attenuation-novelty-gate.md` |
 | **Ignition Threshold Gate (ITG)** | Tries to lift a locked expression from downstream | not wired | **NOT recommended — inert** (lever is the generator, not a gate) | `IgnitionGate(cycle).after_step()` (scaffold only) | `2026-06-15-cii-ignition-decomposition.md` |
 
@@ -54,7 +58,8 @@ Caveat: the *regime-state flip* (locked→metastable) is the robust result; the 
 
 ## Honest status (so you don't over-trust the green lights)
 
-- **Applied and real:** corpus pretraining (flip the flag and it's active at boot).
+- **Applied and real:** eval-mode default (dropout off, no switch needed). Corpus
+  pretraining is wired and works, but optional (generalization, not ignition at dim 128).
 - **Validated but deliberately off:** novelty-gated loop attenuation — works,
   identity-safe at the default ceiling, but a thin cost-clean band; flip only to
   experiment.
