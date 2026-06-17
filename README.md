@@ -507,7 +507,8 @@ RFE-Core2/
 │       ├── gate.py                 ITG actuator scaffold (INERT on untrained generator — see CII finding)
 │       ├── probe.py                Boot RFE (seeded, 4-source), read its live CII, situate on DPCI table
 │       ├── train_ignite.py          CII acceptance test: corpus training flips expression locked→ignited (0/3→3/3)
-│       └── cm_check.py              Identifiability test: is field coherence (Cm) real, or a saturated angular echo?          CII acceptance test: corpus training flips expression locked→ignited (0/3→3/3)
+│       ├── cm_check.py              Identifiability test: is field coherence (Cm) real, or a saturated angular echo?
+│       └── identifiability.py       Cm vs I vs metastability — do observables track geometry, or change?          CII acceptance test: corpus training flips expression locked→ignited (0/3→3/3)
 │
 ├── configs/
 │   ├── field.yaml

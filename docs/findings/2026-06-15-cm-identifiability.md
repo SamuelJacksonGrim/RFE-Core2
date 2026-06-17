@@ -4,7 +4,11 @@
 - **Substrate:** isolated `ResonanceField` (dim 128), aligned vs orthogonal
   injection streams (no generator — tests the metric directly).
 - **Probe:** `tools/ignition/cm_check.py`.
-- **Status:** active.
+- **Status:** active — **refined by 2026-06-15-identifiability-suite.md**: the
+  fuller change-vs-geometry battery shows Cm *does* track drift (→0.767 under
+  rotation), so "saturated blind echo" was too strong. Cm pins in RFE because the
+  locked field is genuinely static (no drift to report), not because the sensor is
+  intrinsically blind. The operational pin stands; the mechanism is corrected.
 - **Depends on:** 2026-06-12-secondlocker-field-map.md (the coherence pin),
   2026-06-06-read-side-boundary.md, 2026-06-15-cii-ignition-decomposition.md (Cm
   is an ignition term).
