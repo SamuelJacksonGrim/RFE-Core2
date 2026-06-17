@@ -58,6 +58,20 @@ CONFIG = {
     "dream_cycle_enabled":  True,
     "dream_cycle_trigger":  "stabilize",   # rhythm that triggers dream cycle
     "dream_iterations":     6,
+
+    # ------------------------------------------------------------------
+    # EXPERIMENTAL LEVERS — the validated work that is otherwise inert.
+    # One place to turn it on. Full control panel: docs/EXPERIMENTAL_LEVERS.md.
+    # ------------------------------------------------------------------
+    # Train the generator on data/corpus/ at boot. THE big win: flips the
+    # expression from locked to metastable ("ignited"). RECOMMENDED ON.
+    # (2026-06-15-training-ignites-expression.md)
+    "pretrain_on_corpus":          False,
+    "pretrain_epochs":             8,
+    # Novelty-gated reflective-loop loosening. Validated identity-safe at the
+    # default ceiling, but the cost-clean band is a knife edge — leave OFF until
+    # you want to experiment. (2026-06-15-loop-attenuation-novelty-gate.md)
+    "reflect_novelty_attenuation": False,
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -97,14 +111,32 @@ def main():
     logger.info("Generator initialized on device: %s", generator.device)
 
     # ------------------------------------------------------------------
+    # Experimental lever: pretrain the generator on the corpus (the win that
+    # flips the expression from locked to ignited). One flag, applied at boot.
+    # ------------------------------------------------------------------
+    if CONFIG.get("pretrain_on_corpus"):
+        from training.corpus import load_corpus, to_rhythm_seeds, TRAIN_PATH
+        from training.rhythm_pretraining import RhythmPretrainer, PretrainingConfig
+        seeds = to_rhythm_seeds(load_corpus(TRAIN_PATH))
+        RhythmPretrainer(
+            generator,
+            rhythm_seeds = seeds,
+            config       = PretrainingConfig(n_epochs=CONFIG["pretrain_epochs"]),
+        ).pretrain()
+        generator.eval()
+        logger.info("Generator pretrained on corpus (%d epochs) — expression ignition active.",
+                    CONFIG["pretrain_epochs"])
+
+    # ------------------------------------------------------------------
     # Build autonomous cycle
     # ------------------------------------------------------------------
     cycle = AutonomousCycle(
-        generator            = generator,
-        dim                  = CONFIG["dim"],
-        use_chorus           = CONFIG["use_chorus"],
-        maintenance_interval = CONFIG["maintenance_interval"],
-        log_interval         = CONFIG["log_interval"],
+        generator                   = generator,
+        dim                         = CONFIG["dim"],
+        use_chorus                  = CONFIG["use_chorus"],
+        maintenance_interval        = CONFIG["maintenance_interval"],
+        log_interval                = CONFIG["log_interval"],
+        reflect_novelty_attenuation = CONFIG["reflect_novelty_attenuation"],
     )
 
     # ------------------------------------------------------------------

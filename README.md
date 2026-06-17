@@ -524,6 +524,7 @@ RFE-Core2/
 │
 ├── docs/
 │   ├── ARCHITECTURE_ANALYSIS.md         End-to-end recursion + information-flow reference
+│   ├── EXPERIMENTAL_LEVERS.md           Control panel — every opt-in lever + exact how-to-enable
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
 │   ├── lock_in_remediation_plan.md      Coherence-pin → metastability plan (shipped/planned)
 │   ├── tier4_2_validation.md            Tier 4.2 validation + findings

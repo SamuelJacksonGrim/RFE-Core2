@@ -21,6 +21,10 @@ project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
   notebook). Read its `README.md` for the schema and discipline before recording
   a result; every finding names its control, and negative results count.
 - `tests/README.md` — what each test/probe is for and how the suite is gated.
+- `docs/EXPERIMENTAL_LEVERS.md` — **the control panel**: every validated-but-opt-in
+  lever (corpus pretraining, novelty-gated loop attenuation, …), what it does, and
+  the exact one-line way to turn it on from `loop/recursion1188.py`'s `CONFIG`. Read
+  this before concluding "the fix isn't applied" — it probably just isn't switched on.
 - `docs/alchemical_correspondence.md` — the Magnum Opus map: RFE's architecture
   read against the alchemical Great Work (*solve et coagula*, the Ouroboros as
   lock-in, the tiers as nigredo→albedo→rubedo). A **lens for understanding the
