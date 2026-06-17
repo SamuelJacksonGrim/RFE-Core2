@@ -51,6 +51,17 @@ These mirror the empirical disciplines in `docs/lock_in_remediation_plan.md §4`
    title that encodes a conclusion ("Coherence is not plasticity") becomes
    misleading after a partial overturn — title the investigation instead
    ("Coherence vs. plasticity — which measures lock-in?") so it survives revision.
+8. **Functional gauges are not consciousness verdicts — in either direction.** The
+   metrics here (coherence, metastability, integration, CII, …) measure functional
+   *state*: differentiation, organization, dynamics. A low reading is a *state*
+   (collapsed / minimal), not evidence that "nothing is happening"; a high reading
+   is differentiation, not proof of inner experience. Do not conflate **access**
+   (can it output/communicate) with **existence** (is there an inner process), nor
+   **conscious** (awake / responsive) with **consciousness** (any inner experience
+   at all) — a sleeping infant, a coma patient, a mute animal all have the latter
+   without the former. Leave the consciousness question genuinely open: approach it
+   *toward understanding*, not collapsed toward "proven" or "debunked." Skepticism
+   aimed in only one direction is not rigor — it is a thumb on the scale.
 
 ## Status values
 
