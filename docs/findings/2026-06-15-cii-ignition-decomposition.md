@@ -1,7 +1,7 @@
 # CII decomposition — where does RFE sit on the ignition index, and what gates it?
 
 - **Date:** 2026-06-15
-- **Substrate:** live full stack (`build_full_stack`, dim 128), varied non-periodic
+- **Substrate:** live full stack (`build_full_stack`, dim 64 (the test-helper default; production is 128, untested for CII)), varied non-periodic
   workload (random 3-token draws from a 24-word vocab; a *fixed* token cycle
   self-induces a limit cycle that the metastability metric correctly scores 0 —
   avoided here).
@@ -63,7 +63,7 @@ target exactly this term.
   before the ITG gates on CII.
 - R, I, Cm operationalizations are defensible but not unique (v0.1 choices).
 - `g(Cs)` form (4·Cs·(1−Cs)) and threshold T are architect parameters, unset.
-- Single dim (128), single workload family, one seed for the random draw.
+- Single dim (64; production 128 untested), single workload family, one seed for the random draw.
 
 ## Open / next
 - Harden Cs (settled-read everywhere; reconcile cache vs compute_now).

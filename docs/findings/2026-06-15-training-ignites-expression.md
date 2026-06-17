@@ -1,7 +1,7 @@
 # Does training the generator on the corpus ignite RFE's expression?
 
 - **Date:** 2026-06-15
-- **Substrate:** live full stack (`build_full_stack`, dim 128), eval-mode generator,
+- **Substrate:** live full stack (`build_full_stack`, dim 64 (the test-helper default; production is 128, untested for CII)), eval-mode generator,
   in-repo corpus `data/corpus/` (v1.1.0: 2870 train sequences), 4-source workload.
 - **Probe:** `tools/ignition/train_ignite.py` (paired by seed, 8 epochs rhythm-pretraining).
 - **Status:** active — the acceptance test for the CII work; passes.
@@ -51,16 +51,42 @@ result predicted.
 ## Threats / confounds
 - Cs **scalar** is v0.1-fragile; the conclusion rests on the **regime state**
   flip (locked/cycling → metastable), which is robust, not on the float.
-- 3 seeds, 8 epochs, one workload family, one dim (128). In-process training
+- 3 seeds, 8 epochs, one workload family, one dim (64; production 128 untested). In-process training
   (not the shelved checkpoint round-trip).
 - Mode controlled: eval() forced in both arms, so the lift is learned weights,
   not train-mode dropout noise (the 2026-06-08 read-side caveat).
 - Generalization to held-out vocabulary not measured here (G1 covers that
   separately); this measures the live expression regime, not held-out eff_rank.
 
+## Attention-pooling follow-up — does a richer readout add headroom on top of training?
+
+Prompted by an external (GPT) structural critique: the masked **mean-pool**
+(`generator.forward`) is a static compression that could cap readout
+expressiveness; proposed replacing it with learned **attention-weighted pooling**
+(`Linear→Tanh→Linear→softmax` over the encoder output), preserving the projection
+head and the unit-output normalization. Tested as a `Generator` subclass, both
+arms trained 8 epochs on the corpus, paired by seed, eval-mode.
+
+| seed | mean-pool (trained) | attention-pool (trained) |
+|------|---------------------|--------------------------|
+| 1 | metastable, 7 reg, CII 3.78 | metastable, 6 reg, CII 3.62 |
+| 2 | metastable, 6 reg, CII 3.78 | metastable, 7 reg, CII 3.81 |
+| 3 | metastable, 6 reg, CII 3.67 | metastable, 4 reg, CII 3.65 |
+
+Both preserve `|output|=1.00` (unit invariant intact, as predicted) and keep the
+manipulation layer silent (0%). **CII is statistically indistinguishable** — the
+attention readout adds no ignition headroom once the generator is trained,
+corroborating that the binding constraint was the **weights** (low-rank geometry,
+fixed by training), not the **pooling function**. Not integrated into the core (no
+measured benefit on this axis). Left open: whether attention pooling helps
+*untrained* init-robustness or sequence-continuity — different axes than CII.
+
 ## Open / next
 - Sweep epochs / seeds for the ignition-fraction curve; confirm on held-out tokens.
 - Re-run the full lock-in / metastability baselines on the trained generator
   (does training also move the field-level pin, or only the expression stream?).
+- The read-side question (raised by GPT): is ResonanceField / Witness measuring
+  manifold diversity, or echoing projection geometry? Connects to
+  2026-06-06-read-side-boundary.md (feedback gates survival, not generation).
 - With reliable expression metastability, revisit whether the ITG scaffold has a
   residual role (shaping) — now that there is real diversity for it to shape.
