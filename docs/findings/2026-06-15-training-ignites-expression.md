@@ -94,17 +94,32 @@ Re-run at **production dim 128** (eval-mode, 2 seeds, same corpus/measure):
 | 1 | **metastable (4 reg)** | metastable (4 reg) |
 | 2 | **metastable (4 reg)** | metastable (4 reg) |
 
-At dim 128 the untrained expression is **already metastable** — there is no
-locked state for training to flip. So the 0/3→3/3 "ignition" is a **dim-64
-phenomenon**: at dim 64 the untrained generator is low-rank (eff_rank ~1.6) and
-its expression collapses to one regime; at dim 128 it has enough rank that the
-expression is multi-regime out of the box. This is consistent with the standing
-dim-sweep finding (`2026-06-09-fix2-live-generator.md`, "moat vs low-rank-input
-artifact"). **Implication:** training still buys held-out generalization /
-eff_rank (Gate G1) but is **not** the expression-ignition lever at production
-dim — the expression isn't locked there. The `pretrain_on_corpus` lever is
-therefore *useful, not required*, and its "RECOMMENDED ON" framing was retracted.
-Caveat: 2-seed spot check; a fuller dim-128 CII sweep is still owed.
+At dim 128 the untrained expression is **already non-locked** — so the locked→
+metastable flip doesn't replicate. The 0/3→3/3 "ignition" is a **dim-64
+phenomenon**.
+
+**Dim sweep (eval-mode, untrained, generator eff_rank + expression regime state):**
+
+| dim | expression state | regimes | generator eff_rank |
+|-----|------------------|---------|--------------------|
+| 64  | cycling          | 2       | 11.4 |
+| 128 | cycling*         | 2       | 15.4 |
+| 256 | metastable       | 4       | 18.0 |
+
+*The dim-128 regime *state* is **seed-fragile** — read `metastable (4)` in the
+2-seed check above and `cycling (2)` in this seed-1 sweep. The metastability
+*state label* is not a reliable verdict at 128 (consistent with the v0.1-gauge
+fragility, `2026-06-15-identifiability-suite.md`). The **robust** dim signal is
+generator **eff_rank**, which rises monotonically (11.4 → 15.4 → 18.0): higher
+dim genuinely buys representational room. So the picture is: the "lock" is a
+low-dim/low-rank artifact AND the regime gauge is too fragile to pin a clean
+dim threshold — **trust eff_rank, not the state label.**
+
+**Implication:** training still buys held-out generalization / eff_rank (Gate
+G1) but is **not** the expression-ignition lever at production dim. The
+`pretrain_on_corpus` lever is *useful, not required*, and its "RECOMMENDED ON"
+framing was retracted. The "ignition" milestone itself rests on a fragile gauge
+at a dimension that was wrong — treat it as a research artifact, not a deliverable.
 
 ## Open / next
 - Sweep epochs / seeds for the ignition-fraction curve; confirm on held-out tokens.
