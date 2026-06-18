@@ -58,6 +58,21 @@ CONFIG = {
     "dream_cycle_enabled":  True,
     "dream_cycle_trigger":  "stabilize",   # rhythm that triggers dream cycle
     "dream_iterations":     6,
+
+    # ------------------------------------------------------------------
+    # EXPERIMENTAL LEVERS — the validated work that is otherwise inert.
+    # One place to turn it on. Full control panel: docs/EXPERIMENTAL_LEVERS.md.
+    # ------------------------------------------------------------------
+    # Train the generator on data/corpus/ at boot. Buys held-out generalization
+    # / eff_rank (Gate G1). NOTE: at production dim 128 the expression is already
+    # metastable untrained, so this is OPTIONAL, not required for ignition.
+    # (2026-06-15-training-ignites-expression.md, Production-dim validation)
+    "pretrain_on_corpus":          False,
+    "pretrain_epochs":             8,
+    # Novelty-gated reflective-loop loosening. Validated identity-safe at the
+    # default ceiling, but the cost-clean band is a knife edge — leave OFF until
+    # you want to experiment. (2026-06-15-loop-attenuation-novelty-gate.md)
+    "reflect_novelty_attenuation": False,
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -97,14 +112,41 @@ def main():
     logger.info("Generator initialized on device: %s", generator.device)
 
     # ------------------------------------------------------------------
+    # Optional lever: pretrain the generator on the corpus (held-out
+    # generalization / eff_rank — Gate G1). NOT required for expression ignition
+    # at production dim 128, where the expression is already metastable untrained.
+    # ------------------------------------------------------------------
+    if CONFIG.get("pretrain_on_corpus"):
+        from training.corpus import load_corpus, to_rhythm_seeds, TRAIN_PATH
+        from training.rhythm_pretraining import RhythmPretrainer, PretrainingConfig
+        seeds = to_rhythm_seeds(load_corpus(TRAIN_PATH))
+        RhythmPretrainer(
+            generator,
+            rhythm_seeds = seeds,
+            config       = PretrainingConfig(n_epochs=CONFIG["pretrain_epochs"]),
+        ).pretrain()
+        logger.info("Generator pretrained on corpus (%d epochs).", CONFIG["pretrain_epochs"])
+
+    # ------------------------------------------------------------------
+    # Eval-mode IS the operating regime — Phase 3 architect decision
+    # (2026-06-12, docs/training/phase3_architect_decisions.md). Applied
+    # UNCONDITIONALLY here, not as a side-effect of pretraining: a default boot
+    # must run dropout-off, or ~half the apparent input diversity is dropout
+    # noise (2026-06-08-generator-dropout-diversity.md). Set once at startup.
+    # ------------------------------------------------------------------
+    generator.eval()
+    logger.info("Generator set to eval mode (operating regime; dropout off).")
+
+    # ------------------------------------------------------------------
     # Build autonomous cycle
     # ------------------------------------------------------------------
     cycle = AutonomousCycle(
-        generator            = generator,
-        dim                  = CONFIG["dim"],
-        use_chorus           = CONFIG["use_chorus"],
-        maintenance_interval = CONFIG["maintenance_interval"],
-        log_interval         = CONFIG["log_interval"],
+        generator                   = generator,
+        dim                         = CONFIG["dim"],
+        use_chorus                  = CONFIG["use_chorus"],
+        maintenance_interval        = CONFIG["maintenance_interval"],
+        log_interval                = CONFIG["log_interval"],
+        reflect_novelty_attenuation = CONFIG["reflect_novelty_attenuation"],
     )
 
     # ------------------------------------------------------------------

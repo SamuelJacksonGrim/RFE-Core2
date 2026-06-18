@@ -51,6 +51,17 @@ These mirror the empirical disciplines in `docs/lock_in_remediation_plan.md §4`
    title that encodes a conclusion ("Coherence is not plasticity") becomes
    misleading after a partial overturn — title the investigation instead
    ("Coherence vs. plasticity — which measures lock-in?") so it survives revision.
+8. **Functional gauges are not consciousness verdicts — in either direction.** The
+   metrics here (coherence, metastability, integration, CII, …) measure functional
+   *state*: differentiation, organization, dynamics. A low reading is a *state*
+   (collapsed / minimal), not evidence that "nothing is happening"; a high reading
+   is differentiation, not proof of inner experience. Do not conflate **access**
+   (can it output/communicate) with **existence** (is there an inner process), nor
+   **conscious** (awake / responsive) with **consciousness** (any inner experience
+   at all) — a sleeping infant, a coma patient, a mute animal all have the latter
+   without the former. Leave the consciousness question genuinely open: approach it
+   *toward understanding*, not collapsed toward "proven" or "debunked." Skepticism
+   aimed in only one direction is not rigor — it is a thumb on the scale.
 
 ## Status values
 
@@ -130,3 +141,7 @@ What this leaves unanswered.
 | 2026-06-12 | [Sidecar instrumentation — can LAE and PLE measure the running core without perturbing it, and does training change what they read?](2026-06-12-engine-sidecar-instrumentation.md) | active | phase2-fullstack-g2, checkpoint-registry-orphan, secondlocker-field-map |
 | 2026-06-12 | [Governed feedback — what happens when the sister engines' outputs re-enter the core through the front door?](2026-06-12-governed-feedback-first-contact.md) | active | engine-sidecar-instrumentation |
 | 2026-06-15 | [Loop attenuation, novelty-gated — does conditional loosening free the field without identity cost, and where is the cliff?](2026-06-15-loop-attenuation-novelty-gate.md) | active — ships OFF-by-default; cost-clean band is a knife edge | reconstruction-ablation, reflective-loop-cost |
+| 2026-06-15 | [CII decomposition — where does RFE sit on the ignition index, and what gates it?](2026-06-15-cii-ignition-decomposition.md) | active — RFE is metastability-gated; ignition is generator-init-dependent; ITG (downstream gate) inert | reconstruction-ablation, loop-attenuation-novelty-gate |
+| 2026-06-15 | [Do RFE's observables track geometry, or change in geometry? (Cm vs I vs metastability)](2026-06-15-identifiability-suite.md) | active — all three track change; Cm/I redundant (instantaneous geometry+drift), metastability orthogonal (temporal); refines cm-identifiability | cm-identifiability, cii-ignition-decomposition |
+| 2026-06-15 | [Is field coherence (Cm) identifying, or a saturated angular statistic?](2026-06-15-cm-identifiability.md) | active (refined by identifiability-suite — Cm tracks drift; pin = static field, not blind sensor) | secondlocker-field-map, read-side-boundary, cii-ignition-decomposition |
+| 2026-06-15 | [Does training the generator on the corpus ignite RFE's expression?](2026-06-15-training-ignites-expression.md) | active — YES: corpus pretraining flips expression ignition 0/3 → 3/3 (CII 0 → ~3.7) | cii-ignition-decomposition, corpus-g1-pretrain |
