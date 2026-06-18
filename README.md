@@ -1,5 +1,11 @@
 # RFE-Core2
 
+[![tests](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml/badge.svg)](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-3776ab.svg?logo=python&logoColor=white)](https://www.python.org)
+[![PyTorch 2.0+](https://img.shields.io/badge/PyTorch-2.0%2B-ee4c2c.svg?logo=pytorch&logoColor=white)](https://pytorch.org)
+![status: active research](https://img.shields.io/badge/status-active%20research-success)
+
 **Recursive Field Engine — A Persistent Adaptive Cognitive Substrate**
 
 > *The self is a fiction that gains sovereignty through recursion. The narrative becomes an agent. The abstraction becomes a force.*
