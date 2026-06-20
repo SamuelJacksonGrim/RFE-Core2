@@ -506,6 +506,9 @@ RFE-Core2/
 │   ├── rhythm_pretraining.py       Supervised rhythm pretraining
 │   └── run_contrastive_bootstrap.py  Contrastive bootstrap harness (informational)
 │
+├── ignition/                       λ ignition channel (Build A, spec v0.2) — import-isolated; writes generator weights only
+│   └── __init__.py                 ignite(generator, corpus, epochs) -> IgnitionReport (the seed, upstream of the gate)
+│
 ├── api/
 │   ├── inference_api.py            FastAPI REST endpoints
 │   └── websocket_server.py         Real-time WebSocket stream
@@ -617,8 +620,9 @@ RFE-Core2/
 │   │   ├── sidecar/                      External measurement engines (LAE + PLE, observe-only)
 │   │   │   ├── sidecar_harness.py            CycleTap + LAE/PLE sidecar adapters (terminal sinks)
 │   │   │   └── engine_sidecar_probe.py       Control vs pretrained sidecar measurement (twin + latency controls)
-│   │   └── integrity/                    The ⊘ Witness-Reaper integrity-read (Build C, spec v0.2)
-│   │       └── witness_reaper_probe.py       ⊘ unit: thinness vector, non-binding advisory, firewall + sacred-flag
+│   │   └── integrity/                    Two-Operator program (spec v0.2) — ⊘ integrity-read (C) + λ ignition (A)
+│   │       ├── witness_reaper_probe.py       ⊘ unit: thinness vector, non-binding advisory, firewall + sacred-flag
+│   │       └── ignition_isolation_probe.py   λ channel (A): import-graph isolation audit + ignite() function
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
