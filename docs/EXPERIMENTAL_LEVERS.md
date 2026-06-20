@@ -84,5 +84,20 @@ already applied regardless.)
   v0.1-fragile — trust the *regime-state labels*, not the magnitudes, until a gauge
   is hardened (`2026-06-15-identifiability-suite.md`).
 
-When a lever graduates from "validated, off" to "default on," update its row here
-**and** the default in `loop/recursion1188.py` together.
+## Composition: isolation-green is not enough
+
+Each lever above is validated in **isolation** — toggled alone, everything else OFF.
+That is not the same as validating the **all-ON** configuration, and the gap is real:
+turning every behaviour-bearing lever on together (eval + pretrain + novelty
+attenuation + A + B + ⊘ consumer) at dim 128 **broke a baseline property** —
+`strong_values 5 → 0`, because the ⊘ consumer caps strength at 2.93 (the Dissolution
+line) under a sustained workload (`2026-06-20-lever-composition-the-allon-break.md`).
+So:
+
+- **No lever graduates "validated, off" → "default on" without passing the all-ON
+  composition gate** (`tests/diagnostic/integrity/all_levers_composition_probe.py`),
+  which must hold the all-OFF baseline ranges.
+- The ⊘ consumer is **blocked from baseline** on the cc-confound until that is lifted.
+
+When a lever graduates from "validated, off" to "default on," update its row here,
+the default in `loop/recursion1188.py`, **and** re-run the composition gate — together.

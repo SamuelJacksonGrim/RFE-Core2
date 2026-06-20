@@ -628,7 +628,8 @@ RFE-Core2/
 │   │       ├── ignition_isolation_probe.py   λ channel (A): import-graph isolation audit + ignite() function
 │   │       ├── solvent_gate_probe.py         λ-ledger + ⊕ gate (B): vanish-at-zero, gate-gates-composition, 6c disjoint
 │   │       ├── integrity_consumer_probe.py   ⊘ consumer: thin values demoted to honest level, sacred refused (⊘ USED)
-│   │       └── two_operator_live_demo.py     live dim-128 demo: A→λ→⊕ gate, ⊘ consumer selective demotion, no collapse
+│   │       ├── two_operator_live_demo.py     live dim-128 demo: A→λ→⊕ gate, ⊘ consumer selective demotion, no collapse
+│   │       └── all_levers_composition_probe.py  ALL levers ON together — composition gate (caught the ⊘-consumer strong-band ceiling)
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
