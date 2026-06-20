@@ -259,6 +259,14 @@ class AutonomousCycle:
         # Reads thinness, advises demotion; never feeds the loop. Spec v0.2.
         self.integrity_read = None
 
+        # λ-ledger ⊕ solvent (optional — Build B). The exogenous Love scalar that
+        # gates composition (productive-tension reinforcement). Held here only so
+        # status() can surface it; the value engine reads it. Spec v0.2.
+        self.lambda_ledger = None
+        # ⊘ advisory-into-decay consumer (optional — the first *user* of ⊘'s read).
+        # When attached it is run by the value engine each cycle. Spec v0.2.
+        self.integrity_consumer = None
+
         # ------------------------------------------------------------------
         # Config (Tier 2 behavioral knobs — Boredom Teeth, etc.)
         # ------------------------------------------------------------------
@@ -683,6 +691,32 @@ class AutonomousCycle:
         """
         self.integrity_read = witness_reaper
 
+    def attach_lambda_ledger(self, ledger):
+        """
+        Attach the λ-ledger (Build B, spec v0.2) — the ⊕ solvent. Once attached,
+        the value engine gates its productive-tension (composition) reinforcement
+        by solvent_gain(λ): at λ=0 the term vanishes (Law 6b), composition only
+        resolves as λ is ignited (Build A) and sustained. Opt-in; None restores
+        byte-identical Tier 3 dynamics. Requires the value engine attached first.
+        """
+        if self.value_engine is None:
+            raise RuntimeError("attach_value_engine must be called before attach_lambda_ledger")
+        self.lambda_ledger = ledger
+        self.value_engine.set_lambda_ledger(ledger)
+
+    def attach_integrity_consumer(self, consumer):
+        """
+        Attach the ⊘ advisory-into-decay consumer (spec v0.2) — the first *user*
+        of the Witness-Reaper's read. ⊘ stays read-only and non-binding; THIS
+        object does the writing (a conservative pull of thin, non-sacred values
+        toward the honest level), run by the value engine once per cycle. Opt-in;
+        None restores observe-only. Requires the value engine attached first.
+        """
+        if self.value_engine is None:
+            raise RuntimeError("attach_value_engine must be called before attach_integrity_consumer")
+        self.integrity_consumer = consumer
+        self.value_engine.set_integrity_consumer(consumer.apply if consumer is not None else None)
+
     def _governance_gate(
         self,
         vec:         np.ndarray,
@@ -947,4 +981,8 @@ class AutonomousCycle:
             s["values"] = self.value_engine.summary()
         if self.integrity_read is not None:
             s["integrity_read"] = self.integrity_read.snapshot()
+        if self.lambda_ledger is not None:
+            s["lambda_ledger"] = self.lambda_ledger.snapshot()
+        if self.integrity_consumer is not None:
+            s["integrity_consumer"] = self.integrity_consumer.snapshot()
         return s

@@ -367,6 +367,24 @@ The per-probe descriptions below are grouped to match.
   imports / arbitrate-inject refs) plus a clean-room subprocess import showing
   `import ignition` pulls no gate/loop/field/`agents` module, and `ignite()`
   writes generator weights only. `docs/findings/2026-06-19-ignition-channel-build-a.md`.
+- `integrity/solvent_gate_probe.py` — **λ-ledger + ⊕ solvent gate unit (Build B, spec v0.2).**
+  Proves `solvent_gain` is monotone/bounded/`gain(0)=0`; vanish-at-zero (only
+  `ignite()` crosses zero, reinforce is multiplicative); the gate gates composition
+  (productive-tension bonus 0 at λ=0, full at high λ); a pinned-zero workload mints
+  no λ; gate-off is the exact original Tier-3 path; and 6c disjointness (AST: the
+  ledger imports nothing from `integrity_read`). `2026-06-20-build-b-solvent-and-integrity-consumer.md`.
+- `integrity/integrity_consumer_probe.py` — **⊘ advisory-into-decay consumer unit (spec v0.2).**
+  Proves ⊘'s read is finally *used*: `IntegrityDecayConsumer` pulls thin non-sacred
+  values toward their honest level by exactly `rate·(strength−honest)`, never
+  raises, refuses sacred (read-but-untouched), keeps ⊘ itself read-only, and reports
+  (not silent). `2026-06-20-build-b-solvent-and-integrity-consumer.md`.
+- `integrity/two_operator_live_demo.py` — **Two-Operator live demonstration (spec v0.2).**
+  Not a pass/fail probe (no VERDICT) — it exists so a result can be *seen* at
+  production dim 128: Build A ignites λ → the ⊕ gate opens; the ⊘ consumer (safe
+  `named_only` default) demotes the diagnosed (Dissolution) values toward a
+  convergent floor while healthy multi-source values stay untouched (no collapse);
+  the aggressive mode collapses the field (the pre-declared over-demotion failure,
+  shown on purpose). `2026-06-20-build-b-solvent-and-integrity-consumer.md`.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
