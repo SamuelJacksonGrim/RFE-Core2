@@ -59,6 +59,19 @@ off as they land + are logged. (Samuel: flag anything missing — this is best-e
       **⊘-on → S\***; plus failure signatures (over-demotion collapse, firewall leak,
       binding advisory, no separation).
 
+## Composition discipline (surfaced 2026-06-20 — the all-ON break)
+- [x] **All-levers composition probe** (`all_levers_composition_probe.py`) — turn every
+      behaviour-bearing lever ON together and hold the all-OFF baseline ranges. First
+      run **FAILED**: `strong_values 5→0`, the ⊘ consumer caps strength at 2.93 (the
+      3.0 Dissolution line) under a sustained workload. `2026-06-20-lever-composition-the-allon-break.md`.
+- [ ] **⊘ consumer graduation is BLOCKED** on the cc-confound — at production length
+      it is a hard ceiling on the STRONG band, not a selective demoter. Keep it a
+      research lever (off by default) until cc is lifted.
+- [ ] **Standing gate:** no lever graduates "validated, off" → "default on" without
+      passing the all-ON composition probe. Re-run at multiple seeds once cc is fixed.
+- [ ] **Per-lever graduation decision** (architect) — which validated levers become
+      baseline vs stay gated (and why). eval-mode already graduated.
+
 ## Dependencies surfaced by the findings (do these to unblock validation)
 - [~] **Adversarial / thinning workload** — single-source monoculture, unbound, low
       complement — to *trigger* and validate ⊘'s named regions (Drift / Dissolution /
