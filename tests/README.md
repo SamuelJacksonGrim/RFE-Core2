@@ -154,6 +154,7 @@ The probes are grouped into subfolders by investigation (run as
 | `training/` | Generator training path (gradient-path check, corpus integrity + G1/G2 gates, diversity audit, trained-generator sim) |
 | `audit/`    | Runtime behavior audits (decision histogram, gate firing, trust, value polarity, identity-stability baseline, return canary) |
 | `sidecar/`  | External measurement engines — LAE (transitions) + PLE (contradictions) wired observe-only around the cycle |
+| `integrity/`| The ⊘ Witness-Reaper integrity-read (Build C, spec v0.2) — observe-only thinness read + non-binding demotion advisory |
 
 The per-probe descriptions below are grouped to match.
 
@@ -353,6 +354,14 @@ The per-probe descriptions below are grouped to match.
   trajectories. Trains once per seed (cached); run with
   `python -m tests.diagnostic.sidecar.engine_sidecar_probe 500
   --seeds 42,7,11 --epochs 8 --json PATH`. Informational; exit 0; NEVER in CI.
+
+- `integrity/witness_reaper_probe.py` — **⊘ Witness-Reaper unit (Build C, spec v0.2).**
+  Proves the integrity-read operator: reads a 4-dim thinness vector per value,
+  names the pathology by region (Drift/Dissolution/Fragmentation), emits a
+  **non-binding** demotion advisory toward a type-conditional honest level, reads
+  sacred nodes but flags them blocked, logs coverage gaps — and the load-bearing
+  check: `read()` writes nothing (firewall). Not the §4 discriminator (that needs
+  Builds A/B). `docs/findings/2026-06-19-witness-reaper-build-c.md`.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
