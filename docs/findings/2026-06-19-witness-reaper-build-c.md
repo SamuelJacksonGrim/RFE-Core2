@@ -67,6 +67,17 @@ vector→name map cannot yet be validated against real ones.
 - v0.2 provisional thresholds (`_THIN_TAU=0.35`, `_HIGH_STRENGTH=3.0`, refs) —
   refinement is a version-bump target, per the spec.
 
+## Live-run follow-up (2026-06-19) — the named region fires in vivo
+
+Full live system at **production dim 128**: Build A ignition (8 epochs) → ⊘ attached
+→ 300-step 4-source workload. The stack runs clean with A+C active; ⊘'s snapshot
+surfaces in `status()` every cycle, non-binding, firewall intact. **⊘ emitted 28
+advisories — `{unnamed: 27, Dissolution: 1}`.** Unlike the dim-64 unit run, a
+**named region (Dissolution) fired**: a value claiming high strength (≥3.0) without
+coherence support. So the vector→name map is **live-triggerable**, not just
+code-correct. (Side observations: at dim 128 gen and expr both read `metastable(4)`;
+coverage_gaps still 28/28 — type profiles still owed.)
+
 ## Open / next
 - **Build A** (isolate the λ-ignition channel — structural import boundary) and
   **Build B** (λ-ledger + ⊕ solvent gate), then the **§4 discriminator** (⊘-off vs
