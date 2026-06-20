@@ -255,6 +255,10 @@ class AutonomousCycle:
         # Value emergence (optional — Tier 3, requires governance)
         self.value_engine = None
 
+        # Integrity-read ⊘ (optional — Build C, observe-only terminal sink).
+        # Reads thinness, advises demotion; never feeds the loop. Spec v0.2.
+        self.integrity_read = None
+
         # ------------------------------------------------------------------
         # Config (Tier 2 behavioral knobs — Boredom Teeth, etc.)
         # ------------------------------------------------------------------
@@ -671,6 +675,14 @@ class AutonomousCycle:
             raise RuntimeError("attach_governance must be called before attach_value_engine")
         self.value_engine = value_engine
 
+    def attach_integrity_read(self, witness_reaper):
+        """
+        Attach the ⊘ Witness-Reaper integrity-read (Build C, spec v0.2).
+        Observe-only terminal sink: read on demand via status(); it never writes
+        the loop, governance, or value strengths. Opt-in — None disables it.
+        """
+        self.integrity_read = witness_reaper
+
     def _governance_gate(
         self,
         vec:         np.ndarray,
@@ -933,4 +945,6 @@ class AutonomousCycle:
             s["governance"] = self.governance.status()
         if self.value_engine is not None:
             s["values"] = self.value_engine.summary()
+        if self.integrity_read is not None:
+            s["integrity_read"] = self.integrity_read.snapshot()
         return s

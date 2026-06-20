@@ -478,7 +478,8 @@ RFE-Core2/
 │   ├── recursive_attention.py      Self-attention over prior states (+ diversity_blend de-collapse)
 │   ├── reflective_loop.py          Recursive self-refinement
 │   ├── symbolic_binding.py         Concept emergence and binding
-│   └── stream_metastability.py     Online upstream metastability monitor (stages A/C)
+│   ├── stream_metastability.py     Online upstream metastability monitor (stages A/C)
+│   └── integrity_read.py           ⊘ Witness-Reaper integrity-read (Build C, observe-only, spec v0.2)
 │
 ├── interference/
 │   ├── wave_collapse.py            Multi-mode vector ensemble collapse
@@ -613,9 +614,11 @@ RFE-Core2/
 │   │   │   ├── value_polarity_flow.py        Births, deaths, transitions
 │   │   │   ├── identity_stability_baseline.py    Identity-stability metrics + reflect-gain dial (cost-probe harness)
 │   │   │   └── rubedo_return_canary.py       Recursive stability / recovery canary
-│   │   └── sidecar/                      External measurement engines (LAE + PLE, observe-only)
-│   │       ├── sidecar_harness.py            CycleTap + LAE/PLE sidecar adapters (terminal sinks)
-│   │       └── engine_sidecar_probe.py       Control vs pretrained sidecar measurement (twin + latency controls)
+│   │   ├── sidecar/                      External measurement engines (LAE + PLE, observe-only)
+│   │   │   ├── sidecar_harness.py            CycleTap + LAE/PLE sidecar adapters (terminal sinks)
+│   │   │   └── engine_sidecar_probe.py       Control vs pretrained sidecar measurement (twin + latency controls)
+│   │   └── integrity/                    The ⊘ Witness-Reaper integrity-read (Build C, spec v0.2)
+│   │       └── witness_reaper_probe.py       ⊘ unit: thinness vector, non-binding advisory, firewall + sacred-flag
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
