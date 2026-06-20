@@ -362,6 +362,11 @@ The per-probe descriptions below are grouped to match.
   sacred nodes but flags them blocked, logs coverage gaps — and the load-bearing
   check: `read()` writes nothing (firewall). Not the §4 discriminator (that needs
   Builds A/B). `docs/findings/2026-06-19-witness-reaper-build-c.md`.
+- `integrity/ignition_isolation_probe.py` — **λ ignition channel unit (Build A, spec v0.2).**
+  Proves the channel is import-graph-isolated: an AST audit (no forbidden
+  imports / arbitrate-inject refs) plus a clean-room subprocess import showing
+  `import ignition` pulls no gate/loop/field/`agents` module, and `ignite()`
+  writes generator weights only. `docs/findings/2026-06-19-ignition-channel-build-a.md`.
 
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
