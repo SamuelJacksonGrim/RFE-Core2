@@ -65,9 +65,14 @@ with attenuation live — step-60 coherence 0.90 (vs 0.96+ bare substrate). The
 loosening is real in the default loop, not just a probe.
 
 ## Open / next (forward)
-- The **field coherence metric saturation** (Cm ~0.9 floor) is now the live floor
-  issue: it makes the field read "coherent" regardless, blunting every coherence-gated
-  consumer. This is the next floor-level thing to confront (and it is what makes the
-  ⊘ cc-axis read ~0 — they are the same saturation).
-- The operators (A/B/⊘ + consumer) still come last, against this now-looser field.
+- The ⊘ **cc-axis is dead by construction**, NOT a symptom of the lock (verified:
+  loosening the field made `coherence_delta` *more* negative, not positive; cc-axis
+  support stayed 0.000 with the graduated levers on). `coherence_contribution` sums
+  the *marginal* `coherence_impact` of injecting into an already-saturated field,
+  which is structurally ≤ 0 (CLAUDE.md: "the marginal reading is near-zero"). So no
+  value ever accrues positive coherence support. The fix is an **operator-layer**
+  redesign of the signal (absolute field-alignment, not marginal delta) — deferred
+  with the operators, but now precisely diagnosed.
+- The operators (A/B/⊘ + consumer) come last, against this now-looser field, and the
+  ⊘ read needs the cc-axis redesign before its consumer can be trusted.
 - Re-run the all-levers composition gate with the graduated baseline as the new floor.
