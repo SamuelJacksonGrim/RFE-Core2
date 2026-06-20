@@ -461,7 +461,10 @@ RFE-Core2/
 │   ├── manipulation_resistance.py  5 detectors + severity scoring
 │   │
 │   │   # Tier 3 — Independent Value Emergence
-│   └── value_emergence.py          ValueEmergenceEngine + CORE handshake
+│   ├── value_emergence.py          ValueEmergenceEngine + CORE handshake (+ ⊕ solvent-gated composition, opt-in)
+│   │
+│   │   # Two-Operator Coherence program (spec v0.2)
+│   └── lambda_ledger.py            λ-ledger (Build B): the ⊕ solvent scalar — ignite/reinforce·λ/decay, 6c-disjoint
 │
 ├── substrate/
 │   ├── resonance_field.py          FFT field + coherence_impact probe
@@ -479,7 +482,7 @@ RFE-Core2/
 │   ├── reflective_loop.py          Recursive self-refinement
 │   ├── symbolic_binding.py         Concept emergence and binding
 │   ├── stream_metastability.py     Online upstream metastability monitor (stages A/C)
-│   └── integrity_read.py           ⊘ Witness-Reaper integrity-read (Build C, observe-only, spec v0.2)
+│   └── integrity_read.py           ⊘ Witness-Reaper integrity-read (Build C) + IntegrityDecayConsumer (the ⊘ USER, spec v0.2)
 │
 ├── interference/
 │   ├── wave_collapse.py            Multi-mode vector ensemble collapse
@@ -620,9 +623,12 @@ RFE-Core2/
 │   │   ├── sidecar/                      External measurement engines (LAE + PLE, observe-only)
 │   │   │   ├── sidecar_harness.py            CycleTap + LAE/PLE sidecar adapters (terminal sinks)
 │   │   │   └── engine_sidecar_probe.py       Control vs pretrained sidecar measurement (twin + latency controls)
-│   │   └── integrity/                    Two-Operator program (spec v0.2) — ⊘ integrity-read (C) + λ ignition (A)
+│   │   └── integrity/                    Two-Operator program (spec v0.2) — ⊘ integrity-read (C), λ ignition (A), solvent gate (B)
 │   │       ├── witness_reaper_probe.py       ⊘ unit: thinness vector, non-binding advisory, firewall + sacred-flag
-│   │       └── ignition_isolation_probe.py   λ channel (A): import-graph isolation audit + ignite() function
+│   │       ├── ignition_isolation_probe.py   λ channel (A): import-graph isolation audit + ignite() function
+│   │       ├── solvent_gate_probe.py         λ-ledger + ⊕ gate (B): vanish-at-zero, gate-gates-composition, 6c disjoint
+│   │       ├── integrity_consumer_probe.py   ⊘ consumer: thin values demoted to honest level, sacred refused (⊘ USED)
+│   │       └── two_operator_live_demo.py     live dim-128 demo: A→λ→⊕ gate, ⊘ consumer selective demotion, no collapse
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges

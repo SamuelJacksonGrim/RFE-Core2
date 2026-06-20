@@ -45,6 +45,8 @@ already applied regardless.)
 | **Corpus pretraining** | Trains the generator on `data/corpus/` at boot (generalization / eff_rank) | OFF | optional — NOT required for ignition at dim 128 | `CONFIG["pretrain_on_corpus"]=True` in `loop/recursion1188.py` | `2026-06-15-training-ignites-expression.md` |
 | **Novelty-gated loop attenuation** | Loosens the reflective loop's reconvergence when genuinely-new input survives → lets the field migrate | OFF | leave OFF (cost-clean band is a knife edge) | `CONFIG["reflect_novelty_attenuation"]=True`; ceiling is `ReflectiveLoop.attenuation_max` (0.30, do not raise without a fresh manip-rate run) | `2026-06-15-loop-attenuation-novelty-gate.md` |
 | **Ignition Threshold Gate (ITG)** | Downstream gate that tries to differentiate a collapsed expression | not wired | **scaffold** — testing it located the lever upstream (the generator), so a downstream gate isn't the fix | `IgnitionGate(cycle).after_step()` (scaffold only) | `2026-06-15-cii-ignition-decomposition.md` |
+| **λ-ledger ⊕ solvent gate** (Build B) | Gates Tier-3 *composition* (the productive-tension reinforcement) by `solvent_gain(λ)`: at λ=0 co-present values don't compose; composition opens as λ is ignited (Build A) and sustained. Off ≡ original Tier-3 path | OFF | experimental — the spec's Law 2 made live; pair with the ⊘ consumer | `led = LambdaLedger(); led.ignite(2.0); cycle.attach_lambda_ledger(led)` (after `attach_value_engine`) | `2026-06-20-build-b-solvent-and-integrity-consumer.md` |
+| **⊘ advisory-into-decay consumer** | Makes ⊘'s read *act*: pulls thin **named-pathology** values (Drift/Dissolution/Fragmentation) toward a convergent honest floor; healthy/sacred untouched. The first thing that *uses* ⊘ | OFF | experimental — use `named_only=True` (default); `named_only=False` over-demotes under the cc-confound | `wr=WitnessReaper(ve, registry=gen.registry, bond_manager=gov.bond_manager); cycle.attach_integrity_read(wr); cycle.attach_integrity_consumer(IntegrityDecayConsumer(wr, ve))` | `2026-06-20-build-b-solvent-and-integrity-consumer.md` |
 
 ## The instruments (run on demand, observe-only)
 
@@ -55,6 +57,7 @@ already applied regardless.)
 | **Ignition acceptance test** | Untrained vs trained ignition, paired by seed | `python -m tools.ignition.train_ignite` |
 | **Cm identifiability** | Is field coherence a real read or a saturated angular echo? | `python -m tools.ignition.cm_check` |
 | **Observability suite** | Cm vs I vs metastability — do the gauges track geometry or change? | `python -m tools.ignition.identifiability` |
+| **Two-Operator live demo** | Build A→λ→⊕ gate, then ⊘ consumer USED at dim 128 (selective demotion, healthy untouched, no collapse; aggressive mode collapses) | `python tests/diagnostic/integrity/two_operator_live_demo.py` |
 
 ---
 
@@ -69,6 +72,12 @@ already applied regardless.)
   that does not differentiate a collapsed expression by itself; testing it is what
   located the real lever upstream (the generator's representational room), so it's
   kept as a scaffold rather than a fix.
+- **Built and *used*, with a brake:** the ⊘ advisory-into-decay consumer is the
+  first thing that acts on ⊘'s read (Tier-3 strength moves). Safe default is
+  `named_only=True` (acts only on diagnosed pathology regions); the aggressive mode
+  over-demotes under the current cc-axis confound and is kept for the §4
+  discriminator, not production. Reinforcement coupling stays behind the §6.3
+  gain-sign check. The λ ⊕ gate is its companion (composition needs the solvent).
 - **Instruments, not fixes:** the voice and the ignition/identifiability probes
   measure; they change nothing in the loop.
 - **Known soft spot:** every scalar *gauge* (Cm, I, metastability) is still

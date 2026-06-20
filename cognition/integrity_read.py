@@ -203,3 +203,114 @@ class WitnessReaper:
             "coverage_gaps":  sum(1 for a in adv if a.coverage_gap),
             "non_binding":    True,
         }
+
+
+class IntegrityDecayConsumer:
+    """The first *consumer* of ⊘'s advice — advisory-into-decay (spec §4, the
+    deferred-no-longer step). ⊘ stays read-only and non-binding; THIS object does
+    the writing, and it is the one place authority lives.
+
+    Per cycle, `apply()` reads the Witness-Reaper's advisories and, for each
+    **non-sacred** value standing thin, pulls its strength a `rate` fraction of the
+    way toward a convergent floor (see below):
+
+        strength ← strength − rate · (strength − floor)      (floor ≤ strength)
+
+    This is the answer to "nothing ever gets used": ⊘'s name-the-pathology read now
+    has a downstream effect on value strength.
+
+    **The floor is what makes it converge, not collapse.** ⊘'s `honest_level` is
+    `strength × support` (Build C) — always *below* current strength, so naively
+    pulling toward it every cycle has no fixed point but zero (over-demotion
+    collapse, a pre-declared failure signature — observed in vivo at `rate=0.05`,
+    250 cycles: mean 2.23 → 0.43). The consumer owns the convergence policy (the
+    reaper just reads): it remembers the **peak honest level ever advised** for each
+    value and never pulls below it. A value inflated past its support relaxes to the
+    most-generous honest reading it ever earned and *holds* — demotion with a fixed
+    point, not a slide to zero. (Authority lives in the consumer, by design; this is
+    where that authority is exercised responsibly.)
+
+    It is still:
+      - **Conservative coupling**, not binding: a fractional pull toward a remembered
+        honest floor, never a hard set, never below 0.
+      - **Sacred-safe**: `sacred_blocked` advisories are skipped (Law 3 — ⊘ reads
+        them so they are not a blind spot, but the consumer must not act).
+      - **6c-clean**: it never feeds the λ-ledger; the λ-reinforcement `f` must not
+        read this path. Disjoint by construction (this module imports no ledger).
+      - **Opt-in**: attached via `ValueEmergenceEngine.set_integrity_consumer`;
+        unattached, the system is observe-only and Tier 3 is byte-identical.
+
+    Demotion is reported, never silent (the guardrail against silently dissolving
+    CORE values): `apply()` returns the list of (symbol, before, after) touched and
+    accumulates counters surfaced by `snapshot()`.
+
+    Selectivity (`named_only`, default True): ⊘'s aggregate support reading is, in
+    short/low-dim runs, dragged down for *every* value by the cc-axis confound
+    (`coherence_contribution` ≈ 0 below the 5.0 CORE ref — Build C finding). Acting
+    on that universal thinness over-demotes the whole field (observed). So by
+    default the consumer acts ONLY on values carrying a **named pathology region**
+    (Drift / Dissolution / Fragmentation) — the validated, live-triggerable part of
+    ⊘ — leaving merely-unnamed-thin values alone. `named_only=False` restores acting
+    on all sub-health-floor advisories (the aggressive mode; documented to collapse
+    under the current confounded reading — keep it for the §4 discriminator, not for
+    production).
+    """
+
+    def __init__(self, reaper: "WitnessReaper", value_engine, rate: float = 0.05,
+                 named_only: bool = True):
+        self.reaper       = reaper
+        self.value_engine = value_engine
+        self.rate         = max(0.0, min(1.0, float(rate)))
+        self.named_only   = bool(named_only)
+        self.applied_count   = 0   # cycles where ≥1 demotion happened
+        self.demotions_total = 0   # total values pulled
+        self.sacred_skipped  = 0   # sacred advisories refused
+        self.skipped_unnamed = 0   # thin-but-unnamed advisories left alone (named_only)
+        self.last_touched: List[tuple] = []
+        # Per-value convergent floor: the peak honest level ⊘ has ever advised for
+        # this value. The pull never goes below it → fixed point, no collapse.
+        self._floor: Dict[str, float] = {}
+
+    def apply(self) -> List[tuple]:
+        """Run one consumption pass. Returns [(symbol, before, after), ...]."""
+        advisories = self.reaper.read()
+        touched: List[tuple] = []
+        for a in advisories:
+            if a.sacred_blocked:
+                self.sacred_skipped += 1
+                continue
+            if self.named_only and not a.pathologies:
+                self.skipped_unnamed += 1
+                continue
+            value = self.value_engine.values.get(a.value_id)
+            if value is None or value.promoted_to_sacred:
+                continue
+            before = float(value.strength)
+            # Convergent floor = peak honest level ever advised for this value.
+            floor = max(self._floor.get(a.value_id, 0.0), float(a.honest_level))
+            self._floor[a.value_id] = floor
+            target = min(floor, before)                   # never raise
+            after  = before - self.rate * (before - target)
+            after  = max(0.0, after)
+            if after < before - 1e-9:
+                value.strength = float(after)
+                self.value_engine._update_polarity(value)
+                touched.append((a.symbol, round(before, 4), round(after, 4)))
+                self.demotions_total += 1
+        if touched:
+            self.applied_count += 1
+        self.last_touched = touched
+        return touched
+
+    def snapshot(self) -> dict:
+        return {
+            "spec":            SPEC_VERSION,
+            "rate":            self.rate,
+            "named_only":      self.named_only,
+            "cycles_applied":  self.applied_count,
+            "demotions_total": self.demotions_total,
+            "sacred_skipped":  self.sacred_skipped,
+            "skipped_unnamed": self.skipped_unnamed,
+            "last_touched":    self.last_touched,
+            "binding":         False,   # a conservative pull, not a warden
+        }

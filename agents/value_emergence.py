@@ -225,10 +225,43 @@ class ValueEmergenceEngine:
 
         self._step: int = 0
 
+        # Two-Operator Coherence Spec v0.2 — opt-in, off by default.
+        # λ-ledger (Build B): gates the ⊕ productive-tension term by solvent_gain(λ).
+        # When None, _solvent_gain() returns 1.0 → Tier 3 dynamics byte-identical.
+        self._lambda_ledger = None
+        # ⊘ integrity consumer (Build C → advisory-into-decay): a zero-arg callable
+        # run once per cycle after the value update. When None, ⊘ is observe-only.
+        self._integrity_consumer = None
+
         # Subscribe to governance feedback stream
         governance.subscribe_feedback(self._on_feedback)
 
         logger.info("ValueEmergenceEngine initialized and subscribed to governance feedback.")
+
+    # ==================================================================
+    # Two-Operator Coherence Spec v0.2 — opt-in wiring (Build B / ⊘ consumer)
+    # ==================================================================
+
+    def set_lambda_ledger(self, ledger) -> None:
+        """Attach the separate λ-ledger (Build B). Once attached, the ⊕
+        productive-tension reinforcement is gated by solvent_gain(λ): with λ=0
+        the term vanishes (Law 6b), composition only resolves as λ rises. Pass
+        None to detach (restores byte-identical Tier 3 dynamics)."""
+        self._lambda_ledger = ledger
+
+    def set_integrity_consumer(self, consumer) -> None:
+        """Attach a zero-arg callable run once per cycle after the value update
+        (e.g. `IntegrityDecayConsumer.apply`). This is how ⊘'s non-binding
+        advisories are actually *used* — the consumer, not ⊘, does the writing,
+        and it must refuse sacred nodes. Pass None to restore observe-only."""
+        self._integrity_consumer = consumer
+
+    def _solvent_gain(self) -> float:
+        """The ⊕ gate. 1.0 when no λ-ledger is attached (default — no behavior
+        change); otherwise solvent_gain(λ_strength) ∈ [0,1] (Build B)."""
+        if self._lambda_ledger is None:
+            return 1.0
+        return self._lambda_ledger.gain()
 
     # ==================================================================
     # Feedback path
@@ -279,6 +312,13 @@ class ValueEmergenceEngine:
 
         # 5. Enforce max value cap
         self._enforce_value_cap()
+
+        # 6. ⊘ advisory-into-decay (opt-in). The consumer reads the Witness-Reaper's
+        #    non-binding advisories and pulls thin, non-sacred values toward their
+        #    honest level. ⊘ still writes nothing; the consumer does, and it refuses
+        #    sacred nodes. Off by default (observe-only) — Tier 3 unchanged.
+        if self._integrity_consumer is not None:
+            self._integrity_consumer()
 
     # ==================================================================
     # Detection
@@ -449,7 +489,12 @@ class ValueEmergenceEngine:
         Find values in cosine-anti-correlated relationship with this one.
         Productive tension between two strong values reinforces both.
         """
-        bonus  = self.config["productive_tension_bonus"]
+        # ⊕ solvent gate (Build B): the productive-tension term is composition —
+        # it only resolves toward fulfillment in the presence of the solvent λ
+        # (Law 2). solvent_gain is 1.0 with no ledger attached (no behavior change),
+        # 0.0 at λ=0 (co-presence does not compose; values stay isolated → ⊘ reads
+        # their pathology), → 1.0 as λ rises.
+        bonus  = self.config["productive_tension_bonus"] * self._solvent_gain()
         min_s  = self.config["productive_tension_min_strength"]
         thresh = self.config["tension_threshold"]
 
