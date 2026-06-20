@@ -62,19 +62,24 @@ CONFIG = {
     "dream_iterations":     6,
 
     # ------------------------------------------------------------------
-    # EXPERIMENTAL LEVERS — the validated work that is otherwise inert.
-    # One place to turn it on. Full control panel: docs/EXPERIMENTAL_LEVERS.md.
+    # GRADUATED LEVERS — validated, verified in the composed runtime, now DEFAULT ON.
+    # (Set False to opt out.) Control panel: docs/EXPERIMENTAL_LEVERS.md.
     # ------------------------------------------------------------------
-    # Train the generator on data/corpus/ at boot. Buys held-out generalization
-    # / eff_rank (Gate G1). NOTE: at production dim 128 the expression is already
-    # metastable untrained, so this is OPTIONAL, not required for ignition.
-    # (2026-06-15-training-ignites-expression.md, Production-dim validation)
-    "pretrain_on_corpus":          False,
+    # Train the generator on data/corpus/ at boot. Directly measured at production
+    # dim 128 to roughly HALVE the generator's common-mode (0.81 -> 0.47) and regime
+    # correlation (0.78 -> 0.39) — a real floor-level representational fix that
+    # de-collapse only masks. Composes positively with novelty attenuation (amplifies
+    # the field loosening). (2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md)
+    "pretrain_on_corpus":          True,
     "pretrain_epochs":             8,
-    # Novelty-gated reflective-loop loosening. Validated identity-safe at the
-    # default ceiling, but the cost-clean band is a knife edge — leave OFF until
-    # you want to experiment. (2026-06-15-loop-attenuation-novelty-gate.md)
-    "reflect_novelty_attenuation": False,
+    # Novelty-gated reflective-loop loosening. The reflective loop IS the field lock
+    # (reconstruction-ablation); attenuation at the validated 0.30 ceiling measurably
+    # loosens it (coherence 0.97 -> 0.92, ~5x more dynamic with pretrain) WITHOUT
+    # costing manipulation resistance — verified in-situ: an identity-erosion attacker
+    # was 82% quarantined and trust-floored with this ON. Do NOT raise the ceiling
+    # (ReflectiveLoop.attenuation_max=0.30) without a fresh manip-rate run.
+    # (2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md)
+    "reflect_novelty_attenuation": True,
 }
 
 # Default token sequences — replace with your own input pipeline
