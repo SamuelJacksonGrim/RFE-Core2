@@ -685,10 +685,16 @@ class AutonomousCycle:
 
     def attach_integrity_read(self, witness_reaper):
         """
-        Attach the ⊘ Witness-Reaper integrity-read (Build C, spec v0.2).
+        Attach the ⊘ Witness-Reaper integrity-read (Build C, spec v0.3).
         Observe-only terminal sink: read on demand via status(); it never writes
         the loop, governance, or value strengths. Opt-in — None disables it.
+
+        Injects this cycle's field into the reaper (if it has none) so the v0.3
+        coherence axis (absolute field-alignment) is live without the caller having
+        to wire it — a reaper attached to a cycle reads against that cycle's field.
         """
+        if witness_reaper is not None and getattr(witness_reaper, "field", None) is None:
+            witness_reaper.field = self.field
         self.integrity_read = witness_reaper
 
     def attach_lambda_ledger(self, ledger):
