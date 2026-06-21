@@ -27,7 +27,13 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional
 
-SPEC_VERSION = "v0.2"
+import numpy as np
+
+# v0.3: the ⊘ coherence axis was redesigned from marginal coherence_contribution
+# (structurally ≤ 0 in a saturated field → dead-at-zero) to absolute field-alignment
+# of the EXPRESSED vector (max(0, cos(generate(token), field))). A thinness-metric
+# definition change → spec bump, per the findings discipline.
+SPEC_VERSION = "v0.3"
 
 # Provisional v0.2 constants — version-stamped; tune only under a spec bump.
 _THIN_TAU       = 0.35   # per-dimension support below this counts as "thin" on it
@@ -108,12 +114,16 @@ class WitnessReaper:
 
     def __init__(self, value_engine, registry=None, bond_manager=None,
                  sacred_check: Optional[Callable[[int], bool]] = None,
-                 baseline_profiles: Optional[Dict] = None):
+                 baseline_profiles: Optional[Dict] = None, field=None):
         self.value_engine      = value_engine
         self.registry          = registry
         self.bond_manager      = bond_manager
         self.sacred_check      = sacred_check
         self.baseline_profiles = baseline_profiles or {}
+        # ResonanceField handle for the absolute-alignment coherence read. When
+        # None, the coherence axis degrades to neutral+flagged (no marginal-delta
+        # fallback — that signal is dead by construction in a saturated field).
+        self.field             = field
 
     # ---- per-dimension support reads (all read-only) ------------------------
 
@@ -125,7 +135,35 @@ class WitnessReaper:
         return present / len(comps), False
 
     def _coherence_support(self, value):
-        return max(0.0, min(1.0, value.coherence_contribution / _COHERENCE_REF)), False
+        """Absolute field-alignment — how well the value sits with the field NOW:
+        max(0, cos(EXPRESSED vector, current field state)). Replaces the marginal
+        `coherence_contribution / _COHERENCE_REF` signal, which is structurally ≤ 0
+        in a saturated field (injecting into a near-maxed field only dilutes it), so
+        it read 0 for every value.
+
+        The expressed vector — `generator.generate([symbolic_core])` — is what
+        actually enters the field (embedding → generate → … → inject); the raw
+        embedding row sits in a different, near-orthogonal space and gives a dead,
+        compressed read. Coherence is a field *effect*: support is the value's
+        expressed *direction* relative to the field, which does not saturate even
+        when the field's coherence *magnitude* is maxed. Neutral+flagged when the
+        field or generator is unavailable (never the dead marginal fallback).
+
+        Read-only and off the hot path: one `generate` per value on demand. A broad
+        guard returns neutral rather than ever propagating into the loop (firewall)."""
+        if self.field is None:
+            return 0.5, True
+        try:
+            vec = np.asarray(self.value_engine.generator.generate([value.symbolic_core]),
+                             dtype=float).ravel()
+        except Exception:                       # read-only: never propagate to the loop
+            return 0.5, True
+        f = np.asarray(getattr(self.field, "field", self.field), dtype=float).ravel()
+        nv = float(np.linalg.norm(vec)); nf = float(np.linalg.norm(f))
+        if nv < 1e-8 or nf < 1e-8 or vec.shape != f.shape:
+            return 0.5, True
+        cos = float(np.dot(vec, f) / (nv * nf))
+        return max(0.0, cos), False
 
     def _source_support(self, value):
         n = len(value.source_weights)
@@ -157,11 +195,11 @@ class WitnessReaper:
 
         for v in values:
             cd, gap_cd = self._complement_support(v, active_ids)
-            cc, _      = self._coherence_support(v)
+            cc, gap_cc = self._coherence_support(v)
             sd, gap_sd = self._source_support(v)
             ab, gap_ab = self._binding_support(v)
             tv = ThinnessVector(cd, cc, sd, ab)
-            coverage_gap = gap_cd or gap_sd or gap_ab or not self.baseline_profiles
+            coverage_gap = gap_cd or gap_cc or gap_sd or gap_ab or not self.baseline_profiles
 
             # region-named pathologies (axiom table; provisional v0.2 regions)
             paths: List[str] = []
