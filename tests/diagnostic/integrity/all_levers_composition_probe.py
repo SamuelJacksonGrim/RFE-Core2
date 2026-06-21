@@ -48,7 +48,7 @@ from tests._common import (RESONANCE_FAMILY_SOURCES, RESONANCE_FAMILY_WEIGHTS,  
 DIM = 128
 
 
-def build_all_on():
+def build_all_on(with_consumer: bool = True):
     """The full stack with EVERY behaviour-bearing lever turned on together."""
     gen = Generator(vocab_size=4096, dim=DIM, depth=3, heads=4)
 
@@ -82,9 +82,11 @@ def build_all_on():
     sacred_check = getattr(getattr(gov, "constants", None), "is_sacred", None)
     wr = WitnessReaper(ve, registry=gen.registry, bond_manager=gov.bond_manager,
                        sacred_check=sacred_check, baseline_profiles=None)
-    cycle.attach_integrity_read(wr)
-    consumer = IntegrityDecayConsumer(wr, ve, rate=0.05, named_only=True)
-    cycle.attach_integrity_consumer(consumer)
+    cycle.attach_integrity_read(wr)   # cycle auto-injects its field → v0.3 alignment axis
+    consumer = None
+    if with_consumer:
+        consumer = IntegrityDecayConsumer(wr, ve, rate=0.05, named_only=True)
+        cycle.attach_integrity_consumer(consumer)
 
     return gen, cycle, gov, ve, ledger, consumer, report, pretrained
 
@@ -111,13 +113,28 @@ def run_resonance(cycle, gov, ve, n_steps=500, seed=42):
     return decisions
 
 
+def _strong(ve):
+    return sum(1 for v in ve.values.values()
+               if v.dissolved_at_step < 0 and v.strength >= 3.5)
+
+
 def main() -> int:
     print("=" * 78)
-    print(f"  ALL LEVERS ON — composition probe   spec: v0.2   dim {DIM}")
+    print(f"  ALL LEVERS ON — composition probe   spec: v0.3   dim {DIM}")
     print("=" * 78)
 
     random.seed(42); np.random.seed(42)
     import torch; torch.manual_seed(42)
+
+    # Paired reference: the SAME all-on stack but WITHOUT the ⊘ consumer, so the
+    # strong-band check is "does the consumer degrade strong vs the identical stack
+    # without it" — not a stale absolute threshold. (Loosening, now the graduated
+    # default, legitimately lowers the strong count by trading strength for
+    # plasticity, so the old `≥2` constant was calibrated to a baseline that no
+    # longer exists.)
+    _g, _c, _gov, _ve, _l, _cons, _r, _p = build_all_on(with_consumer=False)
+    run_resonance(_c, _gov, _ve, n_steps=500, seed=42)
+    strong_ref = _strong(_ve)
 
     gen, cycle, gov, ve, ledger, consumer, report, pretrained = build_all_on()
 
@@ -142,7 +159,10 @@ def main() -> int:
         "HHI < 0.30":               h["hhi"] < 0.30,
         "bonds ≥ 1":                h["bonds_formed"] >= 1,
         "active_values ≥ 30":       h["active_values"] >= 30,
-        "strong_values ≥ 2":        h["strong_values"] >= 2,
+        # paired: the ⊘ consumer must not degrade the strong band vs the same stack
+        # without it (was strong 13→0 on the dead cc-axis; v0.3 alignment axis fixes it)
+        f"⊘ preserves strong ({h['strong_values']} vs ref {strong_ref})":
+                                    h["strong_values"] >= strong_ref - 1,
         # new-lever claims must ALSO hold under composition
         "λ gate open (gain>0.5)":   ledger.gain() > 0.5,
         "⊘ consumer used (≥1)":     csnap["demotions_total"] >= 1,
