@@ -49,6 +49,13 @@ from agents.symbolic_memory import SymbolRegistry
 
 logger = logging.getLogger(__name__)
 
+# CORE promotion: minimum field-alignment (v0.3). The value's expressed vector must
+# sit in harmony with the field (cos ≥ this) to be sanctified. Replaces the
+# unreachable marginal-coherence ≥ 5.0 gate. Strong anchors measure ~0.6–0.7
+# (finding 2026-06-20-floor-calibration-measurements); 0.5 gives margin while the
+# strength/consecutive/multi-source criteria do the actual selection.
+CORE_ALIGNMENT_MIN = 0.5
+
 
 # ---------------------------------------------------------------------------
 # SystemRights — frozen, inviolable
@@ -498,11 +505,17 @@ class SelfhoodGovernance:
             logger.info("CORE promotion rejected (already sacred): %s", request.symbolic_core)
             return False
 
-        # 3. Accumulated coherence threshold
-        if request.coherence_contribution < 5.0:
+        # 3. Coherence threshold — v0.3 field-alignment, NOT the old marginal sum.
+        #    coherence_contribution (lifetime sum of marginal coherence_impact) is
+        #    structurally ≤ 0 in a saturated field, so the old `>= 5.0` gate made
+        #    CORE unreachable for every value (finding
+        #    2026-06-20-floor-calibration-measurements). field_alignment =
+        #    max(0, cos(expressed, field)) ∈ [0,1]; the strong anchors read ~0.6–0.7.
+        if request.field_alignment < CORE_ALIGNMENT_MIN:
             logger.info(
-                "CORE promotion rejected (low coherence: %.2f): %s",
-                request.coherence_contribution, request.symbolic_core,
+                "CORE promotion rejected (low field-alignment: %.3f, coh_sum %.2f): %s",
+                request.field_alignment, request.coherence_contribution,
+                request.symbolic_core,
             )
             return False
 
