@@ -1,5 +1,18 @@
 # configs/recursion.yaml
 # Autonomous cycle and loop configuration for RFE-Core2
+#
+# ⚠ REFERENCE SNAPSHOT — NOT LOADED AT RUNTIME.
+# No code path reads this file. The runtime source of truth is the inline CONFIG
+# dict in loop/recursion1188.py plus each component's __init__ defaults. This file
+# documents those defaults in one place; editing it changes nothing. Keep it in
+# sync by hand, or treat it as illustrative only. The toggle switches and the
+# graduated levers are described in docs/EXPERIMENTAL_LEVERS.md.
+
+# Graduated levers — validated, DEFAULT ON in CONFIG (mirrored here for reference).
+levers:
+  pretrain_on_corpus: true          # corpus pretrain at boot (generalization / common-mode)
+  pretrain_epochs: 8
+  reflect_novelty_attenuation: true # novelty-gated loop loosening (ceiling 0.30)
 
 generator:
   vocab_size: 8192

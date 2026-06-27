@@ -12,8 +12,10 @@ Usage
 
 Configuration
 -------------
-    Edit the CONFIG dict below, or pass a path to field.yaml / recursion.yaml.
-    All major parameters are exposed here for rapid iteration.
+    Edit the CONFIG dict below — it is the runtime source of truth for
+    entry-point parameters. (The YAML files under configs/ are reference
+    snapshots; nothing loads them. See docs/EXPERIMENTAL_LEVERS.md for the
+    toggle switches and the graduated levers.)
 
 The name 1188 encodes the DISCIPLINE constant (11.88) that anchors
 the recursive cognition rhythm. The loop does not merely run — it
