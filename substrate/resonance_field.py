@@ -91,7 +91,15 @@ class ResonanceField:
         Window size for phase coherence computation.
     """
 
-    # Default rhythm energy thresholds
+    # Default rhythm energy thresholds.
+    # NOTE: these bands are too low for the real ||field|| scale (~100-300), so at
+    # dim 128 rhythm is pinned to `explore` and dream/stabilize/reflect are starved
+    # (pass-3 evaluation). A naive rescale is NOT safe: `diffuse_on_stabilize` makes
+    # the stabilize band feed back into the field (it diffuses/suppresses energy), so
+    # raising the stabilize threshold collapses the system into a stabilize basin
+    # (allow_rate 0.99->0.034 in the smoke suite). The correct fix must co-tune the
+    # bands WITH the diffusion feedback — tracked as dedicated work, not a constant
+    # tweak. (finding 2026-06-20-floor-calibration-measurements)
     DEFAULT_THRESHOLDS = {
         "stabilize": 0.5,
         "dream":     2.0,

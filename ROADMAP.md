@@ -303,6 +303,27 @@ Treat the above as direction, not committed scope, per this document's status
 discipline. Full detail in `docs/lock_in_remediation_plan.md`; the raw verbatim
 working brief is archived externally (not in-repo).
 
+### Two-Operator Coherence program (spec v0.2) — in progress
+
+Implementation of the Two-Operator Coherence Spec v0.2 (ignite λ from outside →
+gate composition on λ → let ⊘ read thinness and push it toward honesty). Findings
+record `spec: v0.2`.
+
+| Build | Concern | Status |
+|-------|---------|--------|
+| **A** | λ ignition channel — import-isolated; writes generator weights only | **shipped** (`ignition/`, finding `2026-06-19-ignition-channel-build-a.md`) |
+| **C** | ⊘ Witness-Reaper integrity-read — observe-only thinness + non-binding advisory | **shipped** (`cognition/integrity_read.py`; named region fired live; `2026-06-19-witness-reaper-build-c.md`) |
+| **B** | λ-ledger + ⊕ solvent gate (anti-bootstrap core) | **planned** — `docs/build_b_plan.md` (settle λ_strength reading first) |
+| §4 | the discriminator — ⊘-off vs ⊘-on, noise-swept | **planned** — needs A+B+C; front-load the §6.3 gain-sign check |
+
+Open dependencies (see `docs/two_operator_todo.md`): an **adversarial/thinning
+workload** to trigger and validate ⊘'s named regions; **per-type thinness
+profiles** in the baseline registry (the coverage-gap is currently universal);
+the §4 **noise sweep** (0.05σ→0.5σ) + trajectory metrics; **§5 scale-parametric ⊘**;
+a **dim-128** discriminator validation.
+
+---
+
 ### Bonded-adversarial probe — Tier 5/6
 
 **The experiment that falsifies or confirms whether the emotional

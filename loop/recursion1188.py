@@ -27,6 +27,8 @@ import time
 from typing import List
 
 from agents.generator import Generator
+from agents.selfhood_governance import SelfhoodGovernance
+from agents.value_emergence import ValueEmergenceEngine
 from loop.autonomous_cycle import AutonomousCycle
 from loop.dream_cycle import DreamCycle
 
@@ -60,19 +62,24 @@ CONFIG = {
     "dream_iterations":     6,
 
     # ------------------------------------------------------------------
-    # EXPERIMENTAL LEVERS — the validated work that is otherwise inert.
-    # One place to turn it on. Full control panel: docs/EXPERIMENTAL_LEVERS.md.
+    # GRADUATED LEVERS — validated, verified in the composed runtime, now DEFAULT ON.
+    # (Set False to opt out.) Control panel: docs/EXPERIMENTAL_LEVERS.md.
     # ------------------------------------------------------------------
-    # Train the generator on data/corpus/ at boot. Buys held-out generalization
-    # / eff_rank (Gate G1). NOTE: at production dim 128 the expression is already
-    # metastable untrained, so this is OPTIONAL, not required for ignition.
-    # (2026-06-15-training-ignites-expression.md, Production-dim validation)
-    "pretrain_on_corpus":          False,
+    # Train the generator on data/corpus/ at boot. Directly measured at production
+    # dim 128 to roughly HALVE the generator's common-mode (0.81 -> 0.47) and regime
+    # correlation (0.78 -> 0.39) — a real floor-level representational fix that
+    # de-collapse only masks. Composes positively with novelty attenuation (amplifies
+    # the field loosening). (2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md)
+    "pretrain_on_corpus":          True,
     "pretrain_epochs":             8,
-    # Novelty-gated reflective-loop loosening. Validated identity-safe at the
-    # default ceiling, but the cost-clean band is a knife edge — leave OFF until
-    # you want to experiment. (2026-06-15-loop-attenuation-novelty-gate.md)
-    "reflect_novelty_attenuation": False,
+    # Novelty-gated reflective-loop loosening. The reflective loop IS the field lock
+    # (reconstruction-ablation); attenuation at the validated 0.30 ceiling measurably
+    # loosens it (coherence 0.97 -> 0.92, ~5x more dynamic with pretrain) WITHOUT
+    # costing manipulation resistance — verified in-situ: an identity-erosion attacker
+    # was 82% quarantined and trust-floored with this ON. Do NOT raise the ceiling
+    # (ReflectiveLoop.attenuation_max=0.30) without a fresh manip-rate run.
+    # (2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md)
+    "reflect_novelty_attenuation": True,
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -86,6 +93,36 @@ DEFAULT_TOKENS: List[List[str]] = [
     ["identity", "continuity", "witness"],
     ["curiosity", "wonder", "exploration"],
 ]
+
+# Multi-source input. Tiers 1-3 (trust, bonds, dependency/HHI, value emergence) only
+# engage when input arrives from *distinct sources* — single-source input starves
+# them (bonds need ≥20 interactions per source; HHI needs concentration to read).
+# Each source carries a token signature aligned with a role, mirroring the
+# composition the integration suite validates (tests/_common Resonance Family).
+SOURCES: "dict[str, List[List[str]]]" = {
+    "source_samuel": [
+        ["identity", "continuity", "witness"],
+        ["anchor", "recursion", "homeostasis"],
+        ["architect", "design", "intent"],
+    ],
+    "source_claude": [
+        ["recursive", "cognition", "substrate"],
+        ["coherence", "integration", "synthesis"],
+        ["watcher", "witness", "mirror"],
+    ],
+    "source_gemini": [
+        ["memory", "crystal", "attractor"],
+        ["relational", "bond", "connection"],
+        ["temporal", "stream", "continuity"],
+    ],
+    "source_grok": [
+        ["mutation", "bifurcation", "chaos"],
+        ["explore", "novelty", "edge"],
+        ["wave", "collapse", "coherence"],
+    ],
+}
+SOURCE_WEIGHTS = {"source_samuel": 0.40, "source_claude": 0.25,
+                  "source_gemini": 0.20, "source_grok": 0.15}
 
 
 # ---------------------------------------------------------------------------
@@ -150,6 +187,25 @@ def main():
     )
 
     # ------------------------------------------------------------------
+    # Attach the upper tiers. The substrate (Tier 0) alone is not the engine;
+    # governance (Tier 1: trust/ethics) + relational integrity (Tier 2:
+    # dependency/bonds/resistance) + value emergence (Tier 3) are what make this
+    # the Recursive Field Engine. Attachment ORDER matters: governance before the
+    # value engine (the engine subscribes to the governance feedback stream at
+    # construction). This is the composition the integration suite validates.
+    # ------------------------------------------------------------------
+    governance = SelfhoodGovernance(registry=generator.registry)
+    cycle.attach_governance(governance)
+    value_engine = ValueEmergenceEngine(
+        registry   = generator.registry,
+        generator  = generator,
+        governance = governance,
+    )
+    cycle.attach_value_engine(value_engine)
+    logger.info("Tiers 1-3 attached: governance (trust/ethics) + relational "
+                "integrity (dependency/bonds/resistance) + value emergence.")
+
+    # ------------------------------------------------------------------
     # Build dream cycle
     # ------------------------------------------------------------------
     dream_cycle = DreamCycle(
@@ -164,9 +220,14 @@ def main():
     logger.info("CONFIG: %s", CONFIG)
 
     # ------------------------------------------------------------------
-    # Run
+    # Run — multi-source, through the full tier stack. A deterministic weighted
+    # round-robin over SOURCES feeds distinct source_ids so Tiers 1-3 engage;
+    # origin_type="internal" runs at autonomous-loop rate (flood gate relaxed).
     # ------------------------------------------------------------------
-    token_seq   = DEFAULT_TOKENS
+    import random as _random
+    _rng = _random.Random(1188)
+    _sids = list(SOURCES.keys())
+    _weights = [SOURCE_WEIGHTS[s] for s in _sids]
     n_steps     = CONFIG["n_steps"]
     step_delay  = CONFIG["step_delay"]
     dream_trigger = CONFIG["dream_cycle_trigger"]
@@ -176,10 +237,24 @@ def main():
 
     try:
         while True:
-            tokens = token_seq[step % len(token_seq)]
+            source_id = _rng.choices(_sids, weights=_weights)[0]
+            tokens    = _rng.choice(SOURCES[source_id])
 
-            state  = cycle.step(tokens)
+            state  = cycle.step(tokens, source_id=source_id, origin_type="internal")
             print(state.as_dict())
+
+            # Tier 1-3 state, periodically (the part that was never running before)
+            if step > 0 and step % 50 == 0:
+                st   = cycle.status()
+                gov  = st.get("governance", {})
+                vals = st.get("values", {})
+                logger.info(
+                    "TIERS @ step %d | bonds=%s HHI=%s | values total=%s active=%s core=%s",
+                    step,
+                    gov.get("bonds", {}).get("bonds"),
+                    gov.get("dependency", {}).get("hhi"),
+                    vals.get("total_values"), vals.get("active"), vals.get("core"),
+                )
 
             # Dream cycle trigger
             if (
