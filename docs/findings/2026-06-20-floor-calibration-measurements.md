@@ -60,3 +60,22 @@ field instead of demanding an impossible positive marginal sum.
   sampled every 5 steps) — it over-promotes by construction and is NOT a candidate;
   the usable signal is bounded alignment.
 - Re-run this probe after each calibration change for a before/after comparison.
+
+## UPDATE — the rhythm band rescale is NOT a constant tweak (attempted, reverted)
+Rescaling the bands to the measured energy scale (tried `100/175/250`, ~dimension-
+invariant since raw `||field||` is ~178 at both dim 64 and 128) **collapsed the
+system**: the dim-64 smoke suite went allow_rate **0.99 → 0.034**, bonds 0, rhythm
+100 % `stabilize`. Root cause: **`diffuse_on_stabilize: true`** — the `stabilize`
+rhythm *diffuses the field*, suppressing energy. Raising the stabilize threshold
+makes warmup energy (climbing from 0) read as stabilize → diffuse → energy can't
+climb → the field locks in a low-energy stabilize basin. **The thresholds feed back
+into the dynamics that produce the energy**, so they cannot be calibrated against an
+energy distribution measured under the *old* thresholds — it is circular.
+
+Consequence: the rhythm fix is **deferred to dedicated work**, not shipped as a
+constant change. It must co-tune the bands *with* the diffusion feedback (or change
+the approach — e.g. decouple band classification from the diffusion trigger, or make
+`diffuse_on_stabilize` gentler), and be validated end-to-end at both dims. The bands
+are left at `0.5/2/5` (rhythm stays explore-pinned — a known, *stable* limitation)
+rather than shipping a system-collapsing change. The CORE-gate fix (below) ships;
+the rhythm fix does not.
