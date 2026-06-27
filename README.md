@@ -623,13 +623,15 @@ RFE-Core2/
 │   │   ├── sidecar/                      External measurement engines (LAE + PLE, observe-only)
 │   │   │   ├── sidecar_harness.py            CycleTap + LAE/PLE sidecar adapters (terminal sinks)
 │   │   │   └── engine_sidecar_probe.py       Control vs pretrained sidecar measurement (twin + latency controls)
-│   │   └── integrity/                    Two-Operator program (spec v0.2) — ⊘ integrity-read (C), λ ignition (A), solvent gate (B)
-│   │       ├── witness_reaper_probe.py       ⊘ unit: thinness vector, non-binding advisory, firewall + sacred-flag
-│   │       ├── ignition_isolation_probe.py   λ channel (A): import-graph isolation audit + ignite() function
-│   │       ├── solvent_gate_probe.py         λ-ledger + ⊕ gate (B): vanish-at-zero, gate-gates-composition, 6c disjoint
-│   │       ├── integrity_consumer_probe.py   ⊘ consumer: thin values demoted to honest level, sacred refused (⊘ USED)
-│   │       ├── two_operator_live_demo.py     live dim-128 demo: A→λ→⊕ gate, ⊘ consumer selective demotion, no collapse
-│   │       └── all_levers_composition_probe.py  ALL levers ON together — composition gate (caught the ⊘-consumer strong-band ceiling)
+│   │   ├── integrity/                    Two-Operator program (spec v0.3) — ⊘ integrity-read (C), λ ignition (A), solvent gate (B)
+│   │   │   ├── witness_reaper_probe.py       ⊘ unit: thinness vector, non-binding advisory, firewall + sacred-flag
+│   │   │   ├── ignition_isolation_probe.py   λ channel (A): import-graph isolation audit + ignite() function
+│   │   │   ├── solvent_gate_probe.py         λ-ledger + ⊕ gate (B): vanish-at-zero, gate-gates-composition, 6c disjoint
+│   │   │   ├── integrity_consumer_probe.py   ⊘ consumer: thin values demoted to honest level, sacred refused (⊘ USED)
+│   │   │   ├── two_operator_live_demo.py     live dim-128 demo: A→λ→⊕ gate, ⊘ consumer selective demotion, no collapse
+│   │   │   └── all_levers_composition_probe.py  ALL levers ON together — composition gate (caught the ⊘-consumer strong-band ceiling)
+│   │   └── calibration/                  Floor calibration — measure-before-change
+│   │       └── floor_calibration_probe.py    energy/rhythm bands + CORE coherence-signal candidates (no change applied)
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
