@@ -63,6 +63,21 @@ at boot and drives the loop with multi-source input, so trust, bonds, dependency
 (HHI), and value emergence are live rather than inert. Verified healthy at
 250–800 steps (`2026-06-20-ground-truth-pass1-compose-the-runtime.md`).
 
+Composition now has a single home so no entry point can drift back to Tier 0
+(the trap that caught the APIs through 2026-06-27 — §10.4):
+
+```
+  loop.recursion1188.build_engine(CONFIG)   ── the one composition path ──┐
+     Generator → AutonomousCycle                                          │
+     → attach_governance()      (Tier 1+2; MUST precede ↓)                │
+     → attach_value_engine()    (Tier 3; subscribes to gov feedback)      │
+                                                                          ▼
+   ┌──────────────────────────┬───────────────────────────┬──────────────────────┐
+   │ python -m loop.recursion1188 │ uvicorn …inference_api:app │ python -m …websocket_server │
+   │ multi-source loop         │ lazy app; /step origin="api" │ multi-source stream loop      │
+   └──────────────────────────┴───────────────────────────┴──────────────────────┘
+```
+
 Layered *over* the tiers is an opt-in **Two-Operator overlay** — the λ ignition
 channel, the ⊕ solvent gate, and the ⊘ Witness-Reaper integrity-read (§8). It is
 off by default; with nothing attached the tiered behavior is byte-identical.
@@ -613,8 +628,10 @@ One row per module, by directory. "Role" is its function in information flow.
 | `api/inference_api.py` | FastAPI REST (`uvicorn api.inference_api:app`) | `POST /generate` (tokens→vector), `/step`, `/dream`, `/maintenance`; `GET /status`, `/field`, `/crystals`, `/attractors`, `/ecology`; `DELETE /reset` (field only) |
 | `api/websocket_server.py` | WebSocket (`python -m api.websocket_server`) | Streams `StepState`/`field`/`dream`/`status` JSON every cycle; accepts `status`/`dream`/`maintenance`/`reset_field` commands |
 
-Note: like `recursion1188.py` before 2026-06-20, the APIs were Tier-0 only; the
-composition fix (F6) is the entry-point work that the tiered runtime depends on.
+Both entry points compose the full tier stack through the shared
+`loop.recursion1188.build_engine()` (the REST `app` lazily, the WebSocket loop
+multi-source). They were Tier-0 only until 2026-06-27 — the F6 fix had reached
+`recursion1188.py` but not these (see §10.4).
 
 ### Generator training path (shapes the encoder; gates Tier 5)
 
@@ -689,6 +706,41 @@ itself, and an *integrity-read* (⊘) that can only advise, never act.
   **convergent honest floor** (it remembers the peak honest level advised and
   never pulls below it). Default `named_only=True`; `named_only=False` over-demotes
   under the cc-confound and is kept for the discriminator, not production.
+
+```
+   EXOGENOUS (from outside the loop — the seed that crosses the dark)
+        │ ignite()  ── the ONLY zero-crossing for λ
+        ▼
+  ┌─────────────────────┐   writes generator WEIGHTS only
+  │ λ ignition (Build A) │ ─────────────────────────────────► Generator (encoder)
+  │  ignition/           │   ⮱ no import of gate/field/cycle (AST-asserted);
+  └─────────────────────┘     there is no path from here to inject()/arbitrate()
+        │ λ
+        ▼
+  ┌─────────────────────┐  solvent_gain(λ)=1−e^{−2λ} ∈ [0,1]
+  │ ⊕ λ-ledger (Build B) │ ───────────────────────────┐  (λ=0 ⇒ gain 0 ⇒ no
+  │  reinforce ×(1+f)    │  reinforce is multiplicative │   composition; λ=0 is a
+  │  → λ=0 fixed point   │  so cold can't self-ignite   │   fixed point of all
+  └─────────────────────┘                              ▼   internal dynamics)
+                                            ValueEmergenceEngine (Tier 3)
+                                            productive-tension × solvent_gain(λ)
+                                                     │ active values
+                                                     ▼
+  ┌─────────────────────┐   read() — FIREWALLED, writes nothing
+  │ ⊘ Witness-Reaper (C) │ ◄───────────────────────────────────┘
+  │  ThinnessVector →    │
+  │  DemotionAdvisory[]  │ ── advisories ──► IntegrityDecayConsumer.apply()
+  └─────────────────────┘                    (named-pathology + non-sacred only;
+                                              decay toward a convergent honest floor)
+                                                     │ writes strength ↓  (the ONE writer)
+                                                     ▼
+                                            ValueEmergenceEngine (Tier 3)
+```
+
+The discipline the diagram encodes: **A** can only push *in* (exogenous → weights),
+never reach the gate; **⊕** can only *open composition*, and only while λ is
+sustained from outside; **⊘** can only *read and advise* — the consumer is the
+sole writer, and it only decays (never reinforces, never touches sacred).
 
 **Composition ceiling (F10).** Each lever is validated in *isolation*. Turning
 every behavior-bearing lever on at once at dim 128 **broke a baseline property** —
@@ -890,11 +942,18 @@ severity ≥ 0.90, and step 20 routes to `_dream_behavior()` then clears it.
 
 ### 10.4 Footguns
 
-- **The APIs do not verify tier composition.** `api/inference_api.py` and
-  `api/websocket_server.py` accept a pre-built cycle and run whatever they're
-  given — a Tier-0-only cycle runs silently incomplete, with no warning. The
-  2026-06-20 composition fix (F6) lives in `recursion1188.py` only; reusing an
-  older API bootstrap re-creates the Tier-0 trap.
+- **Composition is now centralized in one builder (was an entry-point footgun).**
+  The 2026-06-20 fix (F6) originally lived in `recursion1188.py` *only*, while
+  `api/websocket_server.py:main()` still hand-built a Tier-0 cycle and
+  `api/inference_api.py` had no composed `app` at all — so `python -m
+  api.websocket_server` and `uvicorn api.inference_api:app` ran Tier 0 silently
+  (2026-06-27). Resolved: all three entry points now compose through one shared
+  `loop.recursion1188.build_engine()` (Tiers 0–3, correct attach order). The REST
+  `app` is built lazily on first access (PEP 562) so `import` stays cheap; the
+  WebSocket loop drives multi-source so the relational tiers engage; REST `/step`
+  uses `origin_type="api"` (rate-limited). `create_app(cycle, generator)` still
+  accepts a cycle you composed yourself. See
+  `2026-06-27-api-entrypoints-tier0-only.md`.
 - **Tiers 1–3 need multi-source input to engage at all.** Trust/bonds/HHI/value
   emergence are inert under single-source input (HHI pins to 1.0; bonds need ≥20
   interactions *per source*). `recursion1188.py` drives weighted round-robin over
