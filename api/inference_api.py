@@ -26,6 +26,12 @@ stack (Tiers 0-3) via `loop.recursion1188.build_engine()`. Plain
 `import api.inference_api` does NOT build the engine. To serve a cycle you
 composed yourself, call `create_app(cycle, generator)` directly.
 
+Heads-up: with the default config, `build_engine()` pretrains the generator
+(~8 epochs) at boot, and uvicorn builds `app` once **per worker** — so a
+multi-worker launch trains once per process. For a fast cold start, serve a
+config you control:
+  `create_app(*build_engine({**CONFIG, "pretrain_on_corpus": False})[:2])`
+
 Requires: pip install fastapi uvicorn
 """
 

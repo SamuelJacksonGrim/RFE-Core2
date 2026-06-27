@@ -317,7 +317,7 @@ def main():
 
     # Compose the FULL tier stack (Tiers 0-3) via the single shared builder, so
     # this entry point can never silently run Tier-0 only.
-    generator, cycle, governance, value_engine = build_engine()
+    generator, cycle, _governance, _value_engine = build_engine()
 
     server = RFEWebSocketServer(
         cycle          = cycle,
