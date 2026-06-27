@@ -8,7 +8,11 @@ field:
   harmonic_bins: 4
   phase_history_len: 16
 
-  # Rhythm energy thresholds
+  # Rhythm energy thresholds. NOTE (2026-06): too low for the real ||field|| scale
+  # (~100-300) so rhythm pins to `explore` at dim 128, but a naive rescale collapses
+  # the system via the diffuse_on_stabilize feedback (see resonance_field.py and
+  # finding 2026-06-20-floor-calibration-measurements). Left as-is pending the
+  # co-tuned fix.
   rhythm_thresholds:
     stabilize: 0.5
     dream: 2.0
