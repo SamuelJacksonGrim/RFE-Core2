@@ -50,6 +50,7 @@ through coherence feedback.
 | 4.1 | Subjective time substrate | `temporal_stream.tick()` |
 | 4.2 | Affective time dilation | `temporal_stream.update_dilation()` |
 | 4.3 | Rhythm → time coupling | `temporal_stream.update_dilation(phase_coherence=…)` |
+| 5   | *(proposed, unspecified)* meta-cognition / attentional control | gated on the generator training path — `docs/training/`, `ROADMAP.md` |
 
 All tiers are *wireable* in one place — `loop/autonomous_cycle.py` exposes the
 `attach_*` hooks — and, since 2026-06-20, the canonical entry point actually
@@ -65,6 +66,28 @@ at boot and drives the loop with multi-source input, so trust, bonds, dependency
 Layered *over* the tiers is an opt-in **Two-Operator overlay** — the λ ignition
 channel, the ⊕ solvent gate, and the ⊘ Witness-Reaper integrity-read (§8). It is
 off by default; with nothing attached the tiered behavior is byte-identical.
+
+**The Generator is an encoder, not a text generator** — the single most
+load-bearing fact about the substrate, and easy to miss. `agents/generator.py`
+maps `List[str]` tokens → one L2-normalized `dim=128` vector; RFE-Core2 never
+emits language. The entire organism (field, watcher, witness, emotion,
+governance, values, subjective time) is a dynamical system that runs *on those
+vectors*. Two consequences follow that the rest of this document leans on:
+
+- **The encoder backend is swappable.** "Wiring in a local LLM" (GPT-OSS-20B,
+  Gemma, Llama) means replacing the *sensory cortex* — the token→vector encoder —
+  not bolting on a chatbot (`docs/local_model_integration/`,
+  `docs/SYSTEM_REVIEW_2026-06-13.md`).
+- **Generator representational room is the upstream lever.** The lock-in analysis
+  (§4) keeps returning to it, which is why the **generator training path**
+  (`training/`, §7) and a **proposed Tier 5** (meta-cognition / attentional
+  control — the loop *directing* its attention rather than only responding to it)
+  are anchored but uncommitted: Tier 5 is gated on the generator presenting real
+  diversity to direct (`docs/training/tier5_readiness.md`).
+
+For the conceptual lenses behind the design — the self-as-structure thesis and
+the alchemical reading of the tiers — see `docs/self_model_thesis.md` and
+`docs/alchemical_correspondence.md`; they change no invariant.
 
 The single thesis worth holding in mind: **coherence is the central decision
 axis.** A three-layer coherence score (`agents/watcher.py`) gates what enters
@@ -582,6 +605,38 @@ One row per module, by directory. "Role" is its function in information flow.
 | `interference/harmonic_mutation.py` | Frequency-domain recombination (dreaming) |
 | `interference/phase_noise.py` | Phase perturbation |
 | `interference/wave_collapse.py` | Collapse an ensemble of candidates to one (Chorus) |
+
+### External interfaces (how the loop is driven from outside)
+
+| Module | Surface | Role |
+|--------|---------|------|
+| `api/inference_api.py` | FastAPI REST (`uvicorn api.inference_api:app`) | `POST /generate` (tokens→vector), `/step`, `/dream`, `/maintenance`; `GET /status`, `/field`, `/crystals`, `/attractors`, `/ecology`; `DELETE /reset` (field only) |
+| `api/websocket_server.py` | WebSocket (`python -m api.websocket_server`) | Streams `StepState`/`field`/`dream`/`status` JSON every cycle; accepts `status`/`dream`/`maintenance`/`reset_field` commands |
+
+Note: like `recursion1188.py` before 2026-06-20, the APIs were Tier-0 only; the
+composition fix (F6) is the entry-point work that the tiered runtime depends on.
+
+### Generator training path (shapes the encoder; gates Tier 5)
+
+Self-supervised; reshapes the *encoder's* weights so it presents real diversity
+(the §4 upstream lever). Assessed viable 2026-06-11, proposed not committed
+(`docs/training/`).
+
+| Module | Key class / methods | Role |
+|--------|---------------------|------|
+| `training/rhythm_pretraining.py` | `RhythmPretrainer`, `PretrainingConfig` | Supervised-contrastive pretraining over rhythm labels; the corpus-pretraining lever (§8) and λ ignition (Build A) both call it |
+| `training/contrastive_alignment.py` | `ContrastiveAlignmentTrainer` | InfoNCE pull-together/push-apart over attractor/anchor positives — **shelved** (the collinearity it targeted was a generator scale bug, fixed in `generator.py`) |
+| `training/self_distillation.py` | `SelfDistillationTrainer` | Online: high-coherence outputs become teachers for lower-coherence students |
+| `training/encode.py` | `encode_grad` | Grad-enabled forward (the inference path is `@no_grad`); fixes the trainer gradient-path break (`2026-06-11-trainer-gradient-path.md`) |
+| `training/corpus.py` | `load_corpus`, `to_rhythm_seeds`, `corpus_version` | Loads the curated rhythm corpus (`data/corpus/`, schema in `docs/training/data_curation.md`); the binding constraint is corpus coverage, not infrastructure |
+
+### Visualization & observability
+
+| Module | Modes | Role |
+|--------|-------|------|
+| `visualization/field_render.py` | terminal ASCII / matplotlib | Field vector heatmap + energy/rhythm/spectral plots |
+| `visualization/resonance_heatmap.py` | terminal / matplotlib | Field-over-time, per-step coherence, attractor-basin landscape |
+| `visualization/topology_render.py` | terminal / matplotlib / Graphviz DOT | Renders the `TopologicalLog` + `SemanticLattice` DAG (the diagrams) |
 
 ---
 
