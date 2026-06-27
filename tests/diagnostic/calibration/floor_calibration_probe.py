@@ -2,7 +2,7 @@
 tests/diagnostic/calibration/floor_calibration_probe.py
 
 Measure-before-you-change instrument for the two structural cracks the pass-3
-evaluation found (`docs/findings/2026-06-20-ground-truth-pass3-stack-evaluation.md`):
+evaluation found (`docs/findings/2026-06-25-ground-truth-pass3-stack-evaluation.md`):
 
   A. RHYTHM/ENERGY — the field energy scale at dim 128 vs the rhythm bands
      (stabilize<0.5 · dream 0.5-2 · reflect 2-5 · explore>=5). Reports the real
