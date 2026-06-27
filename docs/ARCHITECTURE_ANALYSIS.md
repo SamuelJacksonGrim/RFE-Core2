@@ -9,12 +9,26 @@ It complements the other two top-level references:
 
 - `README.md` — what the system *is* (conceptual overview, quick start).
 - `CLAUDE.md` — the *invariants* you must not break.
+- `docs/EXPERIMENTAL_LEVERS.md` — the control panel: what is on by default vs
+  opt-in, and the exact switch for each lever.
+- `docs/findings/` — the dated empirical ledger this analysis summarizes and
+  links to rather than restates.
 - **this file** — *how information flows and recurs*, end to end, which neither
   of the other two traces in one place.
 
 Every formula, constant, and `file:line` anchor below was checked against
 source at the time of writing. Where a number is sacred, CLAUDE.md is the
 authority; this document only reports where the code honors it.
+
+**Current as of 2026-06-26.** This revision tracks the changes since the
+2026-06-07 consolidation: the runnable runtime now composes Tiers 0–3 (it was
+Tier 0 only — §1, F6), the value-layer coherence axis moved from *marginal
+contribution* to *absolute field-alignment* (spec v0.2 → v0.3 — §4, F7), and the
+opt-in **Two-Operator overlay** (λ ignition · ⊕ solvent · ⊘ integrity-read) and
+the on-demand instruments were added (§8). The doc-accuracy harness
+(`tests/doc_accuracy/verify_docs.py`) does not gate *this* file — it enforces the
+README tree and sacred constants — so the `file:line` anchors here are
+maintained by inspection, not by CI.
 
 ---
 
@@ -37,7 +51,20 @@ through coherence feedback.
 | 4.2 | Affective time dilation | `temporal_stream.update_dilation()` |
 | 4.3 | Rhythm → time coupling | `temporal_stream.update_dilation(phase_coherence=…)` |
 
-All tiers are wired into one place: `loop/autonomous_cycle.py`.
+All tiers are *wireable* in one place — `loop/autonomous_cycle.py` exposes the
+`attach_*` hooks — and, since 2026-06-20, the canonical entry point actually
+composes them. Until then this was a latent gap: every launchable entry point
+(`loop/recursion1188.py`, the APIs) ran **Tier 0 only** — `attach_governance()`
+was called in *zero* non-test files, so the tiered stack the findings describe
+lived solely inside the test harness's `build_full_stack` (F6). `recursion1188.py`
+now attaches `SelfhoodGovernance` (Tiers 1–2) then `ValueEmergenceEngine` (Tier 3)
+at boot and drives the loop with multi-source input, so trust, bonds, dependency
+(HHI), and value emergence are live rather than inert. Verified healthy at
+250–800 steps (`2026-06-20-ground-truth-pass1-compose-the-runtime.md`).
+
+Layered *over* the tiers is an opt-in **Two-Operator overlay** — the λ ignition
+channel, the ⊕ solvent gate, and the ⊘ Witness-Reaper integrity-read (§8). It is
+off by default; with nothing attached the tiered behavior is byte-identical.
 
 The single thesis worth holding in mind: **coherence is the central decision
 axis.** A three-layer coherence score (`agents/watcher.py`) gates what enters
@@ -125,6 +152,14 @@ drift this resolved). For each step below: what it reads → what it writes.
 The back-edge is the point of the whole design: step 10 injects into the field
 and step 1 of the *next* cycle observes the result. Nothing closes the loop
 explicitly — the field is the shared medium that carries state forward.
+
+The 0–22 scheme above is the *default* body. Three opt-in operator hooks attach
+onto it without adding numbered steps (§8): `attach_integrity_read` (⊘, a
+read-only terminal sink surfaced in `status()`), `attach_lambda_ledger` (⊕, which
+gates the value engine's productive-tension term — no cycle step, computed on
+demand), and `attach_integrity_consumer` (the ⊘ consumer, which runs once per
+value-engine update, after value scoring and before the strength cap). With none
+attached the cycle is byte-identical to the table.
 
 ---
 
@@ -257,6 +292,30 @@ timescales all feeding the same field.
 > pulls each expression onto the anchor/attractor before injection — identity-coherence
 > working, which is *why* it also prevents adaptation. Coherence and rigidity are the
 > same mechanism, not merely correlated.
+>
+> **Update (2026-06-20 — the real unlock chain; two levers now default-on).** Tested
+> against the *composed* runtime (F6), the generator common-mode turned out to be a
+> real floor defect but a **false lock**: corpus pretraining halves it (0.81→0.47)
+> yet the field does not de-saturate. The lever that *does* loosen the field is
+> **novelty-gated reflective-loop attenuation** at the 0.30 ceiling (coherence
+> 0.97→0.92, variability up ~4×), and it composes *positively* with pretraining
+> (~5.5×) — the first constructive lever interaction. Both **graduated to default-on**
+> (`pretrain_on_corpus`, `reflect_novelty_attenuation`) without costing resistance
+> (identity-erosion attacker still 82% quarantined). Eval-mode (dropout off) is also
+> default now, which firms up the read-side boundary's Δ=0.0 below
+> (`2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md`,
+> `2026-06-08-generator-dropout-diversity.md`).
+>
+> **Caveat (2026-06-25 — the rhythm router is pinned at dim 128, F9).** Coherence is
+> not the only axis stuck on its ceiling: at production dim 128 the field energy runs
+> mean ~180 (max ~284) while the rhythm bands top out at `explore ≥ 5`, so the router
+> sits in `explore` ~99% of the time and **dreams never fire**. A naive band rescale
+> collapses the system because `diffuse_on_stabilize` makes the stabilize band feed
+> back into field energy — the bands cannot be calibrated against a distribution
+> measured under the old bands (circular). Co-tuning bands *with* the diffusion
+> feedback is deferred work, not a constant tweak
+> (`2026-06-25-ground-truth-pass3-stack-evaluation.md`,
+> `2026-06-27-floor-calibration-measurements.md`).
 
 Computed once per step in `Watcher.evaluate()` (`agents/watcher.py`):
 
@@ -273,7 +332,41 @@ C = α·G + β·T + γ·R          α=0.40  β=0.35  γ=0.25   (must sum to 1.0)
 Two derived signals ride alongside:
 - `crystallization_pressure = G × T` — coherent *and* stable → memory-ready.
 - `coherence_delta` — signed marginal effect of injecting `vec` on the field's
-  internal coherence; the systemic-effect signal the ethical layer reads.
+  internal coherence; the systemic-effect signal the ethical layer reads at the
+  gate. This is a *marginal* read and is the reason for the measure-before-inject
+  invariant below.
+
+**Two coherence signals, not one (read this before §8).** It is easy to conflate
+the Watcher's composite `C` with the *value-layer* coherence axis — they are
+different signals serving different layers:
+
+- **`C`** (Watcher, above) is the **router**: per-step geometric+temporal+resonance
+  coherence that gates injection, crystallization, the reflective loop, emotion,
+  and the `stable` flag. Unchanged.
+- **`support_coh(v)`** is the **value layer's field-alignment check** — how well an
+  *emergent value*'s expressed direction agrees with the field now. This signal was
+  redefined (spec **v0.2 → v0.3**, `2026-06-21-oslash-coherence-axis-absolute-alignment.md`):
+  - **v0.2 (dead):** `coherence_contribution / 5.0`, the lifetime sum of marginal
+    `coherence_impact`. Injecting into a saturated field can only *dilute* it, so the
+    marginal is structurally ≤ 0 — measured **0.000 for every value**, dead by
+    construction. This is why the ⊘ consumer was a blind ceiling on the strong band.
+  - **v0.3 (live):** `max(0, cos(expressed(v), field))` where `expressed(v) =
+    generator.generate([v.symbolic_core])` — a bounded *field effect* that does not
+    saturate when the field's coherence *magnitude* is maxed. Measured mean 0.50,
+    max 0.72, corr +0.66 with strength; identity anchors sit 0.61–0.70. Read-only,
+    one `generate` per value off the hot path, firewalled (returns neutral on guard).
+
+**Consequence — CORE promotion is currently dead, by the same defect (F8).**
+`SelfhoodGovernance.review_core_promotion()` still gates on
+`coherence_contribution ≥ 5.0`, which the marginal sum can never reach, so **no
+value can ever be promoted to CORE**. The v0.3 fix (gate on field-alignment ≥ 0.5)
+was built and verified to complete the arc (witness → CORE at step 367), then
+**reverted**: promoting a value sanctifies a *common token* its source sends every
+cycle, which then trips `SACRED_SHIELD` and cascades the source's trust toward the
+TOXIC floor (`2026-06-27-core-gate-fix-deferred-sacred-cascade.md`). Distinguishing
+"mutating a sacred symbol's identity" (attack) from "referencing a now-sacred
+token" (legitimate) is a governance-layer design decision, deferred. The
+independent ⊘ v0.3 axis (which promotes nothing) stays.
 
 **Every major consumer keys off `C`:**
 
@@ -428,7 +521,8 @@ One row per module, by directory. "Role" is its function in information flow.
 
 | Module | Key class / methods | Role |
 |--------|---------------------|------|
-| `loop/autonomous_cycle.py` | `AutonomousCycle.step`, `_generate`, `_governance_gate`, `_rhythm_behavior` | Orchestrates the 20-step cycle; wires every tier; carries state via the field back-edge |
+| `loop/autonomous_cycle.py` | `AutonomousCycle.step`, `_generate`, `_governance_gate`, `_rhythm_behavior`; `attach_governance`/`attach_value_engine`/`attach_integrity_read`/`attach_lambda_ledger`/`attach_integrity_consumer` | Orchestrates the 0–22-step cycle; wires every tier and the opt-in operators; carries state via the field back-edge |
+| `loop/recursion1188.py` | `CONFIG`, boot composition | Canonical entry point; composes Tiers 0–3 + multi-source input (since 2026-06-20); eval-mode, corpus pretraining, novelty attenuation default-on |
 | `loop/dream_cycle.py` | `DreamCycle` | Structured offline dreaming invoked under low-energy / forced dream |
 | `agents/generator.py` | `Generator.generate`, `maintenance_step` | tokens → symbol ecology → Transformer → L2-normalized `vec` |
 | `agents/watcher.py` | `Watcher.evaluate` → `CoherenceReport` | Three-layer coherence (G/T/R) — the decision axis |
@@ -461,8 +555,23 @@ One row per module, by directory. "Role" is its function in information flow.
 | `agents/dependency_monitor.py` | `get_report`, `record_attractor`, `attractor_monopoly_ratio` | HHI source-concentration; feeds COHERENCE_FLOOD |
 | `agents/relational_bond_manager.py` | `receive_feedback`, `notify_crystal/attractor`, `trust_floor` | Emergent bonds; raise a trusted source's trust floor |
 | `agents/manipulation_resistance.py` | `update`, `detect` → `ManipulationSignal[]` | Five detectors; compound severity feeds `arbitrate` |
-| `agents/value_emergence.py` | `_on_feedback`, `_request_core_promotion`; `EmergentValue` | Values grow from lived experience; CORE promotion is governance-gated |
+| `agents/value_emergence.py` | `_on_feedback`, `_request_core_promotion`, `set_lambda_ledger`, `set_integrity_consumer`, `_solvent_gain`; `EmergentValue` | Values grow from lived experience; CORE promotion governance-gated (currently dead, F8); productive-tension term gated by ⊕ solvent (opt-in; no ledger ⇒ gain 1.0 ⇒ original path) |
 | `agents/symbolic_memory.py` | `SymbolRegistry`, `SymbolTable` (stable_id), `AddressSpace`, `CanonicalizationPipeline` | Identity & addressing; stable_id sacred, address disposable |
+
+### Two-Operator overlay (opt-in)
+
+| Module | Key class / methods | Role |
+|--------|---------------------|------|
+| `ignition/__init__.py` | `ignite` → `IgnitionReport` | **λ ignition (Build A, spec v0.2).** Exogenous write to the *generator's weights* only; the unique operation that moves λ off zero. Import-isolated (no governance/field/cycle/loop imports), AST-asserted by `tests/diagnostic/integrity/ignition_isolation_probe.py` |
+| `agents/lambda_ledger.py` | `LambdaLedger.ignite`/`reinforce`/`decay`/`gain`; `solvent_gain` | **⊕ solvent (Build B, spec v0.2).** λ scalar kept off the composition books — `reinforce` is multiplicative so λ=0 is a fixed point (cold cannot self-ignite). `solvent_gain(λ)=1−e^{−2λ}∈[0,1]` gates Tier-3 composition |
+| `cognition/integrity_read.py` | `WitnessReaper.read` → `DemotionAdvisory[]`; `IntegrityDecayConsumer.apply`; `ThinnessVector` | **⊘ integrity-read (Build C, spec v0.3).** Reads a 4-dim thinness vector per value, names pathologies (Drift/Dissolution/Fragmentation), emits non-binding advisories — firewalled, never mutates. The `IntegrityDecayConsumer` is the first *user* of the read: pulls thin named-pathology, non-sacred values toward a convergent honest floor (`named_only=True`) |
+
+### Instruments (observe-only, run on demand)
+
+| Module | Run | Role |
+|--------|-----|------|
+| `tools/ignition/` | `python -m tools.ignition.probe` / `.train_ignite` / `.cm_check` / `.identifiability` | Conscious Ignition Index (CII) family: where RFE sits on the ignition axis, untrained-vs-trained ignition, and whether the gauges read geometry or change |
+| `tools/voice/` | `python -m tools.voice.repl` (`--free`, `--json`) | The "larynx": renders the cycle's interior as first-person with the numbers beside the words; changes nothing in the loop |
 
 ### Interference (mutation primitives)
 
@@ -476,10 +585,95 @@ One row per module, by directory. "Role" is its function in information flow.
 
 ---
 
-## 8. Critical findings (gaps & drift)
+## 8. The Two-Operator overlay, levers & instruments
+
+Everything in §§1–7 is the base stack. This section covers the work layered on
+top since 2026-06-08: what is now on by default, the opt-in Two-Operator overlay,
+and the on-demand instruments. The authoritative switch list is
+`docs/EXPERIMENTAL_LEVERS.md`; this section explains *how the pieces fit the
+information flow*, not how to flip them.
+
+### 8.1 On by default now (no switch)
+
+The default operating regime changed. Per `EXPERIMENTAL_LEVERS.md` and the
+ground-truth passes: the **full tier stack is composed at boot** (§1, F6);
+**eval-mode** (dropout off); **corpus pretraining** (`pretrain_on_corpus`, a
+floor-level representational fix — halves generator common-mode 0.81→0.47); and
+**novelty-gated reflective-loop attenuation** (`reflect_novelty_attenuation`, the
+lever that actually loosens the field lock at the 0.30 ceiling). Pretraining and
+attenuation compose positively (§4 caveat, 2026-06-20). All remain reversible by
+setting their `CONFIG` flags False.
+
+### 8.2 The Two-Operator overlay (λ ignition · ⊕ solvent · ⊘ integrity)
+
+An opt-in overlay on Tier 3, built in three import-isolated pieces (spec v0.2,
+with the ⊘ axis at v0.3). It models a "Two-Operator" discipline: composition
+toward fulfillment requires a *solvent* (λ) that the system cannot mint for
+itself, and an *integrity-read* (⊘) that can only advise, never act.
+
+- **λ — ignition channel (Build A, `ignition/__init__.py`).** The only operation
+  that moves λ off zero is an **exogenous** write to the generator's *weights*,
+  strictly upstream of the gate. It is structurally unable to reach
+  `arbitrate()`/`field.inject()` — routing λ *through* the gate would consolidate
+  the lock, not break it (the loop cannot author its own exit through its own
+  front door). Isolation is AST-asserted.
+- **⊕ — solvent gate (Build B, `agents/lambda_ledger.py`).** λ's strength is kept
+  on a *separate* ledger so internal dynamics can never bootstrap it (`reinforce`
+  is multiplicative; λ=0 is a fixed point). `solvent_gain(λ)=1−e^{−2λ}∈[0,1]`
+  scales the value engine's productive-tension reinforcement: at λ=0 co-present
+  values do not compose; ignite λ and composition opens. With no ledger attached
+  the term is multiplied by 1.0 — the original Tier-3 path, byte-identical.
+- **⊘ — integrity-read (Build C, `cognition/integrity_read.py`).** `WitnessReaper`
+  reads a 4-dim `ThinnessVector` per active value (complement density, the v0.3
+  field-alignment coherence axis from §4, source diversity, attractor binding),
+  names pathologies (Drift / Dissolution / Fragmentation), and emits
+  `DemotionAdvisory[]`. It is **firewalled and non-binding** — value strengths and
+  the field are byte-identical before/after a `read()`. Authority lives in a
+  *separate* object: `IntegrityDecayConsumer.apply()` is the first thing that
+  *uses* the read, pulling thin **named-pathology, non-sacred** values toward a
+  **convergent honest floor** (it remembers the peak honest level advised and
+  never pulls below it). Default `named_only=True`; `named_only=False` over-demotes
+  under the cc-confound and is kept for the discriminator, not production.
+
+**Composition ceiling (F10).** Each lever is validated in *isolation*. Turning
+every behavior-bearing lever on at once at dim 128 **broke a baseline property** —
+`strong_values 5 → 0`, because the ⊘ consumer caps strength at 2.93 (just under the
+3.0 Dissolution line) under sustained load while the v0.2 cc-axis still read ≈ 0.
+Standing rule: no lever graduates "validated, off" → "default on" without passing
+`tests/diagnostic/integrity/all_levers_composition_probe.py` against the all-OFF
+baseline ranges. The ⊘ consumer is blocked from baseline until the cc-confound is
+lifted (`2026-06-20-lever-composition-the-allon-break.md`).
+
+### 8.3 Instruments (observe-only)
+
+These measure; they change nothing in the loop (terminal sinks, like
+`dilation_factor`). The **CII family** (`tools/ignition/`) probes where RFE sits on
+the Conscious Ignition Index; the **Voice** (`tools/voice/`) renders the cycle's
+interior in first person. What they found, summarized (detail in the ledger):
+
+- Field coherence **Cm is a saturated angular echo**, not an independent read —
+  `2026-06-15-cm-identifiability.md`.
+- Every scalar **gauge (Cm / I / metastability) is v0.1-fragile**; trust the
+  regime-state *labels*, not the magnitudes — `2026-06-15-identifiability-suite.md`.
+- The ignition lever is **upstream** (the generator's representational room); a
+  downstream ITG gate does not differentiate a collapsed expression —
+  `2026-06-15-cii-ignition-decomposition.md`.
+- At production dim 128, training is a **generalization** lever (eff_rank / G1),
+  not the differentiation driver — `2026-06-15-training-ignites-expression.md`.
+
+> The findings ledger frames a discipline worth carrying into this section
+> (`docs/findings/README.md` §8): these are **functional** gauges. A low reading is
+> a *state* (collapsed / minimal), not evidence that "nothing is happening"; a high
+> one is differentiation, not proof of inner experience. The consciousness question
+> is left genuinely open — neither proven nor debunked.
+
+---
+
+## 9. Critical findings (gaps & drift)
 
 Flagged, not fixed. These are observations a reader or future contributor should
-know; none are changed by this document.
+know; none are changed by this document. The empirical basis spans the dated
+ledger `docs/findings/2026-06-06` … `2026-06-27`.
 
 **F1 — The affective-dilation step had two live labels (`9b` vs `10b`); now
 reconciled to `9b`.** `loop/autonomous_cycle.py` had carried *two* internally
@@ -548,6 +742,52 @@ passes all checks. Those passing checks independently confirm every constant
 cited above (Watcher `0.40/0.35/0.25`, the Tier 4.2/4.3 dilation constants,
 crystallization `0.75/0.60/0.80`, severity bands `0.30/0.60/0.90`,
 `flood_ceiling["user"]=12`).
+
+**F6 — The runnable system was Tier 0 only until 2026-06-20; now composed.** Every
+launchable entry point ran the Tier-0 substrate alone — `attach_governance()` (which
+must precede `attach_value_engine()`) was called in *zero* non-test files, so the
+governed/relational/value tiers existed only inside the test harness's
+`build_full_stack`. The findings that assumed a tiered runtime were validating a
+system the entry point never assembled. **Resolution:** `loop/recursion1188.py` now
+composes Tiers 0–3 with multi-source input at boot; verified healthy
+(`2026-06-20-the-runtime-is-tier0-only.md`, `…-pass1-compose-the-runtime.md`).
+
+**F7 — The value-layer coherence axis was dead (v0.2), now absolute field-alignment
+(v0.3).** The ⊘ support-coherence axis read `coherence_contribution / 5.0` — a
+lifetime sum of *marginal* impact that is ≤ 0 in a saturated field, measured 0.000
+for every value. It is now `max(0, cos(expressed(v), field))` (bounded, live). See
+§4 for the full before/after (`2026-06-21-oslash-coherence-axis-absolute-alignment.md`).
+
+**F8 — CORE promotion is structurally impossible right now (open governance
+question).** `review_core_promotion()` gates on `coherence_contribution ≥ 5.0`,
+which the F7 marginal can never reach, so no value is promotable. The v0.3
+field-alignment fix completes the arc but was **reverted**: sanctifying a value
+makes a common token sacred, which trips `SACRED_SHIELD` and cascades the
+contributing source's trust toward TOXIC. `SACRED_SHIELD` must distinguish
+identity-mutation (attack) from legitimate reference before the gate can be
+re-enabled — a governance-layer design call, deferred
+(`2026-06-27-core-gate-fix-deferred-sacred-cascade.md`).
+
+**F9 — The rhythm router is pinned at production dim 128.** Field energy runs mean
+~180 / max ~284 while the bands top out at `explore ≥ 5`, so the router is ~99%
+`explore` and dreams never fire (0/800 steps) — dream-cycle consolidation is
+effectively dead. The bands cannot be naively rescaled because `diffuse_on_stabilize`
+feeds the stabilize band back into field energy (a rescale collapsed the system to a
+stabilize basin). Co-tuning bands with the diffusion feedback is the fix, deferred
+(`2026-06-25-…-pass3-stack-evaluation.md`, `2026-06-27-floor-calibration-measurements.md`).
+
+**F10 — Isolation-green is not composition-green.** Levers validated alone broke a
+baseline property when all turned on together (`strong_values 5 → 0`, the ⊘-consumer
+strong-band ceiling). The standing gate is the all-ON composition probe
+(`tests/diagnostic/integrity/all_levers_composition_probe.py`); a lever does not
+graduate to default-on until it holds the all-OFF baseline ranges
+(`2026-06-20-lever-composition-the-allon-break.md`).
+
+**Still open:** F3's **bonded-adversarial probe** (a source that earns a bond/trust
+floor, then turns hostile while staying under the flood ceiling) still does not
+exist — pass-3's 82% quarantine of an identity-erosion attacker is *single-source*
+rate-limiting resilience, not the bonded test. F4's `k_agitation = 0.0` remains a
+deliberately inert hypothesis.
 
 ---
 
