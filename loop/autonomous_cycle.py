@@ -682,9 +682,6 @@ class AutonomousCycle:
         if self.governance is None:
             raise RuntimeError("attach_governance must be called before attach_value_engine")
         self.value_engine = value_engine
-        # Give the engine the field so CORE promotion gates on v0.3 field-alignment
-        # (the strong, reachable signal) instead of the dead marginal coherence sum.
-        value_engine.set_field(self.field)
 
     def attach_integrity_read(self, witness_reaper):
         """

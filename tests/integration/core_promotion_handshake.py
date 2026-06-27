@@ -6,8 +6,7 @@ all five verification checks:
 
   1. Symbol still exists in registry
   2. Symbol is not already sacred
-  3. Field-alignment ≥ CORE_ALIGNMENT_MIN (v0.3 — replaces the dead marginal
-     coherence_contribution ≥ 5.0 gate)
+  3. Coherence contribution ≥ 5.0
   4. Multi-source OR dream-reinforced
   5. No active manipulation implicating contributing sources
 
@@ -33,7 +32,6 @@ def make_request(
     symbolic_core:              str   = "test_symbol",
     strength:                   float = 4.6,
     coherence_contribution:     float = 6.0,
-    field_alignment:            float = 0.8,    # passing by default (>= CORE_ALIGNMENT_MIN)
     reinforcement_count:        int   = 20,
     dream_reinforced_count:     int   = 0,
     consecutive_eligible_steps: int   = 10,
@@ -48,7 +46,6 @@ def make_request(
         symbolic_core              = symbolic_core,
         strength                   = strength,
         coherence_contribution     = coherence_contribution,
-        field_alignment            = field_alignment,
         reinforcement_count        = reinforcement_count,
         dream_reinforced_count     = dream_reinforced_count,
         consecutive_eligible_steps = consecutive_eligible_steps,
@@ -101,17 +98,17 @@ def main():
     results.append(expect("Symbol already sacred", result, False))
 
     # ──────────────────────────────────────────────────────────────────
-    # Case 3: REJECT — field-alignment below threshold (v0.3 gate)
+    # Case 3: REJECT — coherence contribution below threshold
     # ──────────────────────────────────────────────────────────────────
-    sid = registry.register("misaligned_value").stable_id
+    sid = registry.register("low_coherence_value").stable_id
     governance._pending_signals = []
     req = make_request(
-        symbol_stable_id = sid,
-        symbolic_core    = "misaligned_value",
-        field_alignment  = 0.3,    # below CORE_ALIGNMENT_MIN (0.5)
+        symbol_stable_id       = sid,
+        symbolic_core          = "low_coherence_value",
+        coherence_contribution = 3.0,    # below 5.0 threshold
     )
     result = governance.review_core_promotion(req)
-    results.append(expect("Field-alignment below CORE_ALIGNMENT_MIN", result, False))
+    results.append(expect("Coherence contribution below 5.0", result, False))
 
     # ──────────────────────────────────────────────────────────────────
     # Case 4: REJECT — single source, no dream reinforcement
