@@ -129,8 +129,8 @@ SOURCE_WEIGHTS = {"source_samuel": 0.40, "source_claude": 0.25,
 # Composition — the single source of truth
 # ---------------------------------------------------------------------------
 
-def build_engine(config: dict = CONFIG):
-    """Build the FULLY COMPOSED engine (Tiers 0-3) from `config`.
+def build_engine(config: dict = None):
+    """Build the FULLY COMPOSED engine (Tiers 0-3) from `config` (defaults to CONFIG).
 
     This is the one place composition happens. Every launchable entry point —
     this loop, the REST API, and the WebSocket server — must build through here
@@ -140,7 +140,13 @@ def build_engine(config: dict = CONFIG):
 
     Returns ``(generator, cycle, governance, value_engine)``, fully wired. The
     caller still drives the loop and (optionally) builds a DreamCycle.
+
+    Note: with the default config, ``pretrain_on_corpus`` is graduated-on, so this
+    trains the generator (~8 epochs) at boot. Pass a config with
+    ``pretrain_on_corpus=False`` for a fast cold start.
     """
+    if config is None:
+        config = CONFIG
     generator = Generator(
         vocab_size          = config["vocab_size"],
         dim                 = config["dim"],
