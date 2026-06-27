@@ -1,6 +1,6 @@
 # CORE gate fix works — but promoting common tokens to sacred cascades the trust layer (deferred)
 
-- **Date:** 2026-06-20
+- **Date:** 2026-06-27
 - **Status:** active — the CORE-gate fix (v0.3 field-alignment) was implemented,
   **verified to complete the value arc**, then **reverted from the PR** because it
   destabilizes the trust layer. Same discipline as the rhythm crack: a change that
