@@ -422,7 +422,7 @@ reinforcement feed the field, not just the reaper.)
 **Measure-before-inject invariant.** The marginal coherence reading is only
 meaningful *before* the vector is in the field. The loop honors this: at step 10
 it captures `actual_delta = field.coherence_impact(vec)` *before* calling
-`field.inject(...)` (`loop/autonomous_cycle.py:400-414`), because measuring after
+`field.inject(...)` (`loop/autonomous_cycle.py:459-468`), because measuring after
 injection would read near-zero marginal impact (a CLAUDE.md guardrail).
 
 ---
@@ -843,6 +843,68 @@ floor, then turns hostile while staying under the flood ceiling) still does not
 exist — pass-3's 82% quarantine of an identity-erosion attacker is *single-source*
 rate-limiting resilience, not the bonded test. F4's `k_agitation = 0.0` remains a
 deliberately inert hypothesis.
+
+---
+
+## 10. Hidden invariants, tuning constants & footguns
+
+A reference catalog of behavior that is load-bearing but lives buried in the code
+— magic numbers, determinism contracts, and scheduling/composition footguns. Every
+value below was checked against source. Treat the magic numbers like the sacred
+constants in CLAUDE.md: they were reverse-engineered from empirical tuning, and
+changing one without a fresh probe run is how subtle breakage enters.
+
+### 10.1 Tuning constants you must not casually change
+
+| Constant | Value | Where | Why it's load-bearing |
+|----------|-------|-------|-----------------------|
+| Embedding init std | `0.035` (not 0.02) | `agents/generator.py:267` | Raised so token identity survives the `√d_model` scaling in `forward()` (`:296`); tuned to land pairwise cosine ~0.55 — diverse without chaos. The dim-64 collinearity bug was *this*, not a training gap (contrastive shelved). |
+| `diversity_blend` | `0.60` ∈ (0,1) | `cognition/recursive_attention.py:67` | The *only* thing stopping untrained `@no_grad` attention from collapsing the expression to its centroid. `0`→full collapse, `1`→bypass refine. Asserted `0≤blend≤1` at `:72`. |
+| Novelty-attenuation ceiling | `attenuation_max=0.30` | `cognition/reflective_loop.py` | Knife-edge: `0.33` floods the manipulation layer (>75% quarantine). De-facto sacred — never raise without re-running the manip-rate probe. |
+| Emotion `ema_alpha` | `0.15`, uniform | `cognition/emotional_gradient.py:78` | *All six* emotional scalars smooth at one rate; there is no per-emotion tuning. `field_gain` multiplier and the `energy_penalty` clamp (`/10` capped at `0.5`, `:145`) are likewise hand-tuned. |
+| `surprise_threshold` | `2.5×` rolling mean | `cognition/predictive_echo.py:72` | Baked into the surprise formula; error must exceed 2.5× baseline to flag. |
+| Witness EMA decays | `0.85 / 0.97 / 0.995` | `agents/witness.py:179` | Short/mid/long identity timescales feed the composite anchor → Watcher `G`. Changing any one shifts identity persistence system-wide. |
+| Trust impact per decision | `ALLOW +0.10`, `WEAKENED +0.01`, `MONITOR −0.05`, `REJECT −0.30`, `QUARANTINE −0.50`, `SACRED_SHIELD −1.00` | `agents/selfhood_governance.py:120` | Punishment is ~50× weak reward — the asymmetry that biases against slow manipulation. |
+| Attractor decay asymmetry | strength `×0.9995`, usage `×0.998` | `agents/attractor.py:56-58` | Strength outlives usage, so an attractor can be "not viable" yet still pull if re-encountered. Merge `0.95` > formation `0.88` leaves a `[0.88,0.95)` coexistence zone (prevents basin collapse). |
+| Value decay / tension | `decay_per_step 0.0008`, `productive_tension_bonus 0.005` (×`solvent_gain`) | `agents/value_emergence.py:193,200` | Decay is deliberately `<<` reinforcement; the tension bonus is the ⊕-gated composition term (×0 at λ=0). |
+
+### 10.2 Determinism contracts & hidden behaviors
+
+- **Phase coherence is seeded by the step counter** — `np.random.default_rng(seed=self._step)` (`substrate/resonance_field.py:315`). Repeatable across runs at the same step; a real determinism contract, not incidental.
+- **`0.5` neutral priors** — empty-history `internal_coherence()` and `_phase_coherence()` both return `0.5` (`resonance_field.py:307,375`), and `coherence_impact()` probes at half strength (`tanh(field + vec*0.5)`, `:356`) so cold-start vectors never read as perfectly (in)coherent.
+- **Recursive attention records the *raw* trajectory** — the pre-refinement vector is appended to history; the blend mixes *unit-normalized* components then renormalizes once (the linear combo of two unit vectors isn't unit), so `diversity_blend` never leaks into output magnitude. History = "what was thought," attention = a fixed convergence operator (never trained).
+- **Metastability counts switches, not dwell** — transition entropy skips `a==b` self-loops (`substrate/metastability.py:148`); a regime must recur `≥2×` *or* hold `≥5%` of the trajectory (`:212`) to count, vetoing both noise-churn and limit cycles.
+- **Generator maintenance is a scheduling contract** — `auto_decay_interval` defaults to `None` (`agents/generator.py:175`), so symbol decay/reaping run *only* when the loop calls `maintenance_step()` (every `maintenance_interval=200`). Vocabulary resize is deferred to maintenance at `0.80` occupancy, not done mid-`generate()`.
+- **Bounded everything** — population caps live in configs and `__init__`s: attractors `64`, crystals `512`, concepts `256`, lattice nodes `2048`, witness identity-trace `deque(256)`, field/watcher history `256/16`, governance audit log `512` (FIFO — full history is lost past 512 decisions).
+
+### 10.3 Boredom with Teeth (an emotion→behavior path outside the coherence axis)
+
+Not every behavioral route keys off coherence `C`. At step 20, if `emotion.boredom >
+boredom_override_threshold` (`0.50`) and the rhythm isn't already `explore`, the
+router is **forced** to `explore` and `_boredom_overrides` is incremented
+(`loop/autonomous_cycle.py:275,799`). This is the HOMEOSTATIC_RETURN
+self-perturbation that keeps the system from settling into stillness — a Tier-2
+mechanism that the §3.2 emotion-modulation loop and the §4 consumer table don't
+capture. Its sibling is `force_dream_flag`: governance sets it on compound
+severity ≥ 0.90, and step 20 routes to `_dream_behavior()` then clears it.
+
+### 10.4 Footguns
+
+- **The APIs do not verify tier composition.** `api/inference_api.py` and
+  `api/websocket_server.py` accept a pre-built cycle and run whatever they're
+  given — a Tier-0-only cycle runs silently incomplete, with no warning. The
+  2026-06-20 composition fix (F6) lives in `recursion1188.py` only; reusing an
+  older API bootstrap re-creates the Tier-0 trap.
+- **Tiers 1–3 need multi-source input to engage at all.** Trust/bonds/HHI/value
+  emergence are inert under single-source input (HHI pins to 1.0; bonds need ≥20
+  interactions *per source*). `recursion1188.py` drives weighted round-robin over
+  four sources (`source_samuel/claude/gemini/grok` at `0.40/0.25/0.20/0.15`).
+  Single-token experiments will not activate relational dynamics — a common test
+  pitfall.
+- **The dream cycle is wired but effectively never fires at dim 128.** Its
+  trigger is `rhythm == "stabilize"`, which the pinned router (F9) almost never
+  produces — so `DreamCycle.run()` and dream-consolidation are dormant until F9 is
+  fixed. The mechanism is intact; the precondition is starved.
 
 ---
 
