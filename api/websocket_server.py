@@ -93,6 +93,8 @@ class RFEWebSocketServer:
         port:                  int   = 8765,
         step_delay:            float = 0.05,
         broadcast_field_every: int   = 10,
+        sources:               "dict | None" = None,
+        source_weights:        "dict | None" = None,
     ):
         if not WS_AVAILABLE:
             raise ImportError("websockets required: pip install websockets")
@@ -104,6 +106,18 @@ class RFEWebSocketServer:
         self.port                   = port
         self.step_delay             = step_delay
         self.broadcast_field_every  = broadcast_field_every
+
+        # Multi-source drive: when provided, the run loop feeds distinct
+        # source_ids (weighted round-robin) so Tiers 1-3 (trust, bonds, HHI,
+        # value emergence) actually engage. Without it, single-source input
+        # starves the relational tiers (HHI pins to 1.0).
+        self._sources        = sources
+        self._source_weights = source_weights
+        if sources:
+            import random as _random
+            self._src_rng = _random.Random(1188)
+            self._sids    = list(sources.keys())
+            self._weights = [source_weights[s] for s in self._sids] if source_weights else None
 
         self._clients:  Set[WebSocketServerProtocol] = set()
         self._paused:   bool = False
@@ -202,11 +216,18 @@ class RFEWebSocketServer:
                 await asyncio.sleep(0.1)
                 continue
 
-            tokens = self.token_sequence[self._step % len(self.token_sequence)]
+            if self._sources:
+                source_id = self._src_rng.choices(self._sids, weights=self._weights)[0]
+                tokens    = self._src_rng.choice(self._sources[source_id])
+                origin    = "internal"
+            else:
+                source_id = "user"
+                tokens    = self.token_sequence[self._step % len(self.token_sequence)]
+                origin    = "user"
 
             try:
                 state = await asyncio.get_event_loop().run_in_executor(
-                    None, self.cycle.step, tokens
+                    None, lambda: self.cycle.step(tokens, source_id=source_id, origin_type=origin)
                 )
             except Exception as e:
                 logger.error("Step error: %s", e)
@@ -290,14 +311,13 @@ def main():
     import sys
     sys.path.insert(0, ".")
 
-    from agents.generator import Generator
-    from loop.autonomous_cycle import AutonomousCycle
-    from loop.recursion1188 import DEFAULT_TOKENS
+    from loop.recursion1188 import build_engine, DEFAULT_TOKENS, SOURCES, SOURCE_WEIGHTS
 
     logging.basicConfig(level=logging.INFO)
 
-    generator = Generator(vocab_size=8192, dim=128, depth=4, heads=4)
-    cycle     = AutonomousCycle(generator=generator, dim=128, use_chorus=True)
+    # Compose the FULL tier stack (Tiers 0-3) via the single shared builder, so
+    # this entry point can never silently run Tier-0 only.
+    generator, cycle, governance, value_engine = build_engine()
 
     server = RFEWebSocketServer(
         cycle          = cycle,
@@ -306,6 +326,8 @@ def main():
         host           = "0.0.0.0",
         port           = 8765,
         step_delay     = 0.05,
+        sources        = SOURCES,
+        source_weights = SOURCE_WEIGHTS,
     )
 
     asyncio.run(server.start())
