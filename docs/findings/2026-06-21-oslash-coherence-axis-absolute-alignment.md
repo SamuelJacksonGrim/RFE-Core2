@@ -1,6 +1,6 @@
 # ⊘ coherence axis redesign — absolute field-alignment (spec v0.2 → v0.3)
 
-- **Date:** 2026-06-20
+- **Date:** 2026-06-21
 - **Spec:** **v0.3** (this finding is the bump). The Two-Operator program's ⊘
   thinness vector changes one axis definition.
 - **Status:** active — operator-layer fix, built on the graduated foundation
