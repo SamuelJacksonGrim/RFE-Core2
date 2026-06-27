@@ -1,6 +1,6 @@
 # Floor calibration — measure-before-change for the two pass-3 cracks
 
-- **Date:** 2026-06-20
+- **Date:** 2026-06-27
 - **Status:** active — measurements from `tests/diagnostic/calibration/floor_calibration_probe.py`
   (graduated stack, dim 128, 600 steps). Built at Samuel's instruction to measure
   each candidate change BEFORE committing it. No change applied; this is the ruler.

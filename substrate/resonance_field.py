@@ -99,7 +99,7 @@ class ResonanceField:
     # raising the stabilize threshold collapses the system into a stabilize basin
     # (allow_rate 0.99->0.034 in the smoke suite). The correct fix must co-tune the
     # bands WITH the diffusion feedback — tracked as dedicated work, not a constant
-    # tweak. (finding 2026-06-20-floor-calibration-measurements)
+    # tweak. (finding 2026-06-27-floor-calibration-measurements)
     DEFAULT_THRESHOLDS = {
         "stabilize": 0.5,
         "dream":     2.0,

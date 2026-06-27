@@ -1,6 +1,6 @@
 # Ground-truth pass 3: evaluate the composed engine BEFORE wiring the operators
 
-- **Date:** 2026-06-20
+- **Date:** 2026-06-25
 - **Spec:** n/a (runtime evaluation at production config)
 - **Status:** active — an evaluation pass requested by Samuel ("look at the stack
   first and evaluate before wiring anything"). Graduated composed engine (Tiers 0–3,
