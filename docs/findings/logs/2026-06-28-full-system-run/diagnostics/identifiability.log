@@ -1,0 +1,12 @@
+regime            | Cm    | I     | meta  state        | disp(truth) drift(truth)
+------------------------------------------------------------------------------------
+aligned           | 0.996 | 0.621 | 0.000 structureless| 0.446       0.019
+orthogonal        | 0.864 | 0.446 | 0.000 structureless| 0.995       1.050
+clustered_rotated | 0.767 | 0.418 | 0.279 structureless| 0.469       1.989
+low_rank          | 0.900 | 0.497 | 0.492 metastable  | 1.013       0.633
+------------------------------------------------------------------------------------
+  dispersion sensitivity (aligned↔orthogonal):  Cm 0.13  I 0.17  meta 0.00
+  CHANGE sensitivity   (aligned↔clustered_rotated, ~same dispersion, big drift):  Cm 0.23  I 0.20  meta 0.28
+
+  A signal that moves on CHANGE but not just dispersion is tracking dynamics,
+  not static geometry. (Proxies, not ground truth — per GPT's caveat.)

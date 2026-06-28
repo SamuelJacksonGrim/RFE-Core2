@@ -1,0 +1,48 @@
+========================================================================
+  DIAGNOSTIC: rhythm inertness probe  (Tier 4.3 — THE HONEST RISK)
+========================================================================
+
+  500 steps per workload. Field runs AS-IS — no heartbeat.
+  Question: under real load, does phase_coherence move off 0.5
+  enough for the rhythm coupling to change subjective time?
+
+  (k_agitation ships at 0.0, so the negative-valence quadrant cannot
+   contribute footprint here regardless of pc — only the flow term
+   can register. This is by design; the sign sweep is a separate run.)
+
+  ── canonical  (n=495) ───────────────────────────────
+     phase_coherence : mean=0.9377  std=0.0124  min=0.8684  max=0.9796
+     |pc_c| > 0.3    : 100.0% of steps off neutral
+     flow-eligible   : 100.0% of steps (pc_c>0 & arousal>0 & valence>0)
+     footprint vs 4.2: mean=0.02043  max=0.15876  (|dilation - dilation@pc=0.5|)
+     VERDICT         : ACTIVE     (coupling meaningfully bends subjective time)
+
+  ── adversarial  (n=495) ─────────────────────────────
+     phase_coherence : mean=0.9598  std=0.0126  min=0.8640  max=0.9802
+     |pc_c| > 0.3    : 100.0% of steps off neutral
+     flow-eligible   : 100.0% of steps (pc_c>0 & arousal>0 & valence>0)
+     footprint vs 4.2: mean=0.02084  max=0.15137  (|dilation - dilation@pc=0.5|)
+     VERDICT         : ACTIVE     (coupling meaningfully bends subjective time)
+
+  ── mixed  (n=495) ───────────────────────────────────
+     phase_coherence : mean=0.9614  std=0.0099  min=0.9025  max=0.9874
+     |pc_c| > 0.3    : 100.0% of steps off neutral
+     flow-eligible   : 100.0% of steps (pc_c>0 & arousal>0 & valence>0)
+     footprint vs 4.2: mean=0.02093  max=0.16329  (|dilation - dilation@pc=0.5|)
+     VERDICT         : ACTIVE     (coupling meaningfully bends subjective time)
+
+========================================================================
+  READING THE RESULT
+========================================================================
+
+  If footprint ≈ 0 and pc clusters at 0.5: the coupling is INERT under
+  tested load — the field settles and produces no rhythm to couple. That
+  is a genuine finding about the Chronos Core, not a bug, and it mirrors
+  the Tier 4.2 result that the emotional gradient is never exercised at
+  rest. It does NOT justify a synthetic heartbeat. If a later tier wants
+  rhythm at rest, it must earn it without breaking the sink isolation.
+
+  If footprint is non-trivial: the field DOES generate measurable rhythm
+  under load and 4.3 is doing real work — proceed to the k_flow sweep to
+  tune compression depth.
+
