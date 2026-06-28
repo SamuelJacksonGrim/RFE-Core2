@@ -1,0 +1,23 @@
+[battery] decision_histogram
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/decision_histogram.log
+[battery] gate_firing_audit
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/gate_firing_audit.log
+[battery] trust_trajectory
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/trust_trajectory.log
+[battery] value_polarity_flow
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/value_polarity_flow.log
+[battery] affective_state_probe
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/affective_state_probe.log
+[battery] rhythm_inertness_probe
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/rhythm_inertness_probe.log
+[battery] cii_probe
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/cii_probe.log
+[battery] cm_check
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/cm_check.log
+[battery] identifiability
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/identifiability.log
+[battery] two_operator_live_demo
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/two_operator_live_demo.log
+[battery] floor_calibration
+  exit=0 -> docs/findings/logs/2026-06-28-full-system-run/diagnostics/floor_calibration.log
+[battery] DONE

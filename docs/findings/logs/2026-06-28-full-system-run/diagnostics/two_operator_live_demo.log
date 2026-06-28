@@ -1,0 +1,30 @@
+==============================================================================
+  TWO-OPERATOR PROGRAM — LIVE, AND USED   spec: v0.2   dim 128
+==============================================================================
+
+  [1] Build A → λ → ⊕ solvent gate
+      ignition: eff_rank 6.033 -> 4.463  (Δ -1.571)
+      λ: 0.000 -> 2.000   solvent_gain(λ) = 0.9817   (⊕ composition 98.2% open; was 0% at λ=0)
+
+  ⊘ reads 20 thin values: {'unnamed': 19, 'Dissolution': 1}
+      named-pathology values (the diagnosed): 1
+
+  [2] ⊘ consumer — SAFE default (named_only=True), 40 cycles
+      demotions_total=1  skipped_unnamed=799  sacred_skipped=0
+      diagnosed values pulled toward honest floor (before -> after):
+                  echo [ Dissolution]: 3.0305 -> 2.9341
+      healthy multi-source values left UNTOUCHED: 16 (e.g. memory, resonance, coherence, crystal)
+      field after selective consumption: n=20 mean=2.291 active=20 max=3.552  → NO collapse
+
+  [3] ⊘ consumer — AGGRESSIVE (named_only=False), 40 cycles  [cautionary]
+      every-thin-value coupling: demotions_total=800
+      field: mean 2.258 -> 1.365, active 20 -> 20  → OVER-DEMOTION (pre-declared failure)
+
+  reading:
+    - ⊘ is USED, not observed: the consumer writes value strength from ⊘'s read.
+    - SAFE default acts only on NAMED pathologies → selective, convergent, no collapse;
+      healthy multi-source values are untouched. This is the production lever.
+    - AGGRESSIVE acting on the (cc-confounded) universal thinness collapses the field —
+      the empirical reason the safe default is named-only and reinforcement coupling
+      stays behind the §6.3 gain-sign check.
+==============================================================================

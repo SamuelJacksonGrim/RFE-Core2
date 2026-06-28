@@ -1,5 +1,16 @@
 # configs/attractors.yaml
 # Attractor dynamics and symbolic binding configuration for RFE-Core2
+#
+# LOADED AT RUNTIME by configs/loader.py (via loop/recursion1188.build_engine).
+# Precedence: component __init__ default < this YAML < inline CONFIG. Values mirror
+# the code defaults (behavior-neutral until edited). See docs/EXPERIMENTAL_LEVERS.md.
+#
+# Two sections are intentionally NOT applied (documentation only):
+#   - decay_profiles: a partial snapshot (code DecayProfiles carry more fields +
+#     a SPECIAL class); loading it as-is would reset the omitted weights. Pending a
+#     full-fidelity expansion before it can be wired neutrally.
+#   - constants: ANCHOR/RECURSION/HOMEOSTASIS are SACRED and inviolable — they live
+#     in code (GovernanceConstants) and must not be YAML-overridable.
 
 attractor:
   formation_threshold: 0.88     # relational composite above which a vec seeds an attractor

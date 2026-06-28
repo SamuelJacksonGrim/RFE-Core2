@@ -568,7 +568,8 @@ RFE-Core2/
 │   │   ├── core_promotion_handshake.py   All 5 rejection paths + 2 approval paths
 │   │   ├── reflective_loop_lock_guard.py Lock characteristic guard (loop on=RIGID, off=migrates)
 │   │   ├── attractor_merge_guard.py      Attractor merge/prune removal (array-__eq__ crash regression)
-│   │   └── checkpoint_registry_identity.py  Checkpoint load preserves registry object (orphaned-subsystem guard)
+│   │   ├── checkpoint_registry_identity.py  Checkpoint load preserves registry object (orphaned-subsystem guard)
+│   │   └── config_loading_neutrality.py  configs/*.yaml load + day-one behavioral neutrality guard
 │   │
 │   ├── adversarial/
 │   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels
@@ -578,6 +579,8 @@ RFE-Core2/
 │   │   └── reflective_loop_convergence.py  Loop holds identity under novelty flood
 │   │
 │   ├── diagnostic/
+│   │   ├── full_system_run.py            Full-system instrumented run (paired arms × seeds → per-step traces + status snapshots)
+│   │   ├── full_system_analyze.py        Analyze a full_system_run dir → plots + aggregate per-arm stats
 │   │   ├── tier4/                        Tier 4 physics validators + affect
 │   │   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
 │   │   │   ├── rhythm_dilation_curve.py      Tier 4.3 physics validator (rhythm coupling)

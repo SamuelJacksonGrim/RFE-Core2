@@ -189,7 +189,21 @@ class AutonomousCycle:
         log_interval:                 int   = 10,
         track_metastability:          bool  = True,
         reflect_novelty_attenuation:  bool  = False,
+        config:                       Optional[dict] = None,
     ):
+        # config: merged YAML dict (configs.loader.load_config()) or None. Used to
+        # source sub-component parameters; None ⇒ every component falls back to its
+        # __init__ default (byte-identical to the pre-config behavior).
+        cfg = config or {}
+
+        def _sect(key, drop=()):
+            s = cfg.get(key) or {}
+            return {k: v for k, v in s.items() if k not in drop} if isinstance(s, dict) else {}
+
+        def _cog(name, drop=()):
+            s = (cfg.get("cognition") or {}).get(name) or {}
+            return {k: v for k, v in s.items() if k not in drop} if isinstance(s, dict) else {}
+
         self.generator                     = generator
         self.dim                           = dim
         self.use_chorus                    = use_chorus
@@ -204,23 +218,24 @@ class AutonomousCycle:
         # Subsystems
         # ------------------------------------------------------------------
 
-        self.field          = ResonanceField(dim=dim)
+        self.field          = ResonanceField(dim=dim, **_sect("field", drop=("dim",)))
         self.vector_space   = VectorSpace(dim=dim)
-        self.crystal_store  = CrystalStore()
+        self.crystal_store  = CrystalStore(**_sect("crystal_store"))
         self.topology       = TopologicalLog()
         self.stream         = TemporalStream(dim=dim)
-        self.lattice        = SemanticLattice()
+        self.lattice        = SemanticLattice(**_sect("semantic_lattice"))
 
-        self.watcher        = Watcher(dim=dim, field=self.field)
+        self.watcher        = Watcher(dim=dim, field=self.field, **_sect("watcher", drop=("dim",)))
         self.witness        = Witness(dim=dim)
-        self.attractor      = Attractor()
-        self.predictor      = PredictiveEcho(dim=dim)
-        self.emotion        = EmotionalGradient()
-        self.rec_attn       = RecursiveAttention(dim=dim)
+        self.attractor      = Attractor(**_sect("attractor"))
+        self.predictor      = PredictiveEcho(dim=dim, **_cog("predictive_echo", drop=("dim",)))
+        self.emotion        = EmotionalGradient(**_cog("emotional_gradient"))
+        self.rec_attn       = RecursiveAttention(dim=dim, **_cog("recursive_attention", drop=("dim",)))
         self.reflector      = ReflectiveLoop(
             novelty_attenuation = reflect_novelty_attenuation,
+            **_cog("reflective_loop"),
         )
-        self.binding        = SymbolicBinding()
+        self.binding        = SymbolicBinding(**_sect("symbolic_binding"))
 
         self.dreamer        = Dreamer(
             field        = self.field,
@@ -232,6 +247,7 @@ class AutonomousCycle:
             generator = self.generator,
             field     = self.field,
             stream    = self.stream,
+            **_sect("chorus"),
         ) if use_chorus else None
 
         # Metastability stethoscopes — the loop's upstream instruments, read at two
@@ -826,7 +842,8 @@ class AutonomousCycle:
             generator = self.generator,
             top_k     = 3,
         )
-        self.field.diffuse(alpha=0.05)
+        if self.field.diffuse_on_stabilize:
+            self.field.diffuse(alpha=self.field.diffuse_alpha)
 
     def _dream_behavior(self):
         """

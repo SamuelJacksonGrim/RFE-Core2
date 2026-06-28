@@ -65,6 +65,7 @@ class RecursiveAttention(nn.Module):
         recursion_depth: int   = 3,
         dropout:         float = 0.1,
         diversity_blend: float = 0.60,
+        target_metastability_band: tuple = (0.4, 0.6),
         device:          Optional[str] = None,
     ):
         super().__init__()
@@ -76,6 +77,10 @@ class RecursiveAttention(nn.Module):
         self.history_len     = history_len
         self.recursion_depth = recursion_depth
         self.diversity_blend = diversity_blend
+        # Diagnostic reference band for stage-C metastability. Exposed (not yet a
+        # control input) so a future self-regulating loop can target it; reads as
+        # (0.4, 0.6) — the prior diagnostic constant. Behavior-neutral today.
+        self.target_metastability_band = tuple(target_metastability_band)
         self.device          = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
         self.norm_in  = nn.LayerNorm(dim)

@@ -1,0 +1,17 @@
+========================================================================
+  DIAGNOSTIC: decision histogram over 500 steps
+========================================================================
+
+Total decisions: 500
+
+  decision           count     pct  bar
+  ----------------------------------------------------------------
+  allow                496   99.2%  ████████████████████████████████████████
+  allow_weakened         4    0.8%  
+  monitor                0    0.0%  
+  quarantine             0    0.0%  
+  reject                 0    0.0%  
+  sacred_shield          0    0.0%  
+
+Interpretation:
+  ✓ ALLOW dominant — architecture is breathing normally

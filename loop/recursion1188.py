@@ -12,8 +12,10 @@ Usage
 
 Configuration
 -------------
-    Edit the CONFIG dict below, or pass a path to field.yaml / recursion.yaml.
-    All major parameters are exposed here for rapid iteration.
+    Two layers, applied as: component default < configs/*.yaml < CONFIG.
+    The CONFIG dict below owns the entry-point flags (and overrides the matching
+    YAML keys); configs/*.yaml (loaded by configs.loader in build_engine) supplies
+    component parameters. See docs/EXPERIMENTAL_LEVERS.md for the toggle switches.
 
 The name 1188 encodes the DISCIPLINE constant (11.88) that anchors
 the recursive cognition rhythm. The loop does not merely run — it
@@ -31,6 +33,7 @@ from agents.selfhood_governance import SelfhoodGovernance
 from agents.value_emergence import ValueEmergenceEngine
 from loop.autonomous_cycle import AutonomousCycle
 from loop.dream_cycle import DreamCycle
+from configs.loader import load_config, section
 
 logging.basicConfig(
     level  = logging.INFO,
@@ -126,74 +129,95 @@ SOURCE_WEIGHTS = {"source_samuel": 0.40, "source_claude": 0.25,
 
 
 # ---------------------------------------------------------------------------
-# Main
+# Composition — the single source of truth
 # ---------------------------------------------------------------------------
 
-def main():
-    logger.info("RFE-Core2 initializing...")
+def build_engine(config: dict = None):
+    """Build the FULLY COMPOSED engine (Tiers 0-3) from `config` (defaults to CONFIG).
 
-    # ------------------------------------------------------------------
-    # Build generator
-    # ------------------------------------------------------------------
-    generator = Generator(
-        vocab_size         = CONFIG["vocab_size"],
-        dim                = CONFIG["dim"],
-        depth              = CONFIG["depth"],
-        heads              = CONFIG["heads"],
-        ff_mult            = CONFIG["ff_mult"],
-        dropout            = CONFIG["dropout"],
-        auto_decay_interval = CONFIG["auto_decay_interval"],
-        decay_interval     = CONFIG["decay_interval"],
+    This is the one place composition happens. Every launchable entry point —
+    this loop, the REST API, and the WebSocket server — must build through here
+    so none can silently regress to a Tier-0-only substrate (the exact trap
+    recorded in `docs/findings/2026-06-20-the-runtime-is-tier0-only.md`, which
+    fixed *this* loop but left the API entry points building Tier 0 by hand).
+
+    Returns ``(generator, cycle, governance, value_engine)``, fully wired. The
+    caller still drives the loop and (optionally) builds a DreamCycle.
+
+    Config layering is ``component default < configs/*.yaml < CONFIG`` — the YAML
+    (loaded here via configs.loader) supplies component parameters, and the inline
+    CONFIG overrides the entry-point flags it owns. Missing YAML/PyYAML ⇒ defaults
+    (behavior-identical).
+
+    Note: with the default config, ``pretrain_on_corpus`` is graduated-on, so this
+    trains the generator (~8 epochs) at boot. Pass a config with
+    ``pretrain_on_corpus=False`` for a fast cold start.
+    """
+    if config is None:
+        config = CONFIG
+
+    # Load the YAML config layer (configs/*.yaml). {} if PyYAML/files absent.
+    ycfg = load_config()
+
+    # Generator: YAML generator section, then CONFIG overrides the entry-point
+    # flags it owns. reaper section → ReaperConfig (full-field match).
+    gen_kwargs = section(ycfg, "generator")
+    gen_kwargs.update(
+        vocab_size          = config["vocab_size"],
+        dim                 = config["dim"],
+        depth               = config["depth"],
+        heads               = config["heads"],
+        ff_mult             = config["ff_mult"],
+        dropout             = config["dropout"],
+        auto_decay_interval = config["auto_decay_interval"],
+        decay_interval      = config["decay_interval"],
     )
-
+    reaper_cfg = section(ycfg, "reaper")
+    if reaper_cfg:
+        from agents.symbolic_memory import ReaperConfig
+        gen_kwargs["reaper_config"] = ReaperConfig(**reaper_cfg)
+    generator = Generator(**gen_kwargs)
     logger.info("Generator initialized on device: %s", generator.device)
 
-    # ------------------------------------------------------------------
-    # Optional lever: pretrain the generator on the corpus (held-out
-    # generalization / eff_rank — Gate G1). NOT required for expression ignition
-    # at production dim 128, where the expression is already metastable untrained.
-    # ------------------------------------------------------------------
-    if CONFIG.get("pretrain_on_corpus"):
+    # Optional lever: corpus pretraining (held-out generalization / eff_rank,
+    # Gate G1). Not required for ignition at dim 128; see EXPERIMENTAL_LEVERS.md.
+    if config.get("pretrain_on_corpus"):
         from training.corpus import load_corpus, to_rhythm_seeds, TRAIN_PATH
         from training.rhythm_pretraining import RhythmPretrainer, PretrainingConfig
         seeds = to_rhythm_seeds(load_corpus(TRAIN_PATH))
         RhythmPretrainer(
             generator,
             rhythm_seeds = seeds,
-            config       = PretrainingConfig(n_epochs=CONFIG["pretrain_epochs"]),
+            config       = PretrainingConfig(n_epochs=config["pretrain_epochs"]),
         ).pretrain()
-        logger.info("Generator pretrained on corpus (%d epochs).", CONFIG["pretrain_epochs"])
+        logger.info("Generator pretrained on corpus (%d epochs).", config["pretrain_epochs"])
 
-    # ------------------------------------------------------------------
-    # Eval-mode IS the operating regime — Phase 3 architect decision
-    # (2026-06-12, docs/training/phase3_architect_decisions.md). Applied
-    # UNCONDITIONALLY here, not as a side-effect of pretraining: a default boot
-    # must run dropout-off, or ~half the apparent input diversity is dropout
-    # noise (2026-06-08-generator-dropout-diversity.md). Set once at startup.
-    # ------------------------------------------------------------------
+    # Eval-mode IS the operating regime (Phase 3 architect decision; dropout off).
+    # Applied unconditionally, not as a side-effect of pretraining.
     generator.eval()
     logger.info("Generator set to eval mode (operating regime; dropout off).")
 
-    # ------------------------------------------------------------------
-    # Build autonomous cycle
-    # ------------------------------------------------------------------
+    # Cycle: CONFIG owns use_chorus / maintenance_interval / log_interval /
+    # reflect_novelty_attenuation; the YAML cycle section supplies the rest; the
+    # full YAML dict is threaded in for the sub-components (field, watcher,
+    # crystal_store, attractor, cognition.*, chorus, …).
+    cyc = section(ycfg, "cycle")
     cycle = AutonomousCycle(
-        generator                   = generator,
-        dim                         = CONFIG["dim"],
-        use_chorus                  = CONFIG["use_chorus"],
-        maintenance_interval        = CONFIG["maintenance_interval"],
-        log_interval                = CONFIG["log_interval"],
-        reflect_novelty_attenuation = CONFIG["reflect_novelty_attenuation"],
+        generator                     = generator,
+        dim                           = config["dim"],
+        use_chorus                    = config["use_chorus"],
+        maintenance_interval          = config["maintenance_interval"],
+        log_interval                  = config["log_interval"],
+        reflect_novelty_attenuation   = config["reflect_novelty_attenuation"],
+        attractor_formation_threshold = cyc.get("attractor_formation_threshold", 0.88),
+        merge_interval                = cyc.get("merge_interval", 50),
+        lattice_emit_interval         = cyc.get("lattice_emit_interval", 100),
+        crystal_decay_interval        = cyc.get("crystal_decay_interval", 100),
+        config                        = ycfg,
     )
 
-    # ------------------------------------------------------------------
-    # Attach the upper tiers. The substrate (Tier 0) alone is not the engine;
-    # governance (Tier 1: trust/ethics) + relational integrity (Tier 2:
-    # dependency/bonds/resistance) + value emergence (Tier 3) are what make this
-    # the Recursive Field Engine. Attachment ORDER matters: governance before the
-    # value engine (the engine subscribes to the governance feedback stream at
-    # construction). This is the composition the integration suite validates.
-    # ------------------------------------------------------------------
+    # Attach the upper tiers. Order matters: governance before the value engine
+    # (the engine subscribes to the governance feedback stream at construction).
     governance = SelfhoodGovernance(registry=generator.registry)
     cycle.attach_governance(governance)
     value_engine = ValueEmergenceEngine(
@@ -204,6 +228,21 @@ def main():
     cycle.attach_value_engine(value_engine)
     logger.info("Tiers 1-3 attached: governance (trust/ethics) + relational "
                 "integrity (dependency/bonds/resistance) + value emergence.")
+
+    return generator, cycle, governance, value_engine
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+def main():
+    logger.info("RFE-Core2 initializing...")
+
+    # ------------------------------------------------------------------
+    # Build the fully composed engine (Tiers 0-3) — single composition path.
+    # ------------------------------------------------------------------
+    generator, cycle, governance, value_engine = build_engine(CONFIG)
 
     # ------------------------------------------------------------------
     # Build dream cycle
