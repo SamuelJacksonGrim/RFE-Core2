@@ -568,7 +568,8 @@ RFE-Core2/
 │   │   ├── core_promotion_handshake.py   All 5 rejection paths + 2 approval paths
 │   │   ├── reflective_loop_lock_guard.py Lock characteristic guard (loop on=RIGID, off=migrates)
 │   │   ├── attractor_merge_guard.py      Attractor merge/prune removal (array-__eq__ crash regression)
-│   │   └── checkpoint_registry_identity.py  Checkpoint load preserves registry object (orphaned-subsystem guard)
+│   │   ├── checkpoint_registry_identity.py  Checkpoint load preserves registry object (orphaned-subsystem guard)
+│   │   └── config_loading_neutrality.py  configs/*.yaml load + day-one behavioral neutrality guard
 │   │
 │   ├── adversarial/
 │   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels

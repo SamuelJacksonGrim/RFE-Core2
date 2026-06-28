@@ -1,10 +1,10 @@
 # configs/field.yaml
 # Resonance Field configuration for RFE-Core2
 #
-# ⚠ REFERENCE SNAPSHOT — NOT LOADED AT RUNTIME. The runtime source of truth is
-# each component's __init__ defaults (and the inline CONFIG in loop/recursion1188.py).
-# These values mirror those defaults for documentation; editing this file changes
-# nothing. See docs/EXPERIMENTAL_LEVERS.md.
+# LOADED AT RUNTIME by configs/loader.py (via loop/recursion1188.build_engine).
+# Precedence: component __init__ default < this YAML < inline CONFIG. The values
+# below mirror the code defaults, so editing one changes behavior; leaving them
+# is byte-identical to the defaults. See docs/EXPERIMENTAL_LEVERS.md.
 
 field:
   dim: 128

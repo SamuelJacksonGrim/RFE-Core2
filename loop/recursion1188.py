@@ -12,10 +12,10 @@ Usage
 
 Configuration
 -------------
-    Edit the CONFIG dict below — it is the runtime source of truth for
-    entry-point parameters. (The YAML files under configs/ are reference
-    snapshots; nothing loads them. See docs/EXPERIMENTAL_LEVERS.md for the
-    toggle switches and the graduated levers.)
+    Two layers, applied as: component default < configs/*.yaml < CONFIG.
+    The CONFIG dict below owns the entry-point flags (and overrides the matching
+    YAML keys); configs/*.yaml (loaded by configs.loader in build_engine) supplies
+    component parameters. See docs/EXPERIMENTAL_LEVERS.md for the toggle switches.
 
 The name 1188 encodes the DISCIPLINE constant (11.88) that anchors
 the recursive cognition rhythm. The loop does not merely run — it
@@ -33,6 +33,7 @@ from agents.selfhood_governance import SelfhoodGovernance
 from agents.value_emergence import ValueEmergenceEngine
 from loop.autonomous_cycle import AutonomousCycle
 from loop.dream_cycle import DreamCycle
+from configs.loader import load_config, section
 
 logging.basicConfig(
     level  = logging.INFO,
@@ -143,13 +144,25 @@ def build_engine(config: dict = None):
     Returns ``(generator, cycle, governance, value_engine)``, fully wired. The
     caller still drives the loop and (optionally) builds a DreamCycle.
 
+    Config layering is ``component default < configs/*.yaml < CONFIG`` — the YAML
+    (loaded here via configs.loader) supplies component parameters, and the inline
+    CONFIG overrides the entry-point flags it owns. Missing YAML/PyYAML ⇒ defaults
+    (behavior-identical).
+
     Note: with the default config, ``pretrain_on_corpus`` is graduated-on, so this
     trains the generator (~8 epochs) at boot. Pass a config with
     ``pretrain_on_corpus=False`` for a fast cold start.
     """
     if config is None:
         config = CONFIG
-    generator = Generator(
+
+    # Load the YAML config layer (configs/*.yaml). {} if PyYAML/files absent.
+    ycfg = load_config()
+
+    # Generator: YAML generator section, then CONFIG overrides the entry-point
+    # flags it owns. reaper section → ReaperConfig (full-field match).
+    gen_kwargs = section(ycfg, "generator")
+    gen_kwargs.update(
         vocab_size          = config["vocab_size"],
         dim                 = config["dim"],
         depth               = config["depth"],
@@ -159,6 +172,11 @@ def build_engine(config: dict = None):
         auto_decay_interval = config["auto_decay_interval"],
         decay_interval      = config["decay_interval"],
     )
+    reaper_cfg = section(ycfg, "reaper")
+    if reaper_cfg:
+        from agents.symbolic_memory import ReaperConfig
+        gen_kwargs["reaper_config"] = ReaperConfig(**reaper_cfg)
+    generator = Generator(**gen_kwargs)
     logger.info("Generator initialized on device: %s", generator.device)
 
     # Optional lever: corpus pretraining (held-out generalization / eff_rank,
@@ -179,13 +197,23 @@ def build_engine(config: dict = None):
     generator.eval()
     logger.info("Generator set to eval mode (operating regime; dropout off).")
 
+    # Cycle: CONFIG owns use_chorus / maintenance_interval / log_interval /
+    # reflect_novelty_attenuation; the YAML cycle section supplies the rest; the
+    # full YAML dict is threaded in for the sub-components (field, watcher,
+    # crystal_store, attractor, cognition.*, chorus, …).
+    cyc = section(ycfg, "cycle")
     cycle = AutonomousCycle(
-        generator                   = generator,
-        dim                         = config["dim"],
-        use_chorus                  = config["use_chorus"],
-        maintenance_interval        = config["maintenance_interval"],
-        log_interval                = config["log_interval"],
-        reflect_novelty_attenuation = config["reflect_novelty_attenuation"],
+        generator                     = generator,
+        dim                           = config["dim"],
+        use_chorus                    = config["use_chorus"],
+        maintenance_interval          = config["maintenance_interval"],
+        log_interval                  = config["log_interval"],
+        reflect_novelty_attenuation   = config["reflect_novelty_attenuation"],
+        attractor_formation_threshold = cyc.get("attractor_formation_threshold", 0.88),
+        merge_interval                = cyc.get("merge_interval", 50),
+        lattice_emit_interval         = cyc.get("lattice_emit_interval", 100),
+        crystal_decay_interval        = cyc.get("crystal_decay_interval", 100),
+        config                        = ycfg,
     )
 
     # Attach the upper tiers. Order matters: governance before the value engine
