@@ -655,6 +655,12 @@ Self-supervised; reshapes the *encoder's* weights so it presents real diversity
 | `visualization/resonance_heatmap.py` | terminal / matplotlib | Field-over-time, per-step coherence, attractor-basin landscape |
 | `visualization/topology_render.py` | terminal / matplotlib / Graphviz DOT | Renders the `TopologicalLog` + `SemanticLattice` DAG (the diagrams) |
 
+### Configuration
+
+| Module | Key fn | Role |
+|--------|--------|------|
+| `configs/loader.py` | `load_config`, `section` | Loads `configs/*.yaml` at boot (via `build_engine`) and threads each section into its component. Precedence: component default < YAML < inline `CONFIG`. Graceful (no PyYAML/file ⇒ defaults). `decay_profiles` + sacred `constants` are documentation-only (not applied). See `docs/EXPERIMENTAL_LEVERS.md`. |
+
 ---
 
 ## 8. The Two-Operator overlay, levers & instruments

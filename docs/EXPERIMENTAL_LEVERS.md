@@ -7,20 +7,25 @@ remember nothing else, read *The toggle switches* table below.
 
 Most capabilities here are **opt-in / off by default**; a validated few have
 **graduated to default-on** (listed under "Already applied" below). The switches
-live in two places:
+live in three places, layered as **component default < `configs/*.yaml` < `CONFIG`**:
 
-- **`loop/recursion1188.py` `CONFIG`** — the runtime source of truth for
-  entry-point flags (CLAUDE.md). Edit the dict; restart.
+- **`configs/*.yaml`** — `field.yaml`, `attractors.yaml`, `recursion.yaml`, loaded
+  at boot by `configs/loader.py` (via `build_engine`). The live edit surface for
+  component parameters (field/watcher/crystal/attractor/cognition/chorus/…). Values
+  ship equal to the code defaults, so editing one changes behavior.
+- **`loop/recursion1188.py` `CONFIG`** — owns the entry-point flags (dim, the
+  graduated levers, intervals, …) and **overrides** the matching YAML keys. The
+  authoritative tiebreaker (CLAUDE.md).
 - **The cycle's opt-in attach hooks** — `cycle.attach_lambda_ledger(...)`,
   `attach_integrity_read(...)`, `attach_integrity_consumer(...)` (the Two-Operator
   overlay), plus the code-level `IgnitionGate(cycle)` (ITG). Nothing attaches
   these by default.
 
-> **Footgun — `configs/*.yaml` are NOT loaded.** `field.yaml`, `attractors.yaml`,
-> and `recursion.yaml` are *reference snapshots*; no code path reads them (the
-> runtime uses the inline `CONFIG` plus each component's `__init__` defaults).
-> Editing a YAML changes nothing. `configs/recursion.yaml` in particular predates
-> the graduated levers and is stale — treat it as documentation, not config.
+> **Two YAML sections are documentation only (not applied):** `attractors.yaml`'s
+> `constants` (ANCHOR/RECURSION/HOMEOSTASIS are SACRED — code-authoritative,
+> inviolable) and `decay_profiles` (a partial snapshot; the code `DecayProfile`s
+> carry more fields, so loading it as-is wouldn't be neutral — pending a
+> full-fidelity expansion). Everything else in the three files is live.
 
 ## The toggle switches
 
