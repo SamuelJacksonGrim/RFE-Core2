@@ -83,6 +83,12 @@ CONFIG = {
     # (ReflectiveLoop.attenuation_max=0.30) without a fresh manip-rate run.
     # (2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md)
     "reflect_novelty_attenuation": True,
+    # EXPERIMENTAL — under validation, default OFF. Generator common-mode projection
+    # (basis correction so different tokens stop reading as near-identical). Being
+    # measured paired (tests/diagnostic/full_system_run.py arm `common_mode`); this
+    # flag is a measurement scaffold — graduate to default-on or remove after the
+    # paired run, do not leave dormant. (Kimi's diagnosis; fix2 common-mode probe.)
+    "project_common_mode":         False,
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -171,6 +177,7 @@ def build_engine(config: dict = None):
         dropout             = config["dropout"],
         auto_decay_interval = config["auto_decay_interval"],
         decay_interval      = config["decay_interval"],
+        project_common_mode = config.get("project_common_mode", False),
     )
     reaper_cfg = section(ycfg, "reaper")
     if reaper_cfg:

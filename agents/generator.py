@@ -177,6 +177,8 @@ class Generator(nn.Module):
         pipeline:                  Optional[CanonicalizationPipeline] = None,
         reaper_config:             Optional[ReaperConfig]             = None,
         compaction_threshold:      float                            = 0.30,
+        project_common_mode:       bool                             = False,
+        common_mode_decay:         float                            = 0.99,
     ):
         super().__init__()
 
@@ -185,6 +187,17 @@ class Generator(nn.Module):
 
         self.dim                       = dim
         self.normalize_output          = normalize_output
+        # Common-mode projection (experimental, under validation). When on, the
+        # generator subtracts its running shared-axis ("common-mode") direction from
+        # each output before L2-normalization — a basis correction so genuinely
+        # different tokens stop registering as near-identical (the dim-256 echo:
+        # cos(A,B)≈+0.9). The shared axis is tracked as an EMA of unit outputs.
+        # Default OFF — measurement scaffold; graduate to default-on or remove after
+        # the paired validation (do not leave dormant).
+        self.project_common_mode       = project_common_mode
+        self.common_mode_decay         = common_mode_decay
+        self._cm_seen                  = False
+        self.register_buffer("_common_mode", torch.zeros(dim))
         self.deferred_resize_threshold = deferred_resize_threshold
         self.auto_decay_interval       = auto_decay_interval
         self.decay_interval            = decay_interval
@@ -304,9 +317,36 @@ class Generator(nn.Module):
         projected = self.projection(pooled)
         projected = self.post_proj_norm(projected)
 
+        if self.project_common_mode:
+            projected = self._remove_common_mode(projected)
+
         if self.normalize_output:
             return F.normalize(projected, dim=-1)
         return projected
+
+    def _remove_common_mode(self, x: torch.Tensor) -> torch.Tensor:
+        """Subtract the running common-mode (shared-axis) direction from each output.
+
+        The common-mode is an EMA of unit output directions; we remove each output's
+        component along it. State update is no_grad (the axis estimate is not a
+        learned parameter). At batch=1 (inference) the per-call direction is the
+        single output; the EMA carries the cross-call shared axis.
+        """
+        with torch.no_grad():
+            batch_dir = F.normalize(x.detach(), dim=-1).mean(dim=0)
+            n = batch_dir.norm()
+            if n > 1e-8:
+                batch_dir = batch_dir / n
+                if not self._cm_seen:
+                    self._common_mode.copy_(batch_dir)
+                    self._cm_seen = True
+                else:
+                    blended = (self.common_mode_decay * self._common_mode
+                               + (1.0 - self.common_mode_decay) * batch_dir)
+                    self._common_mode.copy_(F.normalize(blended, dim=0))
+        cm   = self._common_mode
+        comp = (x * cm).sum(dim=-1, keepdim=True) * cm
+        return x - comp
 
     # ==========================================================================
     # Inference API

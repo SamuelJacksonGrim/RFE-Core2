@@ -45,6 +45,9 @@ from loop.recursion1188 import CONFIG, SOURCES, SOURCE_WEIGHTS, build_engine
 ARMS = {
     "levers_on":  {},  # default CONFIG
     "levers_off": {"pretrain_on_corpus": False, "reflect_novelty_attenuation": False},
+    # Experimental: current default + generator common-mode projection. Compared
+    # against `levers_on` to decide whether common-mode projection earns default-on.
+    "common_mode": {"project_common_mode": True},
 }
 
 
