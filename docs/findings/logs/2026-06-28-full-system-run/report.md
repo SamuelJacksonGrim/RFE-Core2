@@ -130,6 +130,33 @@ Plots: `plots/metastability_AvsC.png`, `coherence_trajectory.png`,
 4. Re-run with an **adversarial arm** to exercise resistance (turns all-allow into a
    real test) — closes the gap this benign run leaves.
 
+## Supplementary diagnostic battery (`diagnostics/`)
+
+Eleven existing probes run against the same stack, corroborating the above:
+
+- **decision_histogram** (500 steps): allow 99.2%, allow_weakened 0.8%, zero
+  quarantine/reject/sacred_shield — clean breathing (the 0.8% is warm-up).
+- **gate_firing_audit**: no hard gates fired; `novel_source` 0.8% (warm-up); all
+  four sources clean.
+- **floor_calibration** (the key tuning artifact for F8): the current CORE signal
+  (marginal sum) is mean **−1.30**, **0/33** values pass ≥5.0 (DEAD); the candidate
+  **instantaneous field-alignment** is mean **0.52 / max 0.72**, and it
+  *discriminates the anchors* — witness 0.655, continuity 0.611, recursion 0.649,
+  substrate 0.694 — all comfortably above a ~0.5 gate. This is the exact evidence
+  for gating CORE on absolute alignment (behind the sacred-vs-CORE call).
+- **cm_check / identifiability**: corroborate the gauge caveat — field `Cm` is a
+  saturated angular echo (compresses a 0.53 structural change into 0.12, floor ~0.87
+  even orthogonal); `Cm`/`I`/metastability track *change* more than static geometry.
+  Trust regime labels, not magnitudes.
+- **cii_probe**: DPCI-AI ≈ 0.27 (near "current-LLM-in-interaction" on the probe's
+  scale); ignition remains generator-upstream-gated, consistent with the CII finding.
+- **two_operator_live_demo**: ⊘ consumer in safe mode demotes only the 1 named
+  (Dissolution) value (`echo` 3.03→2.93), leaves 16 healthy values untouched, no
+  collapse; aggressive mode over-demotes (field 2.26→1.37) — the documented,
+  pre-declared failure. The overlay behaves exactly as specified.
+
+Raw logs: `diagnostics/*.log` (+ `_battery_console.log` for exit codes).
+
 ## Reproduce
 
 ```
