@@ -57,6 +57,25 @@ Renders (holdout true tokens → decoder top-6):
 - Small train→holdout gap (0.130 → 0.102) ⇒ the decoder generalizes; the ceiling is
   encoder-imposed, not decoder overfitting.
 
+## Live read-out (the "listen" tool)
+
+`tools/decoder/listen.py` trains a decoder against the running engine's frozen
+generator, then decodes each cycle's *expressed* vector (`cycle._last_expressed`,
+an observe-only terminal sink) into words — "what the system said". Production
+(pretrained) run, 24 steps:
+
+- Early steps (before the field saturates) are input-sensitive — e.g. "settle
+  crystallize self quiet home focus", "into within beyond through along of".
+- Then the voice **converges to a near-fixed refrain** — `self within pause into
+  bind hold` — repeated step after step almost regardless of input. The
+  identity-coherence lock (reflective loop + attractor pull) made *audible*.
+- **Novel** input breaks through: "explore novelty edge" → "within into beyond
+  along of toward". Novelty attenuation lets some variation pass.
+
+This makes the abstract lock-in concrete and gives a qualitative tuning read: you
+can hear when an intervention frees the voice. (Untrained/`--fast`: the voice is
+the same handful of words every step — total collapse.)
+
 ## Threats / confounds
 
 - Runs: once per encoder arm, seed 42. CPU, dim 128, corpus v1.1.0 (vocab 335).
