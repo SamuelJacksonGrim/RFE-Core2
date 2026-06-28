@@ -579,6 +579,8 @@ RFE-Core2/
 │   │   └── reflective_loop_convergence.py  Loop holds identity under novelty flood
 │   │
 │   ├── diagnostic/
+│   │   ├── full_system_run.py            Full-system instrumented run (paired arms × seeds → per-step traces + status snapshots)
+│   │   ├── full_system_analyze.py        Analyze a full_system_run dir → plots + aggregate per-arm stats
 │   │   ├── tier4/                        Tier 4 physics validators + affect
 │   │   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
 │   │   │   ├── rhythm_dilation_curve.py      Tier 4.3 physics validator (rhythm coupling)
