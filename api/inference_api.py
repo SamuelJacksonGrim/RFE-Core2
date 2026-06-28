@@ -20,6 +20,18 @@ Usage
 -----
   uvicorn api.inference_api:app --host 0.0.0.0 --port 8000
 
+The `app` symbol is built lazily (PEP 562) the first time it is accessed — e.g.
+when uvicorn resolves `api.inference_api:app` — so it composes the FULL tier
+stack (Tiers 0-3) via `loop.recursion1188.build_engine()`. Plain
+`import api.inference_api` does NOT build the engine. To serve a cycle you
+composed yourself, call `create_app(cycle, generator)` directly.
+
+Heads-up: with the default config, `build_engine()` pretrains the generator
+(~8 epochs) at boot, and uvicorn builds `app` once **per worker** — so a
+multi-worker launch trains once per process. For a fast cold start, serve a
+config you control:
+  `create_app(*build_engine({**CONFIG, "pretrain_on_corpus": False})[:2])`
+
 Requires: pip install fastapi uvicorn
 """
 
@@ -53,6 +65,7 @@ if FASTAPI_AVAILABLE:
 
     class StepRequest(BaseModel):
         tokens: List[str]
+        source_id: Optional[str] = None
 
     class GenerateResponse(BaseModel):
         vector: List[float]
@@ -141,7 +154,14 @@ def create_app(cycle, generator) -> "FastAPI":
     def step(req: StepRequest):
         """Execute one autonomous cycle step."""
         try:
-            state = cycle.step(req.tokens)
+            # External clients are rate-limited via origin_type="api" (10/sec
+            # flood ceiling). source_id defaults to "api" but a client may
+            # supply its own so the relational tiers can distinguish callers.
+            state = cycle.step(
+                req.tokens,
+                source_id   = req.source_id or "api",
+                origin_type = "api",
+            )
             return StepResponse(
                 step             = state.step,
                 key              = state.key,
@@ -265,3 +285,26 @@ def create_app(cycle, generator) -> "FastAPI":
         return {"status": "field reset", "energy": 0.0}
 
     return app
+
+
+# ---------------------------------------------------------------------------
+# Lazy module-level `app` (PEP 562) for `uvicorn api.inference_api:app`.
+#
+# Built on first attribute access — NOT at import — so `import api.inference_api`
+# (and `from api.inference_api import create_app`, which api/__init__.py does)
+# stays free of the heavy engine build. uvicorn's `getattr(module, "app")`
+# triggers the build, composing the full tier stack via build_engine().
+# ---------------------------------------------------------------------------
+
+_LAZY_APP = None
+
+
+def __getattr__(name: str):
+    if name == "app":
+        global _LAZY_APP
+        if _LAZY_APP is None:
+            from loop.recursion1188 import build_engine
+            generator, cycle, _governance, _value_engine = build_engine()
+            _LAZY_APP = create_app(cycle, generator)
+        return _LAZY_APP
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

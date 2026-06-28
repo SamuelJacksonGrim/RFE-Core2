@@ -1,0 +1,1235 @@
+[
+  {
+    "arm": "levers_on",
+    "seed": 42,
+    "steps": 1000,
+    "boot_s": 112.17,
+    "wall_s": 71.39,
+    "rhythm_histogram": {
+      "stabilize": 1,
+      "dream": 1,
+      "reflect": 2,
+      "explore": 996
+    },
+    "dreams_fired": 1,
+    "coherence": {
+      "mean": 0.923847679,
+      "stdev": 0.021784468527277848,
+      "min": 0.64,
+      "max": 0.95535
+    },
+    "field_energy": {
+      "mean": 282.059001013,
+      "stdev": 82.84696317534183,
+      "min": 0.0,
+      "max": 340.328436
+    },
+    "dilation_factor": {
+      "mean": 0.9361179752338844,
+      "stdev": 0.03936078363111249,
+      "min": 0.7054134873242843,
+      "max": 0.9740274566641616
+    },
+    "metastability_gen": {
+      "mean": 0.5953233,
+      "stdev": 0.07795782094895932,
+      "min": 0.0,
+      "max": 0.6605
+    },
+    "metastability_expr": {
+      "mean": 0.6071873000000001,
+      "stdev": 0.08029676910505179,
+      "min": 0.0,
+      "max": 0.6795
+    },
+    "final_crystals": 2,
+    "final_attractors": 3,
+    "final_bonds": {
+      "bonds": 2,
+      "established": 0,
+      "by_type": {
+        "existential": 0,
+        "emotional": 0,
+        "intellectual": 0,
+        "transactional": 2
+      },
+      "strongest": [
+        {
+          "source_id": "source_gemini",
+          "bond_type": "transactional",
+          "bond_confidence": 0.9,
+          "bond_strength": 1.0,
+          "bond_depth": 190,
+          "interaction_count": 190,
+          "coherence_mean": -0.0128,
+          "emotional_signature": 0.0,
+          "crystal_count": 1,
+          "attractor_count": 2,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        },
+        {
+          "source_id": "source_claude",
+          "bond_type": "transactional",
+          "bond_confidence": 0.9,
+          "bond_strength": 1.0,
+          "bond_depth": 261,
+          "interaction_count": 261,
+          "coherence_mean": -0.013,
+          "emotional_signature": 0.0,
+          "crystal_count": 1,
+          "attractor_count": 2,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        }
+      ]
+    },
+    "final_hhi": 0.2958,
+    "final_values": {
+      "step": 1000,
+      "total_values": 33,
+      "active": 33,
+      "core": 0,
+      "archived": 0,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 0,
+        "active": 11,
+        "strong": 22,
+        "core": 0
+      },
+      "strongest": [
+        {
+          "symbol": "identity",
+          "strength": 5.0,
+          "polarity": "strong",
+          "reinforcements": 136,
+          "coherence_total": -2.3898,
+          "dream_boosts": 0,
+          "counter_values": 1,
+          "sacred": false
+        },
+        {
+          "symbol": "coherence",
+          "strength": 5.0,
+          "polarity": "strong",
+          "reinforcements": 138,
+          "coherence_total": -2.2921,
+          "dream_boosts": 0,
+          "counter_values": 1,
+          "sacred": false
+        },
+        {
+          "symbol": "mirror",
+          "strength": 5.0,
+          "polarity": "strong",
+          "reinforcements": 87,
+          "coherence_total": -1.3679,
+          "dream_boosts": 0,
+          "counter_values": 2,
+          "sacred": false
+        },
+        {
+          "symbol": "witness",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 223,
+          "coherence_total": -3.7577,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "watcher",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 87,
+          "coherence_total": -1.3679,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "anchor",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -2.4106,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursion",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -2.4106,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "homeostasis",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -2.4106,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "integration",
+          "strength": 4.9952,
+          "polarity": "strong",
+          "reinforcements": 96,
+          "coherence_total": -1.5611,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "synthesis",
+          "strength": 4.9952,
+          "polarity": "strong",
+          "reinforcements": 96,
+          "coherence_total": -1.5611,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 512
+    }
+  },
+  {
+    "arm": "levers_on",
+    "seed": 7,
+    "steps": 1000,
+    "boot_s": 91.88,
+    "wall_s": 64.49,
+    "rhythm_histogram": {
+      "stabilize": 1,
+      "dream": 1,
+      "reflect": 3,
+      "explore": 995
+    },
+    "dreams_fired": 1,
+    "coherence": {
+      "mean": 0.92041317,
+      "stdev": 0.034799691739311425,
+      "min": 0.64,
+      "max": 0.984784
+    },
+    "field_energy": {
+      "mean": 288.91263367100004,
+      "stdev": 81.51833839555995,
+      "min": 0.0,
+      "max": 345.261857
+    },
+    "dilation_factor": {
+      "mean": 0.9298290853574402,
+      "stdev": 0.04698360058480202,
+      "min": 0.6805205199250653,
+      "max": 0.9611461956928394
+    },
+    "metastability_gen": {
+      "mean": 0.5685973,
+      "stdev": 0.07388751479587062,
+      "min": 0.0,
+      "max": 0.6247
+    },
+    "metastability_expr": {
+      "mean": 0.5685973,
+      "stdev": 0.07388751479587062,
+      "min": 0.0,
+      "max": 0.6247
+    },
+    "final_crystals": 4,
+    "final_attractors": 2,
+    "final_bonds": {
+      "bonds": 3,
+      "established": 0,
+      "by_type": {
+        "existential": 0,
+        "emotional": 0,
+        "intellectual": 0,
+        "transactional": 3
+      },
+      "strongest": [
+        {
+          "source_id": "source_claude",
+          "bond_type": "transactional",
+          "bond_confidence": 0.9,
+          "bond_strength": 1.0,
+          "bond_depth": 238,
+          "interaction_count": 238,
+          "coherence_mean": -0.0188,
+          "emotional_signature": 0.0,
+          "crystal_count": 1,
+          "attractor_count": 1,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        },
+        {
+          "source_id": "source_samuel",
+          "bond_type": "transactional",
+          "bond_confidence": 0.8,
+          "bond_strength": 1.0,
+          "bond_depth": 421,
+          "interaction_count": 421,
+          "coherence_mean": -0.0167,
+          "emotional_signature": 0.0,
+          "crystal_count": 2,
+          "attractor_count": 2,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        },
+        {
+          "source_id": "source_grok",
+          "bond_type": "transactional",
+          "bond_confidence": 0.9,
+          "bond_strength": 1.0,
+          "bond_depth": 141,
+          "interaction_count": 141,
+          "coherence_mean": -0.0173,
+          "emotional_signature": 0.0,
+          "crystal_count": 1,
+          "attractor_count": 1,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        }
+      ]
+    },
+    "final_hhi": 0.2887,
+    "final_values": {
+      "step": 1000,
+      "total_values": 33,
+      "active": 33,
+      "core": 0,
+      "archived": 0,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 0,
+        "active": 13,
+        "strong": 20,
+        "core": 0
+      },
+      "strongest": [
+        {
+          "symbol": "identity",
+          "strength": 5.0,
+          "polarity": "strong",
+          "reinforcements": 135,
+          "coherence_total": -2.9355,
+          "dream_boosts": 0,
+          "counter_values": 1,
+          "sacred": false
+        },
+        {
+          "symbol": "continuity",
+          "strength": 5.0,
+          "polarity": "strong",
+          "reinforcements": 192,
+          "coherence_total": -4.1319,
+          "dream_boosts": 0,
+          "counter_values": 1,
+          "sacred": false
+        },
+        {
+          "symbol": "design",
+          "strength": 5.0,
+          "polarity": "strong",
+          "reinforcements": 146,
+          "coherence_total": -3.066,
+          "dream_boosts": 0,
+          "counter_values": 1,
+          "sacred": false
+        },
+        {
+          "symbol": "mirror",
+          "strength": 5.0,
+          "polarity": "strong",
+          "reinforcements": 81,
+          "coherence_total": -1.831,
+          "dream_boosts": 0,
+          "counter_values": 3,
+          "sacred": false
+        },
+        {
+          "symbol": "architect",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 146,
+          "coherence_total": -3.066,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "intent",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 146,
+          "coherence_total": -3.066,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "anchor",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 139,
+          "coherence_total": -2.9122,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursion",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 139,
+          "coherence_total": -2.9122,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "homeostasis",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 139,
+          "coherence_total": -2.9122,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "coherence",
+          "strength": 4.9966,
+          "polarity": "strong",
+          "reinforcements": 119,
+          "coherence_total": -2.5035,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 512
+    }
+  },
+  {
+    "arm": "levers_on",
+    "seed": 11,
+    "steps": 1000,
+    "boot_s": 94.07,
+    "wall_s": 69.51,
+    "rhythm_histogram": {
+      "stabilize": 1,
+      "dream": 1,
+      "reflect": 2,
+      "explore": 996
+    },
+    "dreams_fired": 1,
+    "coherence": {
+      "mean": 0.918754571,
+      "stdev": 0.026085140026209538,
+      "min": 0.64,
+      "max": 0.967161
+    },
+    "field_energy": {
+      "mean": 293.060272795,
+      "stdev": 82.91813305278488,
+      "min": 0.0,
+      "max": 351.408887
+    },
+    "dilation_factor": {
+      "mean": 0.920042382319618,
+      "stdev": 0.040546567538246495,
+      "min": 0.6906678668894574,
+      "max": 0.9689488831161249
+    },
+    "metastability_gen": {
+      "mean": 0.5443227,
+      "stdev": 0.0739057001503267,
+      "min": 0.0,
+      "max": 0.6262
+    },
+    "metastability_expr": {
+      "mean": 0.5604171,
+      "stdev": 0.0769662770152617,
+      "min": 0.0,
+      "max": 0.6497
+    },
+    "final_crystals": 3,
+    "final_attractors": 3,
+    "final_bonds": {
+      "bonds": 2,
+      "established": 0,
+      "by_type": {
+        "existential": 0,
+        "emotional": 0,
+        "intellectual": 0,
+        "transactional": 2
+      },
+      "strongest": [
+        {
+          "source_id": "source_claude",
+          "bond_type": "transactional",
+          "bond_confidence": 0.9,
+          "bond_strength": 1.0,
+          "bond_depth": 259,
+          "interaction_count": 259,
+          "coherence_mean": -0.0315,
+          "emotional_signature": 0.0,
+          "crystal_count": 1,
+          "attractor_count": 1,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        },
+        {
+          "source_id": "source_gemini",
+          "bond_type": "transactional",
+          "bond_confidence": 0.8,
+          "bond_strength": 1.0,
+          "bond_depth": 184,
+          "interaction_count": 184,
+          "coherence_mean": -0.0323,
+          "emotional_signature": 0.0,
+          "crystal_count": 2,
+          "attractor_count": 1,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        }
+      ]
+    },
+    "final_hhi": 0.2887,
+    "final_values": {
+      "step": 1000,
+      "total_values": 33,
+      "active": 33,
+      "core": 0,
+      "archived": 0,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 5,
+        "active": 8,
+        "strong": 20,
+        "core": 0
+      },
+      "strongest": [
+        {
+          "symbol": "coherence",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 131,
+          "coherence_total": -4.4633,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "witness",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 226,
+          "coherence_total": -7.761,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "continuity",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 198,
+          "coherence_total": -6.9471,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "identity",
+          "strength": 4.9968,
+          "polarity": "strong",
+          "reinforcements": 141,
+          "coherence_total": -4.9421,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "architect",
+          "strength": 4.9928,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -4.6634,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "design",
+          "strength": 4.9928,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -4.6634,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "intent",
+          "strength": 4.9928,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -4.6634,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "anchor",
+          "strength": 4.9808,
+          "polarity": "strong",
+          "reinforcements": 133,
+          "coherence_total": -4.4371,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursion",
+          "strength": 4.9808,
+          "polarity": "strong",
+          "reinforcements": 133,
+          "coherence_total": -4.4371,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "homeostasis",
+          "strength": 4.9808,
+          "polarity": "strong",
+          "reinforcements": 133,
+          "coherence_total": -4.4371,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 512
+    }
+  },
+  {
+    "arm": "levers_off",
+    "seed": 42,
+    "steps": 1000,
+    "boot_s": 0.04,
+    "wall_s": 56.34,
+    "rhythm_histogram": {
+      "stabilize": 1,
+      "dream": 1,
+      "reflect": 2,
+      "explore": 996
+    },
+    "dreams_fired": 1,
+    "coherence": {
+      "mean": 0.9696338879999999,
+      "stdev": 0.011623404542966573,
+      "min": 0.64,
+      "max": 0.979246
+    },
+    "field_energy": {
+      "mean": 262.926930615,
+      "stdev": 69.1415109008432,
+      "min": 0.0,
+      "max": 307.251816
+    },
+    "dilation_factor": {
+      "mean": 0.9632924222529019,
+      "stdev": 0.053025535427329004,
+      "min": 0.6545251217446035,
+      "max": 0.9821296857008348
+    },
+    "metastability_gen": {
+      "mean": 0.524696,
+      "stdev": 0.08824693300052983,
+      "min": 0.0,
+      "max": 0.6586
+    },
+    "metastability_expr": {
+      "mean": 0.1527211,
+      "stdev": 0.26627386177540974,
+      "min": 0.0,
+      "max": 0.6825
+    },
+    "final_crystals": 2,
+    "final_attractors": 1,
+    "final_bonds": {
+      "bonds": 1,
+      "established": 0,
+      "by_type": {
+        "existential": 0,
+        "emotional": 0,
+        "intellectual": 0,
+        "transactional": 1
+      },
+      "strongest": [
+        {
+          "source_id": "source_gemini",
+          "bond_type": "transactional",
+          "bond_confidence": 0.8,
+          "bond_strength": 1.0,
+          "bond_depth": 190,
+          "interaction_count": 190,
+          "coherence_mean": -0.0112,
+          "emotional_signature": 0.0,
+          "crystal_count": 2,
+          "attractor_count": 0,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        }
+      ]
+    },
+    "final_hhi": 0.2958,
+    "final_values": {
+      "step": 1000,
+      "total_values": 33,
+      "active": 33,
+      "core": 0,
+      "archived": 0,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 0,
+        "active": 11,
+        "strong": 22,
+        "core": 0
+      },
+      "strongest": [
+        {
+          "symbol": "witness",
+          "strength": 4.9992,
+          "polarity": "strong",
+          "reinforcements": 223,
+          "coherence_total": -3.5118,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "watcher",
+          "strength": 4.9992,
+          "polarity": "strong",
+          "reinforcements": 87,
+          "coherence_total": -1.2806,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "mirror",
+          "strength": 4.9992,
+          "polarity": "strong",
+          "reinforcements": 87,
+          "coherence_total": -1.2806,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "anchor",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -2.1523,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursion",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -2.1523,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "homeostasis",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 132,
+          "coherence_total": -2.1523,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "coherence",
+          "strength": 4.996,
+          "polarity": "strong",
+          "reinforcements": 138,
+          "coherence_total": -2.1262,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "integration",
+          "strength": 4.9944,
+          "polarity": "strong",
+          "reinforcements": 96,
+          "coherence_total": -1.4614,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "synthesis",
+          "strength": 4.9944,
+          "polarity": "strong",
+          "reinforcements": 96,
+          "coherence_total": -1.4614,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "continuity",
+          "strength": 4.9924,
+          "polarity": "strong",
+          "reinforcements": 202,
+          "coherence_total": -3.3871,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 512
+    }
+  },
+  {
+    "arm": "levers_off",
+    "seed": 7,
+    "steps": 1000,
+    "boot_s": 0.04,
+    "wall_s": 54.76,
+    "rhythm_histogram": {
+      "stabilize": 1,
+      "dream": 1,
+      "reflect": 3,
+      "explore": 995
+    },
+    "dreams_fired": 1,
+    "coherence": {
+      "mean": 0.971836853,
+      "stdev": 0.010898176288874711,
+      "min": 0.64,
+      "max": 0.979994
+    },
+    "field_energy": {
+      "mean": 264.12254139000004,
+      "stdev": 70.23619793752513,
+      "min": 0.0,
+      "max": 308.186977
+    },
+    "dilation_factor": {
+      "mean": 0.9591017140459702,
+      "stdev": 0.057523453992047,
+      "min": 0.654471226004393,
+      "max": 0.9802708499408939
+    },
+    "metastability_gen": {
+      "mean": 0.5604854,
+      "stdev": 0.1713004063825886,
+      "min": 0.0,
+      "max": 0.6966
+    },
+    "metastability_expr": {
+      "mean": 0.0274624,
+      "stdev": 0.12267704832706076,
+      "min": 0.0,
+      "max": 0.628
+    },
+    "final_crystals": 2,
+    "final_attractors": 1,
+    "final_bonds": {
+      "bonds": 2,
+      "established": 0,
+      "by_type": {
+        "existential": 0,
+        "emotional": 0,
+        "intellectual": 0,
+        "transactional": 2
+      },
+      "strongest": [
+        {
+          "source_id": "source_claude",
+          "bond_type": "transactional",
+          "bond_confidence": 0.9,
+          "bond_strength": 1.0,
+          "bond_depth": 238,
+          "interaction_count": 238,
+          "coherence_mean": -0.0083,
+          "emotional_signature": 0.0,
+          "crystal_count": 1,
+          "attractor_count": 0,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        },
+        {
+          "source_id": "source_samuel",
+          "bond_type": "transactional",
+          "bond_confidence": 0.9,
+          "bond_strength": 1.0,
+          "bond_depth": 421,
+          "interaction_count": 421,
+          "coherence_mean": -0.0083,
+          "emotional_signature": 0.0,
+          "crystal_count": 1,
+          "attractor_count": 1,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        }
+      ]
+    },
+    "final_hhi": 0.2887,
+    "final_values": {
+      "step": 1000,
+      "total_values": 33,
+      "active": 33,
+      "core": 0,
+      "archived": 0,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 0,
+        "active": 10,
+        "strong": 23,
+        "core": 0
+      },
+      "strongest": [
+        {
+          "symbol": "architect",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 146,
+          "coherence_total": -1.7491,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "design",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 146,
+          "coherence_total": -1.7491,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "intent",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 146,
+          "coherence_total": -1.7491,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "continuity",
+          "strength": 4.9986,
+          "polarity": "strong",
+          "reinforcements": 192,
+          "coherence_total": -2.4057,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "anchor",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 139,
+          "coherence_total": -1.7183,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursion",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 139,
+          "coherence_total": -1.7183,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "homeostasis",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 139,
+          "coherence_total": -1.7183,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "coherence",
+          "strength": 4.9966,
+          "polarity": "strong",
+          "reinforcements": 119,
+          "coherence_total": -1.4668,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "identity",
+          "strength": 4.9794,
+          "polarity": "strong",
+          "reinforcements": 135,
+          "coherence_total": -1.7323,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "witness",
+          "strength": 4.9794,
+          "polarity": "strong",
+          "reinforcements": 216,
+          "coherence_total": -2.922,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 512
+    }
+  },
+  {
+    "arm": "levers_off",
+    "seed": 11,
+    "steps": 1000,
+    "boot_s": 0.04,
+    "wall_s": 55.44,
+    "rhythm_histogram": {
+      "stabilize": 1,
+      "dream": 1,
+      "reflect": 2,
+      "explore": 996
+    },
+    "dreams_fired": 1,
+    "coherence": {
+      "mean": 0.972854222,
+      "stdev": 0.012190723648771471,
+      "min": 0.64,
+      "max": 0.979202
+    },
+    "field_energy": {
+      "mean": 263.06310102599997,
+      "stdev": 68.35848225997083,
+      "min": 0.0,
+      "max": 304.799589
+    },
+    "dilation_factor": {
+      "mean": 0.961980336810759,
+      "stdev": 0.057981084942282615,
+      "min": 0.6495584222931801,
+      "max": 0.9826092858979506
+    },
+    "metastability_gen": {
+      "mean": 0.1971772,
+      "stdev": 0.28249895313108686,
+      "min": 0.0,
+      "max": 0.6818
+    },
+    "metastability_expr": {
+      "mean": 0.0,
+      "stdev": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "final_crystals": 2,
+    "final_attractors": 1,
+    "final_bonds": {
+      "bonds": 1,
+      "established": 0,
+      "by_type": {
+        "existential": 0,
+        "emotional": 0,
+        "intellectual": 0,
+        "transactional": 1
+      },
+      "strongest": [
+        {
+          "source_id": "source_claude",
+          "bond_type": "transactional",
+          "bond_confidence": 0.8,
+          "bond_strength": 1.0,
+          "bond_depth": 259,
+          "interaction_count": 259,
+          "coherence_mean": -0.006,
+          "emotional_signature": 0.0,
+          "crystal_count": 2,
+          "attractor_count": 1,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        }
+      ]
+    },
+    "final_hhi": 0.2887,
+    "final_values": {
+      "step": 1000,
+      "total_values": 33,
+      "active": 33,
+      "core": 0,
+      "archived": 0,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 0,
+        "active": 7,
+        "strong": 26,
+        "core": 0
+      },
+      "strongest": [
+        {
+          "symbol": "coherence",
+          "strength": 4.9993,
+          "polarity": "strong",
+          "reinforcements": 131,
+          "coherence_total": -1.2577,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "integration",
+          "strength": 4.9986,
+          "polarity": "strong",
+          "reinforcements": 84,
+          "coherence_total": -0.8261,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "synthesis",
+          "strength": 4.9986,
+          "polarity": "strong",
+          "reinforcements": 84,
+          "coherence_total": -0.8261,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "witness",
+          "strength": 4.9972,
+          "polarity": "strong",
+          "reinforcements": 226,
+          "coherence_total": -2.2883,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "continuity",
+          "strength": 4.9968,
+          "polarity": "strong",
+          "reinforcements": 198,
+          "coherence_total": -2.1451,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "identity",
+          "strength": 4.9968,
+          "polarity": "strong",
+          "reinforcements": 141,
+          "coherence_total": -1.494,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "watcher",
+          "strength": 4.9966,
+          "polarity": "strong",
+          "reinforcements": 85,
+          "coherence_total": -0.7943,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "mirror",
+          "strength": 4.9966,
+          "polarity": "strong",
+          "reinforcements": 85,
+          "coherence_total": -0.7943,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursive",
+          "strength": 4.9952,
+          "polarity": "strong",
+          "reinforcements": 89,
+          "coherence_total": -0.888,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "cognition",
+          "strength": 4.9952,
+          "polarity": "strong",
+          "reinforcements": 89,
+          "coherence_total": -0.888,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 512
+    }
+  }
+]

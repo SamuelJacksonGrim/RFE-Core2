@@ -1,0 +1,7 @@
+regime     | field Cm | TRUE mean pairwise cos | eff_rank
+aligned    |  0.997  |        +0.544          |  26.4
+orthogonal |  0.873  |        +0.009          |  31.0
+
+  Cm swing = 0.123   ground-truth swing = 0.534
+  => Cm compresses a 0.53 structural change into 0.12; floor ~0.87 even orthogonal.
+     Operationally non-identifying in RFE's aligned regime; prefer pairwise-cos.

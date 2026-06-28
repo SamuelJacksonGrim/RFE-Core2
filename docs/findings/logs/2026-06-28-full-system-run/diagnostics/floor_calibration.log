@@ -1,0 +1,30 @@
+==============================================================================
+  FLOOR CALIBRATION PROBE — measure before changing
+==============================================================================
+
+[A] FIELD ENERGY (dim 128, 600 steps)
+    min=1.08  q10=98.36  q25=199.11  median=283.67  q75=318.29  q90=327.11  max=331.97
+    rhythm spread under candidate calibrations (want a real spread, not 99% one band):
+      current bands (0.5/2/5) on raw energy            {'stabilize': 0.0, 'dream': 0.0, 'reflect': 0.0, 'explore': 0.99}
+      normalize energy / median, bands 0.5/1/2         {'stabilize': 0.15, 'dream': 0.34, 'reflect': 0.5, 'explore': 0.0}
+      rescaled bands at energy quantiles q25/q50/q75   {'stabilize': 0.25, 'dream': 0.25, 'reflect': 0.25, 'explore': 0.25}
+
+[B] CORE COHERENCE SIGNAL (gate: coherence_contribution >= 5.0)
+    CURRENT signal (marginal sum): mean=-1.30 max=-0.49 → values passing >=5.0: 0/33  (DEAD)
+    CANDIDATE accumulated-alignment: mean=307.00 max=424.83 → would pass >=5.0: 33/33
+    instantaneous alignment: mean=0.52 max=0.72
+    per-value (top by strength) — does a candidate DISCRIMINATE the anchors?
+      symbol           str  reinf  cc(old) inst_align accum_align
+      witness         5.00    134    -3.30      0.655      401.89
+      continuity      5.00    113    -2.72      0.611      369.81
+      identity        4.35     82    -2.02      0.624      378.56
+      coherence       4.31     71    -1.68      0.609      362.31
+      anchor          4.18     78    -1.89      0.615      369.14
+      recursion       4.18     78    -1.89      0.649      394.80
+      homeostasis     4.18     78    -1.89      0.609      365.70
+      recursive       4.08     68    -1.60      0.646      400.91
+      cognition       4.08     68    -1.60      0.646      400.67
+      substrate       4.08     68    -1.60      0.694      424.83
+
+  (No change applied. Re-run after a calibration change to compare.)
+==============================================================================

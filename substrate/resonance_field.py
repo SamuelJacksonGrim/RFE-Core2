@@ -89,6 +89,15 @@ class ResonanceField:
         Number of harmonic overtone bins to check in FFT analysis.
     phase_history_len : int
         Window size for phase coherence computation.
+    diffuse_alpha : float
+        Spectral-diffusion strength applied by the stabilize behavior
+        (`AutonomousCycle._stabilize_behavior` reads this). Default 0.05 —
+        the value that path previously hard-coded.
+    diffuse_on_stabilize : bool
+        Whether the stabilize rhythm diffuses the field. Default True (the
+        prior unconditional behavior). A control surface for self-regulation:
+        the stabilize band feeds back into field energy via this diffusion, so
+        toggling it is load-bearing for the rhythm dynamics (see F9).
     """
 
     # Default rhythm energy thresholds.
@@ -115,11 +124,15 @@ class ResonanceField:
         rhythm_thresholds: Optional[dict] = None,
         harmonic_bins: int = 4,
         phase_history_len: int = 16,
+        diffuse_alpha: float = 0.05,
+        diffuse_on_stabilize: bool = True,
     ):
         self.dim            = dim
         self.decay_rate     = decay
         self.harmonic_bins  = harmonic_bins
         self.thresholds     = rhythm_thresholds or dict(self.DEFAULT_THRESHOLDS)
+        self.diffuse_alpha        = diffuse_alpha
+        self.diffuse_on_stabilize = diffuse_on_stabilize
 
         # Field vector
         self.field: np.ndarray = np.zeros(dim)

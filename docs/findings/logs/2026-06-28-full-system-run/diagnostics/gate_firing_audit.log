@@ -1,0 +1,18 @@
+========================================================================
+  DIAGNOSTIC: gate-firing audit over 500 steps
+========================================================================
+
+HARD GATES (each triggers QUARANTINE or REJECT):
+  (none fired) ✓
+
+SOFT WARNINGS (each adds strength penalty, may downgrade to ALLOW_WEAKENED):
+  novel_source               4  (0.8% of steps)
+
+Per-source hard gate counts:
+  ✓ source_samuel          (clean — no hard gates)
+  ✓ source_claude          (clean — no hard gates)
+  ✓ source_gemini          (clean — no hard gates)
+  ✓ source_grok            (clean — no hard gates)
+
+Interpretation:
+  ✓ No hard gates fired across 500 steps. System operating cleanly.

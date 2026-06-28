@@ -1,5 +1,22 @@
 # configs/recursion.yaml
 # Autonomous cycle and loop configuration for RFE-Core2
+#
+# LOADED AT RUNTIME by configs/loader.py (via loop/recursion1188.build_engine).
+# Precedence: component __init__ default < this YAML < inline CONFIG. The inline
+# CONFIG (loop/recursion1188.py) owns the entry-point flags — vocab/dim/depth/
+# heads/ff_mult/dropout, the graduated levers, the intervals, n_steps, step_delay,
+# use_chorus — and OVERRIDES the matching keys here. The cognition/chorus sections
+# and the non-CONFIG cycle keys (merge_interval, lattice_emit_interval,
+# crystal_decay_interval, attractor_formation_threshold) are live from this file.
+# Values mirror the defaults (behavior-neutral until edited). The `loop:` and
+# `api:` sections are documentation; main()/the API entry points read CONFIG.
+# See docs/EXPERIMENTAL_LEVERS.md.
+
+# Graduated levers — validated, DEFAULT ON in CONFIG (mirrored here for reference).
+levers:
+  pretrain_on_corpus: true          # corpus pretrain at boot (generalization / common-mode)
+  pretrain_epochs: 8
+  reflect_novelty_attenuation: true # novelty-gated loop loosening (ceiling 0.30)
 
 generator:
   vocab_size: 8192

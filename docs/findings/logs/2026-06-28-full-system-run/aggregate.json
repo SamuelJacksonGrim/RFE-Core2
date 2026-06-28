@@ -1,0 +1,148 @@
+{
+  "levers_off": {
+    "seeds": [
+      7,
+      11,
+      42
+    ],
+    "coherence": {
+      "mean": 0.9714416543333333,
+      "stdev": 0.0013440670264761106
+    },
+    "field_energy": {
+      "mean": 263.370857677,
+      "stdev": 0.5344198714494769
+    },
+    "dilation": {
+      "mean": 0.9614581577032104,
+      "stdev": 0.0017502403804775597
+    },
+    "metastability_gen": {
+      "mean": 0.42745286666666665,
+      "stdev": 0.163483704146465
+    },
+    "metastability_expr": {
+      "mean": 0.060061166666666665,
+      "stdev": 0.06647276779475604
+    },
+    "explore_frac": {
+      "mean": 0.9956666666666667,
+      "stdev": 0.0004714045207910321
+    },
+    "dream_frac": {
+      "mean": 0.001,
+      "stdev": 0.0
+    },
+    "per_seed": [
+      {
+        "seed": 7,
+        "coherence_mean": 0.971836853,
+        "energy_mean": 264.12254139000004,
+        "dilation_mean": 0.9591017140459702,
+        "meta_gen_mean": 0.5604854,
+        "meta_expr_mean": 0.0274624,
+        "explore_frac": 0.995,
+        "dream_frac": 0.001,
+        "crystals_final": 2,
+        "attractors_final": 1
+      },
+      {
+        "seed": 11,
+        "coherence_mean": 0.972854222,
+        "energy_mean": 263.06310102599997,
+        "dilation_mean": 0.961980336810759,
+        "meta_gen_mean": 0.1971772,
+        "meta_expr_mean": 0.0,
+        "explore_frac": 0.996,
+        "dream_frac": 0.001,
+        "crystals_final": 2,
+        "attractors_final": 1
+      },
+      {
+        "seed": 42,
+        "coherence_mean": 0.9696338879999999,
+        "energy_mean": 262.926930615,
+        "dilation_mean": 0.9632924222529019,
+        "meta_gen_mean": 0.524696,
+        "meta_expr_mean": 0.1527211,
+        "explore_frac": 0.996,
+        "dream_frac": 0.001,
+        "crystals_final": 2,
+        "attractors_final": 1
+      }
+    ]
+  },
+  "levers_on": {
+    "seeds": [
+      7,
+      11,
+      42
+    ],
+    "coherence": {
+      "mean": 0.92100514,
+      "stdev": 0.0021209681178793313
+    },
+    "field_energy": {
+      "mean": 288.0106358263333,
+      "stdev": 4.536312400264845
+    },
+    "dilation": {
+      "mean": 0.9286631476369808,
+      "stdev": 0.006614415064201097
+    },
+    "metastability_gen": {
+      "mean": 0.5694144333333333,
+      "stdev": 0.020828923483997473
+    },
+    "metastability_expr": {
+      "mean": 0.5787339,
+      "stdev": 0.020394866947020484
+    },
+    "explore_frac": {
+      "mean": 0.9956666666666667,
+      "stdev": 0.0004714045207910321
+    },
+    "dream_frac": {
+      "mean": 0.001,
+      "stdev": 0.0
+    },
+    "per_seed": [
+      {
+        "seed": 7,
+        "coherence_mean": 0.92041317,
+        "energy_mean": 288.91263367100004,
+        "dilation_mean": 0.9298290853574402,
+        "meta_gen_mean": 0.5685973,
+        "meta_expr_mean": 0.5685973,
+        "explore_frac": 0.995,
+        "dream_frac": 0.001,
+        "crystals_final": 4,
+        "attractors_final": 2
+      },
+      {
+        "seed": 11,
+        "coherence_mean": 0.918754571,
+        "energy_mean": 293.060272795,
+        "dilation_mean": 0.920042382319618,
+        "meta_gen_mean": 0.5443227,
+        "meta_expr_mean": 0.5604171,
+        "explore_frac": 0.996,
+        "dream_frac": 0.001,
+        "crystals_final": 3,
+        "attractors_final": 3
+      },
+      {
+        "seed": 42,
+        "coherence_mean": 0.923847679,
+        "energy_mean": 282.059001013,
+        "dilation_mean": 0.9361179752338844,
+        "meta_gen_mean": 0.5953233,
+        "meta_expr_mean": 0.6071873000000001,
+        "explore_frac": 0.996,
+        "dream_frac": 0.001,
+        "crystals_final": 2,
+        "attractors_final": 3
+      }
+    ]
+  }
+}

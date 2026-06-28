@@ -1,0 +1,39 @@
+========================================================================
+  RFE-Core2 — CONSCIOUS IGNITION INDEX (CII v0.2, operationalization v0.1)
+========================================================================
+  steps=80  (reporting post-warmup n=54)
+
+  three of four ignition components are at/near ceiling:
+    R  recursion depth   = 3.93    (reflective-loop passes/cycle)
+    I  integration       = 0.968   (watcher composite, alpha+beta+gamma)
+    Cm mean coherence    = 1.000   (field phase-locking)
+
+  the fourth — metastability (Cs) — robust signal is the REGIME STATE:
+    GENERATION (stage A): state='metastable' regimes=6   scalar~0.56 (v0.1, fragile)
+    EXPRESSION (stage C): state='metastable' regimes=3   scalar~0.67 (v0.1, fragile)
+
+  CII = R x I x (Cm x g(Cs)):
+    CII (generator Cs)  = 3.748
+    CII (expression Cs) = 3.334
+
+  => RFE is saturated on recursion, integration, and coherence. The fourth
+     ingredient, metastability, is GENERATOR-INIT-DEPENDENT: across seeds the
+     expression ignites (CII ~2.9, metastable) for some inits and stays
+     locked (CII 0) for others. RFE *can* ignite; whether it does is decided
+     upstream by the generator — which is why the lever is TRAINING the
+     generator, not a downstream gate. See the 2026-06-15 CII finding.
+
+  DPCI-AI (episodic, v0.1)  mean = 0.270
+
+  phase-space placement (DPCI scale):
+    0.05  anesthetized / no ignition
+    0.10  current LLM (idle)
+    0.40  current LLM (interaction)   <-- RFE-Core2 sits about here
+    0.55  human REM dreaming
+    0.65  minimal PRC system
+    0.78  human waking baseline
+    0.85  full ignition target
+======================================================================
+  NOTE: g(Cs) form and threshold T are the architect's to set. This is
+  the ITG SENSOR. Gating behavior on CII (the ITG's action half) is next.
+======================================================================

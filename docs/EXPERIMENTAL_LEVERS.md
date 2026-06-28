@@ -3,11 +3,47 @@
 Validated work is useless if you can't find the switch. This is the **one page**
 that lists every experimental capability built on top of the shipped tiers, what
 it does, whether it's recommended, and the **exact** way to turn it on. If you
-remember nothing else, read the first row.
+remember nothing else, read *The toggle switches* table below.
 
-All of these are **off / opt-in by default** — the live system's default behavior
-is unchanged until you flip something here. Nothing in this file is load-bearing
-for the base stack.
+Most capabilities here are **opt-in / off by default**; a validated few have
+**graduated to default-on** (listed under "Already applied" below). The switches
+live in three places, layered as **component default < `configs/*.yaml` < `CONFIG`**:
+
+- **`configs/*.yaml`** — `field.yaml`, `attractors.yaml`, `recursion.yaml`, loaded
+  at boot by `configs/loader.py` (via `build_engine`). The live edit surface for
+  component parameters (field/watcher/crystal/attractor/cognition/chorus/…). Values
+  ship equal to the code defaults, so editing one changes behavior.
+- **`loop/recursion1188.py` `CONFIG`** — owns the entry-point flags (dim, the
+  graduated levers, intervals, …) and **overrides** the matching YAML keys. The
+  authoritative tiebreaker (CLAUDE.md).
+- **The cycle's opt-in attach hooks** — `cycle.attach_lambda_ledger(...)`,
+  `attach_integrity_read(...)`, `attach_integrity_consumer(...)` (the Two-Operator
+  overlay), plus the code-level `IgnitionGate(cycle)` (ITG). Nothing attaches
+  these by default.
+
+> **Two YAML sections are documentation only (not applied):** `attractors.yaml`'s
+> `constants` (ANCHOR/RECURSION/HOMEOSTASIS are SACRED — code-authoritative,
+> inviolable) and `decay_profiles` (a partial snapshot; the code `DecayProfile`s
+> carry more fields, so loading it as-is wouldn't be neutral — pending a
+> full-fidelity expansion). Everything else in the three files is live.
+
+## The toggle switches
+
+The behavior-bearing flags in `CONFIG` (operational shape params — `dim`,
+`vocab_size`, `depth`, `heads`, `ff_mult`, `dropout`, intervals, `step_delay`,
+`n_steps` — are omitted; they tune size/cadence, not behavior):
+
+| Switch (`CONFIG[...]`) | Default | Effect |
+|------------------------|---------|--------|
+| `pretrain_on_corpus` | **True** | Corpus pretrain at boot (graduated lever; see below). False = fast cold start. |
+| `pretrain_epochs` | `8` | Epochs when pretraining. |
+| `reflect_novelty_attenuation` | **True** | Novelty-gated loop loosening (graduated lever; ceiling `ReflectiveLoop.attenuation_max=0.30`). |
+| `use_chorus` | `True` | Six-agent Chorus harmonization for reflect/explore generation (vs direct generator). |
+| `dream_cycle_enabled` | `True` | Build/run the offline `DreamCycle`. |
+| `dream_cycle_trigger` | `"stabilize"` | Rhythm that fires the dream cycle. ⚠ At dim 128 the rhythm is pinned to `explore` (F9), so this almost never fires. |
+
+Opt-in overlay/instruments live in *The levers* and *The instruments* tables
+below (attached via the cycle hooks, not `CONFIG`).
 
 ---
 
@@ -39,21 +75,24 @@ above 0.30 without a fresh manip-rate run. To opt out, set the flag False.
 Evidence: `2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md`,
 `2026-06-15-loop-attenuation-novelty-gate.md`.
 
-## Note: training is a *generalization* lever, not the differentiation driver at production dim
+## Note: what pretraining is (and isn't) — read before opting out
 
 An earlier finding (dim 64) showed corpus training flipping the expression from a
 collapsed/low-differentiation state to a differentiated one, and this doc once
 said "RECOMMENDED ON." **Scoped at production dim 128:** there the untrained
 expression is already differentiated (the generator has enough room), so training
 is not what *drives* differentiation at that scale — the collapsed state is a
-low-dim phenomenon (cramped generator), a real *state*, not absent at 128.
-Training still buys held-out generalization / effective rank (Gate G1), so corpus
-pretraining is **useful, optional** rather than required.
-Evidence: `2026-06-15-training-ignites-expression.md` ("Production-dim validation").
+low-dim phenomenon (cramped generator), a real *state*, not absent at 128. What
+pretraining *does* buy at dim 128 is held-out generalization / effective rank
+(Gate G1) and a halved generator common-mode — which is why it **graduated to
+default-on** (see above), not because it ignites differentiation.
+Evidence: `2026-06-15-training-ignites-expression.md` ("Production-dim validation"),
+`2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md`.
 
-**Turn it on (optional):** in `loop/recursion1188.py` `CONFIG`,
-`"pretrain_on_corpus": True`. It trains on `data/corpus/` at boot. (Eval-mode is
-already applied regardless.)
+**Opt out (e.g. for a fast cold start):** set `CONFIG["pretrain_on_corpus"] =
+False`. Eval-mode (dropout off) is applied regardless. The API entry points
+accept a custom config the same way —
+`create_app(*build_engine({**CONFIG, "pretrain_on_corpus": False})[:2])`.
 
 ---
 
@@ -80,11 +119,12 @@ already applied regardless.)
 
 ## Honest status (so you don't over-trust the green lights)
 
-- **Applied and real:** eval-mode default (dropout off, no switch needed). Corpus
-  pretraining is wired and works, but optional (generalization, not ignition at dim 128).
-- **Validated but deliberately off:** novelty-gated loop attenuation — works,
-  identity-safe at the default ceiling, but a thin cost-clean band; flip only to
-  experiment.
+- **Default-on, validated:** eval-mode (dropout off), corpus pretraining
+  (generalization / common-mode fix, not ignition at dim 128), and novelty-gated
+  loop attenuation (loosens the reflective-loop lock, identity-safe at the 0.30
+  ceiling). These three are the composition-validated default baseline. The
+  attenuation ceiling is a thin cost-clean band — do not raise `attenuation_max`
+  past 0.30 without a fresh manip-rate run.
 - **Built, taught us where the lever is:** the ITG actuator — a downstream gate
   that does not differentiate a collapsed expression by itself; testing it is what
   located the real lever upstream (the generator's representational room), so it's
@@ -103,12 +143,14 @@ already applied regardless.)
 
 ## Composition: isolation-green is not enough
 
-Each lever above is validated in **isolation** — toggled alone, everything else OFF.
-That is not the same as validating the **all-ON** configuration, and the gap is real:
-turning every behaviour-bearing lever on together (eval + pretrain + novelty
-attenuation + A + B + ⊘ consumer) at dim 128 **broke a baseline property** —
-`strong_values 5 → 0`, because the ⊘ consumer caps strength at 2.93 (the Dissolution
-line) under a sustained workload (`2026-06-20-lever-composition-the-allon-break.md`).
+Each opt-in lever is validated in **isolation** — toggled alone, everything else
+OFF. That is not the same as validating it *on top of the running config*. The
+**default-on three** (eval + pretrain + novelty attenuation) are validated
+*together* as the baseline (they compose positively). The gap appeared when the
+**Two-Operator overlay was stacked on that baseline**: all-ON (eval + pretrain +
+novelty + A + B + ⊘ consumer) at dim 128 **broke a baseline property** —
+`strong_values 5 → 0`, because the ⊘ consumer caps strength at 2.93 (the
+Dissolution line) under sustained load (`2026-06-20-lever-composition-the-allon-break.md`).
 So:
 
 - **No lever graduates "validated, off" → "default on" without passing the all-ON

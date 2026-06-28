@@ -1,5 +1,10 @@
 # configs/field.yaml
 # Resonance Field configuration for RFE-Core2
+#
+# LOADED AT RUNTIME by configs/loader.py (via loop/recursion1188.build_engine).
+# Precedence: component __init__ default < this YAML < inline CONFIG. The values
+# below mirror the code defaults, so editing one changes behavior; leaving them
+# is byte-identical to the defaults. See docs/EXPERIMENTAL_LEVERS.md.
 
 field:
   dim: 128
