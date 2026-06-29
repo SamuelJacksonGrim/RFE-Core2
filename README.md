@@ -581,6 +581,8 @@ RFE-Core2/
 │   ├── diagnostic/
 │   │   ├── full_system_run.py            Full-system instrumented run (paired arms × seeds → per-step traces + status snapshots)
 │   │   ├── full_system_analyze.py        Analyze a full_system_run dir → plots + aggregate per-arm stats
+│   │   ├── dream_channel_probe.py        Governed self-dialogue: source_dream paired probe (echo/dominance/value)
+│   │   ├── dream_channel_adversarial_probe.py  Dream-channel graduation gate: does self-dialogue launder attacks?
 │   │   ├── tier4/                        Tier 4 physics validators + affect
 │   │   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
 │   │   │   ├── rhythm_dilation_curve.py      Tier 4.3 physics validator (rhythm coupling)

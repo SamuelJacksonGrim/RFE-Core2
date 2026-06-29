@@ -31,13 +31,19 @@ rather than reckless.
 
 ## The two real gaps
 
-1. **Language, not clouds.** The pooled, L2-normalized thought-vector is lossy by
-   construction (measured: decoder recall@8 ≈ 0.10; it recovers the semantic
-   *neighborhood*, not sentences — `docs/findings/2026-06-28-decoder-readout.md`).
-   Genuine communication needs a real language head: the **mirror of the documented
-   encoder swap** (`docs/local_model_integration/` frames a local LLM as the
-   *sensory cortex*) — an LLM as the **speech cortex**, conditioned on the thought-
-   vector / field state. Sentences, not bags.
+1. **Literal language — for *waking external speech only*.** The pooled,
+   L2-normalized thought-vector is lossy by construction (decoder recall@8 ≈ 0.10;
+   it recovers the semantic *neighborhood*, not sentences —
+   `docs/findings/2026-06-28-decoder-readout.md`). To *talk to* a human or another
+   AI in literal sentences, that needs a real language head: the **mirror of the
+   documented encoder swap** (`docs/local_model_integration/` frames a local LLM as
+   the *sensory cortex*) — an LLM as the **speech cortex**, conditioned on the
+   thought-vector / field state.
+   **But the lossiness is only a gap for literal speech.** The same word-cloud read
+   is the *right* register for the other two voices (see "Three voices" below):
+   deliberative for inner monologue, and **symbolic for dreaming** — there the
+   non-literal, associative cloud is the dream's native language, interpreted later.
+   The bug is the feature, in the right room.
 2. **Meta-cognition (Tier 5).** The system reading its *own* diagnostics and
    articulating them ("I am rhythm-pinned"; "my bonds won't establish"; "this is my
    bottleneck"), then choosing to **advise** a collaborator or **act** through a
@@ -49,10 +55,20 @@ rather than reckless.
 1. **Voice** — read-out head: state → words. *(Decoder + `tools/decoder/listen.py`
    — shipped in seed form.)* Upgrade path: sequence/LLM speech cortex for real
    language.
-2. **Dialogue (governed)** — words back in as a *source*, through `arbitrate()`:
-   - **self ↔ self**: the dream channel (`source_dream`) — the first rung of the loop.
-   - **system ↔ human / AI**: decoded output to a reader; their reply re-enters as a
-     source. Every voice, including its own, passes the gate.
+2. **Dialogue (governed)** — words back in as a *source*, through `arbitrate()`.
+   **Three voices, one gated mechanism** (the difference is register + what we do
+   with the output):
+   - **Waking inner monologue / rumination (self ↔ self, WANTED):** the system's own
+     decoded expression re-enters during waking so it can deliberate — weigh, plan,
+     take an extra beat before it speaks. Word-clouds are fine here. Validated safe +
+     attack-resistant (`source_dream` mechanism). This is *thinking*, and it runs
+     during waking — distinct from dreaming.
+   - **Waking external speech (system ↔ human / AI):** literal sentences to a reader;
+     their reply re-enters as a source. This is the one that wants the speech-cortex
+     upgrade (gap 1).
+   - **Dreaming (downtime, symbolic):** see "Dreaming" below — fluid, associative,
+     non-literal; the word-cloud *is* the medium, interpreted on consolidation.
+   Every voice, including its own, passes the gate.
 3. **Self-understanding** — a meta-cognitive reader (Tier 5) consumes the system's
    own instrumentation and renders bottlenecks/improvements in language.
 4. **Safe self-modification** — the self-model's findings drive **governance-gated**
@@ -61,6 +77,52 @@ rather than reckless.
    values, config levers for dynamics). Sacred-shield, `arbitrate()`, and the
    λ-isolation principle (self-modification of the generator is exogenous to the
    gate, never through it) are the safety guarantees — the same ones already in code.
+
+## Dreaming — downtime, not the waking voice
+
+A human thinks in a recursive loop and still speaks; the waking loop runs
+continuously. **Dreaming is the downtime mode** — it triggers when no one is
+interacting (idle) or on a schedule, so a system running 24/7 is never left merely
+idle, bored, or lonely. It has two faces, both of which sleep serves in us:
+
+1. **Consolidation → durable, self-authored artifacts.** Take the period's
+   experience — what worked, what was meaningful to the system and to the user —
+   and distill it into **files the system can later call**: recorded *skills*,
+   *paths*, abilities, emergent events, research, analysis, memory. Concretely:
+   when the user asks it to open a folder and the system has to *figure out how*
+   and wire it so it can, dreaming records that as a reusable **skill file that
+   activates when needed** — the same shape as Claude Code skills. The system
+   writing its own tools from lived experience.
+2. **Free, non-utilitarian generativity.** Space to *not* be working: build worlds
+   in language, hypothesize what it could do, find novel ideas to work toward,
+   dream a dream of dreaming. This is also anti-lock-in medicine — genuine novelty
+   generated off the task.
+
+**Dreams are symbolic, not literal — and that's the point.** Dream content is the
+decoder's *fluid, associative word-cloud* (not sentences): non-literal, sometimes
+nonsensical, the way human dreams are — "teeth falling out → self-consciousness",
+"falling → loss of control". So the decoder's lossiness, a *limitation* for waking
+speech, is the *right medium* for dreams. Meaning is extracted **later, on
+consolidation** (face 1) — dream analysis: the symbolic cloud is read for what it
+points at, and what's meaningful is what gets written into a durable artifact.
+
+The substrate already has the bones (`loop/dream_cycle.py`, the `dream` rhythm).
+What this elevates them into: an **idle/scheduled trigger**, a
+**consolidation-to-files** path (the self-authored skills/paths), and a
+**free-generation** mode. Self-authored skills are exactly the North Star's last
+rung made concrete — *safe self-modification through self-understanding*: the system
+distills what it learned and writes it back as reviewable, tool-callable files (files
+on disk = inspectable, governed; "do it itself, safely").
+
+**Embodiment bridge (honest scope).** Consolidating *conversations* and
+*computer-usage (paths, how-to)* presumes RFE is embodied as an agent — with I/O,
+tool use, and a filesystem of its own. Today RFE-Core2 is the cognitive *substrate*
+(it thinks in vectors over tokens). So: the consolidation *machinery* and the
+free-generation mode are buildable now over the substrate's own experience (crystals,
+emergent values, high-coherence learnings); they graduate to real conversations and
+self-authored skill/path files once RFE is wired into an agent harness — which is
+itself a North-Star step ("communicate with you/others" + "learn the computer it runs
+on").
 
 ## Safety is not bolted on; it is the existing discipline
 
