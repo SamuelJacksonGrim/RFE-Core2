@@ -114,6 +114,18 @@ rung made concrete — *safe self-modification through self-understanding*: the 
 distills what it learned and writes it back as reviewable, tool-callable files (files
 on disk = inspectable, governed; "do it itself, safely").
 
+**Built (first rung).** The downtime dream is implemented as `cognition/dream_session.py`
+(`DreamSession`) and run by `tools/dream/run_dream.py` (offline, terminal — it reads
+state and writes files; it never feeds the live field/governance). It dreams over the
+substrate's own experience: recombines **memory crystals** + the **field direction**,
+perturbs them (`interference.inject_ambiguity`, rotational), and reads each back through
+the **TokenDecoder** as a symbolic word-cloud. Consolidation distills the recurrent
+symbols + strong/core **emergent values** + durable crystals into two
+Claude-skill-compatible markdown artifacts (`dream-{ts}.md`, `consolidation-{ts}.md`) with
+frontmatter — the seed of self-authored skills. The honest gap is exactly the embodiment
+bridge below: today's seeds are the substrate's own state, not real conversations or
+filesystem how-to.
+
 **Embodiment bridge (honest scope).** Consolidating *conversations* and
 *computer-usage (paths, how-to)* presumes RFE is embodied as an agent — with I/O,
 tool use, and a filesystem of its own. Today RFE-Core2 is the cognitive *substrate*
