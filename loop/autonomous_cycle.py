@@ -303,6 +303,7 @@ class AutonomousCycle:
         # self._step remains the authoritative monotonic step counter.
         self._history: Deque[StepState] = deque(maxlen=self.HISTORY_MAXLEN)
         self._boredom_overrides: int = 0   # Tier 2: track Boredom-Teeth activations
+        self._last_expressed = None        # observe-only: last expressed vector (Decoder read-out)
 
     # ------------------------------------------------------------------
     # Step
@@ -412,6 +413,12 @@ class AutonomousCycle:
             converged         = result.converged
             # Re-evaluate after reflection
             report = self.watcher.evaluate(vec, anchor, field_state)
+
+        # Expose the final expressed vector (post-reflection — what the system
+        # "said" this step) as an OBSERVE-ONLY terminal sink, for the Decoder
+        # read-out / "listen" tool. Not read by the cognitive or governance loop
+        # (same discipline as dilation_factor and the metastability monitors).
+        self._last_expressed = vec
 
         # ------------------------------------------------------------------
         # 7. Witness update
