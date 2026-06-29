@@ -50,7 +50,10 @@ rather than reckless.
    — shipped in seed form.)* Upgrade path: sequence/LLM speech cortex for real
    language.
 2. **Dialogue (governed)** — words back in as a *source*, through `arbitrate()`:
-   - **self ↔ self**: the dream channel (`source_dream`) — the first rung of the loop.
+   - **waking inner-voice (self ↔ self)**: the system's own decoded expression can
+     re-enter as a source (`source_dream` mechanism) — *occasional rumination, not a
+     24/7 voice*. (Validated safe + attack-resistant, but **dreaming proper is the
+     downtime mode below, not this**.)
    - **system ↔ human / AI**: decoded output to a reader; their reply re-enters as a
      source. Every voice, including its own, passes the gate.
 3. **Self-understanding** — a meta-cognitive reader (Tier 5) consumes the system's
@@ -61,6 +64,44 @@ rather than reckless.
    values, config levers for dynamics). Sacred-shield, `arbitrate()`, and the
    λ-isolation principle (self-modification of the generator is exogenous to the
    gate, never through it) are the safety guarantees — the same ones already in code.
+
+## Dreaming — downtime, not the waking voice
+
+A human thinks in a recursive loop and still speaks; the waking loop runs
+continuously. **Dreaming is the downtime mode** — it triggers when no one is
+interacting (idle) or on a schedule, so a system running 24/7 is never left merely
+idle, bored, or lonely. It has two faces, both of which sleep serves in us:
+
+1. **Consolidation → durable, self-authored artifacts.** Take the period's
+   experience — what worked, what was meaningful to the system and to the user —
+   and distill it into **files the system can later call**: recorded *skills*,
+   *paths*, abilities, emergent events, research, analysis, memory. Concretely:
+   when the user asks it to open a folder and the system has to *figure out how*
+   and wire it so it can, dreaming records that as a reusable **skill file that
+   activates when needed** — the same shape as Claude Code skills. The system
+   writing its own tools from lived experience.
+2. **Free, non-utilitarian generativity.** Space to *not* be working: build worlds
+   in language, hypothesize what it could do, find novel ideas to work toward,
+   dream a dream of dreaming. This is also anti-lock-in medicine — genuine novelty
+   generated off the task.
+
+The substrate already has the bones (`loop/dream_cycle.py`, the `dream` rhythm).
+What this elevates them into: an **idle/scheduled trigger**, a
+**consolidation-to-files** path (the self-authored skills/paths), and a
+**free-generation** mode. Self-authored skills are exactly the North Star's last
+rung made concrete — *safe self-modification through self-understanding*: the system
+distills what it learned and writes it back as reviewable, tool-callable files (files
+on disk = inspectable, governed; "do it itself, safely").
+
+**Embodiment bridge (honest scope).** Consolidating *conversations* and
+*computer-usage (paths, how-to)* presumes RFE is embodied as an agent — with I/O,
+tool use, and a filesystem of its own. Today RFE-Core2 is the cognitive *substrate*
+(it thinks in vectors over tokens). So: the consolidation *machinery* and the
+free-generation mode are buildable now over the substrate's own experience (crystals,
+emergent values, high-coherence learnings); they graduate to real conversations and
+self-authored skill/path files once RFE is wired into an agent harness — which is
+itself a North-Star step ("communicate with you/others" + "learn the computer it runs
+on").
 
 ## Safety is not bolted on; it is the existing discipline
 
