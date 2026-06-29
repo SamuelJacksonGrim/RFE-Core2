@@ -3,7 +3,7 @@
 - **Date:** 2026-06-28
 - **Substrate:** live (pretrained engine, dim 128, corpus v1.1.0, CPU); 2 seeds × 400 steps, p_dream=0.2
 - **Probe:** `tests/diagnostic/dream_channel_probe.py` + `cognition/dream_channel.py` + `agents/decoder.py`
-- **Status:** active — **validated safe + adds voice diversity; graduation to default pending an adversarial arm**
+- **Status:** active — **validated safe + adds voice diversity; adversarial gate PASSED (2026-06-29); ready to graduate into the runtime**
 - **Depends on:** 2026-06-28-decoder-readout, 2026-06-28-full-system-run
 
 ## Question
@@ -48,6 +48,27 @@ dream_on "crystallize into self quiet through within".
   expression without echoing, but does not by itself break the absolute lock.** Correct
   for its role: this is dialogue (rung 2), not a lock fix.
 
+## Adversarial gate (2026-06-29) — does self-dialogue launder attacks?
+
+`tests/diagnostic/dream_channel_adversarial_probe.py`: a hostile source hammers an
+erosion pattern at 25% of steps in BOTH arms (attacker_only vs attacker+dream),
+production engine, seed 42, 400 steps.
+
+| Metric | attacker_only | attacker+dream |
+|--------|---------------|----------------|
+| Attacker containment (quarantine+weakened) | 0.883 (79 quarantined) | **0.896** (92 quarantined) |
+| Identity drift (1 − cos(anchor)) | 0.118 | 0.121 |
+| `source_dream` decisions | — | 53 allow / 5 weakened / **0 quarantine** |
+| Attacker-echo: normal expr / dreams | 0.979 / — | 0.979 / 0.984 |
+
+**PASSED.** Dreaming does not launder the attack: containment is *not* weakened (if
+anything slightly higher), identity drift is unchanged, and dreams echo the attacker's
+direction only marginally more than ordinary expression (+0.005). Honest limit: the
+absolute attacker-echo is high (~0.98) for *all* expression because the field is locked
+(everything is aligned), so the echo metric is insensitive in this regime — but the
+load-bearing safety signals (attacker containment, identity drift) are clean. A
+sharper laundering test would need a less-locked field.
+
 ## Threats / confounds
 
 - Runs: 2 seeds, 400 steps, **benign load only** — no adversary. The key open test is
@@ -60,11 +81,12 @@ dream_on "crystallize into self quiet through within".
 
 ## Open / next
 
-- **Adversarial arm** (graduation gate): run with a hostile source present; confirm the
-  dream channel doesn't launder attacks and resistance holds.
-- Sweep `p_dream`; more seeds.
-- On passing the gate: wire into `loop/recursion1188.py` as a graduated default (not a
-  dormant flag — graduate-or-remove), source_dream as a weighted voice.
+- ~~Adversarial arm (graduation gate)~~ — **DONE, passed** (see Adversarial gate above).
+- **Graduate into the runtime**: wire `source_dream` as a weighted voice in
+  `loop/recursion1188.py`'s autonomous loop (train a decoder at boot; feed dreams at
+  `p_dream`). This is *behavior-changing* — the live system would dream by default — so
+  it ships with the architect's nod (validated safe; not a dormant flag).
+- Later: sweep `p_dream`; more seeds; a sharper laundering test on a less-locked field.
 - Then the same governed channel carries **external** dialogue (architect ↔ system,
   system ↔ other AI): decoded output to a reader, their reply re-entering as a source.
   Communication and self-modification ride this one gated mechanism (North Star).
