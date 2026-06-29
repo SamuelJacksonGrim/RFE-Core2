@@ -440,7 +440,8 @@ RFE-Core2/
 ├── agents/
 │   ├── symbolic_memory.py          Persistent adaptive symbolic ecology
 │   │                               (now with protected/sacred/source_id)
-│   ├── generator.py                Transformer encoder over ecology
+│   ├── generator.py                Transformer encoder over ecology (tokens → vector)
+│   ├── decoder.py                  TokenDecoder read-out head (vector → bag-of-tokens)
 │   ├── watcher.py                  Three-layer coherence evaluation
 │   ├── witness.py                  Multi-timescale identity anchor
 │   │                               (+ anchor_velocity, anchor_short_long_gap)
@@ -482,6 +483,8 @@ RFE-Core2/
 │   ├── reflective_loop.py          Recursive self-refinement
 │   ├── symbolic_binding.py         Concept emergence and binding
 │   ├── stream_metastability.py     Online upstream metastability monitor (stages A/C)
+│   ├── dream_channel.py            Waking inner-monologue: governed source_dream self-dialogue (opt-in)
+│   ├── dream_session.py            Downtime dreaming: symbolic generativity + consolidation → skill-compatible artifacts
 │   └── integrity_read.py           ⊘ Witness-Reaper integrity-read (Build C) + IntegrityDecayConsumer (the ⊘ USER, spec v0.2)
 │
 ├── interference/
@@ -520,6 +523,10 @@ RFE-Core2/
 │   ├── voice/                      Observe-only larynx — renders the cycle's interior as first-person
 │   │   ├── state_card.py           render_card() telemetry + voice_from_card() faithful renderer
 │   │   └── repl.py                 Interactive: type to the substrate, hear it answer (--free, --json)
+│   ├── decoder/                    Read-out tooling for the Decoder head (observe-only)
+│   │   └── listen.py               Train decoder on this engine, run the loop, decode each step's expressed vector
+│   ├── dream/                      Downtime dreaming (offline) — symbolic generativity + consolidation
+│   │   └── run_dream.py            Live waking steps, then sleep: dream images + consolidation artifacts
 │   └── ignition/                   Conscious Ignition Index (CII) — the ITG sensor (CII v0.2 framework)
 │       ├── cii.py                  compute_ignition(): R·I·(Cm·g(Cs)) from live telemetry (gen vs expr Cs)
 │       ├── gate.py                 ITG actuator scaffold (INERT on untrained generator — see CII finding)
