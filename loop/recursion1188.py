@@ -83,6 +83,20 @@ CONFIG = {
     # (ReflectiveLoop.attenuation_max=0.30) without a fresh manip-rate run.
     # (2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md)
     "reflect_novelty_attenuation": True,
+    # Waking self-dialogue (North-Star rung 2): the system's own decoded expression
+    # re-enters as a ~p-weighted voice with source_id='source_dream', THROUGH
+    # arbitrate() — no bypass; trust / HHI / manipulation-resistance / sacred-shield
+    # treat it like any other source. Validated safe AND adversarial-gated: it adds
+    # voice diversity (+13–25% unique phrases) while staying NON-dominant (HHI drops),
+    # zero quarantine, and an attacker's containment is unweakened with it on.
+    # (2026-06-28-dream-channel.md). This is waking rumination / inner monologue (the
+    # downtime symbolic dream is a separate path: cognition/dream_session.py). Trains a
+    # decoder read-out head at boot; degrades gracefully to off if torch/corpus absent.
+    "dream_channel_enabled":        True,
+    "dream_channel_p":              0.20,   # fraction of waking steps that are self-dialogue
+    "dream_channel_epochs":         20,     # decoder read-out training epochs (boot)
+    "dream_channel_top_k":          6,      # candidate tokens read from the expressed vector
+    "dream_channel_n_tokens":       3,      # dream utterance length (corpus 2-4 range)
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -232,6 +246,52 @@ def build_engine(config: dict = None):
     return generator, cycle, governance, value_engine
 
 
+def build_dream_channel(generator, config: dict = None):
+    """Train a decoder read-out head and build the waking DreamChannel (North-Star
+    rung 2 — governed self↔self dialogue). Returns a ``DreamChannel`` or ``None``
+    (disabled, or the read-out head can't be trained because torch/corpus are absent).
+
+    Kept OUT of ``build_engine`` deliberately: the API/WS entry points compose through
+    ``build_engine`` and must not pay the decoder-training cost or change their return
+    shape. The waking dream channel is a property of the *autonomous loop*, so it is
+    built here and driven by ``main()``.
+
+    Safety: the channel only READS ``cycle._last_expressed`` (an observe-only terminal
+    sink) and proposes tokens; the driver feeds them through an ordinary governed
+    ``cycle.step(source_id='source_dream')``, so the system's own voice passes
+    ``arbitrate()`` with no special authority. Validated safe + adversarial-gated —
+    see docs/findings/2026-06-28-dream-channel.md. Graduated-on; set
+    ``dream_channel_enabled=False`` to opt out.
+    """
+    if config is None:
+        config = CONFIG
+    if not config.get("dream_channel_enabled"):
+        return None
+    try:
+        from agents.decoder import TokenDecoder
+        from cognition.dream_channel import DreamChannel
+        from training.corpus import load_corpus, TRAIN_PATH
+        from training.decoder_training import _vocab_from, _encode, train_decoder
+
+        train = load_corpus(TRAIN_PATH)
+        decoder = TokenDecoder(_vocab_from(train), dim=config["dim"])
+        Xtr, toks_tr = _encode(generator, train)
+        train_decoder(generator, decoder, Xtr, toks_tr,
+                      epochs=config.get("dream_channel_epochs", 20))
+        channel = DreamChannel(
+            decoder,
+            top_k    = config.get("dream_channel_top_k", 6),
+            n_tokens = config.get("dream_channel_n_tokens", 3),
+        )
+        logger.info("Dream channel ready — waking self-dialogue at p=%.2f, governed "
+                    "(source_dream through arbitrate()).",
+                    config.get("dream_channel_p", 0.20))
+        return channel
+    except Exception as e:  # torch/corpus absent or read-out training failed
+        logger.warning("Dream channel disabled (read-out head unavailable: %s).", e)
+        return None
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -243,6 +303,12 @@ def main():
     # Build the fully composed engine (Tiers 0-3) — single composition path.
     # ------------------------------------------------------------------
     generator, cycle, governance, value_engine = build_engine(CONFIG)
+
+    # ------------------------------------------------------------------
+    # Build the waking dream channel (rung 2 — governed self-dialogue).
+    # None if disabled or torch/corpus absent (loop runs unchanged then).
+    # ------------------------------------------------------------------
+    dream_channel = build_dream_channel(generator, CONFIG)
 
     # ------------------------------------------------------------------
     # Build dream cycle
@@ -270,14 +336,27 @@ def main():
     n_steps     = CONFIG["n_steps"]
     step_delay  = CONFIG["step_delay"]
     dream_trigger = CONFIG["dream_cycle_trigger"]
+    dream_p     = CONFIG.get("dream_channel_p", 0.20)
 
     step        = 0
     dream_runs  = 0
+    dream_fed   = 0
 
     try:
         while True:
-            source_id = _rng.choices(_sids, weights=_weights)[0]
-            tokens    = _rng.choice(SOURCES[source_id])
+            # Waking self-dialogue: with probability dream_p, the system hears its own
+            # last expression back (decoded → tokens) as source_dream — fed like any
+            # source, through arbitrate(). Falls back to an external source if there is
+            # nothing to dream yet (before the first step) or the channel is disabled.
+            dtoks = (dream_channel.dream_tokens(cycle)
+                     if (dream_channel is not None and _rng.random() < dream_p)
+                     else None)
+            if dtoks:
+                source_id, tokens = dream_channel.SOURCE_ID, dtoks
+                dream_fed += 1
+            else:
+                source_id = _rng.choices(_sids, weights=_weights)[0]
+                tokens    = _rng.choice(SOURCES[source_id])
 
             state  = cycle.step(tokens, source_id=source_id, origin_type="internal")
             print(state.as_dict())
@@ -327,12 +406,15 @@ def main():
                 time.sleep(step_delay)
 
     except KeyboardInterrupt:
-        logger.info("Interrupted at step %d after %d dream cycles.", step, dream_runs)
+        logger.info("Interrupted at step %d after %d dream cycles, %d self-dialogue steps.",
+                    step, dream_runs, dream_fed)
 
     # ------------------------------------------------------------------
     # Final status
     # ------------------------------------------------------------------
     status = cycle.status()
+    logger.info("Self-dialogue: %d/%d waking steps were source_dream (governed).",
+                dream_fed, step)
     logger.info("Final status: %s", status)
     logger.info("Ecology stats: %s", generator.ecology_stats())
 

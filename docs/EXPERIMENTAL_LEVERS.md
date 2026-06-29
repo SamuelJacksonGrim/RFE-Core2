@@ -38,6 +38,8 @@ The behavior-bearing flags in `CONFIG` (operational shape params — `dim`,
 | `pretrain_on_corpus` | **True** | Corpus pretrain at boot (graduated lever; see below). False = fast cold start. |
 | `pretrain_epochs` | `8` | Epochs when pretraining. |
 | `reflect_novelty_attenuation` | **True** | Novelty-gated loop loosening (graduated lever; ceiling `ReflectiveLoop.attenuation_max=0.30`). |
+| `dream_channel_enabled` | **True** | Waking self-dialogue (graduated lever; see below). The system's own decoded expression re-enters as `source_dream` through `arbitrate()`. False = no self-dialogue. |
+| `dream_channel_p` | `0.20` | Fraction of waking steps fed as `source_dream` (the validated weight). |
 | `use_chorus` | `True` | Six-agent Chorus harmonization for reflect/explore generation (vs direct generator). |
 | `dream_cycle_enabled` | `True` | Build/run the offline `DreamCycle`. |
 | `dream_cycle_trigger` | `"stabilize"` | Rhythm that fires the dream cycle. ⚠ At dim 128 the rhythm is pinned to `explore` (F9), so this almost never fires. |
@@ -74,6 +76,20 @@ without costing manipulation resistance — verified in-situ (identity-erosion a
 above 0.30 without a fresh manip-rate run. To opt out, set the flag False.
 Evidence: `2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md`,
 `2026-06-15-loop-attenuation-novelty-gate.md`.
+
+**Waking self-dialogue (dream channel) is now default ON** (`dream_channel_enabled:
+True`, `dream_channel_p: 0.20`). North-Star rung 2 (self ↔ self): a decoder read-out
+head is trained at boot, and on ~20% of waking steps the system's own last expression
+is decoded to tokens and fed back as `source_dream` — **through `arbitrate()`**, one
+non-dominant voice among many (no bypass; trust / HHI / manipulation-resistance /
+sacred-shield treat it like any source). Validated on the composed baseline (eval +
+pretrain + novelty attenuation): adds voice diversity (+13–25% unique phrases) while
+HHI *drops* (stays non-dominant), zero quarantine. Adversarial gate passed — an
+attacker's containment is unweakened and identity drift unchanged with it on. Degrades
+gracefully to off if torch/corpus are absent. This is waking *rumination*; the downtime
+*symbolic dream* is a separate offline path (`cognition/dream_session.py`,
+`tools/dream/run_dream.py`). To opt out, set `dream_channel_enabled` False.
+Evidence: `2026-06-28-dream-channel.md` (benign + adversarial), `2026-06-28-decoder-readout.md`.
 
 ## Note: what pretraining is (and isn't) — read before opting out
 
@@ -125,6 +141,13 @@ accept a custom config the same way —
   ceiling). These three are the composition-validated default baseline. The
   attenuation ceiling is a thin cost-clean band — do not raise `attenuation_max`
   past 0.30 without a fresh manip-rate run.
+- **Default-on, validated (rung 2):** the waking dream channel (`source_dream` self-
+  dialogue at `p=0.20`, governed). Validated on the composed baseline + an adversarial
+  arm (containment unweakened, identity drift unchanged, zero quarantine). Honest
+  limits: the diversity gain is modest though consistent, the "loosens the lock" hint
+  is within noise (it diversifies expression without echoing — it is dialogue, not a
+  lock fix), and it has not been co-run with the opt-in Two-Operator overlay (which is
+  off by default). Decoder "voice" is a token cloud, not sentences (bag-of-words).
 - **Built, taught us where the lever is:** the ITG actuator — a downstream gate
   that does not differentiate a collapsed expression by itself; testing it is what
   located the real lever upstream (the generator's representational room), so it's

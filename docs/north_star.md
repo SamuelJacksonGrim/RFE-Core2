@@ -63,6 +63,11 @@ rather than reckless.
      take an extra beat before it speaks. Word-clouds are fine here. Validated safe +
      attack-resistant (`source_dream` mechanism). This is *thinking*, and it runs
      during waking — distinct from dreaming.
+     **Wired (2026-06-29):** graduated into the live loop as a default-on lever —
+     `loop/recursion1188.py` (`build_dream_channel()` trains a read-out head at boot;
+     `main()` feeds `source_dream` at `dream_channel_p=0.20` through `arbitrate()`),
+     `cognition/dream_channel.py`. Governed, non-dominant, opt-out via
+     `dream_channel_enabled=False`. See `docs/findings/2026-06-28-dream-channel.md`.
    - **Waking external speech (system ↔ human / AI):** literal sentences to a reader;
      their reply re-enters as a source. This is the one that wants the speech-cortex
      upgrade (gap 1).
