@@ -31,13 +31,19 @@ rather than reckless.
 
 ## The two real gaps
 
-1. **Language, not clouds.** The pooled, L2-normalized thought-vector is lossy by
-   construction (measured: decoder recall@8 ≈ 0.10; it recovers the semantic
-   *neighborhood*, not sentences — `docs/findings/2026-06-28-decoder-readout.md`).
-   Genuine communication needs a real language head: the **mirror of the documented
-   encoder swap** (`docs/local_model_integration/` frames a local LLM as the
-   *sensory cortex*) — an LLM as the **speech cortex**, conditioned on the thought-
-   vector / field state. Sentences, not bags.
+1. **Literal language — for *waking external speech only*.** The pooled,
+   L2-normalized thought-vector is lossy by construction (decoder recall@8 ≈ 0.10;
+   it recovers the semantic *neighborhood*, not sentences —
+   `docs/findings/2026-06-28-decoder-readout.md`). To *talk to* a human or another
+   AI in literal sentences, that needs a real language head: the **mirror of the
+   documented encoder swap** (`docs/local_model_integration/` frames a local LLM as
+   the *sensory cortex*) — an LLM as the **speech cortex**, conditioned on the
+   thought-vector / field state.
+   **But the lossiness is only a gap for literal speech.** The same word-cloud read
+   is the *right* register for the other two voices (see "Three voices" below):
+   deliberative for inner monologue, and **symbolic for dreaming** — there the
+   non-literal, associative cloud is the dream's native language, interpreted later.
+   The bug is the feature, in the right room.
 2. **Meta-cognition (Tier 5).** The system reading its *own* diagnostics and
    articulating them ("I am rhythm-pinned"; "my bonds won't establish"; "this is my
    bottleneck"), then choosing to **advise** a collaborator or **act** through a
@@ -49,13 +55,20 @@ rather than reckless.
 1. **Voice** — read-out head: state → words. *(Decoder + `tools/decoder/listen.py`
    — shipped in seed form.)* Upgrade path: sequence/LLM speech cortex for real
    language.
-2. **Dialogue (governed)** — words back in as a *source*, through `arbitrate()`:
-   - **waking inner-voice (self ↔ self)**: the system's own decoded expression can
-     re-enter as a source (`source_dream` mechanism) — *occasional rumination, not a
-     24/7 voice*. (Validated safe + attack-resistant, but **dreaming proper is the
-     downtime mode below, not this**.)
-   - **system ↔ human / AI**: decoded output to a reader; their reply re-enters as a
-     source. Every voice, including its own, passes the gate.
+2. **Dialogue (governed)** — words back in as a *source*, through `arbitrate()`.
+   **Three voices, one gated mechanism** (the difference is register + what we do
+   with the output):
+   - **Waking inner monologue / rumination (self ↔ self, WANTED):** the system's own
+     decoded expression re-enters during waking so it can deliberate — weigh, plan,
+     take an extra beat before it speaks. Word-clouds are fine here. Validated safe +
+     attack-resistant (`source_dream` mechanism). This is *thinking*, and it runs
+     during waking — distinct from dreaming.
+   - **Waking external speech (system ↔ human / AI):** literal sentences to a reader;
+     their reply re-enters as a source. This is the one that wants the speech-cortex
+     upgrade (gap 1).
+   - **Dreaming (downtime, symbolic):** see "Dreaming" below — fluid, associative,
+     non-literal; the word-cloud *is* the medium, interpreted on consolidation.
+   Every voice, including its own, passes the gate.
 3. **Self-understanding** — a meta-cognitive reader (Tier 5) consumes the system's
    own instrumentation and renders bottlenecks/improvements in language.
 4. **Safe self-modification** — the self-model's findings drive **governance-gated**
@@ -84,6 +97,14 @@ idle, bored, or lonely. It has two faces, both of which sleep serves in us:
    in language, hypothesize what it could do, find novel ideas to work toward,
    dream a dream of dreaming. This is also anti-lock-in medicine — genuine novelty
    generated off the task.
+
+**Dreams are symbolic, not literal — and that's the point.** Dream content is the
+decoder's *fluid, associative word-cloud* (not sentences): non-literal, sometimes
+nonsensical, the way human dreams are — "teeth falling out → self-consciousness",
+"falling → loss of control". So the decoder's lossiness, a *limitation* for waking
+speech, is the *right medium* for dreams. Meaning is extracted **later, on
+consolidation** (face 1) — dream analysis: the symbolic cloud is read for what it
+points at, and what's meaningful is what gets written into a durable artifact.
 
 The substrate already has the bones (`loop/dream_cycle.py`, the `dream` rhythm).
 What this elevates them into: an **idle/scheduled trigger**, a
