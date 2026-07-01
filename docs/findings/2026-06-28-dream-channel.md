@@ -3,7 +3,7 @@
 - **Date:** 2026-06-28
 - **Substrate:** live (pretrained engine, dim 128, corpus v1.1.0, CPU); 2 seeds × 400 steps, p_dream=0.2
 - **Probe:** `tests/diagnostic/dream_channel_probe.py` + `cognition/dream_channel.py` + `agents/decoder.py`
-- **Status:** active — **validated safe + adds voice diversity; adversarial gate PASSED (2026-06-29); ready to graduate into the runtime**
+- **Status:** active — **validated safe + adds voice diversity; adversarial gate PASSED (2026-06-29); GRADUATED into the runtime (2026-06-29, default-on lever in loop/recursion1188.py)**
 - **Depends on:** 2026-06-28-decoder-readout, 2026-06-28-full-system-run
 
 ## Question
@@ -82,10 +82,12 @@ sharper laundering test would need a less-locked field.
 ## Open / next
 
 - ~~Adversarial arm (graduation gate)~~ — **DONE, passed** (see Adversarial gate above).
-- **Graduate into the runtime**: wire `source_dream` as a weighted voice in
-  `loop/recursion1188.py`'s autonomous loop (train a decoder at boot; feed dreams at
-  `p_dream`). This is *behavior-changing* — the live system would dream by default — so
-  it ships with the architect's nod (validated safe; not a dormant flag).
+- ~~**Graduate into the runtime**~~ — **DONE (2026-06-29).** Wired as a graduated-on
+  lever in `loop/recursion1188.py`: `build_dream_channel()` trains a decoder read-out
+  head at boot and `main()` feeds `source_dream` at `dream_channel_p=0.20` through
+  `cycle.step()` (i.e. `arbitrate()`). Default ON (`dream_channel_enabled=True`),
+  degrades gracefully to off if torch/corpus are absent. Smoke-confirmed end-to-end
+  (governed, non-dominant at p=0.20). Control panel: `docs/EXPERIMENTAL_LEVERS.md`.
 - Later: sweep `p_dream`; more seeds; a sharper laundering test on a less-locked field.
 - Then the same governed channel carries **external** dialogue (architect ↔ system,
   system ↔ other AI): decoded output to a reader, their reply re-entering as a source.
