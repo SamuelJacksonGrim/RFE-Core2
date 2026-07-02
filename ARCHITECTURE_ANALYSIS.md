@@ -5,24 +5,31 @@ through the system, where it loops back on itself, and where one decision axis
 governs everything downstream.
 
 This document is **descriptive and read-only**. It changes no runtime behavior.
-It complements the other two top-level references:
+It complements the other root-level references:
 
 - `README.md` — what the system *is* (conceptual overview, quick start).
 - `CLAUDE.md` — the *invariants* you must not break.
+- `docs/north_star.md` — the compass: the end goal and the three voices
+  (waking speech / inner monologue / symbolic dreaming).
 - `docs/EXPERIMENTAL_LEVERS.md` — the control panel: what is on by default vs
   opt-in, and the exact switch for each lever.
 - `docs/findings/` — the dated empirical ledger this analysis summarizes and
   links to rather than restates.
-- **this file** — *how information flows and recurs*, end to end, which neither
-  of the other two traces in one place.
+- **this file** — *how information flows and recurs*, end to end, which none
+  of the others traces in one place.
 
 Every formula, constant, and `file:line` anchor below was checked against
 source at the time of writing. Where a number is sacred, CLAUDE.md is the
 authority; this document only reports where the code honors it.
 
-**Current as of 2026-06-26.** This revision tracks the changes since the
-2026-06-07 consolidation: the runnable runtime now composes Tiers 0–3 (it was
-Tier 0 only — §1, F6), the value-layer coherence axis moved from *marginal
+**Current as of 2026-07-02.** This revision moves the file to the repo root and
+tracks the changes since 2026-06-26: the **voice/dialogue layer** landed — the
+`TokenDecoder` read-out head (vector → bag-of-tokens, §1), the default-on
+**waking dream channel** (`source_dream` self-dialogue through `arbitrate()`,
+§8.1), and offline **downtime dreaming** (`DreamSession`, §7) — plus the
+North-Star compass (`docs/north_star.md`) that frames all three. The prior
+revision (2026-06-26) tracked: the runnable runtime now composes Tiers 0–3 (it
+was Tier 0 only — §1, F6), the value-layer coherence axis moved from *marginal
 contribution* to *absolute field-alignment* (spec v0.2 → v0.3 — §4, F7), and the
 opt-in **Two-Operator overlay** (λ ignition · ⊕ solvent · ⊘ integrity-read) and
 the on-demand instruments were added (§8). The doc-accuracy harness
@@ -84,10 +91,18 @@ off by default; with nothing attached the tiered behavior is byte-identical.
 
 **The Generator is an encoder, not a text generator** — the single most
 load-bearing fact about the substrate, and easy to miss. `agents/generator.py`
-maps `List[str]` tokens → one L2-normalized `dim=128` vector; RFE-Core2 never
-emits language. The entire organism (field, watcher, witness, emotion,
-governance, values, subjective time) is a dynamical system that runs *on those
-vectors*. Two consequences follow that the rest of this document leans on:
+maps `List[str]` tokens → one L2-normalized `dim=128` vector; the entire
+organism (field, watcher, witness, emotion, governance, values, subjective
+time) is a dynamical system that runs *on those vectors*. Since 2026-06-28
+there is a **read-out in the other direction** — the `TokenDecoder`
+(`agents/decoder.py`), an autoencoder head trained at boot that recovers a
+semantic *bag-of-tokens* (word-cloud) from an expressed vector. It is **lossy
+by design** (recall@8 ≈ 0.10; the semantic neighborhood, not sentences), which
+is a gap only for literal external speech — for inner monologue and dreaming
+the non-literal cloud is the right register (`docs/north_star.md`). RFE-Core2
+still emits no literal language; that upgrade is the planned speech-cortex
+mirror of the encoder swap below. Two consequences follow that the rest of
+this document leans on:
 
 - **The encoder backend is swappable.** "Wiring in a local LLM" (GPT-OSS-20B,
   Gemma, Llama) means replacing the *sensory cortex* — the token→vector encoder —
@@ -198,6 +213,13 @@ gates the value engine's productive-tension term — no cycle step, computed on
 demand), and `attach_integrity_consumer` (the ⊘ consumer, which runs once per
 value-engine update, after value scoring and before the strength cap). With none
 attached the cycle is byte-identical to the table.
+
+The **waking dream channel** (default ON, §8.1) also adds no cycle step — it
+lives at the *entry-point* level: `recursion1188.main()` decodes the previous
+step's expressed vector through the `TokenDecoder` and, on `dream_channel_p`
+(0.20) of waking steps, feeds the resulting tokens back as an ordinary
+`step(source_id='source_dream')` call. The system's own voice enters through
+the same step 10 gate as every external source — no bypass.
 
 ---
 
@@ -563,6 +585,7 @@ One row per module, by directory. "Role" is its function in information flow.
 | `loop/recursion1188.py` | `CONFIG`, boot composition | Canonical entry point; composes Tiers 0–3 + multi-source input (since 2026-06-20); eval-mode, corpus pretraining, novelty attenuation default-on |
 | `loop/dream_cycle.py` | `DreamCycle` | Structured offline dreaming invoked under low-energy / forced dream |
 | `agents/generator.py` | `Generator.generate`, `maintenance_step` | tokens → symbol ecology → Transformer → L2-normalized `vec` |
+| `agents/decoder.py` | `TokenDecoder.decode` (trained by `training/decoder_training.py`) | The read-out head: expressed `vec` → bag-of-tokens (lossy word-cloud); trained at boot for the dream channel, used by the listen/dream tools |
 | `agents/watcher.py` | `Watcher.evaluate` → `CoherenceReport` | Three-layer coherence (G/T/R) — the decision axis |
 | `agents/witness.py` | `Witness.update` → `RelationalProfile`, `current_anchor` | Multi-timescale identity anchor; feeds Watcher `G` |
 | `agents/attractor.py` | `Attractor.add`, `pull` | Semantic gravity wells; bias future vectors |
@@ -581,6 +604,8 @@ One row per module, by directory. "Role" is its function in information flow.
 | `cognition/stream_metastability.py` | `StreamMetastabilityMonitor.observe`, `snapshot` | Online upstream metastability over the generator (stage A) and expression (stage C) streams; observe-only terminal sink, exposed in `status()` |
 | `cognition/reflective_loop.py` | `reflect` | Within-step deliberate recursion to convergence (≤5) |
 | `cognition/symbolic_binding.py` | `bind` → `ConceptBinding` | Names recurring patterns; centrality relay |
+| `cognition/dream_channel.py` | `DreamChannel.dream_tokens` | Waking self-dialogue (default ON): decodes the last expression, returns tokens for a `source_dream` step through the normal gate — no bypass |
+| `cognition/dream_session.py` | `DreamSession.dream`, `consolidate`, `run` | Downtime dreaming (offline): recombines crystals + field direction, perturbs, decodes each as a symbolic word-cloud; consolidation writes skill-compatible markdown artifacts to disk. Never touches the live field or governance |
 
 ### Tiers 1–3 governance
 
@@ -610,6 +635,8 @@ One row per module, by directory. "Role" is its function in information flow.
 |--------|-----|------|
 | `tools/ignition/` | `python -m tools.ignition.probe` / `.train_ignite` / `.cm_check` / `.identifiability` | Conscious Ignition Index (CII) family: where RFE sits on the ignition axis, untrained-vs-trained ignition, and whether the gauges read geometry or change |
 | `tools/voice/` | `python -m tools.voice.repl` (`--free`, `--json`) | The "larynx": renders the cycle's interior as first-person with the numbers beside the words; changes nothing in the loop |
+| `tools/decoder/` | `python -m tools.decoder.listen` | Trains a read-out head on the live engine, runs the loop, and decodes each step's expressed vector — hear what it's "thinking" (observe-only) |
+| `tools/dream/` | `python -m tools.dream.run_dream` | Runs waking steps, then a `DreamSession` sleep: dream images + consolidation artifacts written to disk (offline; never feeds the live loop) |
 
 ### Interference (mutation primitives)
 
@@ -646,6 +673,7 @@ Self-supervised; reshapes the *encoder's* weights so it presents real diversity
 | `training/self_distillation.py` | `SelfDistillationTrainer` | Online: high-coherence outputs become teachers for lower-coherence students |
 | `training/encode.py` | `encode_grad` | Grad-enabled forward (the inference path is `@no_grad`); fixes the trainer gradient-path break (`2026-06-11-trainer-gradient-path.md`) |
 | `training/corpus.py` | `load_corpus`, `to_rhythm_seeds`, `corpus_version` | Loads the curated rhythm corpus (`data/corpus/`, schema in `docs/training/data_curation.md`); the binding constraint is corpus coverage, not infrastructure |
+| `training/decoder_training.py` | `train_decoder`, `evaluate` | Autoencoder training for the `TokenDecoder` read-out head (multi-hot BCE over the corpus); called at boot by the dream channel and by the listen tool |
 
 ### Visualization & observability
 
@@ -681,6 +709,16 @@ floor-level representational fix — halves generator common-mode 0.81→0.47); 
 lever that actually loosens the field lock at the 0.30 ceiling). Pretraining and
 attenuation compose positively (§4 caveat, 2026-06-20). All remain reversible by
 setting their `CONFIG` flags False.
+
+Since 2026-06-29 the **waking dream channel** is also default ON
+(`dream_channel_enabled`, `dream_channel_p = 0.20`): a `TokenDecoder` read-out
+head is trained at boot, and ~20% of waking steps feed the system's own decoded
+expression back as `source_dream` — **through `arbitrate()`**, one non-dominant
+voice among many. Validated on the composed baseline plus an adversarial arm:
+voice diversity +13–25%, HHI *drops*, zero quarantine, attacker containment
+unweakened (`2026-06-28-dream-channel.md`). This is waking *rumination*; the
+downtime *symbolic dream* (`DreamSession`, §7) is a separate offline path that
+never enters the loop.
 
 ### 8.2 The Two-Operator overlay (λ ignition · ⊕ solvent · ⊘ integrity)
 
