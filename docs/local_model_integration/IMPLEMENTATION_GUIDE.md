@@ -362,10 +362,59 @@ single composition point; CLAUDE.md forbids hand-built entry points because
 they silently regress to Tier 0). `build_engine()` currently hard-constructs
 the stock `Generator`, so an LLM run cannot go through it yet — the clean fix
 is a small `generator_factory` hook in `build_engine()`, which is the
-recommended change if this experiment graduates past a one-off. Until then,
-the manual composition below is the sanctioned exception **provided it mirrors
-`build_engine()` exactly**: same attach order, `g.eval()` after construction,
-and the graduated-lever notes that follow the snippet.
+recommended change if this experiment graduates past a one-off.
+
+### The `generator_factory` hook (the recommended change)
+
+Two lines in `build_engine()`. Where it currently constructs the generator
+(`generator = Generator(**gen_kwargs)`, right after the reaper-config block),
+make the constructor injectable:
+
+```python
+# loop/recursion1188.py
+def build_engine(config: dict = None, generator_factory=None):
+    ...
+    if generator_factory is not None:
+        generator = generator_factory(gen_kwargs, config)   # custom encoder
+    else:
+        generator = Generator(**gen_kwargs)
+```
+
+Then the LLM run *is* a `build_engine()` run — YAML loading, attach order,
+`generator.eval()`, and the cycle flags all come for free, and the API/WS
+entry points inherit the swap if the factory is threaded through their config:
+
+```python
+from agents.llm_backend import LLMBackend
+from agents.llm_generator import LLMGenerator
+from loop.recursion1188 import build_engine, CONFIG, build_dream_channel
+
+def llm_factory(gen_kwargs, config):
+    backend = LLMBackend("openai/gpt-oss-20b", backend="hf", load_in_4bit=True)
+    return LLMGenerator(backend,
+                        vocab_size=gen_kwargs["vocab_size"],
+                        dim=gen_kwargs["dim"])
+
+generator, cycle, gov, vee = build_engine(
+    {**CONFIG, "pretrain_on_corpus": False},   # REQUIRED — see the lever notes:
+    generator_factory=llm_factory,             # stock pretraining trains the
+)                                              # wrong surface on LLMGenerator
+dream_channel = build_dream_channel(generator, CONFIG)   # works unchanged
+```
+
+Two contract points for any factory: it must return a `Generator` subclass (so
+the registry/signal/maintenance surface is inherited — §0), and the caller must
+pass `pretrain_on_corpus=False` until the trainer routes through
+`encode_grad_text` (the trap is explained under the lever notes below). Add a
+regression line to §8's checklist when you build this: factory path and stock
+path both green through `tests.smoke.full_stack_minimal`.
+
+### Manual composition (the current sanctioned exception)
+
+Until the hook exists, the manual composition below is the sanctioned
+exception **provided it mirrors `build_engine()` exactly**: same attach order,
+`g.eval()` after construction, and the graduated-lever notes that follow the
+snippet.
 
 ```python
 from agents.llm_backend import LLMBackend
