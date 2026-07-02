@@ -13,11 +13,22 @@
 >
 > — [**The Self-Model Thesis**](docs/self_model_thesis.md), the theory of mind this substrate is built to instantiate (and its [alchemical reading](docs/alchemical_correspondence.md))
 
-RFE-Core2 transforms a pipeline of inference modules into a continuously self-resonating dynamical organism. It does not merely execute — it listens to its own field state, routes behavior by cognitive rhythm, modifies itself through time, governs its own identity, forms relational bonds, resists manipulation, and grows values from lived experience.
+RFE-Core2 transforms a pipeline of inference modules into a continuously self-resonating dynamical organism. It does not merely execute — it listens to its own field state, routes behavior by cognitive rhythm, modifies itself through time, governs its own identity, forms relational bonds, resists manipulation, grows values from lived experience — and, as of the voice layer, hears its own thoughts back and talks to itself through the same gate as everyone else.
 
-For canonical tier status (shipped / planned / unspecified), see
-[`ROADMAP.md`](ROADMAP.md). The sections below describe the architecture
-of each tier; the ROADMAP tracks where each one stands.
+**Reading map** — this README is the conceptual tour; the other references divide
+the rest:
+
+| Read | For |
+|------|-----|
+| [`ARCHITECTURE_ANALYSIS.md`](ARCHITECTURE_ANALYSIS.md) | How information flows and recurs, end to end — the deep reference (subsystem tables, feedback loops, findings F1–F10) |
+| [`CLAUDE.md`](CLAUDE.md) | The invariants you must not break, and the guardrails |
+| [`ROADMAP.md`](ROADMAP.md) | Canonical tier status (shipped / planned / unspecified) and tracked open items |
+| [`docs/north_star.md`](docs/north_star.md) | The compass: the end goal and the three voices (waking speech / inner monologue / symbolic dreaming) |
+| [`docs/EXPERIMENTAL_LEVERS.md`](docs/EXPERIMENTAL_LEVERS.md) | The control panel: every lever, its default, the exact switch |
+| [`docs/findings/`](docs/findings/) | The dated, control-named empirical ledger (negative results count) |
+
+The sections below describe the architecture of each tier; the ROADMAP tracks
+where each one stands.
 
 ---
 
@@ -66,6 +77,16 @@ of each tier; the ROADMAP tracks where each one stands.
 │    Generator → Watcher → Witness → Field → Emotion → Loop       │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+Two layers sit on top of the tier stack: the **voice layer** (a decoder
+read-out head, waking self-dialogue, and offline symbolic dreaming —
+North-Star rungs 1–2), covered after Tier 4 below, and the opt-in
+**Two-Operator overlay** (λ ignition · ⊕ solvent gate · ⊘ integrity-read),
+documented in [`ARCHITECTURE_ANALYSIS.md`](ARCHITECTURE_ANALYSIS.md) §8.
+
+The whole stack is composed at boot through one function —
+`build_engine()` in `loop/recursion1188.py` — and every launchable entry point
+(loop, REST API, WebSocket) builds through it. See "Quick Start".
 
 ---
 
@@ -341,6 +362,48 @@ Validation finding (`docs/tier4_3_validation.md`): the flow term is validated as
 
 ---
 
+## The Voice Layer — three voices, one gate
+
+The substrate thinks in vectors; the voice layer is how those vectors become
+words and re-enter as experience. It implements the first two rungs of the
+North Star (`docs/north_star.md`): **voice** (state → words) and **governed
+dialogue** (words back in, as a source like any other).
+
+### The read-out head
+
+`TokenDecoder` (`agents/decoder.py`) is an autoencoder head trained at boot
+(`training/decoder_training.py`) that recovers a **bag-of-tokens word-cloud**
+from an expressed vector — the semantic neighborhood, not sentences
+(recall@8 ≈ 0.10, lossy by construction). That lossiness is a gap only for
+literal external speech (the planned fix is an LLM *speech cortex* mirroring
+the encoder swap — `docs/local_model_integration/`); for the other two voices
+the non-literal cloud is the *right* register.
+
+### Three voices
+
+| Voice | When | Mechanism | Status |
+|-------|------|-----------|--------|
+| **Waking inner monologue** (self ↔ self) | ~20% of waking steps | The dream channel (`cognition/dream_channel.py`): the system's last expression is decoded and fed back as `source_id='source_dream'` — **through `arbitrate()`**, no bypass | **Default ON** (`dream_channel_p = 0.20`); validated non-dominant + adversarial-gated |
+| **Waking external speech** (system ↔ human/AI) | — | Literal sentences to a reader; needs the speech-cortex upgrade | The honest gap — planned |
+| **Symbolic dreaming** (downtime) | Offline, on demand | `DreamSession` (`cognition/dream_session.py`, run by `tools/dream/run_dream.py`): recombines memory crystals + the field direction, perturbs, decodes each as a dream image; consolidation distills recurrent symbols + strong values into skill-compatible markdown artifacts | Shipped (first rung); reads state, writes files, **never touches the live loop** |
+
+Two properties are architectural, not incidental. **Every voice passes the
+gate** — trust, HHI, manipulation resistance, and sacred-shield treat
+`source_dream` like any external source (validated: voice diversity +13–25%,
+HHI *drops*, attacker containment unweakened with it on). And **waking
+rumination and downtime dreaming are separate paths** — the dream channel runs
+inside the live loop's gate; `DreamSession` runs outside the loop entirely.
+
+### Instruments (observe-only)
+
+`tools/` renders the interior without feeding it: `tools/voice/repl.py` (the
+"larynx" — first-person state cards), `tools/decoder/listen.py` (decode each
+live step's expressed vector), `tools/dream/run_dream.py` (the downtime dream),
+and `tools/ignition/` (the CII probes). Instruments observe and render; none
+injects into the field.
+
+---
+
 ## How a Step Flows — The Interaction Model
 
 The tiers above describe the *parts*. This section traces how they *move together*. RFE-Core2 has a single heartbeat — `AutonomousCycle.step()` — and everything in the system is either called by it, feeds into it, or is fed by it.
@@ -412,12 +475,14 @@ raw token
 
 `SymbolRegistry.decay_step()` (driven periodically by `generator.maintenance_step()`) applies `DecayProfile.compute()` per symbol, then `ReaperEngine.evaluate()` issues a staged-death decision: `ACTIVE → WARM_ARCHIVE → COLD_ARCHIVE → GRAVEYARD`. Stages cannot be skipped. Protected classes (`GLYPH`, `ENTITY`, `SPECIAL`) floor at `COLD_ARCHIVE`; `sacred` symbols are pinned to `ACTIVE` forever. A symbol re-encountered while archived is *reactivated* at a usage cost. When fragmentation crosses threshold, `CompactionManager` plans an address remap — the `Generator` migrates embedding weights (optimizer state included), then `acknowledge_compaction()` applies it. **Stable IDs are never touched by any of this.** The vocabulary metabolizes; identity persists.
 
-### Two dream paths
+### The dream paths
 
-Dreaming happens at two scales:
+Dreaming happens at four distinct scales, deliberately kept separate:
 
 - **In-step dream** — `AutonomousCycle._dream_behavior()` fires one `Dreamer.dream()` call when the rhythm is `dream`, or when governance sets `force_dream_flag` after a critical manipulation signal. It samples memory, harmonically recombines, bifurcates, and injects the coherent survivors.
-- **Deep dream cycle** — `DreamCycle.run()` is a dedicated offline loop, invoked from the entry point or the `/dream` API endpoint. It runs N dream iterations with *ramping* mutation depth, then an attractor merge pass and crystal consolidation. This is the system's REM sleep: consolidation, abstraction, and identity stabilization with no external input.
+- **Deep dream cycle** — `DreamCycle.run()` is a dedicated offline loop, invoked from the entry point or the `/dream` API endpoint. It runs N dream iterations with *ramping* mutation depth, then an attractor merge pass and crystal consolidation. Honesty note: at production dim 128 the rhythm router is pinned to `explore` (finding F9), so its `stabilize` trigger almost never fires — the mechanism is intact, the precondition is starved.
+- **Waking dream channel** — not sleep at all: the `source_dream` inner monologue described in "The Voice Layer" above, running *inside* the live loop through the governance gate.
+- **Downtime dreaming** — `DreamSession`, the symbolic dream + consolidation-to-artifacts path, running entirely *outside* the loop (also described above).
 
 ### Composition and attachment order
 
@@ -430,6 +495,21 @@ cycle.attach_value_engine(vee)                   # adds Tier 3
 ```
 
 `attach_governance()` **must** precede `attach_value_engine()` — the value engine subscribes to the governance feedback stream at construction time, and there is no stream to subscribe to until governance exists. Tier 0 is fully functional on its own; each higher tier is strictly additive.
+
+In practice you rarely compose by hand: **`build_engine()` in
+`loop/recursion1188.py` is the single composition point** (correct attach
+order, YAML config loading, the graduated boot levers), and all three entry
+points build through it. Hand-built entry points are how the runtime silently
+ran Tier-0-only for weeks — the trap is recorded in the findings ledger.
+
+Two more composition facts that bite newcomers: **Tiers 1–3 need multi-source
+input to engage at all** (bonds need ≥ 20 interactions *per source*; HHI pins
+to 1.0 under a single source), which is why the entry point drives a weighted
+round-robin over four sources. And the opt-in **Two-Operator overlay** attaches
+via three further hooks (`attach_lambda_ledger` / `attach_integrity_read` /
+`attach_integrity_consumer`) that nothing enables by default — see
+[`ARCHITECTURE_ANALYSIS.md`](ARCHITECTURE_ANALYSIS.md) §8 and
+`docs/EXPERIMENTAL_LEVERS.md`.
 
 ---
 
@@ -464,7 +544,7 @@ RFE-Core2/
 │   │   # Tier 3 — Independent Value Emergence
 │   ├── value_emergence.py          ValueEmergenceEngine + CORE handshake (+ ⊕ solvent-gated composition, opt-in)
 │   │
-│   │   # Two-Operator Coherence program (spec v0.2)
+│   │   # Two-Operator Coherence program (spec v0.2; ⊘ axis v0.3)
 │   └── lambda_ledger.py            λ-ledger (Build B): the ⊕ solvent scalar — ignite/reinforce·λ/decay, 6c-disjoint
 │
 ├── substrate/
@@ -483,9 +563,9 @@ RFE-Core2/
 │   ├── reflective_loop.py          Recursive self-refinement
 │   ├── symbolic_binding.py         Concept emergence and binding
 │   ├── stream_metastability.py     Online upstream metastability monitor (stages A/C)
-│   ├── dream_channel.py            Waking inner-monologue: governed source_dream self-dialogue (opt-in)
+│   ├── dream_channel.py            Waking inner-monologue: governed source_dream self-dialogue (default ON)
 │   ├── dream_session.py            Downtime dreaming: symbolic generativity + consolidation → skill-compatible artifacts
-│   └── integrity_read.py           ⊘ Witness-Reaper integrity-read (Build C) + IntegrityDecayConsumer (the ⊘ USER, spec v0.2)
+│   └── integrity_read.py           ⊘ Witness-Reaper integrity-read (Build C) + IntegrityDecayConsumer (the ⊘ USER, spec v0.3)
 │
 ├── interference/
 │   ├── wave_collapse.py            Multi-mode vector ensemble collapse
@@ -497,7 +577,7 @@ RFE-Core2/
 ├── loop/
 │   ├── autonomous_cycle.py         Self-modulating loop (governance-aware)
 │   ├── dream_cycle.py              Deep offline synthesis loop
-│   └── recursion1188.py            Main entry point
+│   └── recursion1188.py            Main entry point + build_engine() (the single composition point)
 │
 ├── visualization/
 │   ├── field_render.py             Terminal + matplotlib field viz
@@ -510,6 +590,7 @@ RFE-Core2/
 │   ├── self_distillation.py        Online distillation
 │   ├── contrastive_alignment.py    Rhythm-aware contrastive
 │   ├── rhythm_pretraining.py       Supervised rhythm pretraining
+│   ├── decoder_training.py         Autoencoder training for the TokenDecoder read-out head
 │   └── run_contrastive_bootstrap.py  Contrastive bootstrap harness (informational)
 │
 ├── ignition/                       λ ignition channel (Build A, spec v0.2) — import-isolated; writes generator weights only
@@ -533,7 +614,7 @@ RFE-Core2/
 │       ├── probe.py                Boot RFE (seeded, 4-source), read its live CII, situate on DPCI table
 │       ├── train_ignite.py          CII acceptance test: corpus training flips expression locked→ignited (0/3→3/3)
 │       ├── cm_check.py              Identifiability test: is field coherence (Cm) real, or a saturated angular echo?
-│       └── identifiability.py       Cm vs I vs metastability — do observables track geometry, or change?          CII acceptance test: corpus training flips expression locked→ignited (0/3→3/3)
+│       └── identifiability.py       Cm vs I vs metastability — do observables track geometry, or change?
 │
 ├── configs/
 │   ├── field.yaml
@@ -548,13 +629,17 @@ RFE-Core2/
 │       └── build_extension_v1_1_0.py  v1.1.0 operational-vocabulary extension builder (seeded)
 │
 ├── docs/
-│   ├── ARCHITECTURE_ANALYSIS.md         End-to-end recursion + information-flow reference
-│   ├── EXPERIMENTAL_LEVERS.md           Control panel — every opt-in lever + exact how-to-enable
+│   ├── north_star.md                    The compass — the end goal + the three voices
+│   ├── EXPERIMENTAL_LEVERS.md           Control panel — every lever, its default, exact how-to-toggle
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
 │   ├── self_model_thesis.md             The theory of mind RFE instantiates — self as smithable emergent attractor
 │   ├── lock_in_remediation_plan.md      Coherence-pin → metastability plan (shipped/planned)
 │   ├── tier4_2_validation.md            Tier 4.2 validation + findings
 │   ├── tier4_3_validation.md            Tier 4.3 validation + findings
+│   ├── build_b_plan.md                  Two-Operator Build B plan (λ-ledger + ⊕ solvent gate)
+│   ├── two_operator_todo.md             Two-Operator program open dependencies
+│   ├── SYSTEM_REVIEW_2026-06-13.md      Dated whole-system review
+│   ├── local_model_integration/         Framing a local LLM as sensory/speech cortex
 │   ├── training/                        Training path: viability, plan, data curation, Tier 5 readiness
 │   │   └── logs/                        Raw run logs from training-phase gates
 │   └── findings/                        Dated empirical findings ledger (lab notebook)
@@ -649,6 +734,9 @@ RFE-Core2/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
 │       └── identity_stability_500step.json  Identity-stability baseline (reflective loop intact)
 │
+├── ARCHITECTURE_ANALYSIS.md        How information flows and recurs — the deep reference
+├── CLAUDE.md                       Invariants + guardrails for contributors
+├── ROADMAP.md                      Canonical tier status + tracked open items
 ├── requirements.txt
 └── README.md
 ```
@@ -666,6 +754,25 @@ pip install -r requirements.txt
 ---
 
 ## Quick Start
+
+### Composed (the canonical way)
+
+```python
+from loop.recursion1188 import build_engine, CONFIG
+
+generator, cycle, governance, value_engine = build_engine()   # Tiers 0–3, wired
+
+for tokens in token_stream:
+    state = cycle.step(tokens, source_id="user")
+```
+
+`build_engine()` loads `configs/*.yaml`, applies the graduated boot levers
+(see "Boot defaults" below), and composes the tiers in the correct order. Pass
+a config dict to override anything:
+`build_engine({**CONFIG, "pretrain_on_corpus": False})`.
+
+The manual compositions below show what `build_engine()` does for you — useful
+for experiments that need a partial stack.
 
 ### Minimal (Tier 0 only)
 
@@ -724,7 +831,30 @@ vee.save_to_disk("values.json")
 python -m loop.recursion1188              # Run the autonomous cycle
 uvicorn api.inference_api:app             # REST API
 python -m api.websocket_server            # Real-time stream
+
+# Instruments (observe-only)
+python -m tools.voice.repl                # Talk to the substrate, hear it answer
+python -m tools.decoder.listen            # Decode each step's expressed thought
+python -m tools.dream.run_dream           # Waking steps, then a downtime dream
 ```
+
+All three entry points compose the full tier stack through `build_engine()`.
+
+### Boot defaults (graduated levers)
+
+Four validated levers are **ON by default** — opt out via `CONFIG` in
+`loop/recursion1188.py`; the full switch table is `docs/EXPERIMENTAL_LEVERS.md`:
+
+| Default | What it does | Opt out |
+|---------|--------------|---------|
+| Eval-mode | Generator dropout off (architect decision) | — (applied unconditionally) |
+| Corpus pretraining | Trains the generator on `data/corpus/` at boot (~minutes); halves generator common-mode | `pretrain_on_corpus: False` (fast cold start) |
+| Novelty-gated loop attenuation | Loosens the reflective-loop field lock at the validated 0.30 ceiling, identity-safe | `reflect_novelty_attenuation: False` |
+| Waking dream channel | `source_dream` self-dialogue on ~20% of steps, through the gate | `dream_channel_enabled: False` |
+
+Configuration layers with precedence **component default < `configs/*.yaml` <
+`CONFIG`** — the YAML files are the live edit surface for component parameters;
+`CONFIG` owns the entry-point flags and wins on conflict.
 
 ---
 
@@ -794,6 +924,32 @@ The philosophical constants — and any value subsequently promoted to CORE thro
 
 **Values emerge from experience, not declaration.**
 There is no permitted-values list. Any concept the system encounters can become a CORE value through accumulated coherence contribution, multi-source reinforcement, and dream-cycle survival — gated by `SelfhoodGovernance.review_core_promotion()`.
+
+**Every voice passes the gate — including the system's own.**
+The waking dream channel feeds the system's decoded expression back as `source_dream` through `arbitrate()` like any external source; downtime dreaming never enters the loop at all. Nothing — not external input, not the system's own thoughts, not a self-proposed change — bypasses governance.
+
+**High coherence is the routing axis, not a health signal.**
+Left alone, the field pins near-ceiling coherence — rigid-attractor lock-in, a collapsed monocultural field. The healthy target is *metastability*: formed enough to hold, light enough to drift. Smithing that attractor is the active work.
+
+---
+
+## Where the system actually is
+
+The tiers above describe the *design*. The honest current state lives in three
+places, and reading them is part of working here:
+
+- **[`ROADMAP.md`](ROADMAP.md)** — canonical tier status and the tracked open
+  items (the lock-in remediation arc, the Two-Operator program, the
+  bonded-adversarial probe that would settle the emotional gradient's defensive
+  role).
+- **[`ARCHITECTURE_ANALYSIS.md`](ARCHITECTURE_ANALYSIS.md) §9** — the standing
+  findings, F1–F10. The load-bearing ones: the field pins high coherence (the
+  lock is the reflective loop; two default-on levers loosen it), the rhythm
+  router is pinned to `explore` at dim 128 so dream-cycle consolidation is
+  dormant (F9), and CORE promotion is structurally dead pending a
+  governance-layer decision on sacred-reference semantics (F8).
+- **[`docs/findings/`](docs/findings/)** — the dated empirical ledger behind
+  every claim. Every finding names its control; negative results count.
 
 ---
 

@@ -29,7 +29,7 @@ status, using the same proven/hypothesized rigor applied in
 Full architecture for these tiers is documented in the root `README.md`
 (verified accurate by the architecture pass + `verify_docs`). The end-to-end
 recursion and information-flow reference — including the survival-by-coherence
-finding tracked below — is `docs/ARCHITECTURE_ANALYSIS.md`.
+finding tracked below — is `ARCHITECTURE_ANALYSIS.md`.
 
 ---
 
@@ -198,7 +198,7 @@ coherence, and coherence rewards alignment, the reaper selects for agreement
 and the live-Generator field pins to ~0.998 internal coherence — rigid-
 attractor lock-in (a collapsed, monocultural field), not a healthy state. High
 coherence is the routing axis, **not** a health signal. Ref:
-`docs/ARCHITECTURE_ANALYSIS.md` §4 caveat + ecology read-side boundary.
+`ARCHITECTURE_ANALYSIS.md` §4 caveat + ecology read-side boundary.
 
 **Refinement (2026-06-06 — see `docs/findings/`).** The empirical pass sharpened
 this picture, and the dated findings ledger now records it (every entry names its
