@@ -1,9 +1,8 @@
 # Wiring a Local LLM in as the Encoder Backend
 
 This directory answers one question: **what does it take to replace the stock
-`agents/generator.py` transformer encoder with a local large model
-(GPT-OSS-20B, Gemma-3-27B, or Llama-3.1-70B-Instruct-Q4_K_M) — and what changes
-when you do.**
+`agents/generator.py` transformer encoder with a local large model (see the
+model picker below) — and what changes when you do.**
 
 Read in order:
 
@@ -14,6 +13,13 @@ Read in order:
 For the surrounding "what is this system and what does the swap mean" analysis,
 see [`../SYSTEM_REVIEW_2026-06-13.md`](../SYSTEM_REVIEW_2026-06-13.md).
 
+**Where this sits in the North Star** (`../north_star.md`): this swap is the
+**sensory cortex** — a better organ for *perceiving* language as vectors. Its
+mirror, the **speech cortex** (an LLM decode conditioned on the thought-vector /
+field state, for literal waking speech), is North-Star gap 1 and is *not* built
+here — but the wrap-don't-replace pattern in this directory is the template it
+will follow.
+
 ---
 
 ## The mental model in one paragraph
@@ -23,8 +29,12 @@ one L2-normalized `dim=128` vector. The entire RFE-Core2 organism (field,
 watcher, witness, emotion, governance, values, subjective time) is a dynamical
 system that runs *on those vectors*. So "wiring in a 20B model" means **replacing
 the sensory cortex that turns tokens into vectors** — not adding a chatbot.
-RFE-Core2 will still not emit language; it will *perceive* with a vastly better
-sense organ.
+RFE-Core2 will still not emit literal language; it will *perceive* with a vastly
+better sense organ. (Since 2026-06-28 the substrate does have a read-out in the
+other direction — the `TokenDecoder` in `agents/decoder.py`, a lossy
+bag-of-tokens word-cloud used by the waking dream channel and the dream/listen
+tools. That is inner monologue and dream material, not speech; literal sentences
+remain the speech-cortex mirror project.)
 
 ```
         BEFORE                                AFTER
@@ -58,10 +68,17 @@ Rationale, each point load-bearing:
   workstation, and you don't need to. The pretrained features are already rich
   (that is the entire point). The projection is the small, trainable surface that
   adapts those features to RFE's rhythm/contrastive objectives.
-- **This is the roadmap's own lever** — `ROADMAP.md` states generator input
-  diversity is the binding constraint on adaptivity and that "raising dim,
-  training, and the eval-decision are the more upstream lever." A pretrained LLM
-  is the strongest possible version of that lever.
+- **This is the roadmap's own lever, with its expectation now calibrated** — the
+  original framing ("generator input diversity is the binding constraint") has
+  since been refined by measurement: corpus coverage was paid (Gates G1/G2),
+  eval-mode was decided, and corpus pretraining halved the generator's
+  common-mode — **yet the field's coherence pin survived** (the SECOND-LOCKER
+  finding: seed-, band-, and regime-invariant with real trained input). The
+  operative lock is the *reflective loop*, and the novelty-gated attenuation
+  that loosens it is now default-on. Adaptivity is gated by **both** input
+  diversity and the loop; a pretrained LLM is the strongest possible version of
+  the *input* half, tested on top of a baseline where the loop half is already
+  treated.
 
 ---
 
@@ -93,14 +110,20 @@ breakage, not loud errors:
 
 ## What this buys you, and what it doesn't
 
-**Buys:** genuinely high-rank, semantic input — the condition under which the
-documented 0.998 coherence lock-in may finally loosen; meaningful governance
-signal; real value-tension geometry; a shot at Tier 4.3's unreached chaotic
-regime. See `../SYSTEM_REVIEW_2026-06-13.md` §6.3.
+**Buys:** genuinely high-rank, semantic input; meaningful governance signal;
+real value-tension geometry; a shot at Tier 4.3's unreached chaotic regime and
+at un-pinning the F9 rhythm router. Calibrate the lock-in expectation, though:
+corpus-level training alone did **not** de-saturate the field (SECOND-LOCKER),
+so the honest question is whether *much* richer input — on top of the
+default-on loop attenuation — finally reaches the metastable mid-band. Either
+answer is a first-class finding. See `../SYSTEM_REVIEW_2026-06-13.md` §6.3 and
+`../../ARCHITECTURE_ANALYSIS.md` §4.
 
-**Doesn't buy:** a voice (no decode path exists), or freedom from the compute
-bill (a 70B forward pass per `generate()` × many calls/step — caching is
-mandatory, not optional). See the guide's *Performance* and *Caveats* sections.
+**Doesn't buy:** literal speech (the lossy `TokenDecoder` word-cloud read-out
+exists, but sentences need the speech-cortex mirror — North-Star gap 1), or
+freedom from the compute bill (a 70B forward pass per `generate()` × many
+calls/step — caching is mandatory, not optional). See the guide's *Performance*
+and *Caveats* sections.
 
 ---
 
@@ -147,7 +170,23 @@ high-quality encoders here. Llama 4 Scout is capable but its license is the
 catch — read it before relying on it. The pure-text Qwen models are the cleanest
 fit because there's no unused vision tower to load.
 
+### Re-verified 2026-07-02 (+ what shipped since)
+
+All model IDs above were re-checked against the live Hub on 2026-07-02: every
+one still exists, licenses unchanged. Newer families worth knowing, same
+wrap-don't-replace design (projection auto-sizes to `hidden_size`):
+
+| Model | Params | License | Notes |
+|---|---|---|---|
+| `Qwen/Qwen3.5-35B-A3B` | 36B **MoE, ~3B active** | Apache-2.0 | successor to Qwen3-30B-A3B; multimodal (`AutoModelForMultimodalLM`) — feed text only, vision tower is dead VRAM |
+| `Qwen/Qwen3.5-9B` | 9.7B dense | Apache-2.0 | small, current, very well supported; multimodal, same text-only note |
+| `zai-org/GLM-5.2` | 753B MoE | MIT | frontier-class and text-only, but datacenter-scale — not a workstation option; listed for completeness |
+
+One correction surfaced by the re-check: **`openai/gpt-oss-20b` is text-only**
+(`AutoModelForCausalLM`, 21.5B MoE) — an earlier note here grouped it with the
+multimodal loaders; that applies to Gemma 4 / Qwen 3.5 / Llama 4, not gpt-oss.
+
 Recommended path: **prove the loop on GPT-OSS-20B**, measure whether the field
-still pins at ~0.998. That single number is the highest-value readout in the
-project. Then scale up.
+still pins at ~0.97+ against the composed default baseline. That single number
+is the highest-value readout in the project. Then scale up.
 </content>

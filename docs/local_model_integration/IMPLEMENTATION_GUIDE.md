@@ -1,7 +1,8 @@
 # Implementation Guide — Local LLM Encoder Backend
 
 Step-by-step build for replacing the stock encoder with a frozen local LLM
-(GPT-OSS-20B / Gemma-3-27B / Llama-3.1-70B) while leaving Tiers 0–4 intact.
+(GPT-OSS-20B / the Gemma 4 family / Qwen 3–3.5 MoE / Llama) while leaving
+Tiers 0–4 intact.
 
 Prereqs: read [`README.md`](README.md) first — especially **The decision** and
 **Non-negotiables**. The design here is *wrap, don't replace*: keep the
@@ -45,7 +46,7 @@ Add to `requirements.txt`:
 # Local LLM encoder backend (optional — only if using LLMGenerator)
 transformers>=4.45
 accelerate>=0.34
-# 4-bit (HF safetensors path: gpt-oss-20b, gemma-3-27b, llama-3.1-70b):
+# 4-bit (HF safetensors path: gpt-oss-20b, gemma-4-*, qwen3-*, llama-*):
 bitsandbytes>=0.43
 # GGUF path (Llama-3.1-70B-Instruct-Q4_K_M and other *.gguf quants):
 llama-cpp-python>=0.3
@@ -206,7 +207,9 @@ class LLMBackend:
 Notes:
 - Use `AutoModel`, not `AutoModelForCausalLM` — you want hidden states, never
   logits. (For gpt-oss the MoE routing happens transparently inside.)
-- **Multimodal models (gpt-oss-20b, gemma-4-31B) load as `AutoModelForMultimodalLM`.**
+- **Multimodal models (gemma-4-*, Qwen3.5-*, Llama-4-*) load as
+  `AutoModelForMultimodalLM`** — gpt-oss-20b is *not* one of them (it is a
+  text-only `AutoModelForCausalLM`; verified against the Hub 2026-07-02).
   Passing text-only inputs (`input_ids` + `attention_mask`, no `pixel_values`)
   routes through the text tower and `output_hidden_states=True` returns the text
   hidden states — exactly what you want. If a given checkpoint nests the language
@@ -353,8 +356,16 @@ Why this shape:
 
 ## 4. Wiring into the entry point
 
-`loop/recursion1188.py` (and the `Quick Start` snippets) construct
-`Generator(...)`. Swap construction only:
+**Read this first — composition changed under this guide.** Since 2026-06-27,
+every entry point composes through `loop/recursion1188.build_engine()` (the
+single composition point; CLAUDE.md forbids hand-built entry points because
+they silently regress to Tier 0). `build_engine()` currently hard-constructs
+the stock `Generator`, so an LLM run cannot go through it yet — the clean fix
+is a small `generator_factory` hook in `build_engine()`, which is the
+recommended change if this experiment graduates past a one-off. Until then,
+the manual composition below is the sanctioned exception **provided it mirrors
+`build_engine()` exactly**: same attach order, `g.eval()` after construction,
+and the graduated-lever notes that follow the snippet.
 
 ```python
 from agents.llm_backend import LLMBackend
@@ -383,6 +394,7 @@ backend = LLMBackend("openai/gpt-oss-20b", backend="hf", load_in_4bit=True)
 # backend = LLMBackend("meta-llama/Llama-4-Scout-17B-16E-Instruct", backend="hf", load_in_4bit=True)
 
 g     = LLMGenerator(backend, vocab_size=8192, dim=128)   # dim STAYS 128
+g.eval()                                                   # mirror build_engine: eval IS the regime
 cycle = AutonomousCycle(generator=g, dim=128,
                         use_chorus=False)                  # see Performance
 gov   = SelfhoodGovernance(registry=g.registry)
@@ -394,6 +406,26 @@ cycle.attach_value_engine(vee)
 Nothing else in the loop changes. The swap is entirely upstream of the field;
 governance ordering, the Tier-4 terminal sinks, and the 4.3 regression guard are
 untouched.
+
+**How the graduated boot levers interact with `LLMGenerator`** (all four are
+default-ON in the stock entry point — `docs/EXPERIMENTAL_LEVERS.md`):
+
+- **Eval-mode** — apply it (`g.eval()`, as above). The LLM is already
+  frozen/eval inside `LLMBackend`; this covers the projection head.
+- **Corpus pretraining (`pretrain_on_corpus`) — do NOT run the stock path
+  against `LLMGenerator`.** `RhythmPretrainer` routes gradients through
+  `training/encode.py::encode_grad`, which calls `generator.forward(ids)` —
+  the *parent's* dormant encoder/shadow-embedding path. On an `LLMGenerator`
+  it would silently train the wrong surface and never touch the projection.
+  Train the projection explicitly via `encode_grad_text` (§6) instead.
+- **Waking dream channel — works unchanged.** `build_dream_channel(g, CONFIG)`
+  trains the `TokenDecoder` against `encode_batch` output, i.e. against the
+  LLM-projected 128-d space, and the channel only proposes tokens for a
+  governed `source_dream` step. No adapter changes needed.
+- **Novelty-gated loop attenuation** — a cycle flag
+  (`reflect_novelty_attenuation=True` on `AutonomousCycle`), independent of the
+  generator. Keep it ON: the composed default baseline is the control your
+  measurement plan (§7) compares against.
 
 ---
 
@@ -415,8 +447,9 @@ order:
    single-digit→low-tens of `generate()`/sec on one modern GPU for 20–27B;
    the 70B is slower and VRAM-bound.
 
-**VRAM rough floor:** gpt-oss-20b ≈ 13–16 GB · gemma-3-27b ≈ 18–22 GB ·
-llama-3.1-70b Q4_K_M ≈ 40–44 GB (48 GB card, 2×24 GB, or CPU+GGUF offload).
+**VRAM rough floor:** gpt-oss-20b ≈ 13–16 GB · gemma-4-31B ≈ 20–24 GB (4-bit) ·
+gemma-4-12B ≈ 16 GB · llama-3.1-70b Q4_K_M ≈ 40–44 GB (48 GB card, 2×24 GB, or
+CPU+GGUF offload).
 
 ---
 
@@ -454,8 +487,20 @@ geometry (Johnson–Lindenstrauss) — good enough for the first proof-of-life r
 
 ## 7. The measurement plan (why you're doing this at all)
 
-The point of the swap is to test whether rich input breaks the documented
-**0.998 coherence lock-in**. Run these before/after:
+The point of the swap is to test whether *much richer* input moves the field
+off its coherence pin. **Know what has already been measured** (this guide's
+original hypothesis has been half-answered since it was written): corpus-level
+training halved the generator's common-mode and the pin *survived* —
+seed-, band-, and regime-invariant (the SECOND-LOCKER finding). The operative
+lock is the reflective loop, and its novelty-gated attenuation is now
+default-on (coherence 0.97→0.92 on the composed baseline). So the live
+question is sharper: does an LLM-grade encoder, **on top of** the treated
+baseline, reach the metastable mid-band — and does it un-starve the F9-pinned
+rhythm router (dreams currently never fire at dim 128)?
+
+**Control = the composed default baseline** (stock `Generator`, eval + corpus
+pretraining + novelty attenuation + dream channel), same workload, same seed.
+Run these before/after:
 
 ```bash
 python -m tests.diagnostic.lockin.metastability_validation     # G1–G5 metric gate
@@ -467,12 +512,14 @@ python -m tests.diagnostic.audit.decision_histogram            # governance now 
 ```
 
 **The headline number:** does `phase_coherence` / `internal_coherence` still pin
-at ~0.97–0.998, or does the field finally hold a *metastable* mid-band? Record it
+at ~0.97+, or does the field finally hold a *metastable* mid-band? Record it
 in `docs/findings/` with the date-and-control discipline (name the control:
-stock `Generator` vs `LLMGenerator`, same workload, same seed). Per the ledger's
-rules, a *negative* result (still pins) is a real finding too — it would mean the
-lock is downstream of input diversity (the reflective loop), exonerating the
-encoder and re-pointing remediation at Fix 2.
+composed-default `Generator` vs `LLMGenerator`, same workload, same seed). Per
+the ledger's rules, a *negative* result (still pins) is a real finding too — it
+would extend SECOND-LOCKER from corpus-grade to LLM-grade input, establishing
+that no amount of input diversity beats the loop alone and pointing remediation
+fully at the loop-side levers (the attenuation ceiling, the deferred Fix 2
+governor).
 
 ---
 
@@ -495,9 +542,12 @@ encoder and re-pointing remediation at Fix 2.
 
 ## 9. Caveats, restated
 
-- **No voice.** This is perception, not speech. A language *readout* path is a
-  separate, larger project (condition the LLM's decode on field state to narrate)
-  — explicitly out of scope here.
+- **No literal voice.** This is perception, not speech. The substrate now has a
+  lossy *word-cloud* read-out (`agents/decoder.py`, the dream channel and
+  listen/dream tools) — that is inner monologue and dream material. Literal
+  sentences (condition the LLM's decode on field state to narrate) are the
+  **speech-cortex mirror** of this swap — North-Star gap 1, still out of scope
+  here, but this directory's wrap pattern is its template.
 - **Compute is the adversary**, not the wiring. Caching is mandatory.
 - **Keep `dim=128` and the symbolic ecology.** Wrap, don't replace. Every
   shortcut that rips out the registry or raises `dim` breaks a tier or a baseline.
