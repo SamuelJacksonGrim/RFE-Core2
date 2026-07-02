@@ -10,21 +10,30 @@ the tree.
 project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
 
 - `README.md` — overview, structural tour, run commands, project-structure tree.
+- `docs/north_star.md` — **the compass**: the end goal (a communicating,
+  self-understanding, safely self-modifying system), the three voices (waking
+  speech / inner monologue / symbolic dreaming), and the rung-by-rung arc.
+  Course-corrections are measured against it; collaborating instances may amend
+  it with justification.
 - `ROADMAP.md` — tier status and the lock-in remediation direction (shipped vs
   planned).
 - `docs/ARCHITECTURE_ANALYSIS.md` — end-to-end recursion + information-flow
   reference; `docs/lock_in_remediation_plan.md` — the curated remediation plan;
-  `docs/tier4_2_validation.md` / `tier4_3_validation.md` — tier validation.
+  `docs/tier4_2_validation.md` / `tier4_3_validation.md` — tier validation;
+  `docs/build_b_plan.md` / `two_operator_todo.md` — the Two-Operator program;
+  `docs/local_model_integration/` — framing a local LLM as sensory/speech cortex.
 - `docs/training/` — the generator training path: viability assessment, phased
   plan, data curation, Tier 5 readiness (proposed direction, not committed).
 - `docs/findings/` — the dated, control-named **empirical ledger** (lab
   notebook). Read its `README.md` for the schema and discipline before recording
   a result; every finding names its control, and negative results count.
 - `tests/README.md` — what each test/probe is for and how the suite is gated.
-- `docs/EXPERIMENTAL_LEVERS.md` — **the control panel**: every validated-but-opt-in
-  lever (corpus pretraining, novelty-gated loop attenuation, …), what it does, and
-  the exact one-line way to turn it on from `loop/recursion1188.py`'s `CONFIG`. Read
-  this before concluding "the fix isn't applied" — it probably just isn't switched on.
+- `docs/EXPERIMENTAL_LEVERS.md` — **the control panel**: every lever and
+  instrument, its default, and the exact way to toggle it. A validated few have
+  **graduated to default-on** (eval-mode, corpus pretraining, novelty-gated loop
+  attenuation, the waking dream channel); the Two-Operator overlay and the
+  instruments remain opt-in. Read this before concluding "the fix isn't applied"
+  — and before assuming a lever is off.
 - `docs/self_model_thesis.md` — the **theory of mind** RFE instantiates: the self
   as an emergent, causal, *smithable* structure (pointer + attractor + multi-scale
   coalition). Maps the thesis onto the actual components and reframes "lock-in
@@ -54,6 +63,18 @@ Layered into tiers, **all wired into `loop/autonomous_cycle.py`**:
 | 4.1 | Subjective time substrate — `tick()` once per cycle |
 | 4.2 | Affective time dilation — `dilation_factor` from arousal × valence |
 | 4.3 | Rhythm → time coupling — `phase_coherence` (FFT) modulates dilation (flow LIVE, agitation inert) |
+
+The runtime is **fully composed at boot**: `build_engine()` in
+`loop/recursion1188.py` is the single composition point (Tiers 0–3 + graduated
+levers), and every launchable entry point — the loop, the REST API, and the
+WebSocket server — must build through it so none can silently regress to a
+Tier-0-only substrate (that exact trap is recorded in
+`docs/findings/2026-06-20-the-runtime-is-tier0-only.md`).
+
+On top of the tiers sit the **voice/dialogue layer** (Decoder read-out head,
+waking `source_dream` self-dialogue, offline `DreamSession`) and the opt-in
+**Two-Operator overlay** (λ ignition · ⊕ solvent gate · ⊘ integrity-read) —
+both covered under "Architectural invariants" below.
 
 ## Architectural invariants
 
@@ -121,6 +142,43 @@ errors.
 - Bonds *emerge* — there is no public API to create or pin a `RelationalBond`.
   Formation thresholds are the only entry point: `interaction_count ≥ 20` AND
   `coherence_mean ≥ 0.10` AND `crystal_count ≥ 1`.
+
+**Voice, self-dialogue & dreaming (North-Star rungs 1–2)**
+- The `TokenDecoder` read-out head (`agents/decoder.py`) is **lossy by design**:
+  it recovers a semantic word-cloud (bag-of-tokens), not sentences. That is a gap
+  only for literal external speech; it is the *right* register for inner
+  monologue and the native medium for dreams. `tools/` (voice, decoder/listen,
+  dream, ignition) are **instruments** — they observe and render, never feed the
+  live loop.
+- The waking dream channel (`cognition/dream_channel.py`, default ON at
+  `dream_channel_p = 0.20`) feeds the system's own decoded expression back as
+  `source_id='source_dream'` **through `arbitrate()`** — no bypass. Trust, HHI,
+  manipulation resistance, and sacred-shield treat the system's own voice like
+  any other source. Validated non-dominant and adversarial-gated (containment
+  unweakened); keep it that way — never give `source_dream` a privileged path.
+- Downtime dreaming (`cognition/dream_session.py`, run by
+  `tools/dream/run_dream.py`) is **offline**: it reads substrate state and
+  writes markdown artifacts to disk; it must never inject into the live field
+  or touch governance. Waking rumination (dream channel) and downtime dreaming
+  (DreamSession) are deliberately separate paths — don't merge them.
+
+**Two-Operator overlay (spec v0.3, opt-in)**
+- Three builds, attached only via `cycle.attach_lambda_ledger()` /
+  `attach_integrity_read()` / `attach_integrity_consumer()` — nothing attaches
+  them by default. λ ignition (`ignition/`) is **import-isolated** and writes
+  generator weights only, from *outside* the governance gate ("the loop cannot
+  author its own exit through its own front door") — keep that isolation. The
+  ⊘ Witness-Reaper (`cognition/integrity_read.py`) is an observe-only,
+  non-binding advisory; only the opt-in `IntegrityDecayConsumer` acts on it
+  (safe mode `named_only=True`), and it never touches sacred values. The ⊕
+  solvent gate (`agents/lambda_ledger.py`) gates Tier-3 composition on λ.
+- The ⊘ coherence axis is v0.3 **absolute field-alignment**, not the dead
+  marginal coherence-contribution sum — don't reintroduce the marginal axis.
+- **Graduation rule:** no lever moves from "validated, off" to "default on"
+  without passing the all-ON composition gate
+  (`tests/diagnostic/integrity/all_levers_composition_probe.py`) — isolation-green
+  is not enough (the all-ON break that motivated this:
+  `strong_values 5 → 0` from the ⊘ consumer's strength ceiling).
 
 **Subjective time (Tier 4.1)**
 - `TemporalStream.tick()` is called once per cycle (decoupled from `push()`),
@@ -202,12 +260,25 @@ python -m api.websocket_server                # WebSocket stream
 
 Tier attachment order matters: `attach_governance()` must be called *before*
 `attach_value_engine()` — the value engine subscribes to the governance
-feedback stream at construction time. See README "Quick Start" for full
-composition examples.
+feedback stream at construction time. Prefer composing through
+`build_engine()`; see README "Quick Start" for manual composition examples.
 
-Configuration lives in `configs/*.yaml` (`field`, `attractors`, `recursion`)
-and the inline `CONFIG` dict at the top of `loop/recursion1188.py`, which is
-currently the runtime source of truth for entry-point parameters.
+Configuration is layered with precedence
+**component default < `configs/*.yaml` < `CONFIG`**: the YAML files (`field`,
+`attractors`, `recursion`) are loaded at boot by `configs/loader.py` (via
+`build_engine`) and are the live edit surface for component parameters; the
+inline `CONFIG` dict at the top of `loop/recursion1188.py` owns the entry-point
+flags (including the graduated levers) and overrides matching YAML keys. Two
+YAML sections are documentation-only and never applied: `attractors.yaml`'s
+`constants` (ANCHOR/RECURSION/HOMEOSTASIS are sacred, code-authoritative) and
+`decay_profiles`. A missing/unparseable YAML or absent PyYAML degrades
+gracefully to code defaults.
+
+Boot defaults that are easy to miss: the generator runs in **eval mode**
+(dropout off, architect decision), `pretrain_on_corpus` trains on
+`data/corpus/` at boot (set False for a fast cold start),
+`reflect_novelty_attenuation` and `dream_channel_enabled` are ON. All are
+opt-out via `CONFIG`; `docs/EXPERIMENTAL_LEVERS.md` is the full switch table.
 
 ## Testing
 
@@ -218,6 +289,11 @@ it is deliberately *not* a pytest pass/fail suite. Tests are runnable scripts
 that detect regression by shape, not by exact value. `run_all_tests.sh` runs the
 pass/fail subset. When changing behavior, run the smoke + integration tests and
 compare against `tests/baselines/`.
+
+`tests/doc_accuracy/verify_docs.py` (part of `run_all_tests.sh`) mechanically
+checks doc claims against source, including that every test/diagnostic file is
+listed in the README project-structure tree — when you add a probe, add its
+README tree entry in the same commit or CI goes red.
 
 ## Guardrails — do not
 
@@ -248,6 +324,17 @@ compare against `tests/baselines/`.
 - Let the metastability monitors (`StreamMetastabilityMonitor`) feed back into the
   cognitive or governance loop — they are observe-only terminal sinks like
   `dilation_factor`.
+- Give `source_dream` (the system's own voice) a path around `arbitrate()`, or
+  let `DreamSession` / any `tools/` instrument inject into the live field —
+  every voice passes the gate; instruments observe only.
+- Raise `ReflectiveLoop.attenuation_max` above `0.30` without a fresh
+  manipulation-rate run — the ceiling is a thin cost-clean band.
+- Break `ignition/`'s import isolation — λ writes generator weights from
+  outside the gate, never through it.
+- Graduate a lever to default-on without re-running the all-ON composition gate
+  (`all_levers_composition_probe.py`).
+- Compose a new entry point by hand — build through `build_engine()`, or it
+  will silently run Tier 0 only.
 - `print` from library code — use the module logger.
 
 ## Conventions & workflow
