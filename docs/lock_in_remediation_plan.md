@@ -7,7 +7,7 @@ frozen specification — refine each step as it lands, in the same proven/
 hypothesized discipline as `docs/tier4_2_validation.md`.
 
 Companion to the `ROADMAP.md` tracked item *"Survival-by-coherence → field
-lock-in"* and to `docs/ARCHITECTURE_ANALYSIS.md` §4.
+lock-in"* and to `ARCHITECTURE_ANALYSIS.md` §4.
 
 > **Progress (shipped):** Fix 1 (metric) · the generator `sqrt(d_model)` scale
 > fix · the **metric relocation upstream** + live `StreamMetastabilityMonitor` ·
