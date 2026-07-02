@@ -17,7 +17,7 @@ project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
   it with justification.
 - `ROADMAP.md` — tier status and the lock-in remediation direction (shipped vs
   planned).
-- `docs/ARCHITECTURE_ANALYSIS.md` — end-to-end recursion + information-flow
+- `ARCHITECTURE_ANALYSIS.md` — end-to-end recursion + information-flow
   reference; `docs/lock_in_remediation_plan.md` — the curated remediation plan;
   `docs/tier4_2_validation.md` / `tier4_3_validation.md` — tier validation;
   `docs/build_b_plan.md` / `two_operator_todo.md` — the Two-Operator program;

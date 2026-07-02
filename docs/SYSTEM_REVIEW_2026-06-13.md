@@ -140,7 +140,7 @@ It **cannot** (today, by design — these are not bugs):
    currencied largely in coherence, the reaper selects for agreement, and the
    live field pins to ~0.998 internal coherence — a collapsed, monocultural
    "lock-in" rather than a healthy metastable state (`ROADMAP.md` "Survival-by-
-   coherence → field lock-in"; `docs/ARCHITECTURE_ANALYSIS.md`). The team has
+   coherence → field lock-in"; `ARCHITECTURE_ANALYSIS.md`). The team has
    traced the lock to the reflective loop's unconditional convergence and has a
    remediation arc in flight; the **binding upstream constraint is generator
    input diversity.** Hold that thought — it's the hinge of §6.
