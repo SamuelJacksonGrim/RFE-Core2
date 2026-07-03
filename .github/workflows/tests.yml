@@ -25,6 +25,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        # CPU-only torch first (same trick as .devcontainer): the CI runner has
+        # no GPU, and the default CUDA wheels are ~10x the download for nothing.
+        pip install torch --index-url https://download.pytorch.org/whl/cpu
         pip install -r requirements.txt
 
     - name: Run full test suite
