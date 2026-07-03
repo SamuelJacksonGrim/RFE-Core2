@@ -380,7 +380,10 @@ phase. Invoke directly via `python -m tests.doc_accuracy.verify_docs`.
 | v0.3.0 | Tiers 0–3 complete with Tier 1 Revision; kernel snapshot |
 | v0.4.0 | Tier 4.1–4.2: affective time dilation |
 | v0.4.3 | Tier 4.3: rhythm → time coupling (flow/agitation terms, dilation clamp) |
-| main (unreleased) | Lock-in remediation: Fix 1 metastability metric (G1–G5), generator `sqrt(d_model)` scale fix, upstream `StreamMetastabilityMonitor` (stages A/C), recursive-attention expression de-collapse (`diversity_blend`); `_history` bounded |
+| v0.4.3b | Lock-in remediation foundations: Fix 1 metastability metric (G1–G5), generator `sqrt(d_model)` scale fix, upstream `StreamMetastabilityMonitor` (stages A/C), recursive-attention expression de-collapse (`diversity_blend`); the dated findings ledger established |
+| v0.4.4 | The reflective-loop lock arc (gate decomposition → migration RIGID → reconstruction ablation: **the loop is the lock**) + lock-guard/convergence tests; trainer gradient-path repair; curated corpus (`data/corpus/`) + Gate G1; `docs/training/` path incl. Tier 5 readiness |
+| v0.4.4b | Gate G2 (pretrained boot on the live stack); SECOND-LOCKER field map + reachable-range gain-sign; checkpoint registry-orphan fix; eval-mode architect decision (Phase 3); `SYSTEM_REVIEW_2026-06-13` + `docs/local_model_integration/` |
+| V0.4.5 | The composed runtime (`build_engine()`, all entry points Tiers 0–3; live `configs/*.yaml`); graduated default-on levers (eval · corpus pretraining · novelty-gated loop attenuation · dream channel); the Two-Operator overlay (λ ignition · ⊕ solvent gate · ⊘ integrity-read, spec v0.3) + all-ON composition gate; the voice layer (North-Star rungs 1–2: `TokenDecoder`, governed `source_dream` self-dialogue, `DreamSession` downtime dreaming); doc-set audit (README / CLAUDE.md / root `ARCHITECTURE_ANALYSIS.md`) |
 
 ---
 
