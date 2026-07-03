@@ -3,6 +3,11 @@
 numpy>=1.24
 torch>=2.0
 networkx>=3.0
+# scipy is not imported by this codebase directly, but it is a REQUIRED
+# runtime dependency: networkx's pagerank (semantic_lattice centrality,
+# fires every 100 steps) lazily imports it and networkx does not declare it.
+# Removing it crashes every 100+-step run — caught by CI 2026-07-03.
+scipy>=1.10
 
 # API
 fastapi>=0.100
@@ -16,9 +21,9 @@ matplotlib>=3.7
 # Config parsing (optional — configs/*.yaml degrade gracefully without it)
 pyyaml>=6.0
 
-# Removed as unused (audited 2026-07-02): scipy (no import anywhere — the FFT
-# path is numpy), pytest (the test suite is plain runnable scripts by design —
-# tests/README.md; wrap in pytest yourself if you want assertions).
+# Removed as unused (audited 2026-07-02): pytest (the test suite is plain
+# runnable scripts by design — tests/README.md; wrap in pytest yourself if you
+# want assertions).
 # Optional LLM encoder backend deps (transformers / accelerate / bitsandbytes /
 # llama-cpp-python) are deliberately NOT listed — see
 # docs/local_model_integration/IMPLEMENTATION_GUIDE.md §1.
