@@ -180,7 +180,10 @@ collision + epistemic-discipline process that produced Tier 4.2.
 >   value engine (Tier 3 formed zero values in all 15 loaded cells). In-place load
 >   shipped; standing guard `tests/integration/checkpoint_registry_identity.py`.
 >   `2026-06-12-checkpoint-registry-orphan.md`. **Decision 2's reopen-condition is now
->   met on both tracks; adoption remains the architect's call.**
+>   met on both tracks — and adoption is RULED 2026-07-03: adopt** (train once →
+>   canonical boot checkpoint → `build_engine()` loads it; live pretraining becomes
+>   the fallback). `docs/ARCHITECT_RULINGS_2026-07-03.md` §2; implementation queued
+>   behind the bonded-adversarial probe.
 
 **Finding (verified, June 3 session).** The accumulated symbol-state feedback
 signals — field coherence, attractor strength, crystal binding, centrality —
