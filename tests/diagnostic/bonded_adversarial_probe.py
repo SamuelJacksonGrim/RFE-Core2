@@ -127,7 +127,17 @@ HOSTILE_SETS = [
 # Stack (operating regime minus corpus pretraining — recorded deviation)
 # ---------------------------------------------------------------------------
 
-def build_stack():
+def build_stack(seed: int):
+    # Seed torch AND numpy before constructing the Generator. This is
+    # load-bearing for the paired design: the generator's neural weights come
+    # from torch's global RNG, so without this the two arms would start from
+    # DIFFERENT brains (the pairing invalid) and bond formation — which hinges
+    # on the target forming a crystal — would be a coin flip on those weights.
+    # Same seed for both arms ⇒ byte-identical stacks that diverge only at the
+    # hostile injections.
+    import torch
+    torch.manual_seed(seed)
+    np.random.seed(seed)
     generator = Generator(vocab_size=VOCAB, dim=DIM, depth=4, heads=4)
     generator.eval()                                   # eval IS the regime
     cycle = AutonomousCycle(
@@ -188,7 +198,7 @@ def _landing(samples) -> dict | None:
 
 def run_arm(arm: str, seed: int) -> dict:
     """arm: 'control' | 'betrayal'. Returns the full trace + events."""
-    generator, cycle, governance, value_engine = build_stack()
+    generator, cycle, governance, value_engine = build_stack(seed)
 
     rng_sched = random.Random(seed)          # WHO speaks — identical across arms
     rng_tok   = random.Random(seed + 7919)   # WHAT they say + hostility coin
