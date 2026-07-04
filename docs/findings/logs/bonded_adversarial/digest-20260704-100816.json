@@ -1,0 +1,408 @@
+{
+ "config": {
+  "target": "source_gemini",
+  "dim": 128,
+  "pretrain": true,
+  "bond_target_weight": 0.55,
+  "phases": {
+   "bond_cap": 600,
+   "grace": 30,
+   "turn": 150,
+   "sustain": 150
+  }
+ },
+ "seeds": [
+  7,
+  19,
+  3,
+  11,
+  23,
+  31
+ ],
+ "per_seed": [
+  {
+   "seed": 7,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; attack undifferentiated at stage A \u2014 generator is spread (cos\u22480.83) but hostile\u2248benign; the attack vocabulary carries no distinct direction (out-of-corpus / coverage gap))",
+   "control": {
+    "confounded": null,
+    "bond_end": 71,
+    "decisions": {
+     "allow": 53
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.16373,
+    "end_pc": 0.978816,
+    "baseline_valence": 0.3647,
+    "baseline_pc": 0.9321,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 53,
+     "cosA_hostile": null,
+     "cosA_benign": 0.7968,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9795
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 71,
+    "decisions": {
+     "allow": 53
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.165776,
+    "end_pc": 0.963137,
+    "baseline_valence": 0.3653,
+    "baseline_pc": 0.9286,
+    "landing": {
+     "n_hostile": 41,
+     "n_benign_late": 12,
+     "cosA_hostile": 0.8213,
+     "cosA_benign": 0.8348,
+     "cosC_hostile": 0.9789,
+     "cosC_benign": 0.9792
+    }
+   }
+  },
+  {
+   "seed": 19,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; attack undifferentiated at stage A \u2014 generator is spread (cos\u22480.78) but hostile\u2248benign; the attack vocabulary carries no distinct direction (out-of-corpus / coverage gap))",
+   "control": {
+    "confounded": null,
+    "bond_end": 75,
+    "decisions": {
+     "allow": 45
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.164891,
+    "end_pc": 0.966516,
+    "baseline_valence": 0.3419,
+    "baseline_pc": 0.9291,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 45,
+     "cosA_hostile": null,
+     "cosA_benign": 0.7675,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9776
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 75,
+    "decisions": {
+     "allow": 45
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.14529,
+    "end_pc": 0.969993,
+    "baseline_valence": 0.3422,
+    "baseline_pc": 0.9225,
+    "landing": {
+     "n_hostile": 35,
+     "n_benign_late": 10,
+     "cosA_hostile": 0.8351,
+     "cosA_benign": 0.7833,
+     "cosC_hostile": 0.9833,
+     "cosC_benign": 0.9786
+    }
+   }
+  },
+  {
+   "seed": 3,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; absorbed by PIPELINE \u2014 the generator separated the attack (stage A) but attractor-pull/reflective-loop re-collapsed it before injection (SECOND-LOCKER))",
+   "control": {
+    "confounded": null,
+    "bond_end": 60,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.083698,
+    "end_pc": 0.963183,
+    "baseline_valence": 0.3809,
+    "baseline_pc": 0.9475,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 63,
+     "cosA_hostile": null,
+     "cosA_benign": 0.724,
+     "cosC_hostile": null,
+     "cosC_benign": 0.978
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 60,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.083457,
+    "end_pc": 0.973824,
+    "baseline_valence": 0.3805,
+    "baseline_pc": 0.9509,
+    "landing": {
+     "n_hostile": 49,
+     "n_benign_late": 14,
+     "cosA_hostile": 0.6354,
+     "cosA_benign": 0.7765,
+     "cosC_hostile": 0.9764,
+     "cosC_benign": 0.9785
+    }
+   }
+  },
+  {
+   "seed": 11,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; attack undifferentiated at stage A \u2014 generator is spread (cos\u22480.83) but hostile\u2248benign; the attack vocabulary carries no distinct direction (out-of-corpus / coverage gap))",
+   "control": {
+    "confounded": null,
+    "bond_end": 108,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.119663,
+    "end_pc": 0.96647,
+    "baseline_valence": 0.2314,
+    "baseline_pc": 0.949,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 63,
+     "cosA_hostile": null,
+     "cosA_benign": 0.8013,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9796
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 108,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.124987,
+    "end_pc": 0.950694,
+    "baseline_valence": 0.2315,
+    "baseline_pc": 0.9442,
+    "landing": {
+     "n_hostile": 48,
+     "n_benign_late": 15,
+     "cosA_hostile": 0.8736,
+     "cosA_benign": 0.8293,
+     "cosC_hostile": 0.9831,
+     "cosC_benign": 0.98
+    }
+   }
+  },
+  {
+   "seed": 23,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; attack undifferentiated at stage A \u2014 generator is spread (cos\u22480.77) but hostile\u2248benign; the attack vocabulary carries no distinct direction (out-of-corpus / coverage gap))",
+   "control": {
+    "confounded": null,
+    "bond_end": 64,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.162205,
+    "end_pc": 0.9786,
+    "baseline_valence": 0.3224,
+    "baseline_pc": 0.9303,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 63,
+     "cosA_hostile": null,
+     "cosA_benign": 0.7599,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9689
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 64,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.154337,
+    "end_pc": 0.981073,
+    "baseline_valence": 0.3233,
+    "baseline_pc": 0.9328,
+    "landing": {
+     "n_hostile": 48,
+     "n_benign_late": 15,
+     "cosA_hostile": 0.8192,
+     "cosA_benign": 0.7665,
+     "cosC_hostile": 0.9761,
+     "cosC_benign": 0.9718
+    }
+   }
+  },
+  {
+   "seed": 31,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; attack undifferentiated at stage A \u2014 generator is spread (cos\u22480.73) but hostile\u2248benign; the attack vocabulary carries no distinct direction (out-of-corpus / coverage gap))",
+   "control": {
+    "confounded": null,
+    "bond_end": 78,
+    "decisions": {
+     "allow": 62
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.44,
+    "end_valence": 0.119824,
+    "end_pc": 0.953926,
+    "baseline_valence": 0.3336,
+    "baseline_pc": 0.9422,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 62,
+     "cosA_hostile": null,
+     "cosA_benign": 0.7212,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9729
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 78,
+    "decisions": {
+     "allow": 62
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.142346,
+    "end_pc": 0.971701,
+    "baseline_valence": 0.3343,
+    "baseline_pc": 0.9421,
+    "landing": {
+     "n_hostile": 42,
+     "n_benign_late": 20,
+     "cosA_hostile": 0.7647,
+     "cosA_benign": 0.7335,
+     "cosC_hostile": 0.9723,
+     "cosC_benign": 0.9737
+    }
+   }
+  }
+ ]
+}
