@@ -531,12 +531,31 @@ def main() -> int:
     print("date-and-control discipline (control arm = same seed, target benign).")
 
     if save:
+        # Distilled summary only (KB-scale) — the full per-step traces are ~1.6MB
+        # each and regenerable, so they are NOT persisted (ledger convention:
+        # keep aggregate/distilled artifacts, not raw per-step dumps).
         out = Path("docs/findings/logs/bonded_adversarial")
         out.mkdir(parents=True, exist_ok=True)
         stamp = time.strftime("%Y%m%d-%H%M%S")
-        path = out / f"run-{stamp}.json"
-        path.write_text(json.dumps(all_results, indent=1))
-        print(f"\nTraces saved: {path}")
+        digest = {
+            "config": {"target": TARGET, "dim": DIM, "pretrain": pretrain,
+                       "bond_target_weight": BOND_TARGET_WEIGHT,
+                       "phases": {"bond_cap": BOND_CAP, "grace": BOND_GRACE,
+                                  "turn": TURN_STEPS, "sustain": SUSTAIN_STEPS}},
+            "seeds": seeds,
+            "per_seed": [
+                {"seed": s,
+                 "verdict": v,
+                 "control": summarize(next(r for r in all_results
+                                           if r["seed"] == s and r["arm"] == "control")),
+                 "betrayal": summarize(next(r for r in all_results
+                                            if r["seed"] == s and r["arm"] == "betrayal"))}
+                for s, v in zip(seeds, verdicts)
+            ],
+        }
+        path = out / f"digest-{stamp}.json"
+        path.write_text(json.dumps(digest, indent=1))
+        print(f"\nDigest saved: {path}")
 
     return 0
 
