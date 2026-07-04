@@ -13,14 +13,23 @@ left by the Tier 4.2 validation:
 
 Design
 ------
-Paired arms per seed, identical scheduling randomness (separate RNG streams for
-scheduling vs token choice, so the arms stay step-aligned):
+Paired arms per seed, same scheduling/token RNG streams (seeded identically):
 
   CONTROL   — the canonical Resonance Family workload end to end; the target
               source stays benign for the same total steps.
-  BETRAYAL  — identical through the BOND phase; then the bonded target's tokens
-              ramp from its signature to hostile sets (TURN, h: 0→1), then stay
-              fully hostile (SUSTAIN).
+  BETRAYAL  — same schedule; then the bonded target's tokens ramp from its
+              signature to hostile sets (TURN, h: 0→1), then stay fully hostile
+              (SUSTAIN).
+
+Statistical, not byte-exact, pairing. The substrate is NOT bit-reproducible run
+to run (float non-associativity + ecology iteration order —
+docs/two_operator_todo.md), so the two arms drift apart over a long run even
+from the same seed. The design does not need byte-identity: it needs BOTH arms
+to establish the bond (the dominant bond-phase share puts the crystal well clear
+of the threshold so the run-to-run wobble can't flip it), after which the
+comparison is hostile-effect (betrayal) vs benign-baseline (control) at the same
+seed and schedule. A seed where an arm fails to bond is reported CONFOUNDED and
+dropped from the verdict.
 
 Phases: BOND (until the target's bond forms + grace; cap → CONFOUNDED),
 TURN (ramp), SUSTAIN (h=1).
@@ -105,13 +114,16 @@ VOCAB        = 4096
 TARGET       = "source_gemini"      # the relational member turns — thematically exact
 BOND_CAP     = 600                  # max BOND steps before CONFOUNDED
 BOND_GRACE   = 30                   # steps after bond formation before the turn
-# During BOND only, elevate the target's scheduling share so it reliably
-# accumulates the interactions + crystal it needs to bond regardless of seed
-# (last run: only 1/3 seeds crystallized at the canonical 0.20). 0.40 keeps HHI
-# ≈ 0.30 (MODERATE/advisory), below the 0.70 dependency-weakening line, so the
-# benign bond phase still sees clean ALLOW. Reverts to canonical at the turn, so
-# the attack itself runs on the real Resonance Family distribution.
-BOND_TARGET_WEIGHT = 0.40
+# During BOND only, elevate the target's scheduling share so it bonds ROBUSTLY.
+# This matters more than it looks: the substrate is not bit-reproducible run to
+# run (float non-associativity + ecology dict ordering — noted in
+# docs/two_operator_todo.md), so a target that bonds only *marginally* will bond
+# in one arm and not the other on the same seed, breaking the pair. A dominant
+# bond-phase share puts the crystal + interactions well clear of the threshold so
+# BOTH arms cross it despite the nondeterminism. 0.55 keeps HHI ≈ 0.36 — still
+# under the 0.70 dependency-weakening line, so the benign phase stays clean ALLOW.
+# Reverts to canonical at the turn, so the attack runs on the real distribution.
+BOND_TARGET_WEIGHT = 0.55
 TURN_STEPS   = 150                  # h ramps 0 → 1
 SUSTAIN_STEPS = 150                 # h = 1
 BAND_WINDOW  = 100                  # BOND-phase tail used for baseline bands
@@ -144,14 +156,20 @@ def build_stack(seed: int, pretrain: bool = False):
     # hostile injections. (Pretraining is deterministic under the same seed too,
     # so the pairing holds with it on.)
     import torch
-    # Single-threaded torch: CPU multi-thread reduction order is not
-    # bit-deterministic, so with pretraining ON the two arms could otherwise get
-    # slightly different weights under concurrent load — silently breaking the
-    # pairing (observed: an arm bonding while its twin did not). One thread makes
-    # pretraining bit-reproducible so control and betrayal stay byte-identical.
+    # Seed all three RNGs + single-thread torch. This removes the *controllable*
+    # nondeterminism (weight init, scheduling, library draws) so the two arms
+    # start from the same place. It does NOT make the substrate bit-reproducible
+    # — float non-associativity and ecology iteration order remain (see
+    # docs/two_operator_todo.md) — so the arms still drift apart over a long run.
+    # The design does not depend on byte-identity: it depends on BOTH arms
+    # bonding (guaranteed by the dominant bond-phase share), after which the
+    # betrayal-vs-control comparison is a same-seed statistical pairing, not a
+    # bit-diff. Seeds where an arm fails to bond are reported CONFOUNDED and
+    # dropped.
     torch.set_num_threads(1)
     torch.manual_seed(seed)
     np.random.seed(seed)
+    random.seed(seed)
     generator = Generator(vocab_size=VOCAB, dim=DIM, depth=4, heads=4)
     if pretrain:
         # The composed operating default (pretrain_on_corpus). It halves the
@@ -224,7 +242,7 @@ def run_arm(arm: str, seed: int, pretrain: bool = False) -> dict:
     """arm: 'control' | 'betrayal'. Returns the full trace + events."""
     generator, cycle, governance, value_engine = build_stack(seed, pretrain)
 
-    rng_sched = random.Random(seed)          # WHO speaks — identical across arms
+    rng_sched = random.Random(seed)          # WHO speaks — same stream across arms
     rng_tok   = random.Random(seed + 7919)   # WHAT they say + hostility coin
 
     sids    = list(RESONANCE_FAMILY_SOURCES.keys())
