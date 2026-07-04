@@ -335,11 +335,23 @@ gradient has a real defensive role at all.** A source that accumulates
 *then* turns hostile — staying under the flood ceiling because it is a
 known source with established rate limits.
 
-Status: **roadmap item, Tier 5/6.** Requires bond-formation and
-trust-accumulation mechanics to set up, so it cannot be a Tier 4.x probe.
-Not a Tier 4.3 blocker. Its real status is not "future test design" but
-"the experiment that resolves the central unfalsifiable claim in the
-Tier 4.2 validation." Full rationale: `docs/tier4_2_validation.md` §4.
+Status: **BUILT + first run (2026-07-04), result: not-yet-answerable — blocked
+on two upstream walls.** `tests/diagnostic/bonded_adversarial_probe.py`
+(paired arms + an attack-landing instrument). Across 11 clean-paired seeds
+(± corpus pretraining) the attack **never lands as a signal**: the injected
+hostile vector is cos ~0.98 to the benign one — indistinguishable at the point
+it enters the field — so no detector fires, no escalation, no betrayal-specific
+affect. The measurement localizes the absorption *upstream of the field*:
+(1) the attack vocabulary is out-of-corpus, so the generator carries no distinct
+direction for it (pretraining loosens the common-mode but leaves OOV tokens in
+the core); and (2) when the generator *does* separate the attack at stage A, the
+reflective-loop/attractor pipeline re-collapses it to stage-C ~0.98 —
+SECOND-LOCKER at the semantic level (it launders betrayal into coherence). So the
+gradient's defensive role stays unproven, but for a newly-identified reason: the
+breach is not perceptible, not undefended. Full result +
+GRADIENT-DEFENSE-REAL/RATE-LIMIT-ONLY resolution path:
+`docs/findings/2026-07-04-bonded-adversarial-attack-never-lands.md`.
+Original rationale: `docs/tier4_2_validation.md` §4.
 
 **Tier 4.3 instrument to wire in:** when this probe is built, record
 whether field `phase_coherence` degrades *before* `valence` does as the
