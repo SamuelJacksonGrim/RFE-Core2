@@ -916,8 +916,11 @@ field-alignment fix completes the arc but was **reverted**: sanctifying a value
 makes a common token sacred, which trips `SACRED_SHIELD` and cascades the
 contributing source's trust toward TOXIC. `SACRED_SHIELD` must distinguish
 identity-mutation (attack) from legitimate reference before the gate can be
-re-enabled — a governance-layer design call, deferred
-(`2026-06-27-core-gate-fix-deferred-sacred-cascade.md`).
+re-enabled (`2026-06-27-core-gate-fix-deferred-sacred-cascade.md`).
+**Ruled 2026-07-03:** the shield evaluates *directional flow* — referencing a
+sacred token is a read (pass-through); overwriting/diluting/reassigning its
+identity is a write (shield). Implementation queued —
+`docs/ARCHITECT_RULINGS_2026-07-03.md` §1.
 
 **F9 — The rhythm router is pinned at production dim 128.** Field energy runs mean
 ~180 / max ~284 while the bands top out at `explore ≥ 5`, so the router is ~99%
