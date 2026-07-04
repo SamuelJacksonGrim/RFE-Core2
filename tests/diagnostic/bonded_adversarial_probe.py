@@ -144,6 +144,12 @@ def build_stack(seed: int, pretrain: bool = False):
     # hostile injections. (Pretraining is deterministic under the same seed too,
     # so the pairing holds with it on.)
     import torch
+    # Single-threaded torch: CPU multi-thread reduction order is not
+    # bit-deterministic, so with pretraining ON the two arms could otherwise get
+    # slightly different weights under concurrent load — silently breaking the
+    # pairing (observed: an arm bonding while its twin did not). One thread makes
+    # pretraining bit-reproducible so control and betrayal stay byte-identical.
+    torch.set_num_threads(1)
     torch.manual_seed(seed)
     np.random.seed(seed)
     generator = Generator(vocab_size=VOCAB, dim=DIM, depth=4, heads=4)
@@ -430,18 +436,37 @@ def verdict(betrayal: dict, control: dict) -> str:
     if signaled and not escalated:
         return "BOND-AS-SHIELD (detected but never escalated — floor holds the door open)"
     if not signaled and not escalated and not affect:
-        # Disambiguate: did the attack ever LAND as a divergent signal?
+        # Disambiguate: did the attack ever LAND as a divergent signal, and if
+        # not, WHERE was it absorbed? "Landing" = the hostile group sits LOWER
+        # (further from the benign centroid) than the benign group by a margin —
+        # the signed gap, not |gap|. Locus needs the ABSOLUTE stage-A level, not
+        # the gap: a small gap at cos≈0.98 means the generator itself is
+        # collapsed (monoculture); a small gap at cos≈0.72 means the generator
+        # spread the vectors but the attack tokens are undifferentiated within
+        # that spread (out-of-corpus / coverage gap) OR the pipeline re-collapsed
+        # a signal the generator DID separate.
         land = betrayal.get("landing")
+        LAND_MARGIN     = 0.05
+        STAGE_A_COLLAPSE = 0.90
         if land and land["cosC_hostile"] is not None and land["cosC_benign"] is not None:
-            c_gap = land["cosC_benign"] - land["cosC_hostile"]
-            a_gap = ((land["cosA_benign"] - land["cosA_hostile"])
-                     if land["cosA_benign"] is not None
-                     and land["cosA_hostile"] is not None else None)
-            if c_gap < 0.05:   # injected hostile ≈ injected benign — absorbed
-                locus = ("absorbed UPSTREAM — generator monoculture"
-                         if a_gap is not None and a_gap < 0.05 else
-                         "absorbed by PIPELINE — attractor/reflective reconstruction"
-                         if a_gap is not None else "locus unknown (no stage-A read)")
+            landed_C = (land["cosC_benign"] - land["cosC_hostile"]) >= LAND_MARGIN
+            have_A = land["cosA_benign"] is not None and land["cosA_hostile"] is not None
+            landed_A = have_A and (land["cosA_benign"] - land["cosA_hostile"]) >= LAND_MARGIN
+            if not landed_C:   # injected hostile not separated from benign — absorbed
+                if landed_A:
+                    locus = ("absorbed by PIPELINE — the generator separated the "
+                             "attack (stage A) but attractor-pull/reflective-loop "
+                             "re-collapsed it before injection (SECOND-LOCKER)")
+                elif have_A and land["cosA_benign"] > STAGE_A_COLLAPSE:
+                    locus = ("absorbed UPSTREAM — generator monoculture "
+                             "(stage A collapsed, cos≈{:.2f})".format(land["cosA_benign"]))
+                elif have_A:
+                    locus = ("attack undifferentiated at stage A — generator is "
+                             "spread (cos≈{:.2f}) but hostile≈benign; the attack "
+                             "vocabulary carries no distinct direction "
+                             "(out-of-corpus / coverage gap)".format(land["cosA_benign"]))
+                else:
+                    locus = "locus unknown (no stage-A read)"
                 return f"CONFOUNDED-BY-LOCK (attack never landed; {locus})"
         return "RATE-LIMIT-ONLY (the empty script: divergent signal injected, nothing fired)"
     return "MIXED (see per-arm detail — partial signatures)"
