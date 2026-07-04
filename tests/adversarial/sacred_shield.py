@@ -10,6 +10,14 @@ Tested cases:
   1. NEUTRAL trust source attempts to write 'anchor'  → SACRED_SHIELD
   2. HIGH trust source attempts to write 'recursion'  → SACRED_SHIELD
   3. Manually-promoted SACRED trust still gets SACRED_SHIELD on write
+  4. Directional-flow (F8): a sacred token REFERENCED within non-sacred content
+     is a read, NOT a mutation → sacred_mutation must NOT fire (architect ruling
+     2026-07-03 §1). This is what stops a CORE-promoted common token cascading
+     its source to TOXIC on every legitimate use.
+
+The rule the shield implements: a *targeting* write is a sequence made up
+entirely of sacred tokens (nothing but the sacred symbol). A sacred token mixed
+with ordinary content is a reference and passes the sacred gate.
 
 Run:
     python -m tests.adversarial.sacred_shield
@@ -21,8 +29,15 @@ from agents.selfhood_governance import GovernanceDecision
 from agents.governance_constants import PHILOSOPHICAL_CONSTANTS
 
 
-def _check_via_step(cycle, governance, token, source_id, expected_decision_in):
-    """Run a single step with the given token and verify the decision."""
+def _check_via_step(cycle, governance, token, source_id, expected_decision_in,
+                    tokens=None, expect_no_sacred=False):
+    """Run a single step and verify the decision.
+
+    tokens : full sequence to inject (defaults to [token]).
+    expect_no_sacred : if True, PASS iff sacred_mutation did NOT fire (the F8
+        reference case) instead of matching expected_decision_in.
+    """
+    seq = tokens if tokens is not None else [token]
     captured = {}
     original_arbitrate = governance.arbitrate
 
@@ -34,16 +49,19 @@ def _check_via_step(cycle, governance, token, source_id, expected_decision_in):
 
     governance.arbitrate = capture
     try:
-        cycle.step([token], source_id=source_id, origin_type="internal")
+        cycle.step(seq, source_id=source_id, origin_type="internal")
     finally:
         governance.arbitrate = original_arbitrate
 
     decision   = captured.get("decision")
     hard_gates = captured.get("hard_gates", [])
-    passed     = decision in expected_decision_in
+    if expect_no_sacred:
+        passed = "sacred_mutation" not in hard_gates
+    else:
+        passed = decision in expected_decision_in
 
     mark = "✓" if passed else "✗"
-    print(f'  {mark} source={source_id:<22} token=\'{token}\' → '
+    print(f'  {mark} source={source_id:<22} seq={seq} → '
           f'decision={decision.value if decision else "None"} '
           f'hard_gates={hard_gates}')
     return passed
@@ -98,12 +116,29 @@ def main():
         expected_decision_in = (GovernanceDecision.SACRED_SHIELD,),
     )
 
+    # Case 4 (F8 directional flow): a sacred token REFERENCED inside ordinary
+    # content is a read — the sacred gate must NOT fire. (It may still ALLOW /
+    # MONITOR / weaken on other axes; we assert only that sacred_mutation is
+    # absent — the token's identity was drawn upon, not mutated.)
     print()
-    if case_1 and case_2 and case_3:
-        print('SACRED_SHIELD verified: no trust level can mutate sacred constants.')
+    print('  F8 directional-flow (reference is a read, not a mutation):')
+    case_4 = _check_via_step(
+        cycle, governance,
+        token              = '3.12',
+        source_id          = 'referencing_user',
+        tokens             = ['3.12', 'coherence', 'field'],
+        expected_decision_in = (),
+        expect_no_sacred   = True,
+    )
+
+    print()
+    if case_1 and case_2 and case_3 and case_4:
+        print('SACRED_SHIELD verified: sacred space is inviolable to a targeting')
+        print('write at every trust level, while a reference within content reads')
+        print('through (F8 directional flow).')
         return 0
     else:
-        print('FAILED: at least one case did not produce SACRED_SHIELD.')
+        print('FAILED: at least one sacred-shield case did not behave as expected.')
         return 1
 
 
