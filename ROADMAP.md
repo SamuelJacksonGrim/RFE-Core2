@@ -4,6 +4,10 @@ Single source of truth for tier status. This document exists because the
 tier structure was previously scattered across memory, release notes, and
 the validation doc with no canonical reference.
 
+> **Looking for the work queue?** Tier *status* lives here; the prioritized
+> list of every open item, planned fix, and shelved decision lives in
+> [`docs/BACKLOG.md`](docs/BACKLOG.md).
+
 **Specification-status discipline.** Each tier is marked with an honest
 status, using the same proven/hypothesized rigor applied in
 `docs/tier4_2_validation.md`:

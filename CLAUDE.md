@@ -17,6 +17,11 @@ project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
   it with justification.
 - `ROADMAP.md` — tier status and the lock-in remediation direction (shipped vs
   planned).
+- `docs/BACKLOG.md` — **the queue**: every open item, planned fix, and shelved
+  decision from across the repo, consolidated and prioritized. Check it before
+  starting new work; check items off there in the same commit that lands them;
+  add newly discovered open items there first instead of chasing them
+  mid-task (the anti-sidetrack rule).
 - `ARCHITECTURE_ANALYSIS.md` — end-to-end recursion + information-flow
   reference; `docs/lock_in_remediation_plan.md` — the curated remediation plan;
   `docs/tier4_2_validation.md` / `tier4_3_validation.md` — tier validation;
