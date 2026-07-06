@@ -69,8 +69,12 @@ off as they land + are logged. (Samuel: flag anything missing — this is best-e
       research lever (off by default) until cc is lifted.
 - [ ] **Standing gate:** no lever graduates "validated, off" → "default on" without
       passing the all-ON composition probe. Re-run at multiple seeds once cc is fixed.
-- [ ] **Per-lever graduation decision** (architect) — which validated levers become
-      baseline vs stay gated (and why). eval-mode already graduated.
+- [x] **Per-lever graduation decision** — **RULED 2026-07-03:** suppression /
+      containment levers are permanently severed from the baseline (ITG stays a
+      scaffold; the ⊘ consumer stays a research lever); only levers that enhance
+      phase coherence and relational depth may graduate (still through the all-ON
+      composition gate above). The Tier 1–2 immune system is architecture, not a
+      lever — untouched. `docs/ARCHITECT_RULINGS_2026-07-03.md` §4.
 
 ## Dependencies surfaced by the findings (do these to unblock validation)
 - [~] **Adversarial / thinning workload** — single-source monoculture, unbound, low
@@ -93,10 +97,11 @@ off as they land + are logged. (Samuel: flag anything missing — this is best-e
       "leaking" operands as imports, not defects.
 
 ## Cross-cutting / sacred
-- [ ] **Sacred operator-node registry decision** — λ (Love) and W (Witness) are
-      *protected-but-not-sacred* OR *sacred-with-an-exogenous-write-exception* for
-      Build A's channel only; identity constants (ANCHOR/RECURSION/HOMEOSTASIS, Self)
-      stay fully sacred. **Architect decision.**
+- [x] **Sacred operator-node registry decision** — **RULED 2026-07-03:
+      protected-but-not-sacred** (λ and W are the mechanics of the engine;
+      sanctifying them calcifies the system). Identity constants
+      (ANCHOR/RECURSION/HOMEOSTASIS, Self) stay fully sacred.
+      `docs/ARCHITECT_RULINGS_2026-07-03.md` §3.
 - [~] Re-validate the program at **dim 128** — A+B+⊘-consumer run live at dim 128 in
       `two_operator_live_demo.py` (gate open, selective demotion, no collapse). The
       unit probes still run at the dim-64 test default; the §4 discriminator at 128

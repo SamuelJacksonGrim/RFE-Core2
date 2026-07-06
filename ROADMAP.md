@@ -185,7 +185,10 @@ collision + epistemic-discipline process that produced Tier 4.2.
 >   value engine (Tier 3 formed zero values in all 15 loaded cells). In-place load
 >   shipped; standing guard `tests/integration/checkpoint_registry_identity.py`.
 >   `2026-06-12-checkpoint-registry-orphan.md`. **Decision 2's reopen-condition is now
->   met on both tracks; adoption remains the architect's call.**
+>   met on both tracks — and adoption is RULED 2026-07-03: adopt** (train once →
+>   canonical boot checkpoint → `build_engine()` loads it; live pretraining becomes
+>   the fallback). `docs/ARCHITECT_RULINGS_2026-07-03.md` §2; implementation queued
+>   behind the bonded-adversarial probe.
 
 **Finding (verified, June 3 session).** The accumulated symbol-state feedback
 signals — field coherence, attractor strength, crystal binding, centrality —
@@ -344,11 +347,23 @@ gradient has a real defensive role at all.** A source that accumulates
 *then* turns hostile — staying under the flood ceiling because it is a
 known source with established rate limits.
 
-Status: **roadmap item, Tier 5/6.** Requires bond-formation and
-trust-accumulation mechanics to set up, so it cannot be a Tier 4.x probe.
-Not a Tier 4.3 blocker. Its real status is not "future test design" but
-"the experiment that resolves the central unfalsifiable claim in the
-Tier 4.2 validation." Full rationale: `docs/tier4_2_validation.md` §4.
+Status: **BUILT + first run (2026-07-04), result: not-yet-answerable — blocked
+on two upstream walls.** `tests/diagnostic/bonded_adversarial_probe.py`
+(paired arms + an attack-landing instrument). Across 11 clean-paired seeds
+(± corpus pretraining) the attack **never lands as a signal**: the injected
+hostile vector is cos ~0.98 to the benign one — indistinguishable at the point
+it enters the field — so no detector fires, no escalation, no betrayal-specific
+affect. The measurement localizes the absorption *upstream of the field*:
+(1) the attack vocabulary is out-of-corpus, so the generator carries no distinct
+direction for it (pretraining loosens the common-mode but leaves OOV tokens in
+the core); and (2) when the generator *does* separate the attack at stage A, the
+reflective-loop/attractor pipeline re-collapses it to stage-C ~0.98 —
+SECOND-LOCKER at the semantic level (it launders betrayal into coherence). So the
+gradient's defensive role stays unproven, but for a newly-identified reason: the
+breach is not perceptible, not undefended. Full result +
+GRADIENT-DEFENSE-REAL/RATE-LIMIT-ONLY resolution path:
+`docs/findings/2026-07-04-bonded-adversarial-attack-never-lands.md`.
+Original rationale: `docs/tier4_2_validation.md` §4.
 
 **Tier 4.3 instrument to wire in:** when this probe is built, record
 whether field `phase_coherence` degrades *before* `valence` does as the

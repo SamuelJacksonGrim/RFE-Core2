@@ -36,16 +36,16 @@ prefer the finding cited here.
 - **Corpus v1.2.0** — synthetic source labels removed (2026-07-06).
 - **Stream recorder + session persistence v1** — shipped opt-in (2026-07-06).
 - **Architect rulings 2026-07-03** (four standing decisions — do not re-litigate;
-  `docs/ARCHITECT_RULINGS_2026-07-03.md`, arrives with **PR #68**): (1) F8 sacred
+  `docs/ARCHITECT_RULINGS_2026-07-03.md`, merged in **PR #68**): (1) F8 sacred
   shield goes directional (read=pass, write=shield); (2) **boot-checkpoint
   adoption: ADOPT NOW** — Phase 3 Decision 2 is resolved; (3) λ/W operator-nodes
   are protected-but-not-sacred; (4) suppression/containment levers stay
   **permanently** severed from the baseline (ITG scaffold, ⊘ consumer off-baseline
   is now policy, not pending).
-- **F8 half (a) — directional sacred-shield fix** — shipped in **PR #68**
+- **F8 half (a) — directional sacred-shield fix** — merged in **PR #68**
   (`ethical_boundary.py`: `sacred_mutation` fires only on all-sacred writes;
   sacred_shield 4/4).
-- **Bonded-adversarial probe (F3) — BUILT + first run** in **PR #68**
+- **Bonded-adversarial probe (F3) — BUILT + first run** — merged in **PR #68**
   (`tests/diagnostic/bonded_adversarial_probe.py` + finding
   `2026-07-04-bonded-adversarial-attack-never-lands.md`).
 
@@ -79,7 +79,7 @@ prefer the finding cited here.
   guard). → `ROADMAP.md` §Tracked open items (planned #6);
   `docs/lock_in_remediation_plan.md`
 - [x] ~~**Bonded-adversarial probe (F3)** — build it~~ **BUILT + first run
-  (PR #68).** Verdict: the question is *not yet answerable* — the attack never
+  (PR #68, merged).** Verdict: the question is *not yet answerable* — the attack never
   becomes a signal (hostile ≡ benign at injection, cos ~0.98, 11 seeds). Two
   upstream walls localized. Follow-ups now carry F3:
   → `2026-07-04-bonded-adversarial-attack-never-lands.md`
@@ -199,12 +199,11 @@ prefer the finding cited here.
   drift+dispersion pair. → `2026-06-15-identifiability-suite.md`;
   `2026-06-15-cm-identifiability.md`
 
-- [ ] **Post-#68 reconciliation** (after that PR merges): rebase/merge this
-  branch's reorg with #68's changes — both touch `ROADMAP.md`, `README.md`,
-  `docs/findings/README.md`, `two_operator_todo.md`, `.gitignore`. Then:
-  confirm the new finding's INDEX row (pre-added), stamp ruling #4's standing
-  policy into `EXPERIMENTAL_LEVERS.md` recommend-columns (ITG + ⊘ consumer:
-  permanently off-baseline), and re-run all gates.
+- [x] **Post-#68 reconciliation** — DONE 2026-07-06 (same-day merge): main
+  merged into this branch (one README tree conflict, both lines kept), the
+  2026-07-04 finding's INDEX row confirmed, ruling #4's permanent-severance
+  policy stamped into `EXPERIMENTAL_LEVERS.md` (ITG + ⊘ consumer), all gates
+  re-run green.
 
 Purely exploratory threads (epoch/seed sweeps, wall-clock-sensitivity probe,
 token-matched placebo, frame-defs v2) stay in their findings' Open sections by
