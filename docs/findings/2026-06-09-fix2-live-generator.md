@@ -128,6 +128,8 @@ a small signal, and Fix 2's practical priority should drop accordingly.
 ## Open / next
 1. **Demote Fix 2's priority** until the generator's common-mode is addressed — it operates
    on a small real signal regardless of trigger. Record on the ROADMAP current-understanding.
+   **→ DONE: recorded on ROADMAP; then formally SHELVED by Phase 3 Decision 3
+   (2026-06-12)** — `phase3_architect_decisions.md`.
 2. **If Fix 2 is built anyway, the trigger must project out the common-mode** (the standard
    trigger is permanently dormant on real regimes). Cheap; validated to engage at 98%.
    Operating point gain ≈ 0.6 (0% manip, migration +0.019).

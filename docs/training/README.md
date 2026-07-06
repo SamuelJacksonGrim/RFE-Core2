@@ -28,6 +28,12 @@ analysis said it was needed. What does *not* exist yet is (a) a curated corpus
 (c) the architect's `.eval()` decision. Those three are the work; none is a
 research unknown.
 
+> **Status update (2026-07-06):** (a) **DONE** — the corpus exists
+> (`data/corpus/` v1.2.0; G1 and G2 passed) and boot pretraining is graduated
+> default-on. (c) **DECIDED** (2026-06-12) — eval-mode is the operating regime.
+> (b) remains open: the identity-stability cost probe for *online* (in-loop)
+> training is the Phase 4 gate — tracked in `docs/BACKLOG.md` §3.
+
 ## Documents
 
 | File | What it covers |

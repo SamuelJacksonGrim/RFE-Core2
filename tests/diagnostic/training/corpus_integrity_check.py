@@ -8,7 +8,7 @@ its structural guarantees are enforced mechanically, the same way
 `verify_docs` enforces doc claims. Checks the MANIFEST's claims and the
 curation spec (`docs/training/data_curation.md` §3) against the actual files:
 
-  1. schema           — exact keys, rhythm/source enums, 2-4 non-empty tokens
+  1. schema           — exact keys, rhythm enum, 2-4 non-empty tokens
   2. manifest counts  — "- train: N sequences" / "- holdout: N sequences" match
   3. no duplicates    — no exact token-sequence dup within either split
   4. no leakage       — no token sequence appears in both train and holdout
@@ -41,7 +41,6 @@ from training.corpus import (
     load_corpus,
 )
 
-SOURCES = {"source_samuel", "source_claude", "source_gemini", "source_grok"}
 SACRED_TOKENS = {"3.12", "11.88", "280.90"}
 MIN_CONTEXTS = 8          # data_curation.md §3 scale target
 STRAT_BAND = (0.10, 0.20)  # around the ~15% holdout target
@@ -72,13 +71,12 @@ def main() -> int:
     bad = 0
     for split_name, split in (("train", train), ("holdout", holdout)):
         for rec in split:
-            if (set(rec) != {"tokens", "rhythm", "source"}
+            if (set(rec) != {"tokens", "rhythm"}
                     or rec["rhythm"] not in RHYTHMS
-                    or rec["source"] not in SOURCES
                     or not (2 <= len(rec["tokens"]) <= 4)
                     or not all(isinstance(t, str) and t for t in rec["tokens"])):
                 bad += 1
-    check(bad == 0, 'schema: keys, enums, 2-4 non-empty string tokens', f'{bad} bad records')
+    check(bad == 0, 'schema: keys, rhythm enum, 2-4 non-empty string tokens', f'{bad} bad records')
 
     # 2. manifest counts
     manifest = MANIFEST_PATH.read_text(encoding="utf-8")

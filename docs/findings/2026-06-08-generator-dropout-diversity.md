@@ -110,8 +110,16 @@ at 1.0 (eval):
 1. **Should the live generator run in `eval()` (dropout off)?** Is the per-step dropout
    intentional stochastic exploration or a missing `eval()`? This decides what "the
    field's input diversity" even *is*.
+   **→ DECIDED (2026-06-12): eval-mode is the operating regime** —
+   `phase3_architect_decisions.md`; applied unconditionally in `build_engine()`.
 2. **Is Fix 2 premature?** If real novelty is marginal until the generator is trained /
    dim raised, building the loop-loosening governor now loosens for dropout noise.
+   **→ ANSWERED: yes — deferred 2026-06-08, then SHELVED by Phase 3 (2026-06-12)
+   pending §6.3 + Phase 5 re-measurement; spec stays ready
+   (`docs/training/fix2_specification_draft.md`).**
 3. **Re-sequence vs training.** Re-weigh whether generator diversity (train / dim) is the
    real upstream lever, with the reflective loop a downstream symptom of low input rank.
+   **→ RESOLVED: the training path was taken and validated** (G1/G2 passed;
+   pretraining graduated default-ON) — though SECOND-LOCKER showed training alone
+   does not release the lock (`2026-06-12-phase2-fullstack-g2.md`).
 4. Update #41/#42 conclusions with the dropout caveat (their measurements stand).

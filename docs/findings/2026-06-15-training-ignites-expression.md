@@ -145,6 +145,9 @@ it is not what drives expression differentiation at production dim, so
 - Sweep epochs / seeds for the ignition-fraction curve; confirm on held-out tokens.
 - Re-run the full lock-in / metastability baselines on the trained generator
   (does training also move the field-level pin, or only the expression stream?).
+  **→ DONE (2026-06-12, and re-confirmed 2026-06-28): only the expression stream**
+  — the field pin persists (SECOND-LOCKER; coherence 0.97 → 0.92 only with the
+  attenuation lever, `2026-06-28-full-system-run.md`).
 - The read-side question (raised by GPT): is ResonanceField / Witness measuring
   manifold diversity, or echoing projection geometry? Connects to
   2026-06-06-read-side-boundary.md (feedback gates survival, not generation).

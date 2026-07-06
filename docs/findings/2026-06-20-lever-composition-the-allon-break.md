@@ -96,9 +96,14 @@ but small next to the consumer's hard ceiling — owed its own attribution run.)
 ## Open / next
 - **Lift the cc-confound** (the gating dependency for the consumer and for widening
   past `named_only`).
+  **→ DONE (2026-06-21): ⊘ coherence axis redesigned to absolute field-alignment
+  (spec v0.3)** — `2026-06-21-oslash-coherence-axis-absolute-alignment.md`.
 - **Per-lever graduation decision** (architect's call): which validated levers become
   baseline, which stay gated and why. eval-mode already graduated; the operators
   (A/B/⊘) are blocked behind cc + the §6.3 gain-sign check.
+  **→ DECIDED: corpus pretraining + novelty attenuation graduated default-ON
+  (2026-06-20 pass 2); dream channel graduated 2026-06-29; operators remain
+  opt-in** — `docs/EXPERIMENTAL_LEVERS.md`.
 - **Attribute the secondary (pretrain/novelty/ignition) strength-distribution shift**
   on its own.
 - Run the composition probe at more seeds once the cc fix lands, as the standing gate.

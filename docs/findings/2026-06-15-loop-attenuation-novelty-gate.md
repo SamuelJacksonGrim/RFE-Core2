@@ -97,8 +97,14 @@ generator-diversity work) is the path before default adoption — the architect'
 
 ## Open / next
 - The band-widening work above, before any default-ON proposal.
+  **→ OVERTAKEN (2026-06-20): graduated default-ON at the existing 0.30 ceiling**
+  after in-situ adversarial verification (82% quarantine with the lever on) —
+  `2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md`. Band-widening
+  (raising the ceiling) remains open and still requires a fresh manip-rate run.
 - In-vivo (real generator, post-corpus-pretraining) re-measurement: does real
   intermittent novelty keep manip clean at a higher, more comfortable att_max?
+  **→ PARTIALLY DONE (2026-06-20): in-vivo at att_max=0.30 verified clean**
+  (composed runtime, pretrained, adversary contained); *higher* ceilings untested.
 - Wire the voice harness (`tools/voice/`) to narrate a novelty workload with the
   flag on vs off — hear whether rising boredom now resolves into a regime change
   instead of dream-begging.

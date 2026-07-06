@@ -8,8 +8,11 @@ rhythm-labeled JSONL sequences over the operational vocabulary, with a
 held-out split for the Gate G1 generalization readout. Schema per
 `docs/training/data_curation.md` §3:
 
-    {"tokens": ["...", ...], "rhythm": "stabilize|dream|reflect|explore",
-     "source": "source_*"}
+    {"tokens": ["...", ...], "rhythm": "stabilize|dream|reflect|explore"}
+
+(Corpus versions <= 1.1.0 also carried a synthetic per-sequence "source"
+label; it was provenance-shaped noise trained on by nothing and was removed
+in v1.2.0 — see the MANIFEST's source-labels note.)
 
 `to_rhythm_seeds()` adapts a loaded split to the `{rhythm: [token_list, ...]}`
 shape `RhythmPretrainer` consumes, so the pretrainer runs on the corpus file
@@ -36,7 +39,7 @@ RHYTHMS = ("stabilize", "dream", "reflect", "explore")
 
 
 def load_corpus(path: Path) -> List[dict]:
-    """Load one JSONL split as a list of {tokens, rhythm, source} records."""
+    """Load one JSONL split as a list of {tokens, rhythm} records."""
     records: List[dict] = []
     with open(path, "r", encoding="utf-8") as f:
         for line in f:

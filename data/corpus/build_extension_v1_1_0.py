@@ -26,6 +26,13 @@ Rhythm assignment for new tokens is the hand-curated table below
 
 Run (from repo root; rewrites rhythm_train.jsonl / rhythm_holdout.jsonl in place):
     python -m data.corpus.build_extension_v1_1_0
+
+HISTORICAL ARTIFACT (v1.1.0 build). Corpus v1.2.0 removed the per-sequence
+"source" field (it was synthetic — RNG-assigned here via SOURCE_WEIGHTS, not
+provenance; see MANIFEST §Source labels). Do NOT re-run this script against a
+>= 1.2.0 corpus: it emits the old {tokens, rhythm, source} schema and the
+integrity check will reject the result. Kept as the reproducible record of
+how the 1.1.0 extension was built.
 """
 
 from __future__ import annotations

@@ -17,6 +17,11 @@ project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
   it with justification.
 - `ROADMAP.md` — tier status and the lock-in remediation direction (shipped vs
   planned).
+- `docs/BACKLOG.md` — **the queue**: every open item, planned fix, and shelved
+  decision from across the repo, consolidated and prioritized. Check it before
+  starting new work; check items off there in the same commit that lands them;
+  add newly discovered open items there first instead of chasing them
+  mid-task (the anti-sidetrack rule).
 - `ARCHITECTURE_ANALYSIS.md` — end-to-end recursion + information-flow
   reference; `docs/lock_in_remediation_plan.md` — the curated remediation plan;
   `docs/tier4_2_validation.md` / `tier4_3_validation.md` — tier validation;
@@ -25,8 +30,12 @@ project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
 - `docs/training/` — the generator training path: viability assessment, phased
   plan, data curation, Tier 5 readiness (proposed direction, not committed).
 - `docs/findings/` — the dated, control-named **empirical ledger** (lab
-  notebook). Read its `README.md` for the schema and discipline before recording
-  a result; every finding names its control, and negative results count.
+  notebook). **Start at `INDEX.md`** — one line per finding with its verdict
+  and standing/superseded status (CI-enforced complete). Read `README.md` for
+  the schema and discipline before recording a result; every finding names its
+  control, and negative results count. NB: raw run data >~100 KB under
+  `findings/logs/` is **gzipped** — plain grep silently skips `.gz`; use
+  `zgrep`/`zcat` (see `logs/README.md`). Summaries and reports stay readable.
 - `tests/README.md` — what each test/probe is for and how the suite is gated.
 - `docs/EXPERIMENTAL_LEVERS.md` — **the control panel**: every lever and
   instrument, its default, and the exact way to toggle it. A validated few have

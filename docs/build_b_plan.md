@@ -1,9 +1,11 @@
 # Build B — the λ-ledger + ⊕ solvent gate (plan)
 
-**Spec:** v0.2 (the Two-Operator Coherence Spec, §3 Build B). **Status:** planned —
-its own work, to start after Build A is verified + logged (it is:
-`2026-06-19-ignition-channel-build-a.md`). This is the *what/why/how*; CC owns the
-file-level design when the build begins.
+**Spec:** v0.2 (the Two-Operator Coherence Spec, §3 Build B). **Status: SHIPPED
+(2026-06-20)** — `agents/lambda_ledger.py` + `value_emergence._solvent_gain`,
+8/8 probe green, finding `2026-06-20-build-b-solvent-and-integrity-consumer.md`;
+one remainder (`reinforce(f)` wiring) tracked in `docs/BACKLOG.md` §5. Kept as
+the design record. (Original status: planned, to start after Build A —
+`2026-06-19-ignition-channel-build-a.md`.)
 
 ## The claim being implemented
 **Law 2** (composition resolves to fulfillment *only in the presence of the

@@ -25,6 +25,7 @@ the rest:
 | [`ROADMAP.md`](ROADMAP.md) | Canonical tier status (shipped / planned / unspecified) and tracked open items |
 | [`docs/north_star.md`](docs/north_star.md) | The compass: the end goal and the three voices (waking speech / inner monologue / symbolic dreaming) |
 | [`docs/EXPERIMENTAL_LEVERS.md`](docs/EXPERIMENTAL_LEVERS.md) | The control panel: every lever, its default, the exact switch |
+| [`docs/BACKLOG.md`](docs/BACKLOG.md) | The consolidated open-work ledger: every planned fix in one prioritized queue |
 | [`docs/findings/`](docs/findings/) | The dated, control-named empirical ledger (negative results count) |
 
 The sections below describe the architecture of each tier; the ROADMAP tracks
@@ -563,6 +564,7 @@ RFE-Core2/
 │   ├── reflective_loop.py          Recursive self-refinement
 │   ├── symbolic_binding.py         Concept emergence and binding
 │   ├── stream_metastability.py     Online upstream metastability monitor (stages A/C)
+│   ├── stream_recorder.py          Observe-only token-stream census (coverage instrument, opt-in)
 │   ├── dream_channel.py            Waking inner-monologue: governed source_dream self-dialogue (default ON)
 │   ├── dream_session.py            Downtime dreaming: symbolic generativity + consolidation → skill-compatible artifacts
 │   └── integrity_read.py           ⊘ Witness-Reaper integrity-read (Build C) + IntegrityDecayConsumer (the ⊘ USER, spec v0.3)
@@ -624,12 +626,13 @@ RFE-Core2/
 ├── data/
 │   └── corpus/                     Curated rhythm corpus (versioned; see MANIFEST.md)
 │       ├── MANIFEST.md             Provenance, counts, split policy, version history
-│       ├── rhythm_train.jsonl      Training split (rhythm/source-labeled sequences)
+│       ├── rhythm_train.jsonl      Training split (rhythm-labeled sequences)
 │       ├── rhythm_holdout.jsonl    Held-out split (Gate G1 generalization readout)
 │       └── build_extension_v1_1_0.py  v1.1.0 operational-vocabulary extension builder (seeded)
 │
 ├── docs/
 │   ├── north_star.md                    The compass — the end goal + the three voices
+│   ├── BACKLOG.md                       Consolidated open-work ledger — every planned fix, one queue
 │   ├── ARCHITECT_RULINGS_2026-07-03.md  Standing rulings: F8 read/write shield, checkpoint adoption, operator nodes, lever policy
 │   ├── EXPERIMENTAL_LEVERS.md           Control panel — every lever, its default, exact how-to-toggle
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
@@ -644,7 +647,8 @@ RFE-Core2/
 │   ├── training/                        Training path: viability, plan, data curation, Tier 5 readiness
 │   │   └── logs/                        Raw run logs from training-phase gates
 │   └── findings/                        Dated empirical findings ledger (lab notebook)
-│       └── logs/                        Raw run outputs + session manifests supporting findings
+│       ├── INDEX.md                     One-line map of every finding (verdict + standing/superseded; CI-enforced)
+│       └── logs/                        Raw run outputs + session manifests (>100 KB raw data gzipped in place)
 │
 ├── tests/
 │   ├── README.md                         How to run tests and interpret output
@@ -653,7 +657,8 @@ RFE-Core2/
 │   ├── smoke/
 │   │   ├── full_stack_minimal.py         All 4 tiers attach without error
 │   │   ├── single_source_100step.py      Basic "does it run" test
-│   │   └── multi_source_500step.py       Resonance Family canonical workload
+│   │   ├── multi_source_500step.py       Resonance Family canonical workload
+│   │   └── stream_recorder_smoke.py      Observe-only stream census: bounded ring, status, dump
 │   │
 │   ├── integration/
 │   │   ├── tier1_revision_baseline.py    Fresh run vs baseline JSON ranges
@@ -853,6 +858,11 @@ Four validated levers are **ON by default** — opt out via `CONFIG` in
 | Corpus pretraining | Trains the generator on `data/corpus/` at boot (~minutes); halves generator common-mode | `pretrain_on_corpus: False` (fast cold start) |
 | Novelty-gated loop attenuation | Loosens the reflective-loop field lock at the validated 0.30 ceiling, identity-safe | `reflect_novelty_attenuation: False` |
 | Waking dream channel | `source_dream` self-dialogue on ~20% of steps, through the gate | `dream_channel_enabled: False` |
+
+Two opt-in instruments (OFF by default, same `CONFIG`): `stream_recorder`
+(observe-only census of the lived token stream — future corpus input) and
+`session_persistence` (save weights + ecology + values at run end, resume at
+next boot). Details in `docs/EXPERIMENTAL_LEVERS.md`.
 
 Configuration layers with precedence **component default < `configs/*.yaml` <
 `CONFIG`** — the YAML files are the live edit surface for component parameters;
