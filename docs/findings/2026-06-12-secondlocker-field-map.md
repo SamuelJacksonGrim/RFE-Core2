@@ -103,6 +103,9 @@ regime-invariant, or workload-dependent?
 1. Fix 2's premise (the loop is the operative lock) is now established across
    the full operational workload space — the remaining gate is the §6.3
    verdict (`2026-06-12-gain-sign-reachable-range.md`).
+   **→ §6.3 conditional verdict recorded same day (reachable-range only; a
+   full-range verdict needs the low-coherence regime, unreachable under tested
+   workloads).** Fix 2 remains shelved.
 2. The Tier 4.3 chaotic-regime item needs a *phase-adversarial* workload
    probe, not more vocabulary.
 3. Value-formation band-sensitivity (recurrence dependence) is worth a

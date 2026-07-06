@@ -90,6 +90,11 @@ the upstream lever; Fix 2 waits behind it. See the ROADMAP current-understanding
   this is why Fix 2 is deferred, not dormant.
 
 ## Open / next
+> **SHELVED (2026-06-12, Phase 3 Decision 3):** the governor this calibration
+> feeds is not being built yet — blocked on the §6.3 verdict + Phase 5
+> re-measurement on a trained checkpoint. The calibration below stands for when
+> it revives; the ready spec is `docs/training/fix2_specification_draft.md`.
+
 1. **Council ratification** of the `coherence_delta → gnov` substitution before
    building (the directive routed NO-SEPARATION to council; the pre-named fallback
    cleanly works — surfacing for sign-off).

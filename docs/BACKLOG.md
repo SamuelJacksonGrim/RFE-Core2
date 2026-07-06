@@ -66,6 +66,12 @@ prefer the finding cited here.
   a crystal, and a trust floor, *then* turns hostile. The experiment that
   falsifies or confirms the emotional gradient's defensive role. Blocked on
   bonds establishing (item 3 above). → `ROADMAP.md` §Bonded-adversarial probe
+- [ ] **Phase-adversarial / high-novelty workload probe** — one build unlocks
+  four stalled readings: Tier 4.3's chaotic arm (phase_coherence never drops
+  below ~0.79), the §6.3 full-range gain-sign verdict, the LAE sidecar's
+  mid-run band-crossing measurement, and "give the sisters something to say"
+  in governed feedback. → `2026-06-12-secondlocker-field-map.md` #2;
+  `docs/tier4_3_validation.md`; `2026-06-12-engine-sidecar-instrumentation.md`
 
 ## 2 · Persistence & continuity (do not lose again)
 
@@ -94,6 +100,9 @@ prefer the finding cited here.
   adversarial arm) and an identity-stability cost probe. Buffer governance:
   trust-gated collection, source-diversity caps, buffer snapshots persisted.
   → `docs/training/training_plan.md` Phase 4
+- [ ] **Value-formation band-sensitivity baseline** — value formation depends
+  on recurrence, which online collection would change; baseline it *before*
+  the Phase 4 decision. → `2026-06-12-secondlocker-field-map.md` #3
 - [ ] **Phase 5: re-run the lock-in probes on a trained checkpoint** → makes
   Fix 2's premise testable → Tier 5 spec un-defers.
   → `training_plan.md` Phase 5; `ROADMAP.md`
@@ -139,6 +148,26 @@ prefer the finding cited here.
   the baseline registry (coverage-gap currently universal); §5 scale-parametric
   ⊘; a dim-128 discriminator validation.
   → `ROADMAP.md` §Two-Operator; `two_operator_todo.md`
+- [ ] **Multi-seed all-ON composition probe re-run** against the graduated
+  baseline — the standing gate for any future graduation (last full run
+  pre-dates the ⊘ v0.3 axis).
+  → `2026-06-20-lever-composition-the-allon-break.md`;
+  `2026-06-21-oslash-coherence-axis-absolute-alignment.md`
+
+## 7 · Instruments & hygiene (small, unblocked)
+
+- [ ] **API entry-point boot smoke** — actually boot the REST/WS servers and
+  assert Tier 1–3 state (closes the "reasoned, not exercised" gap); plus a
+  warning in `create_app` / `RFEWebSocketServer` when handed a governance-less
+  cycle. → `2026-06-27-api-entrypoints-tier0-only.md`
+- [ ] **Scalar gauge hardening** — Cm/I/metastability magnitudes are
+  v0.1-fragile (regime labels robust); replace CII's I/Cm slots with a
+  drift+dispersion pair. → `2026-06-15-identifiability-suite.md`;
+  `2026-06-15-cm-identifiability.md`
+
+Purely exploratory threads (epoch/seed sweeps, wall-clock-sensitivity probe,
+token-matched placebo, frame-defs v2) stay in their findings' Open sections by
+design — resolved ones are now stamped inline there.
 
 ## 6 · Shelved / blocked (decisions, not tasks — do not build)
 

@@ -102,6 +102,8 @@ Three identical-workload runs (same seed → same source/token order):
 1. **Phase 3 (architect, blocking):** `.eval()` decision — RUN C says viable;
    boot-checkpoint adoption (G1+G2-passing recipe is `corpus v1.1.0, 8
    epochs, seed 0/42`); online-training go/no-go.
+   **→ DECIDED (2026-06-12): eval-mode adopted; checkpoint adoption + Fix 2
+   SHELVED** — `phase3_architect_decisions.md` (DECIDED block).
 2. **Fix 2 re-prioritized** (Phase 5 hook): re-run the migration/ablation
    probes with the pretrained boot; test the `gnov` governor on real signal.
 3. High-novelty workload probe (unchanged, still open).

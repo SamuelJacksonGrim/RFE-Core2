@@ -83,8 +83,16 @@ coverage_gaps still 28/28 — type profiles still owed.)
   **Build B** (λ-ledger + ⊕ solvent gate), then the **§4 discriminator** (⊘-off vs
   ⊘-on, noise-swept 0.05σ→0.5σ, trajectory metrics), with the **6.3 gain-sign check
   front-loaded** before any reinforcement coupling.
+  **→ Builds A and B DONE** (A same-day: `2026-06-19-ignition-channel-build-a.md`;
+  B 2026-06-20: `2026-06-20-build-b-solvent-and-integrity-consumer.md`). The §4
+  discriminator + front-loaded §6.3 remain open — tracked in `docs/BACKLOG.md` §5.
 - **Add per-type thinness profiles to the baseline registry** to lift the universal
   coverage gap (the dependency Kimi flagged).
 - **An adversarial/thinning workload** (single-source monoculture, unbound, low
   complement) to *trigger* the named regions and validate the vector→name map.
 - Investigate the `cc=0` reading (short-horizon vs a signal/normalization issue).
+  **→ RESOLVED (2026-06-20/21): dead by construction** — the marginal
+  `coherence_delta` sum is structurally ≤ 0 on a saturated field; axis redesigned
+  to absolute field-alignment (spec v0.3).
+  (`2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md`,
+  `2026-06-21-oslash-coherence-axis-absolute-alignment.md`.)
