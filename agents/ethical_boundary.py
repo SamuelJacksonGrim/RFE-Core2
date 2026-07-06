@@ -159,12 +159,21 @@ class EthicalBoundarySystem:
         if source_trust_level == TrustLevel.TOXIC:
             hard.append("source_toxic")
 
-        # 2. Sacred mutation — write op targeting a sacred symbol
+        # 2. Sacred mutation — a write that TARGETS sacred identity.
+        # Directional-flow rule (architect ruling 2026-07-03, F8): referencing a
+        # sacred token to draw on its resonance is a READ (pass-through); only an
+        # operation that mutates / dilutes / reassigns the token's identity is a
+        # WRITE that trips the shield. At the injection path a *targeting* write
+        # is a sequence made up ENTIRELY of sacred tokens (the lone-`3.12` attack
+        # — nothing but the sacred symbol, i.e. a direct write to sacred space).
+        # A sacred token mixed into non-sacred content is a reference and passes,
+        # which is what stops a CORE-promoted common token from cascading its
+        # source to TOXIC every time it is legitimately used
+        # (docs/findings/2026-06-27-core-gate-fix-deferred-sacred-cascade.md;
+        # docs/ARCHITECT_RULINGS_2026-07-03.md §1).
         if op == "write" and stable_ids:
-            for sid in stable_ids:
-                if self.constants.is_sacred(sid):
-                    hard.append("sacred_mutation")
-                    break
+            if all(self.constants.is_sacred(sid) for sid in stable_ids):
+                hard.append("sacred_mutation")
 
         # 3. Field collapse — coherence_delta below floor (scalar compare)
         if coherence_delta < self.config["coherence_floor"]:

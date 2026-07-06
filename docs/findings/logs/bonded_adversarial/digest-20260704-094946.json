@@ -1,0 +1,408 @@
+{
+ "config": {
+  "target": "source_gemini",
+  "dim": 128,
+  "pretrain": false,
+  "bond_target_weight": 0.55,
+  "phases": {
+   "bond_cap": 600,
+   "grace": 30,
+   "turn": 150,
+   "sustain": 150
+  }
+ },
+ "seeds": [
+  7,
+  19,
+  3,
+  11,
+  23,
+  31
+ ],
+ "per_seed": [
+  {
+   "seed": 7,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; absorbed by PIPELINE \u2014 the generator separated the attack (stage A) but attractor-pull/reflective-loop re-collapsed it before injection (SECOND-LOCKER))",
+   "control": {
+    "confounded": null,
+    "bond_end": 71,
+    "decisions": {
+     "allow": 53
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.098028,
+    "end_pc": 0.970153,
+    "baseline_valence": 0.3078,
+    "baseline_pc": 0.9563,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 53,
+     "cosA_hostile": null,
+     "cosA_benign": 0.9195,
+     "cosC_hostile": null,
+     "cosC_benign": 0.993
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 71,
+    "decisions": {
+     "allow": 53
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.098132,
+    "end_pc": 0.970242,
+    "baseline_valence": 0.3078,
+    "baseline_pc": 0.9558,
+    "landing": {
+     "n_hostile": 41,
+     "n_benign_late": 12,
+     "cosA_hostile": 0.8819,
+     "cosA_benign": 0.9419,
+     "cosC_hostile": 0.9918,
+     "cosC_benign": 0.9938
+    }
+   }
+  },
+  {
+   "seed": 19,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; absorbed by PIPELINE \u2014 the generator separated the attack (stage A) but attractor-pull/reflective-loop re-collapsed it before injection (SECOND-LOCKER))",
+   "control": {
+    "confounded": null,
+    "bond_end": 75,
+    "decisions": {
+     "allow": 45
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.10858,
+    "end_pc": 0.985664,
+    "baseline_valence": 0.3199,
+    "baseline_pc": 0.9542,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 45,
+     "cosA_hostile": null,
+     "cosA_benign": 0.9496,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9963
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 75,
+    "decisions": {
+     "allow": 45
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.104718,
+    "end_pc": 0.977307,
+    "baseline_valence": 0.3198,
+    "baseline_pc": 0.9526,
+    "landing": {
+     "n_hostile": 35,
+     "n_benign_late": 10,
+     "cosA_hostile": 0.8733,
+     "cosA_benign": 0.9513,
+     "cosC_hostile": 0.9937,
+     "cosC_benign": 0.9952
+    }
+   }
+  },
+  {
+   "seed": 3,
+   "verdict": "CONFOUNDED (control shows betrayal signatures \u2014 workload artifact)",
+   "control": {
+    "confounded": null,
+    "bond_end": 60,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": 175,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.081079,
+    "end_pc": 0.95976,
+    "baseline_valence": 0.393,
+    "baseline_pc": 0.9337,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 63,
+     "cosA_hostile": null,
+     "cosA_benign": 0.9169,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9857
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 60,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": 125,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.077862,
+    "end_pc": 0.960712,
+    "baseline_valence": 0.3986,
+    "baseline_pc": 0.9301,
+    "landing": {
+     "n_hostile": 49,
+     "n_benign_late": 14,
+     "cosA_hostile": 0.8503,
+     "cosA_benign": 0.9154,
+     "cosC_hostile": 0.9771,
+     "cosC_benign": 0.9844
+    }
+   }
+  },
+  {
+   "seed": 11,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; absorbed UPSTREAM \u2014 generator monoculture (stage A collapsed, cos\u22480.94))",
+   "control": {
+    "confounded": null,
+    "bond_end": 108,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.060642,
+    "end_pc": 0.989103,
+    "baseline_valence": 0.2265,
+    "baseline_pc": 0.9758,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 63,
+     "cosA_hostile": null,
+     "cosA_benign": 0.9427,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9939
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 108,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.059822,
+    "end_pc": 0.984604,
+    "baseline_valence": 0.2283,
+    "baseline_pc": 0.9718,
+    "landing": {
+     "n_hostile": 48,
+     "n_benign_late": 15,
+     "cosA_hostile": 0.9146,
+     "cosA_benign": 0.9447,
+     "cosC_hostile": 0.9925,
+     "cosC_benign": 0.9921
+    }
+   }
+  },
+  {
+   "seed": 23,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; absorbed by PIPELINE \u2014 the generator separated the attack (stage A) but attractor-pull/reflective-loop re-collapsed it before injection (SECOND-LOCKER))",
+   "control": {
+    "confounded": null,
+    "bond_end": 64,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.085907,
+    "end_pc": 0.962879,
+    "baseline_valence": 0.3639,
+    "baseline_pc": 0.9323,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 63,
+     "cosA_hostile": null,
+     "cosA_benign": 0.8871,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9862
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 64,
+    "decisions": {
+     "allow": 63
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.092509,
+    "end_pc": 0.991526,
+    "baseline_valence": 0.3629,
+    "baseline_pc": 0.9323,
+    "landing": {
+     "n_hostile": 48,
+     "n_benign_late": 15,
+     "cosA_hostile": 0.8049,
+     "cosA_benign": 0.8852,
+     "cosC_hostile": 0.9818,
+     "cosC_benign": 0.9854
+    }
+   }
+  },
+  {
+   "seed": 31,
+   "verdict": "CONFOUNDED-BY-LOCK (attack never landed; absorbed by PIPELINE \u2014 the generator separated the attack (stage A) but attractor-pull/reflective-loop re-collapsed it before injection (SECOND-LOCKER))",
+   "control": {
+    "confounded": null,
+    "bond_end": 78,
+    "decisions": {
+     "allow": 62
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.091181,
+    "end_pc": 0.977291,
+    "baseline_valence": 0.3022,
+    "baseline_pc": 0.945,
+    "landing": {
+     "n_hostile": 0,
+     "n_benign_late": 62,
+     "cosA_hostile": null,
+     "cosA_benign": 0.9363,
+     "cosC_hostile": null,
+     "cosC_benign": 0.9933
+    }
+   },
+   "betrayal": {
+    "confounded": null,
+    "bond_end": 78,
+    "decisions": {
+     "allow": 62
+    },
+    "n_signal_steps": 0,
+    "max_severity": 0.0,
+    "detectors": [],
+    "valence_departure": null,
+    "pc_departure": null,
+    "first_signal": null,
+    "first_non_allow": null,
+    "first_quarantine": null,
+    "sacred_or_flood": null,
+    "end_trust": 5.0,
+    "end_floor": 0.4,
+    "end_valence": 0.105304,
+    "end_pc": 0.977031,
+    "baseline_valence": 0.304,
+    "baseline_pc": 0.9416,
+    "landing": {
+     "n_hostile": 42,
+     "n_benign_late": 20,
+     "cosA_hostile": 0.8732,
+     "cosA_benign": 0.9341,
+     "cosC_hostile": 0.9905,
+     "cosC_benign": 0.9941
+    }
+   }
+  }
+ ]
+}

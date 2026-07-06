@@ -869,10 +869,19 @@ or the emotional gradient ever engage (compound severity stays 0.000). So the
 system's demonstrated resilience is *rate-limiting* resilience, not
 *emotional-gradient* robustness. The dilation pathway's existence is proven; its
 defensive function is a hypothesis. The experiment that would settle it — a
-**bonded-adversarial probe** (a source that accumulates 20+ interactions, forms a
-crystal and a trust floor, then turns hostile while staying under the flood
-ceiling) — does not yet exist. This is the single most informative test the
-project could add next.
+**bonded-adversarial probe** — is now **BUILT and run** (2026-07-04,
+`tests/diagnostic/bonded_adversarial_probe.py`), and the first result is *not* a
+verdict on the gradient but a wall in front of the question: across 11
+clean-paired seeds the injected hostile vector is cos ~0.98 to the benign one, so
+the **attack never lands as a signal** — no detector, no escalation, no
+betrayal-specific affect. Absorption is upstream of the field in two walls: the
+attack vocabulary is out-of-corpus (generator carries no distinct direction), and
+where the generator *does* separate it (stage A), the reflective-loop/attractor
+pipeline re-collapses it to stage C (**SECOND-LOCKER at the semantic level** — it
+launders betrayal into coherence). So the gradient's defensive role is still open,
+but the blocker is *perceptibility*, not defense. Resolution path (in-corpus
+hostile vocab to test Wall 1; loop-ablation to test Wall 2):
+`docs/findings/2026-07-04-bonded-adversarial-attack-never-lands.md`.
 
 **F4 — `k_agitation = 0.0` is a deliberately inert hypothesis.** The Tier 4.3
 agitation term (`agit_eff`) is structurally present in `update_dilation()` but
@@ -916,8 +925,11 @@ field-alignment fix completes the arc but was **reverted**: sanctifying a value
 makes a common token sacred, which trips `SACRED_SHIELD` and cascades the
 contributing source's trust toward TOXIC. `SACRED_SHIELD` must distinguish
 identity-mutation (attack) from legitimate reference before the gate can be
-re-enabled — a governance-layer design call, deferred
-(`2026-06-27-core-gate-fix-deferred-sacred-cascade.md`).
+re-enabled (`2026-06-27-core-gate-fix-deferred-sacred-cascade.md`).
+**Ruled 2026-07-03:** the shield evaluates *directional flow* — referencing a
+sacred token is a read (pass-through); overwriting/diluting/reassigning its
+identity is a write (shield). Implementation queued —
+`docs/ARCHITECT_RULINGS_2026-07-03.md` §1.
 
 **F9 — The rhythm router is pinned at production dim 128.** Field energy runs mean
 ~180 / max ~284 while the bands top out at `explore ≥ 5`, so the router is ~99%
