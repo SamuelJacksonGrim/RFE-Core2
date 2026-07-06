@@ -633,6 +633,7 @@ RFE-Core2/
 ├── docs/
 │   ├── north_star.md                    The compass — the end goal + the three voices
 │   ├── BACKLOG.md                       Consolidated open-work ledger — every planned fix, one queue
+│   ├── ARCHITECT_RULINGS_2026-07-03.md  Standing rulings: F8 read/write shield, checkpoint adoption, operator nodes, lever policy
 │   ├── EXPERIMENTAL_LEVERS.md           Control panel — every lever, its default, exact how-to-toggle
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
 │   ├── self_model_thesis.md             The theory of mind RFE instantiates — self as smithable emergent attractor
@@ -680,6 +681,7 @@ RFE-Core2/
 │   │   ├── full_system_analyze.py        Analyze a full_system_run dir → plots + aggregate per-arm stats
 │   │   ├── dream_channel_probe.py        Governed self-dialogue: source_dream paired probe (echo/dominance/value)
 │   │   ├── dream_channel_adversarial_probe.py  Dream-channel graduation gate: does self-dialogue launder attacks?
+│   │   ├── bonded_adversarial_probe.py   THE bond-breach experiment: bonded source turns hostile (paired arms + attack-landing instrument)
 │   │   ├── tier4/                        Tier 4 physics validators + affect
 │   │   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
 │   │   │   ├── rhythm_dilation_curve.py      Tier 4.3 physics validator (rhythm coupling)

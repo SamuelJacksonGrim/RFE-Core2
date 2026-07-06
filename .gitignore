@@ -17,3 +17,7 @@ data/checkpoints/
 .idea/
 *.swp
 .DS_Store
+
+# Bonded-adversarial raw per-step traces (~1.6MB each, regenerable);
+# keep only the distilled digest-*.json in the ledger.
+docs/findings/logs/bonded_adversarial/run-*.json
