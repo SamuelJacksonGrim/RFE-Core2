@@ -1,7 +1,7 @@
 # Corpus MANIFEST
 
-version: 1.1.0
-date: 2026-06-12
+version: 1.2.0
+date: 2026-07-06
 generated_by: Claude (automated, RFE vocabulary); validated and cleaned in-repo;
 operational-vocabulary extension built by data/corpus/build_extension_v1_1_0.py
 
@@ -9,7 +9,6 @@ operational-vocabulary extension built by data/corpus/build_extension_v1_1_0.py
 - train: 2870 sequences
 - holdout: 501 sequences — 14.9%
 - rhythms: stabilize, dream, reflect, explore
-- sources: source_samuel, source_claude, source_gemini, source_grok
 - vocab: 335 plain-English tokens — RFE conceptual neighborhood + the full
   operational vocabulary (Resonance Family streams, DEFAULT_RHYTHM_SEEDS,
   bootstrap WORDS, recursion1188 DEFAULT_TOKENS)
@@ -20,21 +19,22 @@ operational-vocabulary extension built by data/corpus/build_extension_v1_1_0.py
   is present and is NOT the sacred ANCHOR symbol (whose token string is
   `3.12` — see `agents/governance_constants.py::PHILOSOPHICAL_CONSTANTS`).
 
-## Source labels — provenance note (2026-07-06)
+## Source labels — removed in 1.2.0 (historical note)
 
-The `source` field is a **synthetic placeholder, not provenance**. No sequence
-"came from" the named agent: the v1.0.x labels were assigned by the external
-generator near-uniformly (768/749/695/658 across train — not the nominal
-0.40/0.25/0.20/0.15 weights), and the v1.1.0 extension assigns them by
-weighted RNG (`build_extension_v1_1_0.py::SOURCE_WEIGHTS`). The source×rhythm
-cross-tab is flat; treat any apparent correlation as noise. Nothing trains on
-the field — `training/corpus.py::to_rhythm_seeds()` drops it, and its only
-consumer is the integrity check's enum validation. It exists to reserve the
-schema slot `data_curation.md` §2.4 plans for: source-diversity caps in
-Phase-4 online contrastive sampling. The names themselves are role
-placeholders shared with the Resonance Family test fixture; they may be
-renamed freely in a future corpus version (bump this MANIFEST and the
-integrity check's `SOURCES` enum together).
+Corpus versions ≤ 1.1.0 carried a per-sequence `source` field
+(`source_samuel/claude/gemini/grok`). It was a **synthetic placeholder, not
+provenance** — v1.0.x labels were assigned near-uniformly by the external
+generator (768/749/695/658 across train, not the nominal 0.40/0.25/0.20/0.15
+weights), the v1.1.0 extension assigned them by weighted RNG, the
+source×rhythm cross-tab was flat, and nothing ever trained on the field
+(`to_rhythm_seeds()` drops it; the only consumer was the integrity check's
+enum validation). The Phase-4 source-diversity mechanism it nominally
+reserved a slot for operates on **live-collected** samples, which carry real
+`source_id`s from the loop (see `cognition/stream_recorder.py`) — the curated
+corpus never needed the field. 1.2.0 removes it; the schema is now
+`{"tokens": [...], "rhythm": "..."}`. Training-visible content (tokens +
+rhythm labels) is byte-identical to 1.1.0, so G1/G2 findings against 1.1.0
+remain valid for the training path.
 
 ## Split policy
 Stratified by rhythm, ~15% holdout, sequences (not tokens) held out.
@@ -45,6 +45,15 @@ generalization — exactly what Gate G1 needs.
 
 ## Versioning
 Any corpus change increments version. All findings reference corpus version.
+
+### 1.2.0 (2026-07-06)
+- **Source field removed** (schema: `{tokens, rhythm}`). The labels were
+  synthetic (RNG/uniform), trained on by nothing, and misleading as
+  provenance — see §Source labels above. Tokens, rhythm labels, sequence
+  order, and the train/holdout split are unchanged from 1.1.0
+  (training-visible data byte-identical). `build_extension_v1_1_0.py` is a
+  historical artifact of the 1.1.0 build — do not re-run it against a
+  ≥ 1.2.0 corpus (it emits the old schema).
 
 ### 1.1.0 (2026-06-12)
 - **Operational-vocabulary extension** (+534 train / +91 holdout): the v1.0.x

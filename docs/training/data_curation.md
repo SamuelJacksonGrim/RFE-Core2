@@ -1,7 +1,9 @@
 # Data curation — what the corpus needs
 
-> **Status (2026-06-12):** the corpus described in §3 **exists** —
-> `data/corpus/` **v1.1.0** (2870 train / 501 holdout sequences, 335 tokens).
+> **Status (2026-07-06):** the corpus described in §3 **exists** —
+> `data/corpus/` **v1.2.0** (2870 train / 501 holdout sequences, 335 tokens;
+> training-visible content identical to v1.1.0 — 1.2.0 only removed the
+> synthetic `source` field, see MANIFEST).
 > v1.0.x was generated externally per this spec, validated and cleaned in-repo
 > (dedup + removal of 4 train→holdout leaked sequences); v1.1.0 closed the
 > §2.1 operational-vocabulary requirement (63 live-workload tokens were
@@ -62,13 +64,16 @@ Generator is internal, not a wrapped LLM).
    anchor token appears in several different short contexts, so training
    learns token-specific structure rather than memorizing sequences. This is
    also what makes a held-out split meaningful.
-4. **Source diversity.** Sequences tagged per source (Resonance Family
-   pattern) so contrastive sampling can avoid single-source monopoly in the
-   buffer — the training-data analogue of the HHI monopoly artifact found in
-   gate decomposition. *(Honesty note, 2026-07-06: the shipped corpus's
-   `source` labels are synthetic placeholders reserving this schema slot, not
-   provenance — assigned near-uniformly/by RNG and consumed by nothing but the
-   integrity check. See `data/corpus/MANIFEST.md` §Source labels.)*
+4. **Source diversity.** Applies to the **Phase-4 online buffer**, not the
+   curated corpus: live-collected samples carry real `source_id`s from the
+   loop, and contrastive sampling caps them to avoid single-source monopoly —
+   the training-data analogue of the HHI monopoly artifact found in gate
+   decomposition. *(Resolution, 2026-07-06: corpus versions ≤ 1.1.0 carried a
+   synthetic per-sequence `source` label reserving this slot — RNG-assigned,
+   not provenance, trained on by nothing. v1.2.0 removed it; the curated
+   corpus never needed it because this property belongs to live collection.
+   See `data/corpus/MANIFEST.md` §Source labels and
+   `cognition/stream_recorder.py`.)*
 
 ## 3. Proposed corpus design
 
@@ -76,7 +81,7 @@ Generator is internal, not a wrapped LLM).
 data/
 └── corpus/
     ├── MANIFEST.md           provenance, counts, split policy, version
-    ├── rhythm_train.jsonl    {"tokens": [...], "rhythm": "...", "source": "..."}
+    ├── rhythm_train.jsonl    {"tokens": [...], "rhythm": "..."}   (source field removed in v1.2.0)
     └── rhythm_holdout.jsonl  same schema; sequences never trained on
 ```
 
