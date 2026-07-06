@@ -97,6 +97,18 @@ CONFIG = {
     "dream_channel_epochs":         20,     # decoder read-out training epochs (boot)
     "dream_channel_top_k":          6,      # candidate tokens read from the expressed vector
     "dream_channel_n_tokens":       3,      # dream utterance length (corpus 2-4 range)
+
+    # ------------------------------------------------------------------
+    # OPT-IN INSTRUMENTS — observe-only; the loop behaves identically either way.
+    # ------------------------------------------------------------------
+    # Stream recorder: bounded ring of each step's (tokens, source, rhythm,
+    # governance decision) — the operational-vocabulary coverage census
+    # (data_curation.md §5). Coverage is training's binding constraint; this is
+    # how a run's lived vocabulary becomes reviewable input for the next corpus
+    # version. Read: cycle.status()["stream_recorder"]; dump:
+    # cycle.stream_recorder.dump_jsonl(path). Terminal sink — never fed back.
+    "stream_recorder":              False,
+    "stream_recorder_window":       4096,
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -116,6 +128,11 @@ DEFAULT_TOKENS: List[List[str]] = [
 # them (bonds need ≥20 interactions per source; HHI needs concentration to read).
 # Each source carries a token signature aligned with a role, mirroring the
 # composition the integration suite validates (tests/_common Resonance Family).
+# NOTE: this is a deliberately BENIGN subset of that canonical family — the
+# adversarial/edge signatures (`adversarial/challenge/pressure`,
+# `feral/devotion/fierce`) are test-fixture material for the resistance probes,
+# not default input. The source names are role placeholders, not provenance;
+# rename freely (they are plain source_ids to the trust/bond machinery).
 SOURCES: "dict[str, List[List[str]]]" = {
     "source_samuel": [
         ["identity", "continuity", "witness"],
@@ -242,6 +259,15 @@ def build_engine(config: dict = None):
     cycle.attach_value_engine(value_engine)
     logger.info("Tiers 1-3 attached: governance (trust/ethics) + relational "
                 "integrity (dependency/bonds/resistance) + value emergence.")
+
+    # Optional instrument: observe-only stream recorder — the operational-
+    # vocabulary coverage census (data_curation.md §5). Terminal sink; the
+    # loop behaves identically with it attached.
+    if config.get("stream_recorder"):
+        from cognition.stream_recorder import StreamRecorder
+        window = int(config.get("stream_recorder_window", 4096))
+        cycle.attach_stream_recorder(StreamRecorder(window=window))
+        logger.info("Stream recorder attached (observe-only census, window=%d).", window)
 
     return generator, cycle, governance, value_engine
 

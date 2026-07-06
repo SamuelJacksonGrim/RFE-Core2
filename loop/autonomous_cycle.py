@@ -283,6 +283,12 @@ class AutonomousCycle:
         # When attached it is run by the value engine each cycle. Spec v0.2.
         self.integrity_consumer = None
 
+        # Stream recorder (optional — observe-only coverage census). A bounded
+        # ring of each step's (tokens, source, rhythm, decision): the
+        # operational-vocabulary census data_curation.md §5 called for. Terminal
+        # sink like dilation_factor — never read by the cognitive/governance loop.
+        self.stream_recorder = None
+
         # ------------------------------------------------------------------
         # Config (Tier 2 behavioral knobs — Boredom Teeth, etc.)
         # ------------------------------------------------------------------
@@ -676,6 +682,19 @@ class AutonomousCycle:
             elapsed_ms         = round(elapsed, 2),
         )
 
+        # Census instrument: record what this step actually consumed (tokens,
+        # source, rhythm) and what governance decided about it. Observe-only
+        # terminal sink — the decision is recorded so future corpus curation
+        # can be trust-gated, never consulted here.
+        if self.stream_recorder is not None:
+            self.stream_recorder.observe(
+                step      = self._step,
+                tokens    = tokens,
+                source_id = source_id,
+                rhythm    = rhythm,
+                decision  = decision.name,
+            )
+
         self._history.append(state)
         self._parent = key
         self._step  += 1
@@ -732,6 +751,18 @@ class AutonomousCycle:
             raise RuntimeError("attach_value_engine must be called before attach_lambda_ledger")
         self.lambda_ledger = ledger
         self.value_engine.set_lambda_ledger(ledger)
+
+    def attach_stream_recorder(self, recorder):
+        """
+        Attach an observe-only StreamRecorder (cognition/stream_recorder.py) —
+        the operational-vocabulary coverage census. A bounded ring of each
+        step's (tokens, source, rhythm, governance decision), appended at the
+        end of step(). Terminal-sink discipline: it is never read by the
+        cognitive or governance loop; diagnostics read it via status() and
+        `dump_jsonl()`. Opt-in — None disables it and the cycle behaves
+        identically.
+        """
+        self.stream_recorder = recorder
 
     def attach_integrity_consumer(self, consumer):
         """
@@ -1015,4 +1046,6 @@ class AutonomousCycle:
             s["lambda_ledger"] = self.lambda_ledger.snapshot()
         if self.integrity_consumer is not None:
             s["integrity_consumer"] = self.integrity_consumer.snapshot()
+        if self.stream_recorder is not None:
+            s["stream_recorder"] = self.stream_recorder.snapshot()
         return s

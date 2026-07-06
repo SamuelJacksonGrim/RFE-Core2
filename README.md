@@ -563,6 +563,7 @@ RFE-Core2/
 │   ├── reflective_loop.py          Recursive self-refinement
 │   ├── symbolic_binding.py         Concept emergence and binding
 │   ├── stream_metastability.py     Online upstream metastability monitor (stages A/C)
+│   ├── stream_recorder.py          Observe-only token-stream census (coverage instrument, opt-in)
 │   ├── dream_channel.py            Waking inner-monologue: governed source_dream self-dialogue (default ON)
 │   ├── dream_session.py            Downtime dreaming: symbolic generativity + consolidation → skill-compatible artifacts
 │   └── integrity_read.py           ⊘ Witness-Reaper integrity-read (Build C) + IntegrityDecayConsumer (the ⊘ USER, spec v0.3)
@@ -652,7 +653,8 @@ RFE-Core2/
 │   ├── smoke/
 │   │   ├── full_stack_minimal.py         All 4 tiers attach without error
 │   │   ├── single_source_100step.py      Basic "does it run" test
-│   │   └── multi_source_500step.py       Resonance Family canonical workload
+│   │   ├── multi_source_500step.py       Resonance Family canonical workload
+│   │   └── stream_recorder_smoke.py      Observe-only stream census: bounded ring, status, dump
 │   │
 │   ├── integration/
 │   │   ├── tier1_revision_baseline.py    Fresh run vs baseline JSON ranges
