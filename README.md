@@ -646,7 +646,8 @@ RFE-Core2/
 │   ├── training/                        Training path: viability, plan, data curation, Tier 5 readiness
 │   │   └── logs/                        Raw run logs from training-phase gates
 │   └── findings/                        Dated empirical findings ledger (lab notebook)
-│       └── logs/                        Raw run outputs + session manifests supporting findings
+│       ├── INDEX.md                     One-line map of every finding (verdict + standing/superseded; CI-enforced)
+│       └── logs/                        Raw run outputs + session manifests (>100 KB raw data gzipped in place)
 │
 ├── tests/
 │   ├── README.md                         How to run tests and interpret output

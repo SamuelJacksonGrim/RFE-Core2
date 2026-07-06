@@ -84,6 +84,9 @@ prefer the finding cited here.
   "resume" restores the mind's vocabulary and values but not its memories or
   relationships. Deliberately **parked** (architect call, 2026-07-06) until
   §1 lands — recorded here so it stops being rediscovered.
+- [ ] **Extend the session checkpoint to the decoder head** — boot currently
+  retrains the dream-channel decoder (20 epochs) every start even on resume;
+  checkpointing it makes warm boots near-instant.
 - [ ] **Default-on decision for session persistence.** Would effectively
   reopen Phase 3 Decision 2 (boot-checkpoint adoption, SHELVED); requires the
   all-ON composition gate re-run per the graduation rule.

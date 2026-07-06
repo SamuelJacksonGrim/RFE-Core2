@@ -876,6 +876,37 @@ def check_pipeline_substep_labels() -> CheckResult:
 # Orchestrator
 # ===========================================================================
 
+# ---------------------------------------------------------------------------
+# Findings index completeness: every finding file appears in INDEX.md.
+# The index is the one-screen map of the ledger (docs/findings/INDEX.md);
+# an unlisted finding is invisible to any session navigating by the index —
+# the exact "rediscover it three times" failure mode the index exists to end.
+# ---------------------------------------------------------------------------
+
+def check_findings_index_completeness() -> CheckResult:
+    name = "findings INDEX completeness"
+    findings_dir = REPO_ROOT / "docs" / "findings"
+    index_path = findings_dir / "INDEX.md"
+    index_text = _read(index_path)
+    if not index_text:
+        return failed(name, "docs/findings/INDEX.md is missing", [])
+
+    skip = {"README.md", "INDEX.md"}
+    on_disk = sorted(
+        f.name for f in findings_dir.glob("*.md") if f.name not in skip
+    )
+    missing = [f for f in on_disk if f[:-3] not in index_text]
+    if missing:
+        return failed(
+            name,
+            "findings exist on disk but are not listed in INDEX.md",
+            [f"  missing: {m}" for m in missing],
+        )
+    return passed(
+        name, f"all {len(on_disk)} findings are listed in docs/findings/INDEX.md"
+    )
+
+
 CHECKS: List[Callable[[], CheckResult]] = [
     check_tests_tree_completeness,
     check_trust_level_enum,
@@ -898,6 +929,8 @@ CHECKS: List[Callable[[], CheckResult]] = [
     check_compound_severity_bands,
     # Pipeline structure
     check_pipeline_substep_labels,
+    # Findings ledger navigability
+    check_findings_index_completeness,
 ]
 
 
