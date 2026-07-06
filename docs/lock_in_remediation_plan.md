@@ -166,14 +166,19 @@ knob lets a governance/rhythm layer tune the operating point from live
 (`0` re-collapses, `1` bypasses refinement). Validated by
 `tests/diagnostic/lockin/generator_metastability.py`.
 
-### §6.3 — feedback gain-sign check at low coherence **(INSTRUMENT SHIPPED — verdict pending)**
+### §6.3 — feedback gain-sign check at low coherence **(INSTRUMENT SHIPPED — conditional verdict recorded 2026-06-12; full-range verdict open)**
 
 Analysis only, no substrate change. Confirm the sign of the feedback gain at low
 coherence before *any* coherence → loop coupling. It **gates Fix 0-A and Fix 2**
 (both are that kind of coupling). Cheap and gating, so front-load it. The gating
 diagnostic is built (`tests/diagnostic/lockin/gain_sign_check.py`) with pre-declared
-STABILIZING / RUNAWAY / CONFOUNDED signatures; a recorded run/verdict is still
-pending and will be written to `docs/findings/`.
+STABILIZING / RUNAWAY / CONFOUNDED signatures. **Verdict recorded (2026-06-12,
+conditional):** the standalone instrument CONFOUNDED by its own criteria;
+relocated in-run — no positive-feedback signal in the reachable coherence range,
+but the low-coherence regime is unreachable under tested workloads, so any
+Fix 0-A wiring needs a runtime coherence guard
+(`docs/findings/2026-06-12-gain-sign-reachable-range.md`). Full-range verdict
+stays open (needs the phase-adversarial workload — `docs/BACKLOG.md` §1).
 
 ### Fix 0-B — metastability → reinforcement **(PLANNED — highest-leverage)**
 

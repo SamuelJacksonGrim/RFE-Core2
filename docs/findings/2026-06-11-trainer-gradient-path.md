@@ -103,9 +103,15 @@ of them.
 
 1. Curated training corpus — coverage is the binding constraint
    (`docs/training/data_curation.md`).
+   **→ DONE (2026-06-11→12): corpus shipped v1.0.1 → v1.1.0** (v1.2.0 removed
+   the synthetic source field, 2026-07-06; training content unchanged).
 2. Identity-stability cost probe for live (online) training — same discipline
    as the reflective-loop cost probe.
 3. The `.eval()` architect decision (2026-06-08 #1) is still open; trainers now
    preserve the caller's mode instead of deciding it silently.
+   **→ DECIDED (2026-06-12): eval-mode** — `phase3_architect_decisions.md`.
 4. Re-run `generator_diversity_audit` + `trained_generator_sim`'s
    GENERATOR-IS-THE-LOCK prediction on a corpus-trained generator.
+   **→ DONE (2026-06-12): SECOND-LOCKER** — the pin persists on trained input,
+   so the loop (not generator low-rank) is the operative lock
+   (`2026-06-12-phase2-fullstack-g2.md`, `2026-06-12-secondlocker-field-map.md`).

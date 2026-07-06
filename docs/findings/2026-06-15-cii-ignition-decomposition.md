@@ -78,6 +78,9 @@ stage C collapses at low dim — which is worth understanding, not discounting.
 ## Open / next
 - Harden Cs (settled-read everywhere; reconcile cache vs compute_now).
 - Build the **ITG action half** and test whether it lifts the lock.
+  **→ DONE, verdict: it doesn't** — built (`tools/ignition/gate.py`), tested, and
+  found inert on an untrained generator; the lever is upstream (generator
+  representational room). Kept as scaffold (`docs/EXPERIMENTAL_LEVERS.md` §levers).
 
 ## Correction + ITG follow-up (2026-06-15, same session)
 

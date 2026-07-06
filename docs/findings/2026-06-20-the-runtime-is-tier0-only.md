@@ -83,9 +83,14 @@ trainer/checkpoint/attractor bug-fixes. Everything labeled an "operator" or "Tie
   token list. This alone turns the launchable system from a Tier-0 toy into the
   documented tiered engine. Low-risk: it is the configuration every test already
   passes on.
+  **→ DONE (2026-06-20): `build_engine()` is the single composition point**
+  (`2026-06-20-ground-truth-pass1-compose-the-runtime.md`); API/WS entry points
+  routed through it 2026-06-27 (`2026-06-27-api-entrypoints-tier0-only.md`).
 - **Then** decide, per the graduation discipline, which validated levers the default
   composition includes (eval already in; corpus pretrain safe-optional; novelty
   attenuation at its safe ceiling; operators A/B held; ⊘ consumer blocked on cc).
+  **→ DECIDED (2026-06-20 → 29): pretrain + attenuation + dream channel graduated
+  default-ON; operators stay opt-in** — `docs/EXPERIMENTAL_LEVERS.md`.
 - **Upstream truth from the audit:** most dormant *behavioural* levers (novelty
   attenuation's marginal real-token recovery, gnov never firing, the ⊘ cc-confound)
   trace to one cause — the **generator's common-mode / low-rank structure**. The

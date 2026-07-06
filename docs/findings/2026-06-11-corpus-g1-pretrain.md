@@ -94,10 +94,13 @@ specifying Tier 5.
 1. **Phase 2:** boot the full stack from the pretrained checkpoint, run the
    baseline-range suite + `identity_stability_baseline` +
    `generator_diversity_audit` (does diversity survive the pipeline now?).
+   **→ DONE (2026-06-12), Gate G2 passed** — `2026-06-12-phase2-fullstack-g2.md`.
 2. Re-run `trained_generator_sim`'s GENERATOR-IS-THE-LOCK prediction with real
    corpus-trained weights instead of the mock.
 3. The `.eval()` architect decision (2026-06-08 #1) — now urgent rather than
    academic: a trained generator has real deterministic structure dropout can
    only blur.
+   **→ DECIDED (2026-06-12): eval-mode is the operating regime** —
+   `docs/training/phase3_architect_decisions.md`.
 4. Corpus is bootstrap-only; Phase 4's buffer-governed lived-experience
    collection remains the steady-state source (data_curation.md §4).
