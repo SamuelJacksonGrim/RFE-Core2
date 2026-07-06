@@ -30,8 +30,12 @@ project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
 - `docs/training/` — the generator training path: viability assessment, phased
   plan, data curation, Tier 5 readiness (proposed direction, not committed).
 - `docs/findings/` — the dated, control-named **empirical ledger** (lab
-  notebook). Read its `README.md` for the schema and discipline before recording
-  a result; every finding names its control, and negative results count.
+  notebook). **Start at `INDEX.md`** — one line per finding with its verdict
+  and standing/superseded status (CI-enforced complete). Read `README.md` for
+  the schema and discipline before recording a result; every finding names its
+  control, and negative results count. NB: raw run data >~100 KB under
+  `findings/logs/` is **gzipped** — plain grep silently skips `.gz`; use
+  `zgrep`/`zcat` (see `logs/README.md`). Summaries and reports stay readable.
 - `tests/README.md` — what each test/probe is for and how the suite is gated.
 - `docs/EXPERIMENTAL_LEVERS.md` — **the control panel**: every lever and
   instrument, its default, and the exact way to toggle it. A validated few have
