@@ -856,6 +856,11 @@ Four validated levers are **ON by default** — opt out via `CONFIG` in
 | Novelty-gated loop attenuation | Loosens the reflective-loop field lock at the validated 0.30 ceiling, identity-safe | `reflect_novelty_attenuation: False` |
 | Waking dream channel | `source_dream` self-dialogue on ~20% of steps, through the gate | `dream_channel_enabled: False` |
 
+Two opt-in instruments (OFF by default, same `CONFIG`): `stream_recorder`
+(observe-only census of the lived token stream — future corpus input) and
+`session_persistence` (save weights + ecology + values at run end, resume at
+next boot). Details in `docs/EXPERIMENTAL_LEVERS.md`.
+
 Configuration layers with precedence **component default < `configs/*.yaml` <
 `CONFIG`** — the YAML files are the live edit surface for component parameters;
 `CONFIG` owns the entry-point flags and wins on conflict.

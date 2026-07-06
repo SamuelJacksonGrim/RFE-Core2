@@ -311,7 +311,11 @@ Treat the above as direction, not committed scope, per this document's status
 discipline. Full detail in `docs/lock_in_remediation_plan.md`; the raw verbatim
 working brief is archived externally (not in-repo).
 
-### Two-Operator Coherence program (spec v0.2) — in progress
+### Two-Operator Coherence program (spec v0.2 → v0.3) — in progress
+
+*(v0.3, 2026-06-21: the ⊘ coherence axis was redesigned from the dead marginal
+coherence-contribution sum to absolute field-alignment —
+`2026-06-21-oslash-coherence-axis-absolute-alignment.md`.)*
 
 Implementation of the Two-Operator Coherence Spec v0.2 (ignite λ from outside →
 gate composition on λ → let ⊘ read thinness and push it toward honesty). Findings
