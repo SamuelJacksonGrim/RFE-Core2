@@ -1,5 +1,10 @@
 # RFE-Core2 — Full System Review
 
+**STATUS: historical snapshot (2026-06-13)** — accurate as of its date; the
+system has moved since (composed runtime, graduated levers, voice layer,
+spec v0.3). Current status lives in `ROADMAP.md`; the work queue in
+`docs/BACKLOG.md`. Kept as the fullest single-document review of the system.
+
 **Date:** 2026-06-13
 **Scope:** definitive answer to three questions — *what can the system do*, *what
 it truly is*, and *what happens if you wire a local 20B–70B LLM in where
