@@ -58,6 +58,7 @@ rule). Every finding file must appear here (CI-enforced by `verify_docs`).
 | `2026-06-28-decoder-readout` | Thoughts are readable back as a token cloud — lossy by design, right register for inner voice | **standing** |
 | `2026-06-28-dream-channel` | Self-dialogue is safe, non-dominant, adversarial-gated; graduated default-ON | **standing** |
 | `2026-06-28-full-system-run` | Levers validated multi-seed (metastability 0.06→0.58); F9/F8/bond gaps named | **standing** (current tuning baseline) |
+| `2026-07-04-bonded-adversarial-attack-never-lands` | THE bond-betrayal experiment: attack never becomes a signal (stage-C cos ~0.98 hostile≡benign, 11 seeds) — blocked by two upstream walls: OOV attack vocabulary + pipeline re-collapse | **standing** (arrives with PR #68) |
 
 ## Raw-data convention (adopted 2026-07-06)
 

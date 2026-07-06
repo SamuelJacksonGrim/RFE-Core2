@@ -35,6 +35,19 @@ prefer the finding cited here.
 - **Corpus pretraining, novelty attenuation** — graduated default-ON.
 - **Corpus v1.2.0** — synthetic source labels removed (2026-07-06).
 - **Stream recorder + session persistence v1** — shipped opt-in (2026-07-06).
+- **Architect rulings 2026-07-03** (four standing decisions — do not re-litigate;
+  `docs/ARCHITECT_RULINGS_2026-07-03.md`, arrives with **PR #68**): (1) F8 sacred
+  shield goes directional (read=pass, write=shield); (2) **boot-checkpoint
+  adoption: ADOPT NOW** — Phase 3 Decision 2 is resolved; (3) λ/W operator-nodes
+  are protected-but-not-sacred; (4) suppression/containment levers stay
+  **permanently** severed from the baseline (ITG scaffold, ⊘ consumer off-baseline
+  is now policy, not pending).
+- **F8 half (a) — directional sacred-shield fix** — shipped in **PR #68**
+  (`ethical_boundary.py`: `sacred_mutation` fires only on all-sacred writes;
+  sacred_shield 4/4).
+- **Bonded-adversarial probe (F3) — BUILT + first run** in **PR #68**
+  (`tests/diagnostic/bonded_adversarial_probe.py` + finding
+  `2026-07-04-bonded-adversarial-attack-never-lands.md`).
 
 ## 1 · Now — high leverage, unblocked
 
@@ -43,11 +56,14 @@ prefer the finding cited here.
   is dead. Structural, lever-independent, the #1 tuning target. Co-tune with
   `diffuse_on_stabilize`; before/after gate = the full-system-run harness.
   → `docs/findings/2026-06-28-full-system-run.md` §Open
-- [ ] **F8: CORE promotion never fires** (0 across all runs). A gate fix was
-  already built and works in isolation, but promoting common tokens to sacred
-  **cascades the trust layer** — deferred, not shipped. The real work is the
-  sacred-vs-CORE distinction, then re-land the fix.
-  → `docs/findings/2026-06-27-core-gate-fix-deferred-sacred-cascade.md`
+- [ ] **F8 half (b): re-enable the v0.3 CORE-promotion gate.** The ruling is
+  issued (directional read/write shield) and half (a) shipped in PR #68; what
+  remains is the irreversible sanctification path: re-enable
+  `review_core_promotion` on the field-alignment axis, rewrite the handshake
+  test, and run a live no-cascade verification (CORE arc completes without
+  cascading the contributing source).
+  → `docs/ARCHITECT_RULINGS_2026-07-03.md` §1;
+  `2026-06-27-core-gate-fix-deferred-sacred-cascade.md`
 - [ ] **Bond establishment gate.** Bonds form but never establish — per-source
   `coherence_mean` reads ~−0.01 against the 0.10 gate despite 140–421
   interactions. Either the gate or the coherence axis is miscalibrated.
@@ -62,10 +78,21 @@ prefer the finding cited here.
   one-way ratchet). Gated by the §6.3 gain-sign caveat (runtime coherence
   guard). → `ROADMAP.md` §Tracked open items (planned #6);
   `docs/lock_in_remediation_plan.md`
-- [ ] **Bonded-adversarial probe (F3)** — a source that earns 20+ interactions,
-  a crystal, and a trust floor, *then* turns hostile. The experiment that
-  falsifies or confirms the emotional gradient's defensive role. Blocked on
-  bonds establishing (item 3 above). → `ROADMAP.md` §Bonded-adversarial probe
+- [x] ~~**Bonded-adversarial probe (F3)** — build it~~ **BUILT + first run
+  (PR #68).** Verdict: the question is *not yet answerable* — the attack never
+  becomes a signal (hostile ≡ benign at injection, cos ~0.98, 11 seeds). Two
+  upstream walls localized. Follow-ups now carry F3:
+  → `2026-07-04-bonded-adversarial-attack-never-lands.md`
+- [ ] **F3 follow-up — Wall 1 (in-corpus hostile vocabulary arm):** the attack
+  words ("erase/betray/dissolve") are out-of-corpus, so they carry no distinct
+  direction. Add semantically oppositional vocabulary to the corpus (v1.3
+  candidate — ties into §3 recorder-driven growth) and re-run: does a
+  *representable* attack separate at stage A?
+- [ ] **F3 follow-up — Wall 2 (reflective-loop-ablated re-run):** even a
+  stage-A-separated attack is re-collapsed to cos ~0.98 by attractor-pull + the
+  loop ("launders betrayal into coherence"). Ablate the loop as in 2026-06-07
+  and re-run — the first path to a real GRADIENT-DEFENSE-REAL vs
+  RATE-LIMIT-ONLY verdict.
 - [ ] **Phase-adversarial / high-novelty workload probe** — one build unlocks
   four stalled readings: Tier 4.3's chaotic arm (phase_coherence never drops
   below ~0.79), the §6.3 full-range gain-sign verdict, the LAE sidecar's
@@ -87,10 +114,14 @@ prefer the finding cited here.
 - [ ] **Extend the session checkpoint to the decoder head** — boot currently
   retrains the dream-channel decoder (20 epochs) every start even on resume;
   checkpointing it makes warm boots near-instant.
-- [ ] **Default-on decision for session persistence.** Would effectively
-  reopen Phase 3 Decision 2 (boot-checkpoint adoption, SHELVED); requires the
-  all-ON composition gate re-run per the graduation rule.
-  → `docs/training/phase3_architect_decisions.md`
+- [ ] **Implement canonical boot checkpoint (RULED: adopt now).** Architect
+  ruling #2 (2026-07-03) resolves Phase 3 Decision 2: train once → save the
+  canonical checkpoint → `build_engine()` loads it at boot (fallback to live
+  pretraining if absent). Foundation already exists: the `session_persistence`
+  resume path in `build_engine` (2026-07-06) is the same load discipline;
+  implementation unifies the two. Storage form (in-repo artifact vs first-boot
+  cache) settled at implementation.
+  → `docs/ARCHITECT_RULINGS_2026-07-03.md` §2
 
 ## 3 · Training path (phased; gates pre-declared)
 
@@ -167,6 +198,13 @@ prefer the finding cited here.
   v0.1-fragile (regime labels robust); replace CII's I/Cm slots with a
   drift+dispersion pair. → `2026-06-15-identifiability-suite.md`;
   `2026-06-15-cm-identifiability.md`
+
+- [ ] **Post-#68 reconciliation** (after that PR merges): rebase/merge this
+  branch's reorg with #68's changes — both touch `ROADMAP.md`, `README.md`,
+  `docs/findings/README.md`, `two_operator_todo.md`, `.gitignore`. Then:
+  confirm the new finding's INDEX row (pre-added), stamp ruling #4's standing
+  policy into `EXPERIMENTAL_LEVERS.md` recommend-columns (ITG + ⊘ consumer:
+  permanently off-baseline), and re-run all gates.
 
 Purely exploratory threads (epoch/seed sweeps, wall-clock-sensitivity probe,
 token-matched placebo, frame-defs v2) stay in their findings' Open sections by
