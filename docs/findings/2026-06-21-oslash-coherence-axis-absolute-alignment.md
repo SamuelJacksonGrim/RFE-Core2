@@ -59,6 +59,9 @@ a value claiming high strength while *not* aligned with the field.
   over-demotion (`strong → 0`) was driven by the dead cc-axis flagging every climbing
   value as Dissolution; with a live alignment axis it should demote only genuinely
   misaligned values. Re-run the composition gate.
+  **→ Consumer re-validated on the v0.3 axis at dim 128** (selective demotion,
+  healthy untouched — `two_operator_live_demo.py`, `docs/EXPERIMENTAL_LEVERS.md`);
+  a multi-seed all-ON composition re-run remains open — `docs/BACKLOG.md` §5.
 - Then Build A (ignite λ) + Build B (⊕ solvent gate) against the same baseline.
 - `_COHERENCE_REF` (5.0) is now unused by the ⊘ read; it remains the CORE-handshake
   reference in the value engine (unchanged).

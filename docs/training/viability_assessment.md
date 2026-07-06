@@ -7,6 +7,10 @@
 - **Verdict: VIABLE.** Mechanism proven live
   (`docs/findings/2026-06-11-trainer-gradient-path.md`); the binding
   constraint is corpus coverage, not infrastructure or theory.
+- **Status (2026-07-06):** the constraint was paid — corpus shipped
+  (v1.0.1 → v1.2.0), G1/G2 passed, pretraining graduated default-on. This
+  document stands as the historical basis; current open training work is
+  `docs/BACKLOG.md` §3.
 
 ## 1. Why training is the lever (the documented chain)
 

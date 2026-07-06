@@ -63,6 +63,7 @@ echo -e "${BOLD}SMOKE TESTS${RESET}"
 run_test "tests.smoke.full_stack_minimal"
 run_test "tests.smoke.single_source_100step"
 run_test "tests.smoke.multi_source_500step"
+run_test "tests.smoke.stream_recorder_smoke"
 
 echo
 echo -e "${BOLD}INTEGRATION TESTS${RESET}"

@@ -4,6 +4,13 @@ Empirical findings from probing the live system. This is the lab notebook: what
 we measured, with a control, and what it actually showed — including (especially)
 the times the result contradicted what we expected or hoped.
 
+**Start at [`INDEX.md`](INDEX.md)** — one line per finding (verdict + whether it
+is still the authoritative read), CI-enforced complete by `verify_docs`. Two
+standing conventions live there: resolved Open-items get stamped inline
+(`→ DONE (date) — pointer`) in the same commit that resolves them, and raw run
+data over ~100 KB is gzipped in place (never committed raw — see §Raw-data
+convention).
+
 ## Why this exists
 
 Diagnostics are informational and firewalled from CI (gating one Goodharts it).

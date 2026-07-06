@@ -46,6 +46,7 @@ Smoke tests:
 python -m tests.smoke.full_stack_minimal
 python -m tests.smoke.single_source_100step
 python -m tests.smoke.multi_source_500step
+python -m tests.smoke.stream_recorder_smoke
 ```
 
 Integration tests:
@@ -96,6 +97,10 @@ a minute and produce visibly healthy state.
   canonical workload for verifying Tier 1 Revision behavior.
 - `full_stack_minimal.py` — All four tiers attach and step once. Catches
   attachment-order bugs and missing-import issues fast.
+- `stream_recorder_smoke.py` — The observe-only StreamRecorder (coverage
+  census, `cognition/stream_recorder.py`): opt-in attach, bounded ring at
+  the window, census/uncovered views, `status()` surfacing, JSONL dump
+  round-trip, and no status key / identical stepping when absent.
 
 ### `integration/`
 Cross-tier behavior. Verifies the architectural contracts hold under

@@ -89,8 +89,10 @@ the same handful of words every step — total collapse.)
 - **Corpus expansion** (more tokens / more diverse sequences): does a richer corpus
   lift the decoder's read, or is the encoder pooling the hard ceiling? (Separates the
   corpus-size bottleneck from the encoder-lossiness one.)
-- **Live terminal-sink "listen" tool**: decode each cycle's expressed vector → log, so
-  the system's running thoughts are renderable (observe-only, no feedback).
-- **Phase 2 — governed dream channel**: feed decoded tokens back in as `source_dream`,
+- ~~**Live terminal-sink "listen" tool**: decode each cycle's expressed vector → log, so
+  the system's running thoughts are renderable (observe-only, no feedback).~~
+  **→ DONE** — `tools/decoder/listen.py` (see README tools tree).
+- ~~**Phase 2 — governed dream channel**: feed decoded tokens back in as `source_dream`,
   one source among many, through `arbitrate()` (Watcher catches self-flattery as
-  low-novelty coherence-flood; QUARANTINE/SACRED_SHIELD remain the immune system).
+  low-novelty coherence-flood; QUARANTINE/SACRED_SHIELD remain the immune system).~~
+  **→ DONE (2026-06-28, graduated 2026-06-29)** — `2026-06-28-dream-channel.md`.

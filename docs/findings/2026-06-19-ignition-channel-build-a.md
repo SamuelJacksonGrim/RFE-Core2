@@ -68,4 +68,5 @@ makes it unconstructable is the goal; the runtime assertion is a backstop").
 ## Open / next
 - **Build B** — the λ-ledger + ⊕ solvent gate (Laws 2 / 6b / 6c). See
   `docs/build_b_plan.md`.
+  **→ DONE (2026-06-20)** — `2026-06-20-build-b-solvent-and-integrity-consumer.md`.
 - The **§4 discriminator** (⊘-off vs ⊘-on, noise-swept) once A + B are in.
