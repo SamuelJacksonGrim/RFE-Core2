@@ -109,6 +109,17 @@ CONFIG = {
     # cycle.stream_recorder.dump_jsonl(path). Terminal sink — never fed back.
     "stream_recorder":              False,
     "stream_recorder_window":       4096,
+    # Session persistence: save (weights + symbol ecology + emergent values) at
+    # end of run, resume them at next boot — the system survives dormancy
+    # instead of rebooting as a newborn. Resume skips boot pretraining (the
+    # restored weights already carry it). What does NOT persist yet: crystals,
+    # attractors, trust ledger, bonds, field state (no serializers). OPT-IN:
+    # boot-checkpoint adoption was shelved by Phase 3 Decision 2; the load-path
+    # bug that motivated the caution is fixed and guarded
+    # (tests/integration/checkpoint_registry_identity.py), so per-run use is
+    # safe, but the default stays honest to the standing decision.
+    "session_persistence":          False,
+    "checkpoint_dir":               "data/checkpoints",
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -210,9 +221,26 @@ def build_engine(config: dict = None):
     generator = Generator(**gen_kwargs)
     logger.info("Generator initialized on device: %s", generator.device)
 
+    # Session persistence (opt-in): detect a prior session's checkpoint. When
+    # one exists, boot pretraining is skipped — the restored weights already
+    # carry it (plus everything the previous run's training/ecology did).
+    _ckpt = None
+    if config.get("session_persistence"):
+        from pathlib import Path
+        _ckpt_dir = Path(config.get("checkpoint_dir", "data/checkpoints"))
+        _cand = {
+            "weights": _ckpt_dir / "generator_weights.pt",
+            "ecology": _ckpt_dir / "ecology.json",
+            "values":  _ckpt_dir / "values.json",
+        }
+        if _cand["weights"].exists() and _cand["ecology"].exists():
+            _ckpt = _cand
+            logger.info("Session checkpoint found in %s — will resume (boot "
+                        "pretraining skipped).", _ckpt_dir)
+
     # Optional lever: corpus pretraining (held-out generalization / eff_rank,
     # Gate G1). Not required for ignition at dim 128; see EXPERIMENTAL_LEVERS.md.
-    if config.get("pretrain_on_corpus"):
+    if config.get("pretrain_on_corpus") and _ckpt is None:
         from training.corpus import load_corpus, to_rhythm_seeds, TRAIN_PATH
         from training.rhythm_pretraining import RhythmPretrainer, PretrainingConfig
         seeds = to_rhythm_seeds(load_corpus(TRAIN_PATH))
@@ -259,6 +287,21 @@ def build_engine(config: dict = None):
     cycle.attach_value_engine(value_engine)
     logger.info("Tiers 1-3 attached: governance (trust/ethics) + relational "
                 "integrity (dependency/bonds/resistance) + value emergence.")
+
+    # Session resume — AFTER the tiers are attached, deliberately:
+    # load_ecology restores the registry IN PLACE (never rebinds), so the
+    # governance/value-engine references captured at construction stay live —
+    # that exact orphaning trap is the fixed-and-guarded 2026-06-12 finding
+    # (tests/integration/checkpoint_registry_identity.py). Value load runs
+    # after ecology load so its stable_ids resolve against the restored
+    # registry, and it re-registers promoted sacred values with governance.
+    if _ckpt is not None:
+        generator.load_checkpoint(str(_ckpt["weights"]), str(_ckpt["ecology"]))
+        if _ckpt["values"].exists():
+            value_engine.load_from_disk(str(_ckpt["values"]))
+        generator.eval()   # loading must not disturb the operating regime
+        logger.info("Session resumed: weights + ecology + emergent values "
+                    "restored from previous run.")
 
     # Optional instrument: observe-only stream recorder — the operational-
     # vocabulary coverage census (data_curation.md §5). Terminal sink; the
@@ -434,6 +477,26 @@ def main():
     except KeyboardInterrupt:
         logger.info("Interrupted at step %d after %d dream cycles, %d self-dialogue steps.",
                     step, dream_runs, dream_fed)
+
+    # ------------------------------------------------------------------
+    # Session save — the run's growth survives dormancy (opt-in).
+    # Runs on natural end AND on Ctrl-C (the except above doesn't re-raise).
+    # ------------------------------------------------------------------
+    if CONFIG.get("session_persistence"):
+        from pathlib import Path
+        ckpt_dir = Path(CONFIG.get("checkpoint_dir", "data/checkpoints"))
+        ckpt_dir.mkdir(parents=True, exist_ok=True)
+        generator.save_checkpoint(
+            str(ckpt_dir / "generator_weights.pt"),
+            str(ckpt_dir / "ecology.json"),
+        )
+        value_engine.save_to_disk(str(ckpt_dir / "values.json"))
+        if cycle.stream_recorder is not None:
+            cycle.stream_recorder.dump_jsonl(str(ckpt_dir / "stream_last_run.jsonl"))
+        logger.info("Session saved → %s (weights + ecology + values%s). Not yet "
+                    "persisted: crystals, attractors, trust, bonds, field state.",
+                    ckpt_dir,
+                    " + stream log" if cycle.stream_recorder is not None else "")
 
     # ------------------------------------------------------------------
     # Final status
