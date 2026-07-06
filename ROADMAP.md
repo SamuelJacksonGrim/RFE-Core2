@@ -135,7 +135,8 @@ collision + epistemic-discipline process that produced Tier 4.2.
 >   generator presents real diversity.
 > - **Open architect decision:** should the live generator run in `eval()` (dropout off)?
 >   Intentional stochastic exploration vs a missing `eval()` — this decides what the field's
->   "input diversity" even is.
+>   "input diversity" even is. **[RESOLVED below — Phase 3 decided eval-mode, 2026-06-12;
+>   kept here only as dated history.]**
 > - **The training lever is live (2026-06-11).** The training stack's gradient path was
 >   broken in two of three trainers (training had never been possible); after repair, a
 >   controlled rhythm-pretraining run moved the *deterministic* dim-64 generator from
@@ -281,8 +282,11 @@ dependencies, validation gates, and the load-bearing epistemic warnings — is
 
 5. **Feedback gain-sign check at low coherence** — analysis only; gates Fix 0-A
    and the paper-boat operator. The gating **diagnostic is built**
-   (`tests/diagnostic/lockin/gain_sign_check.py`); a recorded run/verdict is still
-   pending (results go in `docs/findings/`).
+   (`tests/diagnostic/lockin/gain_sign_check.py`); a **conditional verdict is
+   recorded** (2026-06-12, reachable-range only: no positive-feedback signal at
+   the margin, but the low-coherence regime is unreachable under tested
+   workloads, so any Fix 0-A wiring needs a runtime coherence guard —
+   `2026-06-12-gain-sign-reachable-range.md`). A full-range verdict stays open.
 
 **Planned (the structural counterbalance — not yet built):**
 
@@ -317,8 +321,8 @@ record `spec: v0.2`.
 |-------|---------|--------|
 | **A** | λ ignition channel — import-isolated; writes generator weights only | **shipped** (`ignition/`, finding `2026-06-19-ignition-channel-build-a.md`) |
 | **C** | ⊘ Witness-Reaper integrity-read — observe-only thinness + non-binding advisory | **shipped** (`cognition/integrity_read.py`; named region fired live; `2026-06-19-witness-reaper-build-c.md`) |
-| **B** | λ-ledger + ⊕ solvent gate (anti-bootstrap core) | **planned** — `docs/build_b_plan.md` (settle λ_strength reading first) |
-| §4 | the discriminator — ⊘-off vs ⊘-on, noise-swept | **planned** — needs A+B+C; front-load the §6.3 gain-sign check |
+| **B** | λ-ledger + ⊕ solvent gate (anti-bootstrap core) | **shipped** (`agents/lambda_ledger.py` + `value_emergence._solvent_gain`; λ_strength settled as a separate ledger scalar; `2026-06-20-build-b-solvent-and-integrity-consumer.md`) |
+| §4 | the discriminator — ⊘-off vs ⊘-on, noise-swept | **planned** — A+B+C now shipped; front-load the §6.3 gain-sign check |
 
 Open dependencies (see `docs/two_operator_todo.md`): an **adversarial/thinning
 workload** to trigger and validate ⊘'s named regions; **per-type thinness
