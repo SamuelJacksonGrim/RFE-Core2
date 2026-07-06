@@ -25,6 +25,7 @@ the rest:
 | [`ROADMAP.md`](ROADMAP.md) | Canonical tier status (shipped / planned / unspecified) and tracked open items |
 | [`docs/north_star.md`](docs/north_star.md) | The compass: the end goal and the three voices (waking speech / inner monologue / symbolic dreaming) |
 | [`docs/EXPERIMENTAL_LEVERS.md`](docs/EXPERIMENTAL_LEVERS.md) | The control panel: every lever, its default, the exact switch |
+| [`docs/BACKLOG.md`](docs/BACKLOG.md) | The consolidated open-work ledger: every planned fix in one prioritized queue |
 | [`docs/findings/`](docs/findings/) | The dated, control-named empirical ledger (negative results count) |
 
 The sections below describe the architecture of each tier; the ROADMAP tracks
@@ -631,6 +632,7 @@ RFE-Core2/
 │
 ├── docs/
 │   ├── north_star.md                    The compass — the end goal + the three voices
+│   ├── BACKLOG.md                       Consolidated open-work ledger — every planned fix, one queue
 │   ├── EXPERIMENTAL_LEVERS.md           Control panel — every lever, its default, exact how-to-toggle
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
 │   ├── self_model_thesis.md             The theory of mind RFE instantiates — self as smithable emergent attractor
