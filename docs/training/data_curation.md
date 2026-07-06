@@ -65,7 +65,10 @@ Generator is internal, not a wrapped LLM).
 4. **Source diversity.** Sequences tagged per source (Resonance Family
    pattern) so contrastive sampling can avoid single-source monopoly in the
    buffer — the training-data analogue of the HHI monopoly artifact found in
-   gate decomposition.
+   gate decomposition. *(Honesty note, 2026-07-06: the shipped corpus's
+   `source` labels are synthetic placeholders reserving this schema slot, not
+   provenance — assigned near-uniformly/by RNG and consumed by nothing but the
+   integrity check. See `data/corpus/MANIFEST.md` §Source labels.)*
 
 ## 3. Proposed corpus design
 
@@ -114,8 +117,14 @@ lived experience is the steady state.
 - Whether dream-cycle outputs should enter the corpus (synthesized sequences
   are cheap diversity but unanchored to any source; suggest: allowed into
   contrastive negatives only, at first).
-- Whether to log live token streams now (a `deque`-bounded stream recorder
-  would make the operational-vocabulary census trivial and is observe-only).
+- ~~Whether to log live token streams now (a `deque`-bounded stream recorder
+  would make the operational-vocabulary census trivial and is observe-only).~~
+  **Built (2026-07-06):** `cognition/stream_recorder.py`, opt-in via
+  `CONFIG["stream_recorder"] = True` — a bounded ring of each step's (tokens,
+  source, rhythm, governance decision), read via `cycle.status()` and dumped
+  with `dump_jsonl()`. The decision is recorded so §4's trust-gated curation
+  ("no quarantined sources") is possible from the log alone. Observe-only
+  terminal sink; the records are curation *candidates*, never auto-fed back.
 - dim 64 vs 256: the 2026-06-08 audit found dim 256 ~2× more diverse even
   untrained; if Phase 1 plateaus below Gate G1 at dim 64, raising dim is the
   documented second lever and the corpus transfers unchanged.

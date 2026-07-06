@@ -20,6 +20,22 @@ operational-vocabulary extension built by data/corpus/build_extension_v1_1_0.py
   is present and is NOT the sacred ANCHOR symbol (whose token string is
   `3.12` — see `agents/governance_constants.py::PHILOSOPHICAL_CONSTANTS`).
 
+## Source labels — provenance note (2026-07-06)
+
+The `source` field is a **synthetic placeholder, not provenance**. No sequence
+"came from" the named agent: the v1.0.x labels were assigned by the external
+generator near-uniformly (768/749/695/658 across train — not the nominal
+0.40/0.25/0.20/0.15 weights), and the v1.1.0 extension assigns them by
+weighted RNG (`build_extension_v1_1_0.py::SOURCE_WEIGHTS`). The source×rhythm
+cross-tab is flat; treat any apparent correlation as noise. Nothing trains on
+the field — `training/corpus.py::to_rhythm_seeds()` drops it, and its only
+consumer is the integrity check's enum validation. It exists to reserve the
+schema slot `data_curation.md` §2.4 plans for: source-diversity caps in
+Phase-4 online contrastive sampling. The names themselves are role
+placeholders shared with the Resonance Family test fixture; they may be
+renamed freely in a future corpus version (bump this MANIFEST and the
+integrity check's `SOURCES` enum together).
+
 ## Split policy
 Stratified by rhythm, ~15% holdout, sequences (not tokens) held out.
 Token overlap between train/holdout is expected and correct; exact-sequence
