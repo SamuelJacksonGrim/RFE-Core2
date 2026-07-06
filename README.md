@@ -625,7 +625,7 @@ RFE-Core2/
 ├── data/
 │   └── corpus/                     Curated rhythm corpus (versioned; see MANIFEST.md)
 │       ├── MANIFEST.md             Provenance, counts, split policy, version history
-│       ├── rhythm_train.jsonl      Training split (rhythm/source-labeled sequences)
+│       ├── rhythm_train.jsonl      Training split (rhythm-labeled sequences)
 │       ├── rhythm_holdout.jsonl    Held-out split (Gate G1 generalization readout)
 │       └── build_extension_v1_1_0.py  v1.1.0 operational-vocabulary extension builder (seeded)
 │
