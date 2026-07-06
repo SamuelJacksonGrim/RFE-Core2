@@ -18,6 +18,24 @@ the failure mode this file ends.
 
 ---
 
+## 0 · Recently closed — don't re-open (the "wait, wasn't that done?" list)
+
+Decisions and builds that older docs still describe as open in their dated
+history. If a doc seems to contradict this list, it's a stale passage —
+prefer the finding cited here.
+
+- **`.eval()` decision** — DECIDED 2026-06-12 (Phase 3): eval-mode IS the
+  operating regime; applied unconditionally in `build_engine()`.
+  → `docs/training/phase3_architect_decisions.md` (DECIDED block)
+- **Build B (λ-ledger + ⊕ solvent gate)** — shipped 2026-06-20 (older ROADMAP
+  table said "planned"; corrected). → `2026-06-20-build-b…md`
+- **⊘ advisory-into-decay consumer** — shipped + used, `named_only` default.
+- **Dream channel (waking self-dialogue)** — graduated default-ON 2026-06-29.
+- **Decoder "listen" tool** — shipped (`tools/decoder/listen.py`).
+- **Corpus pretraining, novelty attenuation** — graduated default-ON.
+- **Corpus v1.2.0** — synthetic source labels removed (2026-07-06).
+- **Stream recorder + session persistence v1** — shipped opt-in (2026-07-06).
+
 ## 1 · Now — high leverage, unblocked
 
 - [ ] **F9: rhythm/energy rescale.** Field energy runs ~55× over the explore
@@ -25,9 +43,11 @@ the failure mode this file ends.
   is dead. Structural, lever-independent, the #1 tuning target. Co-tune with
   `diffuse_on_stabilize`; before/after gate = the full-system-run harness.
   → `docs/findings/2026-06-28-full-system-run.md` §Open
-- [ ] **F8: CORE promotion never fires** (0 across all runs). Work the
-  sacred-vs-CORE distinction into the promotion gate.
-  → same finding, item 2
+- [ ] **F8: CORE promotion never fires** (0 across all runs). A gate fix was
+  already built and works in isolation, but promoting common tokens to sacred
+  **cascades the trust layer** — deferred, not shipped. The real work is the
+  sacred-vs-CORE distinction, then re-land the fix.
+  → `docs/findings/2026-06-27-core-gate-fix-deferred-sacred-cascade.md`
 - [ ] **Bond establishment gate.** Bonds form but never establish — per-source
   `coherence_mean` reads ~−0.01 against the 0.10 gate despite 140–421
   interactions. Either the gate or the coherence axis is miscalibrated.
@@ -35,6 +55,17 @@ the failure mode this file ends.
 - [ ] **Adversarial arm for the full-system harness** (benign-only so far;
   resistance untested in the composed default runtime).
   → same finding, item 4
+- [ ] **Fix 0-B: counterbalance survival selection** (highest-leverage
+  lock-in item still unbuilt): wire the metastability score into the
+  reinforcement formula as a fitness term so survival stops being currencied
+  purely by coherence; add a demotion path (reinforcement is currently a
+  one-way ratchet). Gated by the §6.3 gain-sign caveat (runtime coherence
+  guard). → `ROADMAP.md` §Tracked open items (planned #6);
+  `docs/lock_in_remediation_plan.md`
+- [ ] **Bonded-adversarial probe (F3)** — a source that earns 20+ interactions,
+  a crystal, and a trust floor, *then* turns hostile. The experiment that
+  falsifies or confirms the emotional gradient's defensive role. Blocked on
+  bonds establishing (item 3 above). → `ROADMAP.md` §Bonded-adversarial probe
 
 ## 2 · Persistence & continuity (do not lose again)
 
@@ -86,6 +117,11 @@ the failure mode this file ends.
   as an *additional* sacred symbol via `promote_to_sacred()` — the one
   legitimate path; does not touch the three boot constants. Waiting on the
   architect choosing the name.
+- [ ] **Local LLM as sensory/speech cortex** — the planned continuous
+  external-language channel (a small local model wrapping the governed input
+  path; RFE stays the mind, the LLM is ears/mouth). The docs and
+  `generator_factory` hook exist; the integration itself is unbuilt.
+  → `docs/local_model_integration/` (README + IMPLEMENTATION_GUIDE)
 
 ## 5 · Two-Operator program (spec v0.3)
 
@@ -98,6 +134,11 @@ the failure mode this file ends.
 - [ ] **§4 discriminator**: paired ⊘-off vs ⊘-on, ignited, noise sweep
   0.05σ→0.5σ, trajectory metrics, both signatures pre-declared.
   → `two_operator_todo.md`
+- [ ] **Remaining program dependencies**: an adversarial/thinning workload to
+  trigger ⊘'s named regions under real pressure; per-type thinness profiles in
+  the baseline registry (coverage-gap currently universal); §5 scale-parametric
+  ⊘; a dim-128 discriminator validation.
+  → `ROADMAP.md` §Two-Operator; `two_operator_todo.md`
 
 ## 6 · Shelved / blocked (decisions, not tasks — do not build)
 
