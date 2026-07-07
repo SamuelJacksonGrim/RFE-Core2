@@ -1,0 +1,62 @@
+{
+  "status": {
+    "constants": {
+      "sacred_count": 3,
+      "ANCHOR": 339,
+      "RECURSION": 341,
+      "HOMEOSTASIS": 343
+    },
+    "trust_summary": {
+      "sources": 4,
+      "average_source_trust": 5.0,
+      "toxic_sources": 0,
+      "sacred_sources": 4,
+      "symbols_tracked": 33,
+      "quarantined_symbols": 0,
+      "average_symbol_trust": 4.1082
+    },
+    "ethical_summary": {
+      "tracked_sources": 4,
+      "config": {
+        "coherence_floor": -0.3,
+        "coherence_soft_threshold": -0.05,
+        "stability_floor": 0.1,
+        "flood_window_seconds": 60.0,
+        "flood_ceilings": {
+          "user": 12,
+          "api": 600,
+          "internal": 100000
+        },
+        "harmony_field_threshold": 0.9
+      }
+    },
+    "dependency": {
+      "hhi": 0.2887,
+      "risk": "LOW",
+      "dominant_source": "source_samuel",
+      "dominant_share": 0.4062,
+      "window_size": 128,
+      "attractor_monopoly": 0.6667
+    },
+    "bonds": {
+      "bonds": 0,
+      "established": 0
+    },
+    "resistance": {
+      "window_size": 32,
+      "velocity_mean": 0.0063,
+      "gap_mean": 0.0012,
+      "cosine_mean": 0.8955,
+      "gt_div_mean": 0.1983,
+      "sources_tracked": 4
+    },
+    "force_dream_flag": false,
+    "audit_entries": 512,
+    "subscribers": 3
+  },
+  "decision_histogram": {
+    "allow": 512
+  },
+  "decisions_in_log": 512,
+  "gates_fired_histogram": {}
+}

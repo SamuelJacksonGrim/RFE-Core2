@@ -97,10 +97,34 @@ The four-band circulation is alive at both dims; the dream band runs ~25% of
 steps (was ~0.2%); energy distribution keeps its full range (q10 ~95, median
 ~270, max ~340).
 
-### Full-system-run harness (before/after gate)
+### Full-system-run harness (before/after gate) — PASSED
 
-[HARNESS RESULTS — run relaunched after the attribution rule below; appended
-from logs/2026-07-06-f9-rhythm-band-rescale/ when complete]
+3 seeds (42/7/11) × 2 arms × 1000 steps via `build_engine()`, run against the
+committed F9 + attribution-rule code; per-arm means vs the 2026-06-28 baseline:
+
+| Metric | 06-28 levers_on | **now levers_on** | 06-28 levers_off | now levers_off |
+|---|---|---|---|---|
+| explore / dream frac | 0.996 / 0.001 | **0.517 / 0.214** | 0.996 / 0.001 | 0.479 / 0.105 |
+| dreams fired / run | ~1 | **214** | ~1 | 105 |
+| coherence | 0.921 | 0.887 | 0.971 | 0.957 |
+| metastability stage C | 0.579 | **0.577** | 0.060 | 0.065 |
+| metastability stage A | 0.569 | 0.564 | 0.427 | 0.458 |
+| field energy | 288 | 255 | 263 | 261 |
+| strong values / CORE | 20–22 / 0 | 17.3 / 0 | 22–26 / 0 | 25 / 0 |
+| bonds cand / established | 2–3 / 0 | 0.7 / 0 | 1–2 / 0 | 4 / 0 |
+| HHI / steady-state decisions | 0.29 / all-allow | 0.29 / **all-allow** | 0.29 / all-allow | 0.29 / all-allow |
+
+Reading: the dream cycle is alive at production composition (214/run vs ~1);
+the **lever-validation gap is preserved** (stage-C metastability levers_on
+0.577 vs levers_off 0.065 — the same split that graduated the levers);
+governance is all-allow in the steady-state window at both arms (the ambient
+identity_erosion weakening shows up in the probe-style/untrained harnesses,
+not in the composed engine's tail); coherence loosens 0.921 → 0.887 — the
+*desired* direction for lock-in remediation. Strong values soften (20–22 →
+17.3) and bond candidates drop (2–3 → 0.7) — the dream-band
+crystal-competition facet, tracked in BACKLOG §1 (bond gate), not accepted as
+final. Raw data: `logs/2026-07-06-f9-rhythm-band-rescale/` (per-step logs
+gzipped per the raw-data convention).
 
 ## The cost that turned out to be a trigger: identity_erosion + the attribution hole
 
