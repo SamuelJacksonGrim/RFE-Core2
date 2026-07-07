@@ -1,8 +1,8 @@
 {
   "rhythms": {
     "stabilize": {
-      "description": "Consolidation, crystallization, attractor merge. Field energy < 0.5.",
-      "energy_threshold": 0.5,
+      "description": "Consolidation, crystallization, attractor merge. Field energy < 5 (cold start).",
+      "energy_threshold": 5.0,
       "behaviors": ["crystal_activation", "field_diffusion", "attractor_merge"],
       "generation_mode": "language",
       "chorus_active": false,
@@ -13,8 +13,8 @@
       "decay_rate_modifier": 0.9999
     },
     "dream": {
-      "description": "Free association, latent recombination. Field energy 0.5 - 2.0.",
-      "energy_threshold": 2.0,
+      "description": "Free association, latent recombination. Field energy 5 - 150 (warmup passage).",
+      "energy_threshold": 150.0,
       "behaviors": ["dream_synthesis", "harmonic_mutation", "latent_exploration"],
       "generation_mode": "ephemeral",
       "chorus_active": false,
@@ -25,8 +25,8 @@
       "decay_rate_modifier": 0.995
     },
     "reflect": {
-      "description": "Deliberate recursion, chorus harmonization. Field energy 2.0 - 5.0.",
-      "energy_threshold": 5.0,
+      "description": "Deliberate recursion, chorus harmonization. Field energy 150 - 300 (the home band).",
+      "energy_threshold": 300.0,
       "behaviors": ["recursive_attention", "reflective_loop", "chorus_harmonize"],
       "generation_mode": "chorus",
       "chorus_active": true,
@@ -37,7 +37,7 @@
       "decay_rate_modifier": 0.995
     },
     "explore": {
-      "description": "Novelty seeking, bifurcation, high mutation. Field energy >= 5.0.",
+      "description": "Novelty seeking, bifurcation, high mutation. Field energy >= 300 (burst state).",
       "energy_threshold": null,
       "behaviors": ["bifurcation", "phase_noise", "high_mutation", "chorus_harmonize"],
       "generation_mode": "chorus",
@@ -50,12 +50,12 @@
     }
   },
   "transitions": {
-    "stabilize_to_dream":  "field_energy crosses 0.5 upward",
-    "dream_to_reflect":    "field_energy crosses 2.0 upward",
-    "reflect_to_explore":  "field_energy crosses 5.0 upward",
-    "explore_to_reflect":  "field_energy drops below 5.0",
-    "reflect_to_dream":    "field_energy drops below 2.0",
-    "dream_to_stabilize":  "field_energy drops below 0.5"
+    "stabilize_to_dream":  "field_energy crosses 5 upward",
+    "dream_to_reflect":    "field_energy crosses 150 upward",
+    "reflect_to_explore":  "field_energy crosses 300 upward",
+    "explore_to_reflect":  "field_energy drops below 300",
+    "reflect_to_dream":    "field_energy drops below 150",
+    "dream_to_stabilize":  "field_energy drops below 5"
   },
   "emotional_modulation": {
     "curiosity_drives":    ["mutation_scale", "field_gain", "exploration"],

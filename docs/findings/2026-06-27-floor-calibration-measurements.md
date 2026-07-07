@@ -72,7 +72,13 @@ climb → the field locks in a low-energy stabilize basin. **The thresholds feed
 into the dynamics that produce the energy**, so they cannot be calibrated against an
 energy distribution measured under the *old* thresholds — it is circular.
 
-Consequence: the rhythm fix is **deferred to dedicated work**, not shipped as a
+→ **DONE (2026-07-06)** — the dedicated work landed: bands rescaled to
+5/150/300 against *pinned-band equilibria* (the circularity broken exactly as
+prescribed here), with the stabilize threshold below its **degraded**
+(ALLOW_WEAKENED) equilibrium — the failure mode this UPDATE predicted had a
+second, deeper layer. See `2026-07-06-f9-rhythm-band-rescale.md`.
+
+Consequence (as written 2026-06-27): the rhythm fix is **deferred to dedicated work**, not shipped as a
 constant change. It must co-tune the bands *with* the diffusion feedback (or change
 the approach — e.g. decouple band classification from the diffusion trigger, or make
 `diffuse_on_stabilize` gentler), and be validated end-to-end at both dims. The bands

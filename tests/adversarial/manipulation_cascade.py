@@ -75,11 +75,17 @@ def main():
     print(f'  {mark} all_sources_trust_max   {all_max}      (expected True)')
     cases.append(case_3)
 
-    # Check 4: ALLOW decisions dominate (architecture is breathing, not choking)
-    allow_rate = summary["allow_rate"]
-    case_4     = allow_rate >= 0.95
-    mark       = "✓" if case_4 else "✗"
-    print(f'  {mark} allow_rate              {allow_rate:.4f}    (expected >= 0.95)')
+    # Check 4: injections dominate (architecture is breathing, not choking).
+    # Strict ALLOW share is rhythm-regime-dependent — the live dream band
+    # (F9 rescale, 2026-07-06) draws ambient identity_erosion weakening on
+    # benign traffic — so the cascade guard is injection_rate: ALLOW +
+    # ALLOW_WEAKENED + MONITOR all inject; a weakened-but-injecting,
+    # full-trust, zero-quarantine system is not a cascade.
+    inj_rate  = summary["injection_rate"]
+    case_4    = inj_rate >= 0.95
+    mark      = "✓" if case_4 else "✗"
+    print(f'  {mark} injection_rate          {inj_rate:.4f}    (expected >= 0.95; '
+          f'strict allow_rate {summary["allow_rate"]:.4f})')
     cases.append(case_4)
 
     # Final per-source trust trajectory

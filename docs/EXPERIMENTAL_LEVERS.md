@@ -42,7 +42,7 @@ The behavior-bearing flags in `CONFIG` (operational shape params — `dim`,
 | `dream_channel_p` | `0.20` | Fraction of waking steps fed as `source_dream` (the validated weight). |
 | `use_chorus` | `True` | Six-agent Chorus harmonization for reflect/explore generation (vs direct generator). |
 | `dream_cycle_enabled` | `True` | Build/run the offline `DreamCycle`. |
-| `dream_cycle_trigger` | `"stabilize"` | Rhythm that fires the dream cycle. ⚠ At dim 128 the rhythm is pinned to `explore` (F9), so this almost never fires. |
+| `dream_cycle_trigger` | `"stabilize"` | Rhythm that fires the offline dream cycle (every 20th step in that rhythm). Since the F9 band rescale (2026-07-06) `stabilize` occurs during cold-start consolidation, so this fires at boot; the waking dream *band* behavior fires separately whenever rhythm is `dream`. |
 
 Opt-in overlay/instruments live in *The levers* and *The instruments* tables
 below (attached via the cycle hooks, not `CONFIG`).

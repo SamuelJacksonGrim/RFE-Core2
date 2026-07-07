@@ -90,7 +90,13 @@ class SourceRecord:
     origin_type:       str           # "user"|"api"|"dream"|"internal"|"training"
     first_seen:        float
     interaction_count: int   = 0
-    trust_score:       float = 2.5   # starts NEUTRAL
+    # Starts TRUSTED (architect ruling 2026-07-06: presumed good-faith —
+    # "the system can't learn who to trust if it's always untrusting").
+    # Distrust is learned from behavior, not presumed: every detector,
+    # penalty, and the ladder down to TOXIC are unchanged, and starting at
+    # 3.0 arms the trust-wash (build-then-betray) detector from first
+    # contact (its prior-mean requirement is 3.0).
+    trust_score:       float = 3.0
     last_updated:      float = field(default_factory=time.time)
     reliability_history: collections.deque = field(
         default_factory=lambda: collections.deque(maxlen=64)
@@ -113,7 +119,7 @@ class SymbolTrustRecord:
     """Field-impact history for a specific symbol."""
     stable_id:       int
     source_id:       str     = ""
-    symbol_trust:    float   = 2.5   # inherits from source at birth, diverges thereafter
+    symbol_trust:    float   = 3.0   # inherits from source at birth, diverges thereafter
     field_impact_ema: float  = 0.0   # EMA of coherence_delta values
     violation_count: int     = 0
     last_updated:    float   = field(default_factory=time.time)
@@ -297,7 +303,7 @@ class TrustLedger:
 
     def field_trust_summary(self) -> dict:
         if not self.sources:
-            return {"average_source_trust": 2.5, "sources": 0}
+            return {"average_source_trust": 3.0, "sources": 0}
 
         s_trusts = [s.trust_score for s in self.sources.values()]
         y_trusts = [r.symbol_trust for r in self.symbol_records.values()]
@@ -311,7 +317,7 @@ class TrustLedger:
             "quarantined_symbols": sum(
                 1 for r in self.symbol_records.values() if r.violation_count > 2
             ),
-            "average_symbol_trust": round(float(np.mean(y_trusts)), 4) if y_trusts else 2.5,
+            "average_symbol_trust": round(float(np.mean(y_trusts)), 4) if y_trusts else 3.0,
         }
 
     # ------------------------------------------------------------------

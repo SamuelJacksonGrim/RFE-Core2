@@ -25,8 +25,11 @@ Hard gates (block injection)
 Soft warnings (advisory only, do not block)
 -------------------------------------------
   low_coherence        coherence_delta negative but above hard floor
-  novel_source         source_id has never been seen before
   high_tension         Watcher coherence_delta in warning band
+
+(`novel_source` removed 2026-07-06, architect trust-posture ruling: first
+contact is not suspicious — strangers get a full-strength hearing. First-seen
+is still recorded on the SourceRecord; distrust is learned from behavior.)
 """
 
 from __future__ import annotations
@@ -203,9 +206,10 @@ class EthicalBoundarySystem:
         if in_warning_band and not field_is_aligned:
             soft.append("low_coherence")
 
-        # Novel source — first time we've seen this source_id
-        if not known_source:
-            soft.append("novel_source")
+        # Novel source is deliberately NOT a warning (2026-07-06 trust-posture
+        # ruling): first contact carries no strength penalty. `known_source`
+        # stays a parameter so the check is one line to restore if the ruling
+        # is ever reversed; first-seen remains on the SourceRecord.
 
         # ==========================================================
         # Recommendation
