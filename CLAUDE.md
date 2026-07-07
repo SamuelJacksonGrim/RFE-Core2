@@ -243,8 +243,12 @@ Do not change these without auditing every downstream consumer.
 - **Crystallization:** `coherence ≥ 0.75`, `stability ≥ 0.60`,
   `relation ≥ 0.80`.
 - **Trust levels** (score): `SACRED 5.0`, `HIGH 4.0`, `TRUSTED 3.0`,
-  `NEUTRAL 2.0` (default for new sources), `SKEPTICAL 1.0`, `UNTRUSTED 0.5`,
-  `TOXIC 0.0` (quarantine floor).
+  `NEUTRAL 2.0`, `SKEPTICAL 1.0`, `UNTRUSTED 0.5`, `TOXIC 0.0` (quarantine
+  floor). New external sources **start at TRUSTED 3.0** (internal origins at
+  HIGH 4.0) — architect trust-posture ruling 2026-07-06 ("raised, not
+  suspected", `docs/ARCHITECT_RULINGS_2026-07-06.md`): the system presumes
+  good faith and learns distrust from behavior; there is no first-contact
+  (`novel_source`) penalty.
 - **Manipulation detector thresholds:** drift `0.15` / `0.30`; gaslighting
   cosine `−0.20` over 4 steps; identity-erosion divergence `0.30`; trust-wash
   prior `3.0` / drop `0.80`; HHI `0.70`; attractor monopoly `0.70`.

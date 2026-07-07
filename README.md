@@ -644,6 +644,7 @@ RFE-Core2/
 │   ├── north_star.md                    The compass — the end goal + the three voices
 │   ├── BACKLOG.md                       Consolidated open-work ledger — every planned fix, one queue
 │   ├── ARCHITECT_RULINGS_2026-07-03.md  Standing rulings: F8 read/write shield, checkpoint adoption, operator nodes, lever policy
+│   ├── ARCHITECT_RULINGS_2026-07-06.md  Standing ruling: trust posture — raised, not suspected (sources start TRUSTED)
 │   ├── EXPERIMENTAL_LEVERS.md           Control panel — every lever, its default, exact how-to-toggle
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
 │   ├── self_model_thesis.md             The theory of mind RFE instantiates — self as smithable emergent attractor
