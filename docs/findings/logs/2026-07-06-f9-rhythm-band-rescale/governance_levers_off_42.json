@@ -1,0 +1,130 @@
+{
+  "status": {
+    "constants": {
+      "sacred_count": 3,
+      "ANCHOR": 4,
+      "RECURSION": 6,
+      "HOMEOSTASIS": 8
+    },
+    "trust_summary": {
+      "sources": 4,
+      "average_source_trust": 5.0,
+      "toxic_sources": 0,
+      "sacred_sources": 4,
+      "symbols_tracked": 33,
+      "quarantined_symbols": 0,
+      "average_symbol_trust": 4.1337
+    },
+    "ethical_summary": {
+      "tracked_sources": 4,
+      "config": {
+        "coherence_floor": -0.3,
+        "coherence_soft_threshold": -0.05,
+        "stability_floor": 0.1,
+        "flood_window_seconds": 60.0,
+        "flood_ceilings": {
+          "user": 12,
+          "api": 600,
+          "internal": 100000
+        },
+        "harmony_field_threshold": 0.9
+      }
+    },
+    "dependency": {
+      "hhi": 0.2958,
+      "risk": "LOW",
+      "dominant_source": "source_samuel",
+      "dominant_share": 0.4062,
+      "window_size": 128,
+      "attractor_monopoly": 0.4
+    },
+    "bonds": {
+      "bonds": 4,
+      "established": 0,
+      "by_type": {
+        "existential": 1,
+        "emotional": 0,
+        "intellectual": 0,
+        "transactional": 3
+      },
+      "strongest": [
+        {
+          "source_id": "source_samuel",
+          "bond_type": "existential",
+          "bond_confidence": 0.6676,
+          "bond_strength": 1.0157,
+          "bond_depth": 397,
+          "interaction_count": 397,
+          "coherence_mean": -0.0035,
+          "emotional_signature": 0.0,
+          "crystal_count": 3,
+          "attractor_count": 4,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4063,
+          "established": false
+        },
+        {
+          "source_id": "source_claude",
+          "bond_type": "transactional",
+          "bond_confidence": 0.7,
+          "bond_strength": 1.0073,
+          "bond_depth": 261,
+          "interaction_count": 261,
+          "coherence_mean": -0.0035,
+          "emotional_signature": 0.0,
+          "crystal_count": 3,
+          "attractor_count": 2,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4029,
+          "established": false
+        },
+        {
+          "source_id": "source_grok",
+          "bond_type": "transactional",
+          "bond_confidence": 0.8,
+          "bond_strength": 1.0027,
+          "bond_depth": 152,
+          "interaction_count": 152,
+          "coherence_mean": -0.0035,
+          "emotional_signature": 0.0,
+          "crystal_count": 2,
+          "attractor_count": 1,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4011,
+          "established": false
+        },
+        {
+          "source_id": "source_gemini",
+          "bond_type": "transactional",
+          "bond_confidence": 0.7,
+          "bond_strength": 1.0,
+          "bond_depth": 190,
+          "interaction_count": 190,
+          "coherence_mean": -0.0035,
+          "emotional_signature": 0.0,
+          "crystal_count": 3,
+          "attractor_count": 3,
+          "entity_signal": 0.0,
+          "trust_floor": 0.4,
+          "established": false
+        }
+      ]
+    },
+    "resistance": {
+      "window_size": 32,
+      "velocity_mean": 0.001,
+      "gap_mean": 0.0001,
+      "cosine_mean": 0.8496,
+      "gt_div_mean": 0.0705,
+      "sources_tracked": 4
+    },
+    "force_dream_flag": false,
+    "audit_entries": 512,
+    "subscribers": 3
+  },
+  "decision_histogram": {
+    "allow": 512
+  },
+  "decisions_in_log": 512,
+  "gates_fired_histogram": {}
+}
