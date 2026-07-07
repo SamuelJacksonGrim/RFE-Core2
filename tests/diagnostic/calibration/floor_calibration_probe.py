@@ -5,9 +5,9 @@ Measure-before-you-change instrument for the two structural cracks the pass-3
 evaluation found (`docs/findings/2026-06-25-ground-truth-pass3-stack-evaluation.md`):
 
   A. RHYTHM/ENERGY — the field energy scale at dim 128 vs the rhythm bands
-     (stabilize<0.5 · dream 0.5-2 · reflect 2-5 · explore>=5). Reports the real
-     energy distribution and PREVIEWS the rhythm spread under candidate calibrations
-     (energy normalizations / rescaled bands) WITHOUT changing anything.
+     (read live from ResonanceField.DEFAULT_THRESHOLDS; 5/150/300 since the
+     2026-07-06 F9 rescale). Reports the real energy distribution and PREVIEWS
+     the rhythm spread under candidate calibrations WITHOUT changing anything.
 
   B. CORE coherence signal — the gate `coherence_contribution >= 5.0` against the
      dead marginal accumulator. Reports, per value, the current (dead) signal AND
@@ -96,8 +96,11 @@ def main() -> int:
     print(f"\n[A] FIELD ENERGY (dim {DIM}, {STEPS} steps)")
     print(f"    min={e.min():.2f}  q10={qs[0]:.2f}  q25={qs[1]:.2f}  median={qs[2]:.2f}  "
           f"q75={qs[3]:.2f}  q90={qs[4]:.2f}  max={e.max():.2f}")
+    from substrate.resonance_field import ResonanceField
+    _t = ResonanceField.DEFAULT_THRESHOLDS
+    cur = (_t["stabilize"], _t["dream"], _t["reflect"])
     candidates = {
-        "current bands (0.5/2/5) on raw energy":      (lambda x: x, (0.5, 2.0, 5.0)),
+        f"current bands ({cur[0]:g}/{cur[1]:g}/{cur[2]:g}) on raw energy": (lambda x: x, cur),
         "normalize energy / median, bands 0.5/1/2":   (lambda x: x/qs[2], (0.5, 1.0, 2.0)),
         "rescaled bands at energy quantiles q25/q50/q75": (lambda x: x, (qs[1], qs[2], qs[3])),
     }

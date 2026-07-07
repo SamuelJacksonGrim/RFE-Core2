@@ -366,15 +366,18 @@ timescales all feeding the same field.
 > (`2026-06-20-ground-truth-pass2-floor-fix-and-unlock-chain.md`,
 > `2026-06-08-generator-dropout-diversity.md`).
 >
-> **Caveat (2026-06-25 — the rhythm router is pinned at dim 128, F9).** Coherence is
-> not the only axis stuck on its ceiling: at production dim 128 the field energy runs
-> mean ~180 (max ~284) while the rhythm bands top out at `explore ≥ 5`, so the router
-> sits in `explore` ~99% of the time and **dreams never fire**. A naive band rescale
-> collapses the system because `diffuse_on_stabilize` makes the stabilize band feed
-> back into field energy — the bands cannot be calibrated against a distribution
-> measured under the old bands (circular). Co-tuning bands *with* the diffusion
-> feedback is deferred work, not a constant tweak
-> (`2026-06-25-ground-truth-pass3-stack-evaluation.md`,
+> **Caveat (2026-06-25 — the rhythm router is pinned at dim 128, F9). → RESOLVED
+> (2026-07-06):** at production dim 128 the field energy ran mean ~180 (max ~284)
+> while the rhythm bands topped out at `explore ≥ 5`, so the router sat in `explore`
+> ~99% of the time and **dreams never fired**. A naive band rescale collapses the
+> system because `diffuse_on_stabilize` makes the stabilize band feed back into
+> field energy — the bands cannot be calibrated against a distribution measured
+> under the old bands (circular). Resolved by measuring each band's *pinned-run
+> equilibrium* and placing thresholds against those (5/150/300 — stabilize below
+> its *degraded* ALLOW_WEAKENED equilibrium, the binding constraint): stabilize
+> self-terminates upward, reflect is the home band, explore a burst state
+> (`2026-07-06-f9-rhythm-band-rescale.md`; history:
+> `2026-06-25-ground-truth-pass3-stack-evaluation.md`,
 > `2026-06-27-floor-calibration-measurements.md`).
 
 Computed once per step in `Watcher.evaluate()` (`agents/watcher.py`):
@@ -931,13 +934,21 @@ sacred token is a read (pass-through); overwriting/diluting/reassigning its
 identity is a write (shield). Implementation queued —
 `docs/ARCHITECT_RULINGS_2026-07-03.md` §1.
 
-**F9 — The rhythm router is pinned at production dim 128.** Field energy runs mean
-~180 / max ~284 while the bands top out at `explore ≥ 5`, so the router is ~99%
-`explore` and dreams never fire (0/800 steps) — dream-cycle consolidation is
-effectively dead. The bands cannot be naively rescaled because `diffuse_on_stabilize`
-feeds the stabilize band back into field energy (a rescale collapsed the system to a
-stabilize basin). Co-tuning bands with the diffusion feedback is the fix, deferred
-(`2026-06-25-…-pass3-stack-evaluation.md`, `2026-06-27-floor-calibration-measurements.md`).
+**F9 — The rhythm router is pinned at production dim 128. → RESOLVED (2026-07-06).**
+Field energy ran mean ~180 / max ~284 while the bands topped out at `explore ≥ 5`,
+so the router was ~99% `explore` and dreams never fired — dream-cycle consolidation
+was effectively dead. The bands could not be naively rescaled because
+`diffuse_on_stabilize` feeds the stabilize band back into field energy (the
+2026-06-27 rescale collapsed the system to a stabilize basin). Fixed by measuring
+each band's pinned-run equilibrium (stabilize ~37 full-strength / ~13 under
+ALLOW_WEAKENED injections, dream ~200, reflect ~294, explore ~301; dims 64+128
+agree) and co-tuning the thresholds against them — 5/150/300, with stabilize
+below its *degraded* equilibrium (a 15 threshold trapped dim 64 in a
+weakened-injection stall that bled all sources' trust to TOXIC) — so stabilize
+and dream self-terminate upward, reflect is the home band, and explore is a
+reachable burst state, not a basin
+(`2026-07-06-f9-rhythm-band-rescale.md`; history: `2026-06-25-…-pass3-stack-evaluation.md`,
+`2026-06-27-floor-calibration-measurements.md`).
 
 **F10 — Isolation-green is not composition-green.** Levers validated alone broke a
 baseline property when all turned on together (`strong_values 5 → 0`, the ⊘-consumer

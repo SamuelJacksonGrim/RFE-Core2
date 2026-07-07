@@ -235,7 +235,11 @@ errors.
 Do not change these without auditing every downstream consumer.
 
 - **Rhythm thresholds** (`configs/field.yaml`) — energy bands routing behavior:
-  `stabilize < 0.5`, `dream 0.5–2.0`, `reflect 2.0–5.0`, `explore ≥ 5.0`.
+  `stabilize < 5.0`, `dream 5.0–150.0`, `reflect 150.0–300.0`,
+  `explore ≥ 300.0` (F9 rescale 2026-07-06 — co-tuned against each band's
+  pinned-run equilibrium, with stabilize placed below its *degraded*
+  (ALLOW_WEAKENED) equilibrium; the constraint set is documented at
+  `ResonanceField.DEFAULT_THRESHOLDS`. Never retune one threshold alone).
 - **Crystallization:** `coherence ≥ 0.75`, `stability ≥ 0.60`,
   `relation ≥ 0.80`.
 - **Trust levels** (score): `SACRED 5.0`, `HIGH 4.0`, `TRUSTED 3.0`,
@@ -246,7 +250,10 @@ Do not change these without auditing every downstream consumer.
   prior `3.0` / drop `0.80`; HHI `0.70`; attractor monopoly `0.70`.
 - **Compound manipulation severity → response:** `< 0.30` normal ·
   `0.30–0.60` ALLOW_WEAKENED · `0.60–0.90` QUARANTINE · `≥ 0.90`
-  QUARANTINE + force_dream_flag.
+  QUARANTINE + force_dream_flag — with the **attribution rule** (2026-07-06):
+  the quarantine rungs require ≥1 *source-attributed* signal; systemic-only
+  evidence (`source_id=None`, e.g. `identity_erosion`) damps to ALLOW_WEAKENED
+  (and still force-dreams at ≥ 0.90) but never quarantines the speaking source.
 - **Bond reinforcement weights** (in `ValueEmergenceEngine`): existential
   ×1.50, emotional ×1.20, intellectual ×1.10, transactional ×0.70, no bond
   ×1.00. Bond type resolves by priority
