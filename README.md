@@ -113,10 +113,15 @@ AutonomousCycle  (Self-Modulating Loop: Stabilize → Dream → Reflect → Expl
 
 | Rhythm | Energy | Behavior |
 |--------|--------|----------|
-| `stabilize` | < 0.5 | Consolidation, crystallization, attractor merge |
-| `dream` | 0.5 – 2.0 | Free association, harmonic recombination |
-| `reflect` | 2.0 – 5.0 | Recursive attention, chorus harmonization |
-| `explore` | ≥ 5.0 | Bifurcation, high mutation, novelty seeking |
+| `stabilize` | < 5.0 | Consolidation, crystallization, attractor merge (cold start) |
+| `dream` | 5.0 – 150.0 | Free association, harmonic recombination (warmup passage) |
+| `reflect` | 150.0 – 300.0 | Recursive attention, chorus harmonization (the home band) |
+| `explore` | ≥ 300.0 | Bifurcation, high mutation, novelty seeking (burst state) |
+
+Bands are co-tuned against each band's own equilibrium energy — stabilize
+diffuses the field and explore injects extra mutation, so the thresholds feed
+back into the energy that classifies them (F9 rescale, 2026-07-06; constraint
+set at `ResonanceField.DEFAULT_THRESHOLDS`).
 
 ---
 
@@ -237,8 +242,13 @@ Each detector emits a `ManipulationSignal` with `severity ∈ [0, 1]`. SelfhoodG
 |-------------------|---------------------|
 | < 0.30 | normal arbitration |
 | 0.30–0.60 | ALLOW_WEAKENED |
-| 0.60–0.90 | QUARANTINE |
-| ≥ 0.90 | QUARANTINE + force_dream_flag (internal rebalancing) |
+| 0.60–0.90 | QUARANTINE if ≥1 *named* signal; systemic-only → ALLOW_WEAKENED |
+| ≥ 0.90 | force_dream_flag + (named signal → QUARANTINE; systemic-only → ALLOW_WEAKENED) |
+
+Quarantine requires **source-attributed evidence** (2026-07-06): a systemic
+signal (`source_id=None`, e.g. `identity_erosion`) is the detector declaring it
+cannot name a culprit — it damps injections and (at critical) forces a dream
+rebalance, but never quarantines whichever source happened to be speaking.
 
 ---
 
@@ -634,6 +644,7 @@ RFE-Core2/
 │   ├── north_star.md                    The compass — the end goal + the three voices
 │   ├── BACKLOG.md                       Consolidated open-work ledger — every planned fix, one queue
 │   ├── ARCHITECT_RULINGS_2026-07-03.md  Standing rulings: F8 read/write shield, checkpoint adoption, operator nodes, lever policy
+│   ├── ARCHITECT_RULINGS_2026-07-06.md  Standing ruling: trust posture — raised, not suspected (sources start TRUSTED)
 │   ├── EXPERIMENTAL_LEVERS.md           Control panel — every lever, its default, exact how-to-toggle
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
 │   ├── self_model_thesis.md             The theory of mind RFE instantiates — self as smithable emergent attractor
@@ -735,7 +746,8 @@ RFE-Core2/
 │   │   │   ├── two_operator_live_demo.py     live dim-128 demo: A→λ→⊕ gate, ⊘ consumer selective demotion, no collapse
 │   │   │   └── all_levers_composition_probe.py  ALL levers ON together — composition gate (caught the ⊘-consumer strong-band ceiling)
 │   │   └── calibration/                  Floor calibration — measure-before-change
-│   │       └── floor_calibration_probe.py    energy/rhythm bands + CORE coherence-signal candidates (no change applied)
+│   │       ├── floor_calibration_probe.py    energy/rhythm bands + CORE coherence-signal candidates (no change applied)
+│   │       └── rhythm_band_equilibria_probe.py  pinned-band equilibrium energies — re-run before any band retune (F9)
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges

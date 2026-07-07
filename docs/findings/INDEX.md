@@ -59,6 +59,7 @@ rule). Every finding file must appear here (CI-enforced by `verify_docs`).
 | `2026-06-28-dream-channel` | Self-dialogue is safe, non-dominant, adversarial-gated; graduated default-ON | **standing** |
 | `2026-06-28-full-system-run` | Levers validated multi-seed (metastability 0.06→0.58); F9/F8/bond gaps named | **standing** (current tuning baseline) |
 | `2026-07-04-bonded-adversarial-attack-never-lands` | THE bond-betrayal experiment: attack never becomes a signal (stage-C cos ~0.98 hostile≡benign, 11 seeds) — blocked by two upstream walls: OOV attack vocabulary + pipeline re-collapse | **standing** |
+| `2026-07-06-f9-rhythm-band-rescale` | F9 fixed: bands rescaled 0.5/2/5 → 5/150/300 against pinned-band equilibria (the 15-trap: use the *degraded* eq); dream band alive ~25% both dims; exposed + fixed the governance **attribution hole** (systemic signals quarantined the speaker — now: nameless evidence damps, only named evidence quarantines) | **standing** (resolves F9) |
 
 ## Raw-data convention (adopted 2026-07-06)
 

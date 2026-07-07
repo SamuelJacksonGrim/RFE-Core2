@@ -42,6 +42,11 @@ prefer the finding cited here.
   are protected-but-not-sacred; (4) suppression/containment levers stay
   **permanently** severed from the baseline (ITG scaffold, ⊘ consumer off-baseline
   is now policy, not pending).
+- **Architect ruling 2026-07-06 — trust posture: raised, not suspected**
+  (`docs/ARCHITECT_RULINGS_2026-07-06.md`): new external sources start
+  TRUSTED 3.0; `novel_source` first-contact penalty removed; all
+  distrust-learning machinery unchanged. Do not quietly restore the
+  suspicious defaults.
 - **F8 half (a) — directional sacred-shield fix** — merged in **PR #68**
   (`ethical_boundary.py`: `sacred_mutation` fires only on all-sacred writes;
   sacred_shield 4/4).
@@ -51,11 +56,13 @@ prefer the finding cited here.
 
 ## 1 · Now — high leverage, unblocked
 
-- [ ] **F9: rhythm/energy rescale.** Field energy runs ~55× over the explore
-  ceiling, so rhythm is pinned `explore` 99.6% of the time and the dream cycle
-  is dead. Structural, lever-independent, the #1 tuning target. Co-tune with
-  `diffuse_on_stabilize`; before/after gate = the full-system-run harness.
-  → `docs/findings/2026-06-28-full-system-run.md` §Open
+- [x] ~~**F9: rhythm/energy rescale.**~~ **DONE 2026-07-06** — bands rescaled
+  0.5/2/5 → 5/150/300, co-tuned against each band's *pinned-run equilibrium*
+  (stabilize placed below its degraded ALLOW_WEAKENED equilibrium — the
+  15-trap). Four-band circulation alive at both dims (dream ~25%, was ~0.2%);
+  full-system harness re-run as the gate. Exposed two governance-side items
+  (warmup trust drain, identity_erosion ambient weakening — added below).
+  → `docs/findings/2026-07-06-f9-rhythm-band-rescale.md`
 - [ ] **F8 half (b): re-enable the v0.3 CORE-promotion gate.** The ruling is
   issued (directional read/write shield) and half (a) shipped in PR #68; what
   remains is the irreversible sanctification path: re-enable
@@ -93,6 +100,38 @@ prefer the finding cited here.
   loop ("launders betrayal into coherence"). Ablate the loop as in 2026-06-07
   and re-run — the first path to a real GRADIENT-DEFENSE-REAL vs
   RATE-LIMIT-ONLY verdict.
+- [x] ~~**Warmup trust drain (found during F9, 2026-07-06)**~~ **ROOT-CAUSED +
+  FIXED same day** — the "drain" was the compound-severity quarantine path
+  charging systemic (nameless) signals to whichever source was speaking
+  (−0.4 trust each → toxic spiral). Fixed by the **attribution rule** in
+  `arbitrate()`: quarantine rungs require ≥1 source-attributed signal;
+  systemic-only evidence damps (and force-dreams at ≥0.90) but never
+  quarantines the speaker. Canonical seeded trajectory now runs clean
+  (trust 5.0, quarantine 0). A milder feedback-side drain (negative
+  `coherence_impact` deltas during cold phases) may remain — re-measure if
+  cold-boot trust ever sags again.
+  → `docs/findings/2026-07-06-f9-rhythm-band-rescale.md` §attribution rule
+- [ ] **identity_erosion ambient weakening under the live dream band (found
+  during F9, 2026-07-06):** benign dream-band expressions widen watcher G/T
+  divergence to ~0.33 (threshold 0.30), so the detector emits a systemic
+  severity-~0.55 signal that ALLOW_WEAKENs benign traffic — 47% of steps in
+  the untrained test harness, 17–26% in the pretrained composed engine. The
+  quarantine hair-trigger this created was disarmed by the governance
+  **attribution rule** (same-day, see previous item); what remains open is the
+  ambient damping tax itself. The detector threshold cannot be recalibrated
+  blind: no probe measures its true-positive side (F3 showed attacks don't
+  yet become signals at all). When the F3 Wall-1 in-corpus-hostile-vocabulary
+  arm lands, measure attack-side G/T divergence and separate the bands.
+  Detectors were calibrated in the explore-pinned world.
+  → `docs/findings/2026-07-06-f9-rhythm-band-rescale.md`
+- [ ] **Trust learning-rate asymmetry (2026-07-06 ruling follow-on):** trust
+  builds at +0.01/interaction (Consistency Drip) but falls 0.4–0.8 per
+  defensive hit — 40–80× easier to lose than to earn, so one false positive
+  erases dozens of interactions of history. The trust-posture ruling fixed the
+  *starting point*; the learning rates themselves need a measured
+  recalibration (probe: time-to-recover after a single penalty vs
+  time-to-detect a real betrayal, so the asymmetry is chosen, not inherited).
+  → `docs/ARCHITECT_RULINGS_2026-07-06.md`
 - [ ] **Phase-adversarial / high-novelty workload probe** — one build unlocks
   four stalled readings: Tier 4.3's chaotic arm (phase_coherence never drops
   below ~0.79), the §6.3 full-range gain-sign verdict, the LAE sidecar's

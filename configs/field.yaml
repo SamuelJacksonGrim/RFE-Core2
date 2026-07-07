@@ -13,15 +13,18 @@ field:
   harmonic_bins: 4
   phase_history_len: 16
 
-  # Rhythm energy thresholds. NOTE (2026-06): too low for the real ||field|| scale
-  # (~100-300) so rhythm pins to `explore` at dim 128, but a naive rescale collapses
-  # the system via the diffuse_on_stabilize feedback (see resonance_field.py and
-  # finding 2026-06-27-floor-calibration-measurements). Left as-is pending the
-  # co-tuned fix.
+  # Rhythm energy thresholds — F9 rescale (2026-07-06), co-tuned against each
+  # band's pinned-run equilibrium energy (stabilize ~37 full / ~13 degraded,
+  # dream ~200, reflect ~294, explore ~301; dims 64 and 128 agree). The bands
+  # feed back into the energy that classifies them (stabilize diffuses,
+  # explore injects) AND through the governance trust loop, so do NOT retune
+  # one threshold in isolation — see the DEFAULT_THRESHOLDS comment in
+  # substrate/resonance_field.py and finding 2026-07-06-f9-rhythm-band-rescale
+  # for the constraint set and the two recorded traps (100 and 15).
   rhythm_thresholds:
-    stabilize: 0.5
-    dream: 2.0
-    reflect: 5.0
+    stabilize: 5.0
+    dream: 150.0
+    reflect: 300.0
     # explore = everything above reflect
 
   # Spectral diffusion

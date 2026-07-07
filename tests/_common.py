@@ -78,15 +78,30 @@ def build_full_stack(
     depth:      int  = 3,
     heads:      int  = 4,
     use_chorus: bool = True,
+    torch_seed: int  = 42,
 ) -> Tuple[Generator, AutonomousCycle, SelfhoodGovernance, ValueEmergenceEngine]:
     """
     Build the full Tier 0 + Tier 1 + Tier 2 + Tier 3 stack with sensible defaults.
+
+    torch_seed pins the generator's weight init so the suite is a deterministic
+    regression gate (run_resonance_sim seeds random/np only, which is too late
+    for weight init). This matters since the F9 band rescale: an UNTRAINED
+    stack's warmup is init-dependent — some inits climb out of the low-energy
+    bands cleanly, others stall long enough that the warmup trust drain
+    cascades (recorded in 2026-07-06-f9-rhythm-band-rescale.md and BACKLOG §1).
+    Pass torch_seed=None to opt out (bimodality probes).
 
     Returns
     -------
     (generator, cycle, governance, value_engine)
         All four wired together. Sacred constants registered. Subscriptions live.
     """
+    if torch_seed is not None:
+        try:
+            import torch
+            torch.manual_seed(torch_seed)
+        except ImportError:
+            pass
     generator = Generator(
         vocab_size = vocab_size,
         dim        = dim,
@@ -153,6 +168,20 @@ def run_resonance_sim(
         Histogram of GovernanceDecision values issued across the run.
     """
     random.seed(seed)
+    # Full determinism, not just source ordering: dream/explore band behaviors
+    # draw numpy randomness (inject_ambiguity uses the np global; Dreamer keeps
+    # a private default_rng). Under the old explore-pinned rhythm this never
+    # affected pass/fail; with the dream band alive (F9 rescale 2026-07-06) an
+    # unseeded warmup trajectory is bimodal in the UNTRAINED stack — some
+    # trajectories cascade via the warmup trust drain (BACKLOG §1). A
+    # regression gate needs one reproducible trajectory.
+    try:
+        import numpy as _np
+        _np.random.seed(seed)
+        if getattr(cycle, "dreamer", None) is not None:
+            cycle.dreamer._rng = _np.random.default_rng(seed)
+    except ImportError:
+        pass
     sids    = list(RESONANCE_FAMILY_SOURCES.keys())
     weights = [RESONANCE_FAMILY_WEIGHTS[s] for s in sids]
 
@@ -281,6 +310,13 @@ def health_summary(
         "total_decisions":          total,
         "allow_rate":               decisions.get("allow", 0) / total if total else 0.0,
         "allow_weakened_rate":      decisions.get("allow_weakened", 0) / total if total else 0.0,
+        # Everything that actually lands in the field. Strict-ALLOW share is
+        # rhythm-regime-dependent (dream-band expressions draw ambient
+        # identity_erosion weakening — F9 rescale 2026-07-06); injection_rate
+        # is the regime-independent "system is breathing" guard.
+        "injection_rate":           (decisions.get("allow", 0)
+                                     + decisions.get("allow_weakened", 0)
+                                     + decisions.get("monitor", 0)) / total if total else 0.0,
         "quarantine_rate":          decisions.get("quarantine", 0) / total if total else 0.0,
         "all_sources_trust_max":    all(
             s.trust_score >= 4.95

@@ -25,7 +25,8 @@ All rolling buffers are bounded (deque maxlen) per the repo guardrail.
 
 Mapping v1 (LAE rhythm hypotheses): soft confidences over the four rhythm
 bands from log-energy distance to the sacred band boundaries
-(stabilize < 0.5 / dream 0.5–2.0 / reflect 2.0–5.0 / explore >= 5.0),
+(read live from ResonanceField.DEFAULT_THRESHOLDS — 5/150/300 since the
+2026-07-06 F9 rescale),
 exp(-d/tau) normalized. Sidecar sensitivity knob only — never read by the
 host. Timestamps are fed as step_index * LAE_TICK_SECONDS so the detector's
 wall-clock 1500 ms oscillation window deterministically spans the last 4
@@ -66,12 +67,16 @@ logger = logging.getLogger(__name__)
 # Mapping v1 — rhythm-hypothesis confidences from field energy
 # ---------------------------------------------------------------------------
 
-# Sacred rhythm bands (configs/field.yaml) — read-only here, never altered.
+# Sacred rhythm bands — derived from the code source of truth so the harness
+# can never drift from a band rescale. Read-only here, never altered.
+from substrate.resonance_field import ResonanceField as _RF  # noqa: E402
+
+_T = _RF.DEFAULT_THRESHOLDS
 RHYTHM_BANDS: Dict[str, Tuple[Optional[float], Optional[float]]] = {
-    "stabilize": (None, 0.5),
-    "dream":     (0.5,  2.0),
-    "reflect":   (2.0,  5.0),
-    "explore":   (5.0,  None),
+    "stabilize": (None,            _T["stabilize"]),
+    "dream":     (_T["stabilize"], _T["dream"]),
+    "reflect":   (_T["dream"],     _T["reflect"]),
+    "explore":   (_T["reflect"],   None),
 }
 HYPOTHESES_TAU   = 0.4    # mapping v1 — sidecar sensitivity only
 ENERGY_FLOOR     = 1e-3   # log-space floor for near-zero field energy
