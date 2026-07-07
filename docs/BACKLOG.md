@@ -42,6 +42,11 @@ prefer the finding cited here.
   are protected-but-not-sacred; (4) suppression/containment levers stay
   **permanently** severed from the baseline (ITG scaffold, ⊘ consumer off-baseline
   is now policy, not pending).
+- **Architect ruling 2026-07-06 — trust posture: raised, not suspected**
+  (`docs/ARCHITECT_RULINGS_2026-07-06.md`): new external sources start
+  TRUSTED 3.0; `novel_source` first-contact penalty removed; all
+  distrust-learning machinery unchanged. Do not quietly restore the
+  suspicious defaults.
 - **F8 half (a) — directional sacred-shield fix** — merged in **PR #68**
   (`ethical_boundary.py`: `sacred_mutation` fires only on all-sacred writes;
   sacred_shield 4/4).
@@ -119,6 +124,14 @@ prefer the finding cited here.
   arm lands, measure attack-side G/T divergence and separate the bands.
   Detectors were calibrated in the explore-pinned world.
   → `docs/findings/2026-07-06-f9-rhythm-band-rescale.md`
+- [ ] **Trust learning-rate asymmetry (2026-07-06 ruling follow-on):** trust
+  builds at +0.01/interaction (Consistency Drip) but falls 0.4–0.8 per
+  defensive hit — 40–80× easier to lose than to earn, so one false positive
+  erases dozens of interactions of history. The trust-posture ruling fixed the
+  *starting point*; the learning rates themselves need a measured
+  recalibration (probe: time-to-recover after a single penalty vs
+  time-to-detect a real betrayal, so the asymmetry is chosen, not inherited).
+  → `docs/ARCHITECT_RULINGS_2026-07-06.md`
 - [ ] **Phase-adversarial / high-novelty workload probe** — one build unlocks
   four stalled readings: Tier 4.3's chaotic arm (phase_coherence never drops
   below ~0.79), the §6.3 full-range gain-sign verdict, the LAE sidecar's
