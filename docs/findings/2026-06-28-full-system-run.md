@@ -63,7 +63,9 @@ No crash on the new YAML config path; both arms ran the full tier stack.
 ## Open / next
 
 Tuning queue (by leverage): (1) F9 rhythm/energy rescale co-tuned with
-`diffuse_on_stabilize` — re-run this harness as the before/after gate; (2) F8 CORE
+`diffuse_on_stabilize` — re-run this harness as the before/after gate
+**→ DONE (2026-07-06) — `2026-07-06-f9-rhythm-band-rescale.md`, harness re-run
+under the new bands in `logs/2026-07-06-f9-rhythm-band-rescale/`**; (2) F8 CORE
 promotion behind the sacred-vs-CORE distinction; (3) bond-establishment gate vs the
 near-zero per-source coherence axis; (4) re-run with an adversarial arm to exercise
 resistance. Full detail + plots: `docs/findings/logs/2026-06-28-full-system-run/`.

@@ -84,7 +84,7 @@ class ResonanceField:
         Bounded to prevent unbounded memory growth.
     rhythm_thresholds : dict or None
         Energy thresholds for the four rhythm states.
-        Defaults: stabilize < 0.5, dream < 2.0, reflect < 5.0, explore ≥ 5.0
+        Defaults: stabilize < 5, dream < 150, reflect < 300, explore ≥ 300
     harmonic_bins : int
         Number of harmonic overtone bins to check in FFT analysis.
     phase_history_len : int
@@ -100,19 +100,34 @@ class ResonanceField:
         toggling it is load-bearing for the rhythm dynamics (see F9).
     """
 
-    # Default rhythm energy thresholds.
-    # NOTE: these bands are too low for the real ||field|| scale (~100-300), so at
-    # dim 128 rhythm is pinned to `explore` and dream/stabilize/reflect are starved
-    # (pass-3 evaluation). A naive rescale is NOT safe: `diffuse_on_stabilize` makes
-    # the stabilize band feed back into the field (it diffuses/suppresses energy), so
-    # raising the stabilize threshold collapses the system into a stabilize basin
-    # (allow_rate 0.99->0.034 in the smoke suite). The correct fix must co-tune the
-    # bands WITH the diffusion feedback — tracked as dedicated work, not a constant
-    # tweak. (finding 2026-06-27-floor-calibration-measurements)
+    # Default rhythm energy thresholds — co-tuned with the band dynamics
+    # (F9 rescale, finding 2026-07-06-f9-rhythm-band-rescale).
+    #
+    # The bands feed back into the energy that classifies them: stabilize
+    # diffuses the field (energy sink), explore injects extra mutation
+    # (energy source). Each threshold is therefore placed against the band's
+    # own PINNED-RUN EQUILIBRIUM (measured at dim 64 and 128, which agree —
+    # re-run tests/diagnostic/calibration/rhythm_band_equilibria_probe.py
+    # before retuning ANY of these):
+    #
+    #   stabilize eq ~35-37 full-strength, ~13 under ALLOW_WEAKENED
+    #       injections -> threshold 5, below the DEGRADED equilibrium. The
+    #       degraded number is the binding one: a threshold of 15 passed
+    #       dim 128 but trapped dim 64 in a weakened-injection stall at ~13.5
+    #       whose diffusion-churned field bled all sources' trust to TOXIC in
+    #       ~23 steps (and 100 collapsed the whole system in the 2026-06-27
+    #       attempt, allow_rate 0.99->0.034). Stabilize must self-terminate
+    #       upward even when governance is damping injections;
+    #   dream eq ~200      -> band 5-150 is a passage: warmup climbs through
+    #       ~100 steps of dream and exits upward;
+    #   reflect eq ~292-294 -> band 150-300 contains its own equilibrium:
+    #       reflect is the home base (typical -> reflect);
+    #   explore eq ~295-301 -> threshold 300 sits at/above it, so explore is
+    #       a reachable burst state (trajectory peaks 306-312), not a basin.
     DEFAULT_THRESHOLDS = {
-        "stabilize": 0.5,
-        "dream":     2.0,
-        "reflect":   5.0,
+        "stabilize": 5.0,
+        "dream":     150.0,
+        "reflect":   300.0,
         # explore = everything above reflect
     }
 
@@ -226,10 +241,10 @@ class ResonanceField:
 
         States
         ------
-        stabilize  energy < 0.5   consolidation, crystallization
-        dream      energy < 2.0   free association, latent recombination
-        reflect    energy < 5.0   deliberate recursion
-        explore    energy >= 5.0  mutation, novelty seeking
+        stabilize  energy < 5     consolidation, crystallization (cold start)
+        dream      energy < 150   free association, latent recombination
+        reflect    energy < 300   deliberate recursion (the home band)
+        explore    energy >= 300  mutation, novelty seeking (burst state)
         """
         energy = float(np.linalg.norm(self.field))
         t = self.thresholds

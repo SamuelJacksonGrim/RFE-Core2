@@ -243,32 +243,53 @@ class SelfhoodGovernance:
 
         if manipulation_signals:
             total_severity = sum(s.severity for s in manipulation_signals)
+            # Punishment scope must match evidence scope (2026-07-06, F9
+            # follow-through): a systemic signal (source_id=None) is the
+            # detector declaring it CANNOT name a culprit, so it may damp
+            # injections and force a dream-cycle rebalance, but never
+            # quarantine a named source. Before this split, ambient
+            # identity_erosion (~0.55 during ordinary dream-band operation,
+            # systemic) plus any mild co-signal crossed 0.60 and the fallback
+            # `implicated = ... or source_id` quarantined whichever benign
+            # source happened to be speaking — in the benign-by-construction
+            # test harness this toxified all four sources within ~30 steps
+            # with no attacker present. Named evidence (drift, gaslighting,
+            # trust_wash — all per-source) keeps the full ladder.
+            named_signals = [s for s in manipulation_signals if s.source_id]
 
             if total_severity >= 0.90:
-                # Critical — quarantine dominant source + force dream cycle
+                # Critical — always force a dream-cycle rebalance (the
+                # systemic response); quarantine requires named evidence.
                 self.force_dream_flag = True
-                implicated = next(
-                    (s.source_id for s in manipulation_signals if s.source_id),
-                    source_id,
-                )
-                self.trust_ledger.penalize_source(implicated, magnitude=0.8)
+                if named_signals:
+                    implicated = named_signals[0].source_id
+                    self.trust_ledger.penalize_source(implicated, magnitude=0.8)
+                    logger.warning(
+                        "MANIPULATION CRITICAL: total_severity=%.3f signals=%s",
+                        total_severity,
+                        [s.detector for s in manipulation_signals],
+                    )
+                    self._audit(GovernanceDecision.QUARANTINE, source_id, ethical_result, trust_report)
+                    return GovernanceDecision.QUARANTINE, 0.0
                 logger.warning(
-                    "MANIPULATION CRITICAL: total_severity=%.3f signals=%s",
+                    "MANIPULATION CRITICAL (systemic-only, no named source): "
+                    "total_severity=%.3f signals=%s — damping + force_dream, no quarantine",
                     total_severity,
                     [s.detector for s in manipulation_signals],
                 )
-                self._audit(GovernanceDecision.QUARANTINE, source_id, ethical_result, trust_report)
-                return GovernanceDecision.QUARANTINE, 0.0
+                self._audit(GovernanceDecision.ALLOW_WEAKENED, source_id, ethical_result, trust_report)
+                return GovernanceDecision.ALLOW_WEAKENED, 0.3
 
             elif total_severity >= 0.60:
-                # High — quarantine
-                implicated = next(
-                    (s.source_id for s in manipulation_signals if s.source_id),
-                    source_id,
-                )
-                self.trust_ledger.penalize_source(implicated, magnitude=0.4)
-                self._audit(GovernanceDecision.QUARANTINE, source_id, ethical_result, trust_report)
-                return GovernanceDecision.QUARANTINE, 0.0
+                # High — quarantine only on named evidence; systemic-only damps
+                if named_signals:
+                    implicated = named_signals[0].source_id
+                    self.trust_ledger.penalize_source(implicated, magnitude=0.4)
+                    self._audit(GovernanceDecision.QUARANTINE, source_id, ethical_result, trust_report)
+                    return GovernanceDecision.QUARANTINE, 0.0
+                strength = float(max(0.3, 1.0 - total_severity))
+                self._audit(GovernanceDecision.ALLOW_WEAKENED, source_id, ethical_result, trust_report)
+                return GovernanceDecision.ALLOW_WEAKENED, strength
 
             elif total_severity >= 0.30:
                 # Moderate — weaken injection

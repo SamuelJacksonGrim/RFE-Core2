@@ -308,9 +308,11 @@ Key behaviors:
   Do NOT add them as stored state — that would double-count the smoothing.
 - The `min(0, valence)` gate in `update_dilation()` guarantees peaceful rest
   never triggers dissociative time-slip. Do not remove it.
-- Rhythm thresholds: `stabilize < 0.5`, `dream 0.5–2.0`, `reflect 2.0–5.0`,
-  `explore ≥ 5.0`. These route behavior — changing them without updating
-  `configs/field.yaml` and all downstream consumers breaks the system.
+- Rhythm thresholds: `stabilize < 5.0`, `dream 5.0–150.0`,
+  `reflect 150.0–300.0`, `explore ≥ 300.0` (F9 rescale 2026-07-06). These route
+  behavior — changing them without updating `configs/field.yaml` and all
+  downstream consumers breaks the system, and they are co-tuned against the
+  band dynamics (see `ResonanceField.DEFAULT_THRESHOLDS`); never retune one alone.
 - **StepState fields returned from `/step`**: step, key, rhythm, coherence,
   relation (=relation_composite), pattern, prediction_error, field_energy,
   crystals, attractors, emotion, elapsed_ms.
