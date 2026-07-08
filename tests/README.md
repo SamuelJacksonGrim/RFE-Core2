@@ -162,7 +162,16 @@ The probes are grouped into subfolders by investigation (run as
 | `integrity/`| The ⊘ Witness-Reaper integrity-read (Build C, spec v0.2) — observe-only thinness read + non-binding demotion advisory |
 | `calibration/` | Measure-before-change rulers: floor calibration (energy/rhythm + CORE signal) and the pinned-band equilibria probe (re-run before any rhythm-band retune — F9) |
 
-The per-probe descriptions below are grouped to match.
+The per-probe descriptions below are grouped to match. One cross-layer probe
+lives at the `diagnostic/` root:
+
+- `core_arc_no_cascade_probe.py` — **F8 half (b) standing verification**
+  (exit-coded 0/1, minutes). Drives the CORE arc to completion live
+  (3 seeds × 1500 steps, Resonance Family workload) and asserts the
+  aftermath: promotion fires with a ≥200-step observation window, zero
+  post-promotion SACRED_SHIELD / QUARANTINE, no contributor below trust 4.0.
+  Re-run whenever the promotion path, sacred shield, or trust penalties
+  change (`2026-07-08-f8b-core-gate-reenable.md`).
 
 - `decision_histogram.py` — Counts every `GovernanceDecision` issued
   over N steps. The first signal when something is off-axis.

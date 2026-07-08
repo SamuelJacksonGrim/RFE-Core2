@@ -1,7 +1,11 @@
 # CORE gate fix works — but promoting common tokens to sacred cascades the trust layer (deferred)
 
 - **Date:** 2026-06-27
-- **Status:** active — the CORE-gate fix (v0.3 field-alignment) was implemented,
+- **Status:** ~~active~~ **→ RESOLVED 2026-07-08** — both halves landed:
+  directional shield (half a, PR #68) + v0.3 gate reapplied (half b). The arc
+  completes with zero post-promotion shields and contributors at trust 5.0:
+  `2026-07-08-f8b-core-gate-reenable.md`. Original record follows.
+  — the CORE-gate fix (v0.3 field-alignment) was implemented,
   **verified to complete the value arc**, then **reverted from the PR** because it
   destabilizes the trust layer. Same discipline as the rhythm crack: a change that
   works in isolation but breaks another layer is deferred, not shipped.
@@ -51,7 +55,7 @@ Reverted in this PR; the dead-gate limitation (CORE unreachable) is restored as 
 **stable** state. The ⊘ coherence-axis v0.3 fix (independent, in `integrity_read`)
 **stays** — it shares the alignment idea but does not promote anything to sacred.
 
-## Next (the CORE fix, done right)
+## Next (the CORE fix, done right) — → DONE 2026-07-08 (all three steps)
 1. Decide how `SACRED_SHIELD`'s trust penalty treats normal reference of a CORE token
    (e.g., no penalty for a source in the symbol's `contributing_sources`; or CORE
    symbols get dissolution-immunity without mutation-attack trust penalties).

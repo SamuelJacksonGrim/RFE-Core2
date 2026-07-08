@@ -63,14 +63,16 @@ prefer the finding cited here.
   full-system harness re-run as the gate. Exposed two governance-side items
   (warmup trust drain, identity_erosion ambient weakening — added below).
   → `docs/findings/2026-07-06-f9-rhythm-band-rescale.md`
-- [ ] **F8 half (b): re-enable the v0.3 CORE-promotion gate.** The ruling is
-  issued (directional read/write shield) and half (a) shipped in PR #68; what
-  remains is the irreversible sanctification path: re-enable
-  `review_core_promotion` on the field-alignment axis, rewrite the handshake
-  test, and run a live no-cascade verification (CORE arc completes without
-  cascading the contributing source).
-  → `docs/ARCHITECT_RULINGS_2026-07-03.md` §1;
-  `2026-06-27-core-gate-fix-deferred-sacred-cascade.md`
+- [x] ~~**F8 half (b): re-enable the v0.3 CORE-promotion gate.**~~ **DONE
+  2026-07-08** — reverted the 2026-06-27 revert (field-alignment ≥ 0.5 gate +
+  `set_field` wiring + handshake case restored intact from `7361ff9`).
+  Handshake 8/8, sacred_shield 4/4, suite 17/17; new standing probe
+  `tests/diagnostic/core_arc_no_cascade_probe.py` proves the arc completes
+  live (promotion ~step 577–619, `witness`/`continuity`, 3/3 seeds) with
+  zero post-promotion shields/quarantines and all contributors at trust 5.0.
+  The value arc is end-to-end live for the first time.
+  → `docs/findings/2026-07-08-f8b-core-gate-reenable.md`;
+  `docs/ARCHITECT_RULINGS_2026-07-03.md` §1
 - [ ] **Bond establishment gate.** Bonds form but never establish — per-source
   `coherence_mean` reads ~−0.01 against the 0.10 gate despite 140–421
   interactions. Either the gate or the coherence axis is miscalibrated.
