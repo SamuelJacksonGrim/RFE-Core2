@@ -113,6 +113,7 @@ fi
 
 echo
 echo "Informational diagnostics (not gated — always exit 0; run manually):"
+echo "  python3 -m tests.diagnostic.core_arc_no_cascade_probe   (minutes; 3 seeds × 1500 steps; exit-coded — F8 CORE arc + no-cascade)"
 echo "  python3 -m tests.diagnostic.tier4.affective_state_probe 500"
 echo "  python3 -m tests.diagnostic.tier4.rhythm_inertness_probe 500"
 echo "  python3 -m tests.diagnostic.audit.decision_histogram"

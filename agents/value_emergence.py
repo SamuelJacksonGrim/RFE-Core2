@@ -161,6 +161,7 @@ class CorePromotionRequest:
     symbolic_core:              str
     strength:                   float
     coherence_contribution:     float
+    field_alignment:            float            # v0.3 — cos(expressed, field) ∈ [0,1]
     reinforcement_count:        int
     dream_reinforced_count:     int
     consecutive_eligible_steps: int
@@ -232,6 +233,9 @@ class ValueEmergenceEngine:
         # ⊘ integrity consumer (Build C → advisory-into-decay): a zero-arg callable
         # run once per cycle after the value update. When None, ⊘ is observe-only.
         self._integrity_consumer = None
+        # ResonanceField handle for the v0.3 CORE coherence gate (field-alignment).
+        # Set by the cycle on attach; None → the gate defers to the other criteria.
+        self._field = None
 
         # Subscribe to governance feedback stream
         governance.subscribe_feedback(self._on_feedback)
@@ -255,6 +259,29 @@ class ValueEmergenceEngine:
         advisories are actually *used* — the consumer, not ⊘, does the writing,
         and it must refuse sacred nodes. Pass None to restore observe-only."""
         self._integrity_consumer = consumer
+
+    def set_field(self, field) -> None:
+        """Attach the ResonanceField so CORE promotion can gate on the value's
+        field-alignment (v0.3) instead of the dead marginal coherence sum."""
+        self._field = field
+
+    def _field_alignment(self, value) -> float:
+        """Absolute field-alignment of the value's EXPRESSED vector with the current
+        field: max(0, cos(generate(symbolic_core), field)) ∈ [0,1] — the same v0.3
+        signal the ⊘ read uses. Returns 1.0 when no field is attached or expression
+        fails, so the CORE gate defers to the other criteria rather than blocking."""
+        if self._field is None:
+            return 1.0
+        try:
+            vec = np.asarray(self.generator.generate([value.symbolic_core]),
+                             dtype=float).ravel()
+        except Exception:
+            return 1.0
+        f = np.asarray(getattr(self._field, "field", self._field), dtype=float).ravel()
+        nv = float(np.linalg.norm(vec)); nf = float(np.linalg.norm(f))
+        if nv < 1e-8 or nf < 1e-8 or vec.shape != f.shape:
+            return 1.0
+        return max(0.0, float(np.dot(vec, f) / (nv * nf)))
 
     def _solvent_gain(self) -> float:
         """The ⊕ gate. 1.0 when no λ-ledger is attached (default — no behavior
@@ -607,6 +634,7 @@ class ValueEmergenceEngine:
             symbolic_core              = value.symbolic_core,
             strength                   = value.strength,
             coherence_contribution     = value.coherence_contribution,
+            field_alignment            = self._field_alignment(value),
             reinforcement_count        = value.reinforcement_count,
             dream_reinforced_count     = value.dream_reinforced_count,
             consecutive_eligible_steps = value.consecutive_core_eligible_steps,
