@@ -132,6 +132,22 @@ prefer the finding cited here.
   recalibration (probe: time-to-recover after a single penalty vs
   time-to-detect a real betrayal, so the asymmetry is chosen, not inherited).
   → `docs/ARCHITECT_RULINGS_2026-07-06.md`
+- [ ] **Channel-aware governance policy — "chambers", design exploration
+  (architect thought, 2026-07-08):** should there be multiple governance
+  gates? Assessment on record: keep the **single-chokepoint invariant** (one
+  `arbitrate()`, no bypass paths — splitting the gate multiplies the bypass
+  surface; cf. the Tier-0-only trap and λ's deliberate outside-the-gate
+  isolation), but the differentiation the question is reaching for can live
+  *inside* the one arbiter: per-origin **policy profiles** (external / api /
+  internal / `source_dream`) with channel-appropriate severity rungs, flood
+  ceilings (already per-origin), and trust learning rates. The system already
+  has many *detectors* and one *decider* — chambers would formalize that as
+  "one courthouse, specialized dockets." Candidate first users: the
+  identity_erosion ambient damping tax on dream-band traffic (above), and the
+  trust learning-rate asymmetry (above) — both are per-channel calibration
+  problems wearing a global constant. Needs a short design stub + architect
+  ruling before any invariant text changes.
+  → this entry; `CLAUDE.md` §Authority hierarchy (the invariant being kept)
 - [ ] **Phase-adversarial / high-novelty workload probe** — one build unlocks
   four stalled readings: Tier 4.3's chaotic arm (phase_coherence never drops
   below ~0.79), the §6.3 full-range gain-sign verdict, the LAE sidecar's
@@ -229,6 +245,19 @@ prefer the finding cited here.
 
 ## 7 · Instruments & hygiene (small, unblocked)
 
+- [ ] **Dream-cycle occupancy regression guard (adopted from external Copilot
+  review, 2026-07-08):** the F9 harness gate measured ~214 dreams/run, but no
+  *standing* check asserts rhythm-band occupancy — the dream cycle could
+  silently die again exactly as it did pre-F9 (dead for weeks, undetected).
+  Add per-band decision counts (incl. `dream_cycles_completed`) to
+  `health_summary` in `tests/_common.py`, and a dream-occupancy floor (> 0)
+  plus coarse band ranges to `tests/baselines/tier1_revision_500step.json`
+  shape assertions. (The reviewer's other F9 items are superseded: F9 shipped
+  2026-07-06 via measured pinned-band equilibria — occupancy landed at
+  explore ~0.40 / dream ~0.25, inside his proposed 30–60% explore band —
+  and the four-band router already is the {explore, diffuse, dream} state
+  machine his item 3 sketches.)
+  → `docs/findings/2026-07-06-f9-rhythm-band-rescale.md`
 - [ ] **API entry-point boot smoke** — actually boot the REST/WS servers and
   assert Tier 1–3 state (closes the "reasoned, not exercised" gap); plus a
   warning in `create_app` / `RFEWebSocketServer` when handed a governance-less
