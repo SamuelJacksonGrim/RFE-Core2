@@ -292,7 +292,7 @@ The engine never silently sanctifies. When a value reaches strength ≥ 4.5 for 
 
 1. Symbol still exists in registry
 2. Symbol is not already sacred
-3. Coherence contribution ≥ 5.0 (genuinely accumulated, not single spike)
+3. Field-alignment ≥ 0.5 — `max(0, cos(expressed, field))`, the v0.3 signal (replaced the unreachable marginal `coherence_contribution ≥ 5.0` gate, 2026-07-08)
 4. Multi-source OR dream-reinforced (prevents single-source value engineering)
 5. No active manipulation signals implicate contributing sources
 
@@ -645,6 +645,7 @@ RFE-Core2/
 │   ├── BACKLOG.md                       Consolidated open-work ledger — every planned fix, one queue
 │   ├── ARCHITECT_RULINGS_2026-07-03.md  Standing rulings: F8 read/write shield, checkpoint adoption, operator nodes, lever policy
 │   ├── ARCHITECT_RULINGS_2026-07-06.md  Standing ruling: trust posture — raised, not suspected (sources start TRUSTED)
+│   ├── ARCHITECT_RULINGS_2026-07-08.md  Standing rulings: explain-then-ask decision process; chambered governance adopted
 │   ├── EXPERIMENTAL_LEVERS.md           Control panel — every lever, its default, exact how-to-toggle
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
 │   ├── self_model_thesis.md             The theory of mind RFE instantiates — self as smithable emergent attractor
@@ -693,6 +694,7 @@ RFE-Core2/
 │   │   ├── dream_channel_probe.py        Governed self-dialogue: source_dream paired probe (echo/dominance/value)
 │   │   ├── dream_channel_adversarial_probe.py  Dream-channel graduation gate: does self-dialogue launder attacks?
 │   │   ├── bonded_adversarial_probe.py   THE bond-breach experiment: bonded source turns hostile (paired arms + attack-landing instrument)
+│   │   ├── core_arc_no_cascade_probe.py  F8(b) standing gate: CORE arc completes live, zero post-promotion shields, contributors keep trust (exit-coded)
 │   │   ├── tier4/                        Tier 4 physics validators + affect
 │   │   │   ├── dilation_response_curve.py    Tier 4.2 physics validator (formula)
 │   │   │   ├── rhythm_dilation_curve.py      Tier 4.3 physics validator (rhythm coupling)
@@ -967,11 +969,12 @@ places, and reading them is part of working here:
   bonded-adversarial probe that would settle the emotional gradient's defensive
   role).
 - **[`ARCHITECTURE_ANALYSIS.md`](ARCHITECTURE_ANALYSIS.md) §9** — the standing
-  findings, F1–F10. The load-bearing ones: the field pins high coherence (the
-  lock is the reflective loop; two default-on levers loosen it), the rhythm
-  router is pinned to `explore` at dim 128 so dream-cycle consolidation is
-  dormant (F9), and CORE promotion is structurally dead pending a
-  governance-layer decision on sacred-reference semantics (F8).
+  findings, F1–F10. The load-bearing one: the field pins high coherence (the
+  lock is the reflective loop; two default-on levers loosen it). F9 (rhythm
+  pinned to `explore`, dreams dormant) was resolved 2026-07-06 by the
+  equilibrium-tuned band rescale; F8 (CORE promotion structurally dead) was
+  resolved by the directional sacred shield (2026-07-03 ruling, PR #68) plus
+  the re-enabled v0.3 field-alignment gate (2026-07-08).
 - **[`docs/findings/`](docs/findings/)** — the dated empirical ledger behind
   every claim. Every finding names its control; negative results count.
 

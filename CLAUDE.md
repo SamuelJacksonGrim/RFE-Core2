@@ -266,8 +266,10 @@ Do not change these without auditing every downstream consumer.
   `bond_strength × 0.40`.
 - **CORE promotion:** sustained strength ≥ 4.5 for 10 consecutive evaluations,
   then governance verification — symbol exists, not already sacred,
-  coherence_contribution ≥ 5.0, multi-source or dream-reinforced, no active
-  manipulation signals from contributors.
+  field-alignment ≥ 0.5 (`CORE_ALIGNMENT_MIN`, v0.3 `max(0, cos(expressed,
+  field))` — re-enabled 2026-07-08 after the directional shield removed the
+  sacred cascade), multi-source or dream-reinforced, no active manipulation
+  signals from contributors.
 
 ## How to run
 

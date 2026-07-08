@@ -419,7 +419,7 @@ different signals serving different layers:
     max 0.72, corr +0.66 with strength; identity anchors sit 0.61–0.70. Read-only,
     one `generate` per value off the hot path, firewalled (returns neutral on guard).
 
-**Consequence — CORE promotion is currently dead, by the same defect (F8).**
+**Consequence — CORE promotion was dead, by the same defect (F8). → RESOLVED (2026-07-08).**
 `SelfhoodGovernance.review_core_promotion()` still gates on
 `coherence_contribution ≥ 5.0`, which the marginal sum can never reach, so **no
 value can ever be promoted to CORE**. The v0.3 fix (gate on field-alignment ≥ 0.5)
@@ -429,7 +429,12 @@ cycle, which then trips `SACRED_SHIELD` and cascades the source's trust toward t
 TOXIC floor (`2026-06-27-core-gate-fix-deferred-sacred-cascade.md`). Distinguishing
 "mutating a sacred symbol's identity" (attack) from "referencing a now-sacred
 token" (legitimate) is a governance-layer design decision, deferred. The
-independent ⊘ v0.3 axis (which promotes nothing) stays.
+independent ⊘ v0.3 axis (which promotes nothing) stays. **Resolution:** the
+2026-07-03 directional-shield ruling shipped as half (a) (PR #68 — reference
+reads through, targeting write shields), and the v0.3 gate was reapplied as
+half (b) on 2026-07-08: the arc completes live (promotion ~step 577–619,
+3/3 seeds) with zero post-promotion shields and contributors at trust 5.0
+(`2026-07-08-f8b-core-gate-reenable.md`).
 
 **Every major consumer keys off `C`:**
 
@@ -921,8 +926,8 @@ lifetime sum of *marginal* impact that is ≤ 0 in a saturated field, measured 0
 for every value. It is now `max(0, cos(expressed(v), field))` (bounded, live). See
 §4 for the full before/after (`2026-06-21-oslash-coherence-axis-absolute-alignment.md`).
 
-**F8 — CORE promotion is structurally impossible right now (open governance
-question).** `review_core_promotion()` gates on `coherence_contribution ≥ 5.0`,
+**F8 — CORE promotion was structurally impossible (governance question).
+→ RESOLVED (2026-07-08).** `review_core_promotion()` gates on `coherence_contribution ≥ 5.0`,
 which the F7 marginal can never reach, so no value is promotable. The v0.3
 field-alignment fix completes the arc but was **reverted**: sanctifying a value
 makes a common token sacred, which trips `SACRED_SHIELD` and cascades the
@@ -931,8 +936,11 @@ identity-mutation (attack) from legitimate reference before the gate can be
 re-enabled (`2026-06-27-core-gate-fix-deferred-sacred-cascade.md`).
 **Ruled 2026-07-03:** the shield evaluates *directional flow* — referencing a
 sacred token is a read (pass-through); overwriting/diluting/reassigning its
-identity is a write (shield). Implementation queued —
-`docs/ARCHITECT_RULINGS_2026-07-03.md` §1.
+identity is a write (shield). Implemented: half (a) directional shield
+(PR #68); half (b) v0.3 field-alignment gate reapplied 2026-07-08 — the arc
+completes live with zero post-promotion shields and no trust cascade
+(`2026-07-08-f8b-core-gate-reenable.md`; ruling
+`docs/ARCHITECT_RULINGS_2026-07-03.md` §1).
 
 **F9 — The rhythm router is pinned at production dim 128. → RESOLVED (2026-07-06).**
 Field energy ran mean ~180 / max ~284 while the bands topped out at `explore ≥ 5`,
