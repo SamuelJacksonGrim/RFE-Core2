@@ -145,9 +145,13 @@ prefer the finding cited here.
   "one courthouse, specialized dockets." Candidate first users: the
   identity_erosion ambient damping tax on dream-band traffic (above), and the
   trust learning-rate asymmetry (above) — both are per-channel calibration
-  problems wearing a global constant. Needs a short design stub + architect
-  ruling before any invariant text changes.
-  → this entry; `CLAUDE.md` §Authority hierarchy (the invariant being kept)
+  problems wearing a global constant. **ADOPTED 2026-07-08 (architect
+  decision):** single audit point unchanged; calibrate per channel, never
+  exempt (same detectors/rungs/shield for every channel; `source_dream` never
+  more permissive than external); measured-first — implementation is the
+  *form* the two items above take when their measurements land, not a
+  separate build.
+  → `docs/ARCHITECT_RULINGS_2026-07-08.md` §2
 - [ ] **Phase-adversarial / high-novelty workload probe** — one build unlocks
   four stalled readings: Tier 4.3's chaotic arm (phase_coherence never drops
   below ~0.79), the §6.3 full-range gain-sign verdict, the LAE sidecar's
