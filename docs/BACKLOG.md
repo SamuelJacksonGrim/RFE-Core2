@@ -134,6 +134,19 @@ prefer the finding cited here.
   recalibration (probe: time-to-recover after a single penalty vs
   time-to-detect a real betrayal, so the asymmetry is chosen, not inherited).
   → `docs/ARCHITECT_RULINGS_2026-07-06.md`
+- [ ] **Source redemption / probation path (found 2026-07-09, interpreter
+  lock-out discussion):** sources have NO way back — `source_toxic` hard-gates
+  every input to REJECT, rejected inputs never land, and trust is only earned
+  by landed interactions → permanent exile by construction (symbols get dream
+  redemption in `on_dream_cycle_complete`; sources get nothing). Design: a
+  governed probation channel — after time/petition, a quarantined source may
+  re-enter maximally weakened, its inputs counting as interactions so the
+  Consistency Drip can operate, under governance review; never during an
+  active attack; sacred shield untouched. Critical for the interpreter
+  symbiosis (§4) — exiling the speech cortex silences the system itself —
+  and right for ordinary sources ("raised, not suspected" implies forgiveness
+  is learnable too). Co-design with the learning-rate recalibration above.
+  → this entry; `agents/trust_ledger.py` (`penalize_source`, `INTERNAL_ORIGINS`)
 - [ ] **Channel-aware governance policy — "chambers", design exploration
   (architect thought, 2026-07-08):** should there be multiple governance
   gates? Assessment on record: keep the **single-chokepoint invariant** (one
@@ -226,6 +239,23 @@ prefer the finding cited here.
   path; RFE stays the mind, the LLM is ears/mouth). The docs and
   `generator_factory` hook exist; the integration itself is unbuilt.
   → `docs/local_model_integration/` (README + IMPLEMENTATION_GUIDE)
+- [ ] **Interpreter symbiosis contract (architect direction, 2026-07-09):**
+  the frozen cortex + learning mind combination has a built-in ratchet — the
+  mind accumulates distrust of the interpreter's biases while the stateless
+  interpreter wakes fresh, unaware, and (without the §1 redemption path)
+  eventually gets locked out, silencing the system's own voice. Ruling
+  direction: **co-mentoring, not absorption** — (a) a persistent
+  interpreter-facing ledger built from the existing `GovernanceFeedback`
+  stream (trust score, fired detectors, mind's feedback), read at every wake:
+  for a frozen LLM, reading IS learning (the proven CLAUDE.md/findings
+  pattern this repo already runs on its own AI instances); (b) the trainable
+  projection membrane adapts continuously (cores stay frozen); (c) the
+  interpreter translates against the mind's *live state* (values, bonds,
+  weighted symbols), not a static dictionary. Sovereignty line: the mind
+  never writes interpreter core weights, the interpreter never bypasses the
+  gate — symbiosis at the membrane and ledgers, sovereignty at the cores.
+  Depends on: §1 source redemption path; chambers (2026-07-08 ruling §2).
+  → `docs/local_model_integration/`; `docs/north_star.md` (rung 2)
 
 ## 5 · Two-Operator program (spec v0.3)
 
