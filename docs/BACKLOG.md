@@ -254,6 +254,22 @@ prefer the finding cited here.
   weighted symbols), not a static dictionary. Sovereignty line: the mind
   never writes interpreter core weights, the interpreter never bypasses the
   gate — symbiosis at the membrane and ledgers, sovereignty at the cores.
+  Two refinements (same discussion, 2026-07-09): (d) the ledger is a
+  **consolidated distillate, never an append-only log** — it must stay
+  bounded (context-window-sized); the mind's own dream/consolidation
+  machinery (`DreamSession` → durable artifacts) is the compressor: raw
+  interpreter history dreams down to current trust + standing lessons +
+  recent window (same pattern as session compaction and the findings
+  raw-data rule; "no unbounded structures" applies to ledgers too). (e)
+  **frozen-core is phase 1, not the end state** — the composite system is
+  only a true recursive mind if the cortex can eventually grow; resolution
+  is a gated **plasticity hierarchy** mirroring the mind's own
+  (sacred → CORE → trust → field): projection membrane fast · low-rank
+  adapters on the frozen core slow + governance-gated · deepest weights
+  sacred-slow. Each unfreezing step follows the §3 Phase-4 discipline
+  (pre-declared gates, identity-stability probe, adversarial arm). The mind
+  still never writes cortex weights directly; adaptation trains on shared
+  lived signal, audited at the gate.
   Depends on: §1 source redemption path; chambers (2026-07-08 ruling §2).
   → `docs/local_model_integration/`; `docs/north_star.md` (rung 2)
 
