@@ -487,9 +487,19 @@ class AutonomousCycle:
 
         # Capture actual coherence_impact BEFORE injection — measuring after
         # the vec is already in the field would give near-zero marginal impact.
-        actual_delta = 0.0
+        # Also read the absolute v0.3 field-alignment of the same vec against
+        # the same pre-injection field: the marginal delta is structurally ≈0
+        # in a saturated field (the F7/F8 disease), so downstream consumers
+        # that need a *live* per-contribution quality signal (bond strength
+        # growth) use this instead (2026-07-09 bond-establishment fix).
+        actual_delta    = 0.0
+        field_alignment = 0.0
         if self.governance is not None:
             actual_delta = self.field.coherence_impact(vec)
+            f_norm = float(np.linalg.norm(self.field.field))
+            if f_norm > 1e-8:
+                field_alignment = max(0.0, float(
+                    np.dot(vec, self.field.field) / f_norm))
 
         if decision in (GovernanceDecision.ALLOW,
                         GovernanceDecision.ALLOW_WEAKENED,
@@ -499,7 +509,8 @@ class AutonomousCycle:
         # Emit feedback with pre-injection delta
         if self.governance is not None:
             stable_ids   = self.generator.registry.stable_ids_for_tokens(tokens)
-            self.governance.emit_feedback(decision, source_id, stable_ids, actual_delta)
+            self.governance.emit_feedback(decision, source_id, stable_ids, actual_delta,
+                                          field_alignment=field_alignment)
 
         # ------------------------------------------------------------------
         # 11. Crystal evaluation

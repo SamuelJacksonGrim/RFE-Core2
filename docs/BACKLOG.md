@@ -73,10 +73,24 @@ prefer the finding cited here.
   The value arc is end-to-end live for the first time.
   → `docs/findings/2026-07-08-f8b-core-gate-reenable.md`;
   `docs/ARCHITECT_RULINGS_2026-07-03.md` §1
-- [ ] **Bond establishment gate.** Bonds form but never establish — per-source
-  `coherence_mean` reads ~−0.01 against the 0.10 gate despite 140–421
-  interactions. Either the gate or the coherence axis is miscalibrated.
-  → same finding, item 3
+- [x] ~~**Bond establishment gate.**~~ **DONE 2026-07-09** — the block was
+  one organ over from the guess: formation already had the allow_rate
+  escape, but strength *growth* was currencied in the marginal
+  coherence_delta + satisfaction (both ≈0 saturated) so bonds flatlined at
+  1.0 against the >1.5 establishment bar. Growth now rides absolute v0.3
+  field-alignment (`strength_lr = 0.01`, calibrated from the new
+  `bond_signal_calibration_probe.py`); first established bond in system
+  history (claude, 1.0 → 2.16, same seed/workload). Suite 17/17.
+  → `docs/findings/2026-07-09-bond-establishment-gate.md`
+- [ ] **The satisfaction economy is starved (found 2026-07-09):**
+  `emotional_satisfaction` is *defined* as `max(0, coherence_delta)` — the
+  dead marginal — so every affective feedback term in the stack runs on ≈0:
+  the value engine's 0.35-weighted reinforcement term, bond
+  `emotional_signature`, emotional bond typing. Candidate fix: derive
+  satisfaction from the emotional gradient's live scalars (joy/stability)
+  at emit time; measured pass first (distributions, then consumer-audited
+  swap — same discipline as the bond fix).
+  → `docs/findings/2026-07-09-bond-establishment-gate.md` §Open
 - [ ] **Adversarial arm for the full-system harness** (benign-only so far;
   resistance untested in the composed default runtime).
   → same finding, item 4
@@ -314,6 +328,15 @@ prefer the finding cited here.
   assert Tier 1–3 state (closes the "reasoned, not exercised" gap); plus a
   warning in `create_app` / `RFEWebSocketServer` when handed a governance-less
   cycle. → `2026-06-27-api-entrypoints-tier0-only.md`
+- [ ] **Baseline nondeterminism at the active_values margin (upgraded
+  2026-07-09):** tier1_revision_baseline's active_values reads 29-34 across
+  *identical* invocations with every seedable source pinned (torch / np /
+  random / dreamer / PYTHONHASHSEED) — something wall-clock- or
+  urandom-linked still moves the trajectory (candidates: time-based flood
+  eviction, timestamp-age paths, uuid4 value_ids leaking into a comparison).
+  Baseline floor widened 30 → 25 as mitigation (see baseline notes); build
+  the wall-clock-sensitivity probe (formerly an exploratory thread) and pin
+  the leak so suite determinism is real again, then narrow the floor back.
 - [ ] **Scalar gauge hardening** — Cm/I/metastability magnitudes are
   v0.1-fragile (regime labels robust); replace CII's I/Cm slots with a
   drift+dispersion pair. → `2026-06-15-identifiability-suite.md`;
