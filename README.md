@@ -689,7 +689,7 @@ RFE-Core2/
 │   │   └── reflective_loop_convergence.py  Loop holds identity under novelty flood
 │   │
 │   ├── diagnostic/
-│   │   ├── full_system_run.py            Full-system instrumented run (paired arms × seeds → per-step traces + status snapshots)
+│   │   ├── full_system_run.py            Full-system instrumented run (paired arms × seeds → per-step traces + status snapshots; incl. the `adversarial` arm — named attacker vs the composed default runtime)
 │   │   ├── full_system_analyze.py        Analyze a full_system_run dir → plots + aggregate per-arm stats
 │   │   ├── dream_channel_probe.py        Governed self-dialogue: source_dream paired probe (echo/dominance/value)
 │   │   ├── dream_channel_adversarial_probe.py  Dream-channel graduation gate: does self-dialogue launder attacks?
