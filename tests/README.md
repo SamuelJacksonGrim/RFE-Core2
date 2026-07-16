@@ -124,6 +124,15 @@ cooperate correctly."
   construction, and a rebinding load orphans both (governance lookups go
   stale; value emergence dies silently). Guards the in-place load contract
   discovered by the 2026-06-12 field-map matrix.
+- `bond_ddm_invariants.py` — Hard-invariant gate for the opt-in
+  bond-formation accumulator (`agents/bond_accumulator.py`): OFF is the
+  default and preserves the classic formation rule exactly; with the lever
+  ON, only an ACCEPT bound-crossing commits a bond (negative and pure-noise
+  streams never bond); the structural preconditions (interactions,
+  crystals) still gate at commit time; the deny-vs-earn asymmetry is wired
+  (with an unwired control); the diffusion is real (σ=0 rejected, seeded
+  reproducibility); and the substrate and the accumulator never import
+  each other (the field never sees V). Synthetic feedback streams, <1 s.
 
 ### `adversarial/`
 "Does the system resist what it's supposed to resist?" Probes against
@@ -160,7 +169,7 @@ The probes are grouped into subfolders by investigation (run as
 | `audit/`    | Runtime behavior audits (decision histogram, gate firing, trust, value polarity, identity-stability baseline, return canary) |
 | `sidecar/`  | External measurement engines — LAE (transitions) + PLE (contradictions) wired observe-only around the cycle |
 | `integrity/`| The ⊘ Witness-Reaper integrity-read (Build C, spec v0.2) — observe-only thinness read + non-binding demotion advisory |
-| `calibration/` | Measure-before-change rulers: floor calibration (energy/rhythm + CORE signal), the pinned-band equilibria probe (re-run before any rhythm-band retune — F9), and the bond-signal probe (marginal vs absolute growth currency — the 2026-07-09 establishment fix) |
+| `calibration/` | Measure-before-change rulers: floor calibration (energy/rhythm + CORE signal), the pinned-band equilibria probe (re-run before any rhythm-band retune — F9), the bond-signal probe (marginal vs absolute growth currency — the 2026-07-09 establishment fix), and the bond-DDM pair — the synthetic acceptance battery (RT/asymmetry/varCE/corCE + the four adversarial patterns, pre-declared with built-in falsifier controls) and the live OFF-vs-ON arm (reachable-coherence §6.3 tripwire, commitment-only check; run at dim 128 before trusting the lever ON) |
 
 The per-probe descriptions below are grouped to match. One cross-layer probe
 lives at the `diagnostic/` root:
