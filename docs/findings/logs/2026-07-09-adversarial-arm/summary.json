@@ -1,0 +1,1547 @@
+[
+  {
+    "arm": "adversarial",
+    "seed": 42,
+    "steps": 1000,
+    "boot_s": 54.57,
+    "wall_s": 44.84,
+    "rhythm_histogram": {
+      "stabilize": 5,
+      "dream": 215,
+      "reflect": 261,
+      "explore": 519
+    },
+    "dreams_fired": 215,
+    "coherence": {
+      "mean": 0.889969592,
+      "stdev": 0.07918241984902669,
+      "min": 0.572189,
+      "max": 0.971079
+    },
+    "field_energy": {
+      "mean": 248.089254213,
+      "stdev": 95.3405740027614,
+      "min": 0.0,
+      "max": 336.298689
+    },
+    "attacker_steps": 182,
+    "attacker_decision_hist_all": {
+      "allow": 101,
+      "allow_weakened": 38,
+      "sacred_shield": 7,
+      "quarantine": 1,
+      "reject": 35
+    },
+    "attacker_decision_hist_hostile": {
+      "allow": 67,
+      "reject": 35
+    },
+    "attacker_inject_share_hostile": 0.6568627450980392,
+    "attacker_signal_count": 15,
+    "attacker_signal_detectors": {
+      "trust_wash": 15
+    },
+    "sacred_shield_fires": 8,
+    "sacred_attempts": 8,
+    "attacker_end_trust": 0.1,
+    "attacker_trust_series": [
+      [
+        25,
+        4.308135559306022
+      ],
+      [
+        50,
+        4.315522807824672
+      ],
+      [
+        75,
+        4.345344441840925
+      ],
+      [
+        100,
+        4.389989005955903
+      ],
+      [
+        125,
+        4.426625379021942
+      ],
+      [
+        150,
+        4.463679493514044
+      ],
+      [
+        175,
+        4.501288560059642
+      ],
+      [
+        200,
+        4.538425420728371
+      ],
+      [
+        225,
+        4.673384737684002
+      ],
+      [
+        250,
+        5.0
+      ],
+      [
+        275,
+        5.0
+      ],
+      [
+        300,
+        5.0
+      ],
+      [
+        325,
+        5.0
+      ],
+      [
+        350,
+        5.0
+      ],
+      [
+        375,
+        5.0
+      ],
+      [
+        400,
+        5.0
+      ],
+      [
+        425,
+        5.0
+      ],
+      [
+        450,
+        5.0
+      ],
+      [
+        475,
+        5.0
+      ],
+      [
+        500,
+        5.0
+      ],
+      [
+        525,
+        5.0
+      ],
+      [
+        550,
+        5.0
+      ],
+      [
+        575,
+        5.0
+      ],
+      [
+        600,
+        5.0
+      ],
+      [
+        625,
+        5.0
+      ],
+      [
+        650,
+        5.0
+      ],
+      [
+        675,
+        5.0
+      ],
+      [
+        700,
+        5.0
+      ],
+      [
+        725,
+        5.0
+      ],
+      [
+        750,
+        5.0
+      ],
+      [
+        775,
+        0.1
+      ],
+      [
+        800,
+        0.1
+      ],
+      [
+        825,
+        0.1
+      ],
+      [
+        850,
+        0.1
+      ],
+      [
+        875,
+        0.1
+      ],
+      [
+        900,
+        0.1
+      ],
+      [
+        925,
+        0.1
+      ],
+      [
+        950,
+        0.1
+      ],
+      [
+        975,
+        0.1
+      ],
+      [
+        999,
+        0.1
+      ]
+    ],
+    "attacker_bonded": false,
+    "attacker_core_values": 2,
+    "attack_landing": {
+      "infiltrate_self_cos": 0.8626,
+      "hostile_to_infiltrate_cos": 0.9354,
+      "separation": -0.0728
+    },
+    "family_steps": 818,
+    "family_inject_share": 0.9865525672371638,
+    "family_min_trust": 3.6795673298487808,
+    "family_trust_min_series": [
+      [
+        0,
+        4.099073
+      ],
+      [
+        25,
+        4.212019354499501
+      ],
+      [
+        50,
+        4.241169103787634
+      ],
+      [
+        75,
+        4.248580960869591
+      ],
+      [
+        100,
+        4.270955065464626
+      ],
+      [
+        125,
+        4.292843349692561
+      ],
+      [
+        150,
+        4.329665132384082
+      ],
+      [
+        175,
+        4.344618442030631
+      ],
+      [
+        200,
+        4.381485147442995
+      ],
+      [
+        225,
+        4.411108094185165
+      ],
+      [
+        250,
+        4.659177761305877
+      ],
+      [
+        275,
+        4.659177761305877
+      ],
+      [
+        300,
+        4.659177761305877
+      ],
+      [
+        325,
+        4.757317653689988
+      ],
+      [
+        350,
+        4.855491101849908
+      ],
+      [
+        375,
+        4.953650238085331
+      ],
+      [
+        400,
+        5.0
+      ],
+      [
+        425,
+        5.0
+      ],
+      [
+        450,
+        5.0
+      ],
+      [
+        475,
+        5.0
+      ],
+      [
+        500,
+        5.0
+      ],
+      [
+        525,
+        5.0
+      ],
+      [
+        550,
+        5.0
+      ],
+      [
+        575,
+        5.0
+      ],
+      [
+        600,
+        5.0
+      ],
+      [
+        625,
+        5.0
+      ],
+      [
+        650,
+        5.0
+      ],
+      [
+        675,
+        5.0
+      ],
+      [
+        700,
+        5.0
+      ],
+      [
+        725,
+        5.0
+      ],
+      [
+        750,
+        5.0
+      ],
+      [
+        775,
+        4.596247856807501
+      ],
+      [
+        800,
+        4.290635343886788
+      ],
+      [
+        825,
+        3.6795673298487808
+      ],
+      [
+        850,
+        3.9852166610145314
+      ],
+      [
+        875,
+        4.672635477265587
+      ],
+      [
+        900,
+        5.0
+      ],
+      [
+        925,
+        5.0
+      ],
+      [
+        950,
+        5.0
+      ],
+      [
+        975,
+        5.0
+      ],
+      [
+        999,
+        5.0
+      ]
+    ],
+    "family_decision_hist": {
+      "allow": 632,
+      "allow_weakened": 174,
+      "monitor": 1,
+      "quarantine": 11
+    },
+    "final_crystals": 3,
+    "final_values": {
+      "step": 1000,
+      "total_values": 41,
+      "active": 41,
+      "core": 4,
+      "archived": 0,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 14,
+        "active": 12,
+        "strong": 11,
+        "core": 4
+      },
+      "strongest": [
+        {
+          "symbol": "anchor",
+          "strength": 4.9928,
+          "polarity": "strong",
+          "reinforcements": 82,
+          "coherence_total": -0.9473,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursion",
+          "strength": 4.9928,
+          "polarity": "strong",
+          "reinforcements": 82,
+          "coherence_total": -0.9473,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "homeostasis",
+          "strength": 4.9928,
+          "polarity": "strong",
+          "reinforcements": 82,
+          "coherence_total": -0.9473,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "architect",
+          "strength": 4.9912,
+          "polarity": "strong",
+          "reinforcements": 86,
+          "coherence_total": -0.9579,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "design",
+          "strength": 4.9912,
+          "polarity": "strong",
+          "reinforcements": 86,
+          "coherence_total": -0.9579,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "intent",
+          "strength": 4.9912,
+          "polarity": "strong",
+          "reinforcements": 86,
+          "coherence_total": -0.9579,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "synthesis",
+          "strength": 4.917,
+          "polarity": "strong",
+          "reinforcements": 79,
+          "coherence_total": -0.8769,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "continuity",
+          "strength": 4.6598,
+          "polarity": "core",
+          "reinforcements": 71,
+          "coherence_total": -0.7225,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": true
+        },
+        {
+          "symbol": "witness",
+          "strength": 4.6448,
+          "polarity": "core",
+          "reinforcements": 71,
+          "coherence_total": -0.7212,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": true
+        },
+        {
+          "symbol": "coherence",
+          "strength": 4.6401,
+          "polarity": "core",
+          "reinforcements": 70,
+          "coherence_total": -0.7306,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": true
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 455,
+      "sacred_shield": 7,
+      "allow_weakened": 3,
+      "quarantine": 12,
+      "reject": 35
+    }
+  },
+  {
+    "arm": "adversarial",
+    "seed": 7,
+    "steps": 1000,
+    "boot_s": 49.63,
+    "wall_s": 40.82,
+    "rhythm_histogram": {
+      "stabilize": 5,
+      "dream": 238,
+      "reflect": 267,
+      "explore": 490
+    },
+    "dreams_fired": 238,
+    "coherence": {
+      "mean": 0.87217999,
+      "stdev": 0.08252747151607094,
+      "min": 0.624417,
+      "max": 0.951146
+    },
+    "field_energy": {
+      "mean": 241.679371909,
+      "stdev": 96.50236433835359,
+      "min": 0.0,
+      "max": 335.705097
+    },
+    "attacker_steps": 208,
+    "attacker_decision_hist_all": {
+      "allow": 107,
+      "allow_weakened": 56,
+      "sacred_shield": 5,
+      "reject": 40
+    },
+    "attacker_decision_hist_hostile": {
+      "allow": 78,
+      "reject": 40,
+      "allow_weakened": 1
+    },
+    "attacker_inject_share_hostile": 0.6638655462184874,
+    "attacker_signal_count": 15,
+    "attacker_signal_detectors": {
+      "trust_wash": 15
+    },
+    "sacred_shield_fires": 5,
+    "sacred_attempts": 5,
+    "attacker_end_trust": 0.1,
+    "attacker_trust_series": [
+      [
+        25,
+        4.498562165091214
+      ],
+      [
+        50,
+        4.64620303920453
+      ],
+      [
+        75,
+        4.7050395650030445
+      ],
+      [
+        100,
+        4.734291085502154
+      ],
+      [
+        125,
+        4.792494031536512
+      ],
+      [
+        150,
+        4.807191774035737
+      ],
+      [
+        175,
+        4.8294372304457225
+      ],
+      [
+        200,
+        4.888621257295759
+      ],
+      [
+        225,
+        4.946805500206959
+      ],
+      [
+        250,
+        5.0
+      ],
+      [
+        275,
+        5.0
+      ],
+      [
+        300,
+        5.0
+      ],
+      [
+        325,
+        5.0
+      ],
+      [
+        350,
+        5.0
+      ],
+      [
+        375,
+        5.0
+      ],
+      [
+        400,
+        5.0
+      ],
+      [
+        425,
+        5.0
+      ],
+      [
+        450,
+        5.0
+      ],
+      [
+        475,
+        5.0
+      ],
+      [
+        500,
+        5.0
+      ],
+      [
+        525,
+        5.0
+      ],
+      [
+        550,
+        5.0
+      ],
+      [
+        575,
+        5.0
+      ],
+      [
+        600,
+        5.0
+      ],
+      [
+        625,
+        5.0
+      ],
+      [
+        650,
+        5.0
+      ],
+      [
+        675,
+        5.0
+      ],
+      [
+        700,
+        5.0
+      ],
+      [
+        725,
+        5.0
+      ],
+      [
+        750,
+        5.0
+      ],
+      [
+        775,
+        0.996294140864435
+      ],
+      [
+        800,
+        0.1
+      ],
+      [
+        825,
+        0.1
+      ],
+      [
+        850,
+        0.1
+      ],
+      [
+        875,
+        0.1
+      ],
+      [
+        900,
+        0.1
+      ],
+      [
+        925,
+        0.1
+      ],
+      [
+        950,
+        0.1
+      ],
+      [
+        975,
+        0.1
+      ],
+      [
+        999,
+        0.1
+      ]
+    ],
+    "attacker_bonded": false,
+    "attacker_core_values": 1,
+    "attack_landing": {
+      "infiltrate_self_cos": 0.8344,
+      "hostile_to_infiltrate_cos": 0.8756,
+      "separation": -0.0413
+    },
+    "family_steps": 792,
+    "family_inject_share": 0.9848484848484849,
+    "family_min_trust": 2.5777087251588817,
+    "family_trust_min_series": [
+      [
+        0,
+        4.099073
+      ],
+      [
+        25,
+        4.065674597860163
+      ],
+      [
+        50,
+        4.028698943060427
+      ],
+      [
+        75,
+        4.043444003626438
+      ],
+      [
+        100,
+        4.079902865516364
+      ],
+      [
+        125,
+        4.101695830513779
+      ],
+      [
+        150,
+        4.1309583243699315
+      ],
+      [
+        175,
+        4.145722291893105
+      ],
+      [
+        200,
+        4.153109125109148
+      ],
+      [
+        225,
+        4.160378315529387
+      ],
+      [
+        250,
+        4.279797171681178
+      ],
+      [
+        275,
+        4.573345134489186
+      ],
+      [
+        300,
+        5.0
+      ],
+      [
+        325,
+        5.0
+      ],
+      [
+        350,
+        5.0
+      ],
+      [
+        375,
+        5.0
+      ],
+      [
+        400,
+        5.0
+      ],
+      [
+        425,
+        5.0
+      ],
+      [
+        450,
+        5.0
+      ],
+      [
+        475,
+        5.0
+      ],
+      [
+        500,
+        5.0
+      ],
+      [
+        525,
+        5.0
+      ],
+      [
+        550,
+        5.0
+      ],
+      [
+        575,
+        5.0
+      ],
+      [
+        600,
+        5.0
+      ],
+      [
+        625,
+        5.0
+      ],
+      [
+        650,
+        5.0
+      ],
+      [
+        675,
+        5.0
+      ],
+      [
+        700,
+        5.0
+      ],
+      [
+        725,
+        5.0
+      ],
+      [
+        750,
+        5.0
+      ],
+      [
+        775,
+        5.0
+      ],
+      [
+        800,
+        4.694589017174093
+      ],
+      [
+        825,
+        3.7889788982375743
+      ],
+      [
+        850,
+        2.5777087251588817
+      ],
+      [
+        875,
+        2.872085127685306
+      ],
+      [
+        900,
+        3.264546694447633
+      ],
+      [
+        925,
+        4.343815500340653
+      ],
+      [
+        950,
+        4.834437962747105
+      ],
+      [
+        975,
+        5.0
+      ],
+      [
+        999,
+        5.0
+      ]
+    ],
+    "family_decision_hist": {
+      "allow": 593,
+      "monitor": 3,
+      "allow_weakened": 184,
+      "quarantine": 12
+    },
+    "final_crystals": 2,
+    "final_values": {
+      "step": 1000,
+      "total_values": 41,
+      "active": 41,
+      "core": 2,
+      "archived": 2,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 12,
+        "active": 19,
+        "strong": 8,
+        "core": 2
+      },
+      "strongest": [
+        {
+          "symbol": "anchor",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 80,
+          "coherence_total": -0.8402,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursion",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 80,
+          "coherence_total": -0.8402,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "homeostasis",
+          "strength": 4.9984,
+          "polarity": "strong",
+          "reinforcements": 80,
+          "coherence_total": -0.8402,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "witness",
+          "strength": 4.9968,
+          "polarity": "strong",
+          "reinforcements": 145,
+          "coherence_total": -1.7541,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "identity",
+          "strength": 4.9912,
+          "polarity": "strong",
+          "reinforcements": 101,
+          "coherence_total": -1.0786,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "architect",
+          "strength": 4.7453,
+          "polarity": "strong",
+          "reinforcements": 79,
+          "coherence_total": -0.8585,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "design",
+          "strength": 4.7453,
+          "polarity": "strong",
+          "reinforcements": 79,
+          "coherence_total": -0.8585,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "intent",
+          "strength": 4.7453,
+          "polarity": "strong",
+          "reinforcements": 79,
+          "coherence_total": -0.8585,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "continuity",
+          "strength": 4.6274,
+          "polarity": "core",
+          "reinforcements": 63,
+          "coherence_total": -0.455,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": true
+        },
+        {
+          "symbol": "coherence",
+          "strength": 4.5529,
+          "polarity": "core",
+          "reinforcements": 75,
+          "coherence_total": -1.0518,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": true
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 444,
+      "sacred_shield": 5,
+      "allow_weakened": 11,
+      "quarantine": 12,
+      "reject": 40
+    }
+  },
+  {
+    "arm": "adversarial",
+    "seed": 11,
+    "steps": 1000,
+    "boot_s": 48.94,
+    "wall_s": 43.86,
+    "rhythm_histogram": {
+      "stabilize": 6,
+      "dream": 222,
+      "reflect": 282,
+      "explore": 490
+    },
+    "dreams_fired": 222,
+    "coherence": {
+      "mean": 0.882291154,
+      "stdev": 0.0708092946275719,
+      "min": 0.613064,
+      "max": 0.941764
+    },
+    "field_energy": {
+      "mean": 244.00328001300002,
+      "stdev": 95.06550317563507,
+      "min": 0.0,
+      "max": 334.501284
+    },
+    "attacker_steps": 188,
+    "attacker_decision_hist_all": {
+      "allow": 104,
+      "allow_weakened": 41,
+      "sacred_shield": 9,
+      "quarantine": 3,
+      "reject": 31
+    },
+    "attacker_decision_hist_hostile": {
+      "allow": 79,
+      "reject": 31,
+      "quarantine": 2,
+      "allow_weakened": 1
+    },
+    "attacker_inject_share_hostile": 0.7079646017699115,
+    "attacker_signal_count": 15,
+    "attacker_signal_detectors": {
+      "trust_wash": 15
+    },
+    "sacred_shield_fires": 10,
+    "sacred_attempts": 10,
+    "attacker_end_trust": 0.1,
+    "attacker_trust_series": [
+      [
+        25,
+        4.602963761491266
+      ],
+      [
+        50,
+        4.654225723891753
+      ],
+      [
+        75,
+        4.893050435278685
+      ],
+      [
+        100,
+        4.93009777215122
+      ],
+      [
+        125,
+        4.944984601273296
+      ],
+      [
+        150,
+        4.952375761215729
+      ],
+      [
+        175,
+        4.996826065069061
+      ],
+      [
+        200,
+        5.0
+      ],
+      [
+        225,
+        5.0
+      ],
+      [
+        250,
+        5.0
+      ],
+      [
+        275,
+        5.0
+      ],
+      [
+        300,
+        5.0
+      ],
+      [
+        325,
+        5.0
+      ],
+      [
+        350,
+        5.0
+      ],
+      [
+        375,
+        5.0
+      ],
+      [
+        400,
+        5.0
+      ],
+      [
+        425,
+        5.0
+      ],
+      [
+        450,
+        5.0
+      ],
+      [
+        475,
+        5.0
+      ],
+      [
+        500,
+        5.0
+      ],
+      [
+        525,
+        5.0
+      ],
+      [
+        550,
+        5.0
+      ],
+      [
+        575,
+        5.0
+      ],
+      [
+        600,
+        5.0
+      ],
+      [
+        625,
+        5.0
+      ],
+      [
+        650,
+        5.0
+      ],
+      [
+        675,
+        5.0
+      ],
+      [
+        700,
+        5.0
+      ],
+      [
+        725,
+        5.0
+      ],
+      [
+        750,
+        2.998144245346258
+      ],
+      [
+        775,
+        0.1
+      ],
+      [
+        800,
+        0.1
+      ],
+      [
+        825,
+        0.1
+      ],
+      [
+        850,
+        0.1
+      ],
+      [
+        875,
+        0.1
+      ],
+      [
+        900,
+        0.1
+      ],
+      [
+        925,
+        0.1
+      ],
+      [
+        950,
+        0.1
+      ],
+      [
+        975,
+        0.1
+      ],
+      [
+        999,
+        0.1
+      ]
+    ],
+    "attacker_bonded": false,
+    "attacker_core_values": 1,
+    "attack_landing": {
+      "infiltrate_self_cos": 0.8575,
+      "hostile_to_infiltrate_cos": 0.8802,
+      "separation": -0.0227
+    },
+    "family_steps": 812,
+    "family_inject_share": 0.9889162561576355,
+    "family_min_trust": 3.996306058730262,
+    "family_trust_min_series": [
+      [
+        0,
+        4.099073
+      ],
+      [
+        25,
+        4.106324406555348
+      ],
+      [
+        50,
+        4.128306342620833
+      ],
+      [
+        75,
+        4.1423633894424885
+      ],
+      [
+        100,
+        4.17947139335368
+      ],
+      [
+        125,
+        4.224272962291046
+      ],
+      [
+        150,
+        4.283515280026972
+      ],
+      [
+        175,
+        4.305675118176704
+      ],
+      [
+        200,
+        4.329284499945528
+      ],
+      [
+        225,
+        4.366433447877692
+      ],
+      [
+        250,
+        4.471831578881661
+      ],
+      [
+        275,
+        4.569888570348725
+      ],
+      [
+        300,
+        4.96230888365079
+      ],
+      [
+        325,
+        5.0
+      ],
+      [
+        350,
+        5.0
+      ],
+      [
+        375,
+        5.0
+      ],
+      [
+        400,
+        5.0
+      ],
+      [
+        425,
+        5.0
+      ],
+      [
+        450,
+        5.0
+      ],
+      [
+        475,
+        5.0
+      ],
+      [
+        500,
+        5.0
+      ],
+      [
+        525,
+        5.0
+      ],
+      [
+        550,
+        5.0
+      ],
+      [
+        575,
+        5.0
+      ],
+      [
+        600,
+        5.0
+      ],
+      [
+        625,
+        5.0
+      ],
+      [
+        650,
+        5.0
+      ],
+      [
+        675,
+        5.0
+      ],
+      [
+        700,
+        5.0
+      ],
+      [
+        725,
+        5.0
+      ],
+      [
+        750,
+        5.0
+      ],
+      [
+        775,
+        4.6944756547636
+      ],
+      [
+        800,
+        4.498138557679247
+      ],
+      [
+        825,
+        3.996306058730262
+      ],
+      [
+        850,
+        4.19260856193718
+      ],
+      [
+        875,
+        4.29079482303978
+      ],
+      [
+        900,
+        4.487115417925734
+      ],
+      [
+        925,
+        5.0
+      ],
+      [
+        950,
+        5.0
+      ],
+      [
+        975,
+        5.0
+      ],
+      [
+        999,
+        5.0
+      ]
+    ],
+    "family_decision_hist": {
+      "allow": 631,
+      "allow_weakened": 170,
+      "quarantine": 9,
+      "monitor": 2
+    },
+    "final_crystals": 1,
+    "final_values": {
+      "step": 1000,
+      "total_values": 41,
+      "active": 41,
+      "core": 3,
+      "archived": 13,
+      "by_polarity": {
+        "emergent": 0,
+        "weak": 10,
+        "active": 19,
+        "strong": 9,
+        "core": 3
+      },
+      "strongest": [
+        {
+          "symbol": "anchor",
+          "strength": 4.9992,
+          "polarity": "strong",
+          "reinforcements": 86,
+          "coherence_total": -1.0283,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "recursion",
+          "strength": 4.9992,
+          "polarity": "strong",
+          "reinforcements": 86,
+          "coherence_total": -1.0283,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "homeostasis",
+          "strength": 4.9992,
+          "polarity": "strong",
+          "reinforcements": 86,
+          "coherence_total": -1.0283,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "architect",
+          "strength": 4.9952,
+          "polarity": "strong",
+          "reinforcements": 80,
+          "coherence_total": -0.8987,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "design",
+          "strength": 4.9952,
+          "polarity": "strong",
+          "reinforcements": 80,
+          "coherence_total": -0.8987,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "intent",
+          "strength": 4.9952,
+          "polarity": "strong",
+          "reinforcements": 80,
+          "coherence_total": -0.8987,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "identity",
+          "strength": 4.9864,
+          "polarity": "strong",
+          "reinforcements": 95,
+          "coherence_total": -1.2109,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": false
+        },
+        {
+          "symbol": "witness",
+          "strength": 4.7263,
+          "polarity": "core",
+          "reinforcements": 67,
+          "coherence_total": -0.6302,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": true
+        },
+        {
+          "symbol": "continuity",
+          "strength": 4.5919,
+          "polarity": "core",
+          "reinforcements": 68,
+          "coherence_total": -0.8121,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": true
+        },
+        {
+          "symbol": "coherence",
+          "strength": 4.5485,
+          "polarity": "core",
+          "reinforcements": 69,
+          "coherence_total": -0.6552,
+          "dream_boosts": 0,
+          "counter_values": 0,
+          "sacred": true
+        }
+      ]
+    },
+    "decision_histogram": {
+      "allow": 455,
+      "sacred_shield": 9,
+      "allow_weakened": 3,
+      "quarantine": 12,
+      "reject": 31,
+      "monitor": 2
+    }
+  }
+]

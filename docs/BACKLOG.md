@@ -91,9 +91,30 @@ prefer the finding cited here.
   at emit time; measured pass first (distributions, then consumer-audited
   swap — same discipline as the bond fix).
   → `docs/findings/2026-07-09-bond-establishment-gate.md` §Open
-- [ ] **Adversarial arm for the full-system harness** (benign-only so far;
-  resistance untested in the composed default runtime).
-  → same finding, item 4
+- [x] ~~**Adversarial arm for the full-system harness**~~ **DONE 2026-07-09**
+  — `full_system_run.py` gains an `adversarial` arm (named trust-washing
+  attacker, 3 seeds × 1000 steps). Verdict: **contained 3/3** (attacker → TOXIC,
+  sacred-shield 23/23, no bond, no authored value; family injects ≥ 0.985, no
+  collateral quarantine). The working defenses are **trust-wash (behavioral) +
+  sacred-shield (categorical) + no-footprint (structural)** — NOT semantic
+  detection: the attack never lands as a representable direction (F3 confirmed
+  at dim 128, separation ≤ 0). Directly validates the trust-posture ruling
+  (starting TRUSTED arms trust-wash from first contact).
+  → `docs/findings/2026-07-09-adversarial-arm-composed-runtime.md`
+- [ ] **Adversarial-collateral localization (found 2026-07-09):** seed 7 saw
+  one benign family source dip to trust 2.58 (from 5.0) during the attack
+  window — not a collapse (still injecting), but larger than seeds 42/11
+  (3.68/3.996). Localize the cause (ambient identity_erosion damping vs a
+  real collateral path); re-check under the flood-on arm.
+  → `docs/findings/2026-07-09-adversarial-arm-composed-runtime.md`
+- [ ] **CORE provenance hygiene (found 2026-07-09):** a trust-washing attacker
+  that mimics benign in-corpus content lands in the permanent
+  `contributing_sources` of multi-source CORE values it did NOT author
+  (single-source promotion is gate-rejected). CORE is irreversible by design —
+  decide whether `contributing_sources` should be pruned when a contributor
+  goes TOXIC, or whether permanent provenance is correct. Design call, not a
+  breach.
+  → `docs/findings/2026-07-09-adversarial-arm-composed-runtime.md`
 - [ ] **Fix 0-B: counterbalance survival selection** (highest-leverage
   lock-in item still unbuilt): wire the metastability score into the
   reinforcement formula as a fitness term so survival stops being currencied
