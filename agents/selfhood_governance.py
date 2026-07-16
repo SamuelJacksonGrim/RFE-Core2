@@ -149,6 +149,9 @@ class SelfhoodGovernance:
         Threshold overrides.
     ethical_config : dict or None
         Passed to EthicalBoundarySystem.
+    bond_config : dict or None
+        Passed to RelationalBondManager (e.g. the opt-in ``ddm_formation``
+        accumulator lever and its ``ddm_config`` physics constants).
     """
 
     DEFAULT_CONFIG = {
@@ -164,6 +167,7 @@ class SelfhoodGovernance:
         config:          Optional[dict] = None,
         ethical_config:  Optional[dict] = None,
         trust_config:    Optional[dict] = None,
+        bond_config:     Optional[dict] = None,
     ):
         self.registry = registry
         self.config   = {**self.DEFAULT_CONFIG, **(config or {})}
@@ -184,7 +188,7 @@ class SelfhoodGovernance:
             self.constants, config=ethical_config
         )
         self.dependency_monitor = DependencyMonitor()
-        self.bond_manager       = RelationalBondManager()
+        self.bond_manager       = RelationalBondManager(**(bond_config or {}))
         self.resistance         = ManipulationResistanceEngine()
 
         # Rights — immutable singleton
