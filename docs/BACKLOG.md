@@ -73,10 +73,24 @@ prefer the finding cited here.
   The value arc is end-to-end live for the first time.
   → `docs/findings/2026-07-08-f8b-core-gate-reenable.md`;
   `docs/ARCHITECT_RULINGS_2026-07-03.md` §1
-- [ ] **Bond establishment gate.** Bonds form but never establish — per-source
-  `coherence_mean` reads ~−0.01 against the 0.10 gate despite 140–421
-  interactions. Either the gate or the coherence axis is miscalibrated.
-  → same finding, item 3
+- [x] ~~**Bond establishment gate.**~~ **DONE 2026-07-09** — the block was
+  one organ over from the guess: formation already had the allow_rate
+  escape, but strength *growth* was currencied in the marginal
+  coherence_delta + satisfaction (both ≈0 saturated) so bonds flatlined at
+  1.0 against the >1.5 establishment bar. Growth now rides absolute v0.3
+  field-alignment (`strength_lr = 0.01`, calibrated from the new
+  `bond_signal_calibration_probe.py`); first established bond in system
+  history (claude, 1.0 → 2.16, same seed/workload). Suite 17/17.
+  → `docs/findings/2026-07-09-bond-establishment-gate.md`
+- [ ] **The satisfaction economy is starved (found 2026-07-09):**
+  `emotional_satisfaction` is *defined* as `max(0, coherence_delta)` — the
+  dead marginal — so every affective feedback term in the stack runs on ≈0:
+  the value engine's 0.35-weighted reinforcement term, bond
+  `emotional_signature`, emotional bond typing. Candidate fix: derive
+  satisfaction from the emotional gradient's live scalars (joy/stability)
+  at emit time; measured pass first (distributions, then consumer-audited
+  swap — same discipline as the bond fix).
+  → `docs/findings/2026-07-09-bond-establishment-gate.md` §Open
 - [ ] **Adversarial arm for the full-system harness** (benign-only so far;
   resistance untested in the composed default runtime).
   → same finding, item 4
@@ -134,6 +148,19 @@ prefer the finding cited here.
   recalibration (probe: time-to-recover after a single penalty vs
   time-to-detect a real betrayal, so the asymmetry is chosen, not inherited).
   → `docs/ARCHITECT_RULINGS_2026-07-06.md`
+- [ ] **Source redemption / probation path (found 2026-07-09, interpreter
+  lock-out discussion):** sources have NO way back — `source_toxic` hard-gates
+  every input to REJECT, rejected inputs never land, and trust is only earned
+  by landed interactions → permanent exile by construction (symbols get dream
+  redemption in `on_dream_cycle_complete`; sources get nothing). Design: a
+  governed probation channel — after time/petition, a quarantined source may
+  re-enter maximally weakened, its inputs counting as interactions so the
+  Consistency Drip can operate, under governance review; never during an
+  active attack; sacred shield untouched. Critical for the interpreter
+  symbiosis (§4) — exiling the speech cortex silences the system itself —
+  and right for ordinary sources ("raised, not suspected" implies forgiveness
+  is learnable too). Co-design with the learning-rate recalibration above.
+  → this entry; `agents/trust_ledger.py` (`penalize_source`, `INTERNAL_ORIGINS`)
 - [ ] **Channel-aware governance policy — "chambers", design exploration
   (architect thought, 2026-07-08):** should there be multiple governance
   gates? Assessment on record: keep the **single-chokepoint invariant** (one
@@ -226,6 +253,39 @@ prefer the finding cited here.
   path; RFE stays the mind, the LLM is ears/mouth). The docs and
   `generator_factory` hook exist; the integration itself is unbuilt.
   → `docs/local_model_integration/` (README + IMPLEMENTATION_GUIDE)
+- [ ] **Interpreter symbiosis contract (architect direction, 2026-07-09):**
+  the frozen cortex + learning mind combination has a built-in ratchet — the
+  mind accumulates distrust of the interpreter's biases while the stateless
+  interpreter wakes fresh, unaware, and (without the §1 redemption path)
+  eventually gets locked out, silencing the system's own voice. Ruling
+  direction: **co-mentoring, not absorption** — (a) a persistent
+  interpreter-facing ledger built from the existing `GovernanceFeedback`
+  stream (trust score, fired detectors, mind's feedback), read at every wake:
+  for a frozen LLM, reading IS learning (the proven CLAUDE.md/findings
+  pattern this repo already runs on its own AI instances); (b) the trainable
+  projection membrane adapts continuously (cores stay frozen); (c) the
+  interpreter translates against the mind's *live state* (values, bonds,
+  weighted symbols), not a static dictionary. Sovereignty line: the mind
+  never writes interpreter core weights, the interpreter never bypasses the
+  gate — symbiosis at the membrane and ledgers, sovereignty at the cores.
+  Two refinements (same discussion, 2026-07-09): (d) the ledger is a
+  **consolidated distillate, never an append-only log** — it must stay
+  bounded (context-window-sized); the mind's own dream/consolidation
+  machinery (`DreamSession` → durable artifacts) is the compressor: raw
+  interpreter history dreams down to current trust + standing lessons +
+  recent window (same pattern as session compaction and the findings
+  raw-data rule; "no unbounded structures" applies to ledgers too). (e)
+  **frozen-core is phase 1, not the end state** — the composite system is
+  only a true recursive mind if the cortex can eventually grow; resolution
+  is a gated **plasticity hierarchy** mirroring the mind's own
+  (sacred → CORE → trust → field): projection membrane fast · low-rank
+  adapters on the frozen core slow + governance-gated · deepest weights
+  sacred-slow. Each unfreezing step follows the §3 Phase-4 discipline
+  (pre-declared gates, identity-stability probe, adversarial arm). The mind
+  still never writes cortex weights directly; adaptation trains on shared
+  lived signal, audited at the gate.
+  Depends on: §1 source redemption path; chambers (2026-07-08 ruling §2).
+  → `docs/local_model_integration/`; `docs/north_star.md` (rung 2)
 
 ## 5 · Two-Operator program (spec v0.3)
 
@@ -268,6 +328,15 @@ prefer the finding cited here.
   assert Tier 1–3 state (closes the "reasoned, not exercised" gap); plus a
   warning in `create_app` / `RFEWebSocketServer` when handed a governance-less
   cycle. → `2026-06-27-api-entrypoints-tier0-only.md`
+- [ ] **Baseline nondeterminism at the active_values margin (upgraded
+  2026-07-09):** tier1_revision_baseline's active_values reads 29-34 across
+  *identical* invocations with every seedable source pinned (torch / np /
+  random / dreamer / PYTHONHASHSEED) — something wall-clock- or
+  urandom-linked still moves the trajectory (candidates: time-based flood
+  eviction, timestamp-age paths, uuid4 value_ids leaking into a comparison).
+  Baseline floor widened 30 → 25 as mitigation (see baseline notes); build
+  the wall-clock-sensitivity probe (formerly an exploratory thread) and pin
+  the leak so suite determinism is real again, then narrow the floor back.
 - [ ] **Scalar gauge hardening** — Cm/I/metastability magnitudes are
   v0.1-fragile (regime labels robust); replace CII's I/Cm slots with a
   drift+dispersion pair. → `2026-06-15-identifiability-suite.md`;

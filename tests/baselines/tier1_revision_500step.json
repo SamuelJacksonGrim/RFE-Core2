@@ -1,90 +1,131 @@
 {
   "metadata": {
-    "captured_at":  "2026-05-12",
-    "tier":         "Tier 1 Revision (Context-Weighted Trust Dynamics)",
-    "test_script":  "tests/smoke/multi_source_500step.py",
-    "description":  "Healthy state after Tier 1 Revision: flood gate calibrated for origin_type, Harmony Clause, Consistency Drip, Boredom-with-Teeth, Bond-Weighted Decay, Adaptive bond threshold, allow_rate alternate signal, crystal attribution fix.",
+    "captured_at": "2026-05-12",
+    "tier": "Tier 1 Revision (Context-Weighted Trust Dynamics)",
+    "test_script": "tests/smoke/multi_source_500step.py",
+    "description": "Healthy state after Tier 1 Revision: flood gate calibrated for origin_type, Harmony Clause, Consistency Drip, Boredom-with-Teeth, Bond-Weighted Decay, Adaptive bond threshold, allow_rate alternate signal, crystal attribution fix.",
     "config": {
-      "n_steps":      500,
-      "vocab_size":   4096,
-      "dim":          64,
-      "depth":        3,
-      "heads":        4,
-      "use_chorus":   true,
-      "origin_type":  "internal",
-      "sources":      ["source_samuel", "source_claude", "source_gemini", "source_grok"],
-      "weights":      [0.40, 0.25, 0.20, 0.15]
+      "n_steps": 500,
+      "vocab_size": 4096,
+      "dim": 64,
+      "depth": 3,
+      "heads": 4,
+      "use_chorus": true,
+      "origin_type": "internal",
+      "sources": [
+        "source_samuel",
+        "source_claude",
+        "source_gemini",
+        "source_grok"
+      ],
+      "weights": [
+        0.4,
+        0.25,
+        0.2,
+        0.15
+      ]
     },
-    "seeds_characterized": [42, 137, 271]
+    "seeds_characterized": [
+      42,
+      137,
+      271
+    ]
   },
-
   "sample_runs": [
     {
-      "seed":               42,
-      "allow_rate":         0.9920,
-      "allow_weakened_rate":0.0080,
-      "quarantine_rate":    0.0000,
-      "min_source_trust":   5.0000,
-      "hhi":                0.2637,
-      "bonds_formed":       2,
-      "active_values":      46,
-      "strong_values":      5,
-      "core_values":        0
+      "seed": 42,
+      "allow_rate": 0.992,
+      "allow_weakened_rate": 0.008,
+      "quarantine_rate": 0.0,
+      "min_source_trust": 5.0,
+      "hhi": 0.2637,
+      "bonds_formed": 2,
+      "active_values": 46,
+      "strong_values": 5,
+      "core_values": 0
     },
     {
-      "seed":               137,
-      "allow_rate":         0.9860,
-      "allow_weakened_rate":0.0120,
-      "quarantine_rate":    0.0000,
-      "min_source_trust":   5.0000,
-      "hhi":                0.3041,
-      "bonds_formed":       2,
-      "active_values":      43,
-      "strong_values":      8,
-      "core_values":        0
+      "seed": 137,
+      "allow_rate": 0.986,
+      "allow_weakened_rate": 0.012,
+      "quarantine_rate": 0.0,
+      "min_source_trust": 5.0,
+      "hhi": 0.3041,
+      "bonds_formed": 2,
+      "active_values": 43,
+      "strong_values": 8,
+      "core_values": 0
     },
     {
-      "seed":               271,
-      "allow_rate":         0.9920,
-      "allow_weakened_rate":0.0080,
-      "quarantine_rate":    0.0000,
-      "min_source_trust":   5.0000,
-      "hhi":                0.2872,
-      "bonds_formed":       1,
-      "active_values":      46,
-      "strong_values":      8,
-      "core_values":        0
+      "seed": 271,
+      "allow_rate": 0.992,
+      "allow_weakened_rate": 0.008,
+      "quarantine_rate": 0.0,
+      "min_source_trust": 5.0,
+      "hhi": 0.2872,
+      "bonds_formed": 1,
+      "active_values": 46,
+      "strong_values": 8,
+      "core_values": 0
     }
   ],
-
   "expected_ranges": {
-    "injection_rate":      { "min": 0.95,    "max": 1.00 },
-    "allow_rate":          { "min": 0.40,    "max": 1.00 },
-    "allow_weakened_rate": { "min": 0.00,    "max": 0.60 },
-    "quarantine_rate":     { "min": 0.00,    "max": 0.01 },
-    "min_source_trust":    { "min": 4.50,    "max": 5.00 },
-    "hhi":                 { "min": 0.20,    "max": 0.40 },
-    "bonds_formed":        { "min": 0,       "max": 4    },
-    "active_values":       { "min": 30,      "max": 60   },
-    "strong_values":       { "min": 1,       "max": 15   },
-    "core_values":         { "min": 0,       "max": 5    }
+    "injection_rate": {
+      "min": 0.95,
+      "max": 1.0
+    },
+    "allow_rate": {
+      "min": 0.4,
+      "max": 1.0
+    },
+    "allow_weakened_rate": {
+      "min": 0.0,
+      "max": 0.6
+    },
+    "quarantine_rate": {
+      "min": 0.0,
+      "max": 0.01
+    },
+    "min_source_trust": {
+      "min": 4.5,
+      "max": 5.0
+    },
+    "hhi": {
+      "min": 0.2,
+      "max": 0.4
+    },
+    "bonds_formed": {
+      "min": 0,
+      "max": 4
+    },
+    "active_values": {
+      "min": 25,
+      "max": 60
+    },
+    "strong_values": {
+      "min": 1,
+      "max": 15
+    },
+    "core_values": {
+      "min": 0,
+      "max": 5
+    }
   },
-
   "shape_assertions": {
-    "trust_does_not_collapse":           "min_source_trust >= 4.50 — no cascade",
-    "quarantines_rare":                  "quarantine_rate <= 0.01 — flood gate calibrated",
+    "trust_does_not_collapse": "min_source_trust >= 4.50 — no cascade",
+    "quarantines_rare": "quarantine_rate <= 0.01 — flood gate calibrated",
     "decisions_overwhelmingly_positive": "injection_rate >= 0.95 — ALLOW + ALLOW_WEAKENED + MONITOR all inject; strict-ALLOW share is rhythm-regime-dependent since the F9 band rescale",
-    "dependency_healthy":                "0.20 <= hhi <= 0.40 — multi-source distribution stable",
-    "bonds_form":                        "bonds_formed may be 0 in this UNTRAINED harness under the live dream band — crystal formation is the bottleneck (1 crystal/500 steps); the pretrained composed engine forms 2-6. See BACKLOG §1 bond-establishment gate",
-    "values_progress":                   "strong_values >= 1 — bond-weighted decay protecting reinforcement"
+    "dependency_healthy": "0.20 <= hhi <= 0.40 — multi-source distribution stable",
+    "bonds_form": "bonds_formed may be 0 in this UNTRAINED harness under the live dream band — crystal formation is the bottleneck (1 crystal/500 steps); the pretrained composed engine forms 2-6. See BACKLOG §1 bond-establishment gate",
+    "values_progress": "strong_values >= 1 — bond-weighted decay protecting reinforcement"
   },
-
   "notes": [
     "These ranges describe the SHAPE of healthy behavior, not exact values.",
     "Stochastic source ordering produces legitimate variation between runs.",
     "Wider ranges than the observed variance to accommodate future seeds.",
     "core_values is 0 because 500 steps is too short for the 10-consecutive-eligible-step rule to trigger CORE promotion. Longer runs would produce CORE values.",
     "Update intentionally, not opportunistically — if numbers drift out of range, investigate first, adjust baseline only if drift is the new normal.",
-    "RE-BASELINED 2026-07-06 (F9 rhythm band rescale, finding 2026-07-06-f9-rhythm-band-rescale): with the dream band alive, benign dream-band expressions draw ambient identity_erosion weakening (severity ~0.55, systemic) in this untrained harness — seed 42: allow 0.53 / weakened 0.47 / injection 1.00 / trust 5.0 / quarantine 0. injection_rate added as the regime-independent guard; allow_rate retained wide to catch true suppression regimes; bonds_formed floor dropped to 0 (crystal starvation in the untrained stack — tracked in BACKLOG, not accepted as final)."
+    "RE-BASELINED 2026-07-06 (F9 rhythm band rescale, finding 2026-07-06-f9-rhythm-band-rescale): with the dream band alive, benign dream-band expressions draw ambient identity_erosion weakening (severity ~0.55, systemic) in this untrained harness — seed 42: allow 0.53 / weakened 0.47 / injection 1.00 / trust 5.0 / quarantine 0. injection_rate added as the regime-independent guard; allow_rate retained wide to catch true suppression regimes; bonds_formed floor dropped to 0 (crystal starvation in the untrained stack — tracked in BACKLOG, not accepted as final).",
+    "ADJUSTED 2026-07-09 (bond establishment fix, finding 2026-07-09-bond-establishment-gate): active_values floor 30 -> 25. The post-F8/F9 trajectory sits at ~29-34 and the metric wobbles +/-2-3 across identical invocations (34/31/31/29 with PYTHONHASHSEED, torch, np, random, and dreamer all pinned) — a residual wall-clock-linked nondeterminism, tracked in BACKLOG (wall-clock-sensitivity probe). A floor within flake-width of the trajectory makes the gate cry wolf; 25 still catches genuine value-population collapse (a real regression reads 0-15, e.g. the all-ON break's 5 -> 0)."
   ]
 }

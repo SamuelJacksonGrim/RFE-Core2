@@ -415,6 +415,7 @@ class SelfhoodGovernance:
         source_id:       str,
         stable_ids:      List[int],
         coherence_delta: float,
+        field_alignment: float = 0.0,
     ) -> GovernanceFeedback:
         """
         Emit feedback after a governance decision.
@@ -429,6 +430,12 @@ class SelfhoodGovernance:
         source_id : str
         stable_ids : list of int
         coherence_delta : float   actual field impact after injection
+        field_alignment : float   absolute v0.3 alignment of the expression
+            with the pre-injection field, max(0, cos(vec, field)) ∈ [0, 1].
+            The live per-contribution quality signal — the marginal
+            coherence_delta is structurally ≈0 in a saturated field, so
+            consumers that need a reachable signal (bond strength growth)
+            read this instead. Default 0.0 keeps un-wired callers inert.
 
         Returns
         -------
@@ -441,6 +448,7 @@ class SelfhoodGovernance:
             "trust_impact":           trust_impact,
             "emotional_satisfaction": float(max(0.0, coherence_delta)),
             "surprise":               float(max(0.0, -coherence_delta)),
+            "field_alignment":        float(np.clip(field_alignment, 0.0, 1.0)),
         }
 
         feedback = GovernanceFeedback(
