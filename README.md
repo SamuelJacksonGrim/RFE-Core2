@@ -224,7 +224,7 @@ Bonds carry a `bond_type` inferred from accumulated signals:
 
 Borderline cases (within 0.12 score margin) resolve by priority order `existential → emotional → intellectual → transactional` with a reported `bond_confidence` for downstream weighting.
 
-Bonded sources receive a `trust_floor = bond_strength × 0.40` — trust will not decay below this regardless of individual outcomes. The bond persists through brief negative episodes; it represents relationship, not raw transactional trust.
+Bonded sources receive a `trust_floor = bond_strength × 0.40` — trust will not decay below this regardless of individual outcomes. The bond persists through brief negative episodes; it represents relationship, not raw transactional trust. Bond strength grows per positive interaction in proportion to the contribution's absolute v0.3 field-alignment (`strength_lr = 0.01` — fixed 2026-07-09; the old marginal-coherence currency was structurally ≈0, so bonds flatlined at 1.0 and could never establish at the >1.5 / depth >50 bar).
 
 ### ManipulationResistanceEngine — 5 detectors with severity
 
@@ -749,7 +749,8 @@ RFE-Core2/
 │   │   │   └── all_levers_composition_probe.py  ALL levers ON together — composition gate (caught the ⊘-consumer strong-band ceiling)
 │   │   └── calibration/                  Floor calibration — measure-before-change
 │   │       ├── floor_calibration_probe.py    energy/rhythm bands + CORE coherence-signal candidates (no change applied)
-│   │       └── rhythm_band_equilibria_probe.py  pinned-band equilibrium energies — re-run before any band retune (F9)
+│   │       ├── rhythm_band_equilibria_probe.py  pinned-band equilibrium energies — re-run before any band retune (F9)
+│   │       └── bond_signal_calibration_probe.py marginal vs absolute bond-growth currency — the ruler behind the 2026-07-09 establishment fix
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges

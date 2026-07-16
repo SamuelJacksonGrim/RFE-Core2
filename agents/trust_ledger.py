@@ -76,7 +76,10 @@ class GovernanceFeedback:
     timestamp:      float
     outcome_metrics: Dict[str, float]   # shaped for ValueEmergenceEngine:
                                         # coherence_delta, trust_impact,
-                                        # emotional_satisfaction, surprise
+                                        # emotional_satisfaction, surprise,
+                                        # field_alignment (absolute v0.3
+                                        # cos(vec, field) — the live signal;
+                                        # bond strength growth reads it)
 
 
 # ---------------------------------------------------------------------------

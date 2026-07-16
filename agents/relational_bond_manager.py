@@ -142,6 +142,7 @@ class RelationalBondManager:
         min_coherence_threshold:         float = 0.01,
         variance_window:                 int   = 64,
         allow_rate_threshold:            float = 0.80,
+        strength_lr:                     float = 0.01,
     ):
         self.formation_interaction_threshold = formation_interaction_threshold
         self.formation_coherence_threshold   = formation_coherence_threshold
@@ -149,6 +150,16 @@ class RelationalBondManager:
         self.ema_alpha                       = ema_alpha
         self.strength_decay                  = strength_decay
         self.allow_rate_threshold            = allow_rate_threshold
+        # Strength growth rate per positive interaction, applied to the
+        # absolute v0.3 field_alignment (≈0.75–0.99 measured, p50 ~0.98 —
+        # bond_signal_calibration_probe 2026-07-09). Calibration: a bond forms
+        # at strength 1.0 and establishes at >1.5, so at 0.01 a source with a
+        # 0.25 share of traffic establishes after ~200 further global steps;
+        # a 0.15-share source needs ~340. Deep relationships take real time,
+        # frequent partners deepen faster. (The old formula used the marginal
+        # coherence_delta + satisfaction, both structurally ≈0 in a saturated
+        # field — bonds flatlined at 1.0 forever; the same F7/F8 disease.)
+        self.strength_lr                     = strength_lr
 
         # Adaptive threshold (Intervention 5)
         # threshold = max(min_threshold, formation_coherence_threshold × field_variance)
@@ -207,9 +218,15 @@ class RelationalBondManager:
                 + self.ema_alpha * satisfaction
             )
 
-            # Strength delta — positive outcomes reinforce, negative weaken
+            # Strength delta — positive outcomes reinforce, negative weaken.
+            # Growth is currencied in the absolute v0.3 field_alignment (the
+            # live signal), not the marginal coherence_delta (structurally ≈0
+            # in a saturated field — bonds used to flatline at 1.0 and never
+            # establish). satisfaction is kept in the sum so the affective
+            # term comes alive if the satisfaction economy is ever repaired.
             if positive:
-                delta = 0.05 * max(0.0, coherence_delta + satisfaction)
+                alignment = metrics.get("field_alignment", 0.0)
+                delta = self.strength_lr * max(0.0, alignment + satisfaction)
             else:
                 delta = -0.15 * abs(trust_impact)
 
