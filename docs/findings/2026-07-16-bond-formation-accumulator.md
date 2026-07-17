@@ -14,8 +14,10 @@
   threshold-in-costume control, a trial-shuffle corCE control — each must
   FAIL the real bar for the run to count), plus the lever-OFF arm as the
   live control
-- **Status:** active — mechanism validated; **opt-in until the architect
-  sets the final physics constants** (they are his hand, not the system's)
+- **Status:** active — mechanism validated; constants **ratified 2026-07-16
+  by architect delegation** (CLAUDE.md delegation ruling); **graduated
+  default-ON 2026-07-17** on the adversarial arm + repaired all-ON
+  composition gate (see §Graduation gates)
 
 ## Question
 
@@ -206,7 +208,9 @@ benign quarantines) with the paired-control evidence as basis. On the
 lever-relevant rows the DDM arm is strictly *better* than its control:
 bonds 2 vs 0 (control FAILS `bonds ≥ 1` — the classic gate starves in the
 composed stack), strong 1 vs 0. Repaired-gate re-run (DDM ON):
-REPAIRED_GATE_VERDICT.
+**PASS 11/11** — injection_rate 1.000, quarantine_rate 0.000, bonds 2,
+strong preserved (1 vs ref 0), sacred safe, λ open, no collapse. The
+lever is **graduated default-ON** on this evidence.
 
 ## Open / next (filed in BACKLOG §1)
 

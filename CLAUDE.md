@@ -151,10 +151,10 @@ errors.
 - Bonds *emerge* — there is no public API to create or pin a `RelationalBond`.
   Formation thresholds are the only entry point: `interaction_count ≥ 20` AND
   `coherence_mean ≥ 0.10` AND `crystal_count ≥ 1`.
-- The opt-in **bond-formation accumulator** (`agents/bond_accumulator.py`,
-  `bond_ddm_formation`, default OFF) swaps only the *quality* read for a leaky
-  asymmetric drift-diffusion crossing; the structural thresholds above still
-  gate at commit time. Its decision variable `V` is bounded internal state of
+- The **bond-formation accumulator** (`agents/bond_accumulator.py`,
+  `bond_ddm_formation`, graduated default-ON 2026-07-17) swaps only the
+  *quality* read for a leaky asymmetric drift-diffusion crossing; the
+  structural thresholds above still gate at commit time. Its decision variable `V` is bounded internal state of
   the bond manager — the field never reads it, nothing downstream consumes it,
   and only an ACCEPT crossing commits (gate:
   `tests/integration/bond_ddm_invariants.py`). Keep `sigma > 0` (a noiseless

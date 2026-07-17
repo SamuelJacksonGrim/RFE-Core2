@@ -83,7 +83,9 @@ prefer the finding cited here.
   history (claude, 1.0 → 2.16, same seed/workload). Suite 17/17.
   → `docs/findings/2026-07-09-bond-establishment-gate.md`
 - [x] ~~**Bond formation as accumulation-to-bound (architect brief, 2026-07-16).**~~
-  **BUILT 2026-07-16, opt-in pending architect constants** — the formation
+  **BUILT 2026-07-16, GRADUATED default-ON 2026-07-17** (constants ratified
+  by architect delegation; adversarial arm byte-equivalent + repaired all-ON
+  composition gate 11/11) — the formation
   *quality* read (instantaneous `coherence_mean` / `allow_rate` disjunction,
   spoofable by trickle/burst and sitting on the BACKLOG §7 wall-clock knife
   edge — the OFF control flickers 0↔1 bonds across identical seeded runs)
@@ -100,20 +102,20 @@ prefer the finding cited here.
   the bond manager's pre-bond path (the brief's reflective-loop placement
   doesn't match this codebase's bond evidence flow).
   → `docs/findings/2026-07-16-bond-formation-accumulator.md`
-- [ ] **Bond-DDM follow-ups (architect's hand):** (a) set the final physics
-  constants (`trust_asymmetry` carried by drift vs bound geometry, leak
-  regime, `T_max`, reset policy) — current values are calibrated
-  placeholders; (b) decide whether the lever graduates (requires the all-ON
-  composition gate per the standing rule — the probe now builds the lever
-  in); (c) the same asymmetric-DDM shape extends naturally to bond
-  *demotion* / un-binding (Fix 0-B territory) — deliberately out of scope
-  for the formation build; (d) deferred review cleanups (PR #74): fold the
-  live probe's `run_arm` into a shared `_common` runner with a per-step
-  callback (determinism-block duplication → false-verdict risk if
-  `_common` evolves alone), consider a YAML section for the DDM physics
-  constants (they are component parameters by the config-layering doc),
-  gate `trace` recording behind a constructor flag, pre-draw noise in the
-  synthetic battery's C1/C2 arms for iteration speed.
+- [ ] **Bond-DDM follow-ups:** ~~(a) final physics constants~~ **RATIFIED
+  2026-07-16** (architect delegation; the calibrated values are final);
+  ~~(b) graduation decision~~ **GRADUATED default-ON 2026-07-17**
+  (adversarial arm byte-equivalent + repaired all-ON composition gate
+  11/11); still open: (c) the same asymmetric-DDM shape extends naturally
+  to bond *demotion* / un-binding (Fix 0-B territory — motivating case is
+  the seed-42 bonded-then-hostile husk: strength ground to 0 by the
+  negative branch, but the bond object has no removal path); (d) deferred
+  review cleanups (PR #74): fold the live probe's `run_arm` into a shared
+  `_common` runner with a per-step callback (determinism-block duplication
+  → false-verdict risk if `_common` evolves alone), consider a YAML section
+  for the DDM physics constants (they are component parameters by the
+  config-layering doc), gate `trace` recording behind a constructor flag,
+  pre-draw noise in the synthetic battery's C1/C2 arms for iteration speed.
   → `docs/findings/2026-07-16-bond-formation-accumulator.md` §Open
 - [ ] **The satisfaction economy is starved (found 2026-07-09):**
   `emotional_satisfaction` is *defined* as `max(0, coherence_delta)` — the
