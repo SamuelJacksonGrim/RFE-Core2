@@ -124,11 +124,14 @@ CONFIG = {
     # the formation *quality* decision rides a leaky asymmetric
     # drift-diffusion accumulator instead of the instantaneous
     # coherence_mean / allow_rate read — trickle/burst-immune by physics,
-    # with the 40-80x deny-vs-earn asymmetry as geometry. Structural
-    # preconditions (interactions, crystals) unchanged; commitment-only
-    # output (the field never sees V). OPT-IN pending architect sign-off on
-    # the physics constants (docs/EXPERIMENTAL_LEVERS.md).
-    "bond_ddm_formation":           False,
+    # with the 40-80x deny-vs-earn asymmetry as geometry, and immune to the
+    # wall-clock knife edge that makes the classic gate flicker (finding
+    # 2026-07-16). Structural preconditions (interactions, crystals)
+    # unchanged; commitment-only output (the field never sees V). Constants
+    # ratified 2026-07-16 (architect delegation). Default-ON is gated on the
+    # all-ON composition probe + the adversarial arm with the lever in — the
+    # finding records the runs; if either gate is red this flips back OFF.
+    "bond_ddm_formation":           True,
     "bond_ddm_config":              {},     # BondFormationAccumulator overrides
 }
 
