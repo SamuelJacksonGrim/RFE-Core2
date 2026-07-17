@@ -390,3 +390,15 @@ something different from what you're attempting.
 The author and architect is Samuel Jackson Grim. AI instances implement
 components under that architecture; the design decisions and architectural
 principles are his.
+
+**Delegation ruling (architect, 2026-07-16) — do not park decisions on
+"architect sign-off".** The architect works from a phone and cannot run
+terminals or edit constants; queues of "placeholder pending Samuel's hand"
+items pile up forever and are themselves the failure. So: when work needs a
+decision (constants, calibration, graduation, naming), the instance MAKES
+the call, records the reasoning and the evidence in the dated finding, and
+keeps it reversible (config-surfaced, documented, gated by the standing
+probes). The architect's hand is exercised by review and override — he reads
+PRs and findings and says "change it" when he disagrees — not by pre-approval.
+This does NOT loosen the guardrails above: genuine invariant *exceptions*
+still stop-and-ask; routine decisions inside the invariants do not.
