@@ -48,7 +48,7 @@ from tests._common import (RESONANCE_FAMILY_SOURCES, RESONANCE_FAMILY_WEIGHTS,  
 DIM = 128
 
 
-def build_all_on(with_consumer: bool = True):
+def build_all_on(with_consumer: bool = True, with_bond_ddm: bool = True):
     """The full stack with EVERY behaviour-bearing lever turned on together."""
     gen = Generator(vocab_size=4096, dim=DIM, depth=3, heads=4)
 
@@ -71,9 +71,11 @@ def build_all_on(with_consumer: bool = True):
                             log_interval=99999, reflect_novelty_attenuation=True)
     # lever: bond-formation accumulator (DDM) — in the all-ON stack so the
     # graduation gate actually exercises it alongside the other levers
-    # (isolation-green is not enough; PR #74 review finding).
-    gov = SelfhoodGovernance(registry=gen.registry,
-                             bond_config={"ddm_formation": True})
+    # (isolation-green is not enough; PR #74 review finding). with_bond_ddm=False
+    # is the attribution control: identical stack minus this one lever.
+    gov = SelfhoodGovernance(
+        registry=gen.registry,
+        bond_config={"ddm_formation": True} if with_bond_ddm else None)
     cycle.attach_governance(gov)
     ve = ValueEmergenceEngine(registry=gen.registry, generator=gen, governance=gov)
     cycle.attach_value_engine(ve)
@@ -123,8 +125,15 @@ def _strong(ve):
 
 
 def main() -> int:
+    # --bond-ddm-off: attribution control — the identical all-ON stack minus
+    # the bond-formation accumulator, so a failing health row can be blamed
+    # on (or cleared of) that one lever by paired comparison.
+    import sys
+    with_bond_ddm = "--bond-ddm-off" not in sys.argv
+
     print("=" * 78)
-    print(f"  ALL LEVERS ON — composition probe   spec: v0.3   dim {DIM}")
+    print(f"  ALL LEVERS ON — composition probe   spec: v0.3   dim {DIM}"
+          + ("" if with_bond_ddm else "   [CONTROL: bond DDM OFF]"))
     print("=" * 78)
 
     random.seed(42); np.random.seed(42)
@@ -136,11 +145,13 @@ def main() -> int:
     # default, legitimately lowers the strong count by trading strength for
     # plasticity, so the old `≥2` constant was calibrated to a baseline that no
     # longer exists.)
-    _g, _c, _gov, _ve, _l, _cons, _r, _p = build_all_on(with_consumer=False)
+    _g, _c, _gov, _ve, _l, _cons, _r, _p = build_all_on(
+        with_consumer=False, with_bond_ddm=with_bond_ddm)
     run_resonance(_c, _gov, _ve, n_steps=500, seed=42)
     strong_ref = _strong(_ve)
 
-    gen, cycle, gov, ve, ledger, consumer, report, pretrained = build_all_on()
+    gen, cycle, gov, ve, ledger, consumer, report, pretrained = build_all_on(
+        with_bond_ddm=with_bond_ddm)
 
     print("\n  levers active:")
     print(f"    eval_mode=ON  corpus_pretrain={'ON' if pretrained else 'unavail'}  "
