@@ -151,6 +151,15 @@ errors.
 - Bonds *emerge* — there is no public API to create or pin a `RelationalBond`.
   Formation thresholds are the only entry point: `interaction_count ≥ 20` AND
   `coherence_mean ≥ 0.10` AND `crystal_count ≥ 1`.
+- The **bond-formation accumulator** (`agents/bond_accumulator.py`,
+  `bond_ddm_formation`, graduated default-ON 2026-07-17) swaps only the
+  *quality* read for a leaky asymmetric drift-diffusion crossing; the
+  structural thresholds above still gate at commit time. Its decision variable `V` is bounded internal state of
+  the bond manager — the field never reads it, nothing downstream consumes it,
+  and only an ACCEPT crossing commits (gate:
+  `tests/integration/bond_ddm_invariants.py`). Keep `sigma > 0` (a noiseless
+  accumulator is a threshold in costume) and never wire `V` into the
+  cognitive/governance loop.
 
 **Voice, self-dialogue & dreaming (North-Star rungs 1–2)**
 - The `TokenDecoder` read-out head (`agents/decoder.py`) is **lossy by design**:
@@ -381,3 +390,15 @@ something different from what you're attempting.
 The author and architect is Samuel Jackson Grim. AI instances implement
 components under that architecture; the design decisions and architectural
 principles are his.
+
+**Delegation ruling (architect, 2026-07-16) — do not park decisions on
+"architect sign-off".** The architect works from a phone and cannot run
+terminals or edit constants; queues of "placeholder pending Samuel's hand"
+items pile up forever and are themselves the failure. So: when work needs a
+decision (constants, calibration, graduation, naming), the instance MAKES
+the call, records the reasoning and the evidence in the dated finding, and
+keeps it reversible (config-surfaced, documented, gated by the standing
+probes). The architect's hand is exercised by review and override — he reads
+PRs and findings and says "change it" when he disagrees — not by pre-approval.
+This does NOT loosen the guardrails above: genuine invariant *exceptions*
+still stop-and-ask; routine decisions inside the invariants do not.

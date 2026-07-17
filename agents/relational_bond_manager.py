@@ -41,6 +41,8 @@ from typing import Dict, List, Literal, Optional, Tuple, TYPE_CHECKING
 
 import numpy as np
 
+from agents.bond_accumulator import AccumulatorOutcome, BondFormationAccumulator
+
 if TYPE_CHECKING:
     from agents.trust_ledger import GovernanceFeedback
 
@@ -129,6 +131,16 @@ class RelationalBondManager:
         EMA weight for coherence_mean and emotional_signature updates.
     strength_decay : float
         Per-step strength decay when source is inactive.
+    ddm_formation : bool
+        Opt-in (default OFF): route the formation *quality* decision through
+        the leaky asymmetric drift-diffusion accumulator
+        (agents/bond_accumulator.py) instead of the instantaneous
+        coherence_mean / allow_rate disjunction. The structural
+        preconditions (interaction_count, crystal_count) still apply at
+        commit time — the accumulator replaces only the quality read.
+    ddm_config : dict or None
+        Constructor overrides for BondFormationAccumulator (physics
+        constants; architect-set).
     """
 
     def __init__(
@@ -143,6 +155,8 @@ class RelationalBondManager:
         variance_window:                 int   = 64,
         allow_rate_threshold:            float = 0.80,
         strength_lr:                     float = 0.01,
+        ddm_formation:                   bool  = False,
+        ddm_config:                      Optional[dict] = None,
     ):
         self.formation_interaction_threshold = formation_interaction_threshold
         self.formation_coherence_threshold   = formation_coherence_threshold
@@ -170,6 +184,13 @@ class RelationalBondManager:
         self.adaptive_threshold      = adaptive_threshold
         self.min_coherence_threshold = min_coherence_threshold
         self._coherence_window:      deque = deque(maxlen=variance_window)
+
+        # Formation-as-accumulation lever (opt-in, default OFF). When ON,
+        # the accumulator owns the quality decision; OFF is byte-identical
+        # to the classic path (no RNG consumed, no state touched).
+        self._ddm: Optional[BondFormationAccumulator] = (
+            BondFormationAccumulator(**(ddm_config or {})) if ddm_formation else None
+        )
 
         self._bonds:    Dict[str, RelationalBond] = {}
         self._step:     int = 0
@@ -238,7 +259,10 @@ class RelationalBondManager:
 
         else:
             # Check if pre-bond source now qualifies for bond formation
-            self._maybe_form_bond(source_id)
+            if self._ddm is not None:
+                self._ddm_step(source_id, decision, metrics.get("field_alignment", 0.0))
+            else:
+                self._maybe_form_bond(source_id)
 
         self._step += 1
 
@@ -358,6 +382,20 @@ class RelationalBondManager:
     # Bond formation
     # ------------------------------------------------------------------
 
+    def _structural_preconditions_met(self, source_id: str) -> bool:
+        """
+        The non-quality half of the formation contract — temporal depth
+        (interaction_count) + structural footprint (crystal_count). ONE
+        implementation shared by both formation paths (classic gate and the
+        DDM lever) so the documented thresholds cannot silently diverge.
+        """
+        pre = self._pre_bond.get(source_id)
+        return (
+            pre is not None
+            and pre["interaction_count"] >= self.formation_interaction_threshold
+            and pre["crystal_count"]     >= self.formation_crystal_threshold
+        )
+
     def _maybe_form_bond(self, source_id: str):
         """Check if pre-bond source now qualifies for bond formation."""
         pre = self._pre_bond.get(source_id)
@@ -377,16 +415,36 @@ class RelationalBondManager:
         allow_qualifies = allow_rate >= self.allow_rate_threshold
         quality_qualifies = coh_qualifies or allow_qualifies
 
-        qualifies = (
-            interactions               >= self.formation_interaction_threshold
-            and quality_qualifies
-            and pre["crystal_count"]   >= self.formation_crystal_threshold
-        )
-
-        if not qualifies:
+        if not (quality_qualifies and self._structural_preconditions_met(source_id)):
             return
 
-        # Form the bond
+        self._form_bond(source_id)
+
+    def _ddm_step(self, source_id: str, decision: str, field_alignment: float):
+        """
+        Formation-as-accumulation (opt-in): advance the candidate's decision
+        variable one step; on an ACCEPT crossing, commit the bond iff the
+        structural preconditions (temporal depth + crystal footprint) hold —
+        the accumulator replaces only the instantaneous quality read. When a
+        precondition lags, the candidate is held at the bound (evidence must
+        be sustained while the footprint catches up — the window refreshes
+        while V stays there); structured negative evidence can still pull it
+        down and deny.
+        """
+        outcome = self._ddm.observe(source_id, decision, field_alignment)
+        if outcome is not AccumulatorOutcome.ACCEPT:
+            return
+
+        if self._structural_preconditions_met(source_id):
+            self._ddm.commit(source_id)
+            self._form_bond(source_id)
+        # else: the candidate is held at the bound by the accumulator itself
+        # (observe() clamps V and refreshes the window while it stays there);
+        # nothing to do until the structural footprint catches up.
+
+    def _form_bond(self, source_id: str):
+        """Create the bond from accumulated pre-bond state (the commitment)."""
+        pre = self._pre_bond[source_id]
         seed = RelationalBond(
             source_id           = source_id,
             bond_type           = "transactional",   # placeholder before inference
@@ -404,6 +462,8 @@ class RelationalBondManager:
 
         # Clear pre-bond tracking
         del self._pre_bond[source_id]
+        if self._ddm is not None:
+            self._ddm.drop(source_id)
 
     def _effective_coherence_threshold(self) -> float:
         """
@@ -472,17 +532,21 @@ class RelationalBondManager:
     def summary(self) -> dict:
         bonds = self.all_bonds()
         if not bonds:
-            return {"bonds": 0, "established": 0}
-        return {
-            "bonds":       len(bonds),
-            "established": len(self.established_bonds()),
-            "by_type": {
-                t: sum(1 for b in bonds if b.bond_type == t)
-                for t in PRIORITY
-            },
-            "strongest": sorted(
-                [b.to_dict() for b in bonds],
-                key=lambda d: d["bond_strength"],
-                reverse=True,
-            )[:5],
-        }
+            result = {"bonds": 0, "established": 0}
+        else:
+            result = {
+                "bonds":       len(bonds),
+                "established": len(self.established_bonds()),
+                "by_type": {
+                    t: sum(1 for b in bonds if b.bond_type == t)
+                    for t in PRIORITY
+                },
+                "strongest": sorted(
+                    [b.to_dict() for b in bonds],
+                    key=lambda d: d["bond_strength"],
+                    reverse=True,
+                )[:5],
+            }
+        if self._ddm is not None:
+            result["ddm"] = self._ddm.summary()
+        return result

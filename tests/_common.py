@@ -79,6 +79,7 @@ def build_full_stack(
     heads:      int  = 4,
     use_chorus: bool = True,
     torch_seed: int  = 42,
+    bond_config: Optional[dict] = None,
 ) -> Tuple[Generator, AutonomousCycle, SelfhoodGovernance, ValueEmergenceEngine]:
     """
     Build the full Tier 0 + Tier 1 + Tier 2 + Tier 3 stack with sensible defaults.
@@ -90,6 +91,10 @@ def build_full_stack(
     bands cleanly, others stall long enough that the warmup trust drain
     cascades (recorded in 2026-07-06-f9-rhythm-band-rescale.md and BACKLOG §1).
     Pass torch_seed=None to opt out (bimodality probes).
+
+    bond_config threads RelationalBondManager overrides through
+    SelfhoodGovernance (e.g. {"ddm_formation": True} for the opt-in
+    formation-accumulator lever). None = defaults, byte-identical.
 
     Returns
     -------
@@ -114,7 +119,8 @@ def build_full_stack(
         use_chorus   = use_chorus,
         log_interval = 99999,    # suppress per-step logging
     )
-    governance = SelfhoodGovernance(registry=generator.registry)
+    governance = SelfhoodGovernance(registry=generator.registry,
+                                    bond_config=bond_config)
     cycle.attach_governance(governance)
 
     value_engine = ValueEmergenceEngine(

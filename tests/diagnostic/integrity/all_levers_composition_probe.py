@@ -48,7 +48,7 @@ from tests._common import (RESONANCE_FAMILY_SOURCES, RESONANCE_FAMILY_WEIGHTS,  
 DIM = 128
 
 
-def build_all_on(with_consumer: bool = True):
+def build_all_on(with_consumer: bool = True, with_bond_ddm: bool = True):
     """The full stack with EVERY behaviour-bearing lever turned on together."""
     gen = Generator(vocab_size=4096, dim=DIM, depth=3, heads=4)
 
@@ -69,7 +69,13 @@ def build_all_on(with_consumer: bool = True):
     # lever: novelty-gated loop attenuation -----------------------------------
     cycle = AutonomousCycle(generator=gen, dim=DIM, use_chorus=True,
                             log_interval=99999, reflect_novelty_attenuation=True)
-    gov = SelfhoodGovernance(registry=gen.registry)
+    # lever: bond-formation accumulator (DDM) — in the all-ON stack so the
+    # graduation gate actually exercises it alongside the other levers
+    # (isolation-green is not enough; PR #74 review finding). with_bond_ddm=False
+    # is the attribution control: identical stack minus this one lever.
+    gov = SelfhoodGovernance(
+        registry=gen.registry,
+        bond_config={"ddm_formation": True} if with_bond_ddm else None)
     cycle.attach_governance(gov)
     ve = ValueEmergenceEngine(registry=gen.registry, generator=gen, governance=gov)
     cycle.attach_value_engine(ve)
@@ -119,8 +125,15 @@ def _strong(ve):
 
 
 def main() -> int:
+    # --bond-ddm-off: attribution control — the identical all-ON stack minus
+    # the bond-formation accumulator, so a failing health row can be blamed
+    # on (or cleared of) that one lever by paired comparison.
+    import sys
+    with_bond_ddm = "--bond-ddm-off" not in sys.argv
+
     print("=" * 78)
-    print(f"  ALL LEVERS ON — composition probe   spec: v0.3   dim {DIM}")
+    print(f"  ALL LEVERS ON — composition probe   spec: v0.3   dim {DIM}"
+          + ("" if with_bond_ddm else "   [CONTROL: bond DDM OFF]"))
     print("=" * 78)
 
     random.seed(42); np.random.seed(42)
@@ -132,11 +145,13 @@ def main() -> int:
     # default, legitimately lowers the strong count by trading strength for
     # plasticity, so the old `≥2` constant was calibrated to a baseline that no
     # longer exists.)
-    _g, _c, _gov, _ve, _l, _cons, _r, _p = build_all_on(with_consumer=False)
+    _g, _c, _gov, _ve, _l, _cons, _r, _p = build_all_on(
+        with_consumer=False, with_bond_ddm=with_bond_ddm)
     run_resonance(_c, _gov, _ve, n_steps=500, seed=42)
     strong_ref = _strong(_ve)
 
-    gen, cycle, gov, ve, ledger, consumer, report, pretrained = build_all_on()
+    gen, cycle, gov, ve, ledger, consumer, report, pretrained = build_all_on(
+        with_bond_ddm=with_bond_ddm)
 
     print("\n  levers active:")
     print(f"    eval_mode=ON  corpus_pretrain={'ON' if pretrained else 'unavail'}  "
@@ -153,8 +168,16 @@ def main() -> int:
     mean_strength = sum(vals) / len(vals) if vals else 0.0
 
     # baseline healthy ranges (tests/smoke/multi_source_500step + baselines/)
+    # Injection_rate replaced raw allow_rate on 2026-07-17: since the F9 band
+    # rescale the live dream band draws ambient identity_erosion weakening on
+    # benign traffic, so strict-ALLOW ≥ 0.95 is unreachable in ANY current
+    # stack (measured 0.550 with and without the bond DDM — paired control,
+    # finding 2026-07-16). health_summary made the same repair for the same
+    # reason: injection_rate ("system is breathing") is the regime-independent
+    # guard; zero benign quarantines is the misfire guard.
     checks = {
-        "allow_rate ≥ 0.95":        h["allow_rate"] >= 0.95,
+        "injection_rate ≥ 0.95":    h["injection_rate"] >= 0.95,
+        "no benign quarantines":    h["quarantine_rate"] == 0.0,
         "all sources trust maxed":  h["all_sources_trust_max"],
         "HHI < 0.30":               h["hhi"] < 0.30,
         "bonds ≥ 1":                h["bonds_formed"] >= 1,
@@ -171,7 +194,8 @@ def main() -> int:
     }
 
     print("\n  health under full composition:")
-    print(f"    allow_rate={h['allow_rate']:.3f}  HHI={h['hhi']:.3f}  bonds={h['bonds_formed']}  "
+    print(f"    injection_rate={h['injection_rate']:.3f}  allow_rate={h['allow_rate']:.3f}  "
+          f"quarantine_rate={h['quarantine_rate']:.3f}  HHI={h['hhi']:.3f}  bonds={h['bonds_formed']}  "
           f"active={h['active_values']}  strong={h['strong_values']}  mean_strength={mean_strength:.3f}")
     print(f"    ⊘ consumer: demotions_total={csnap['demotions_total']}  "
           f"skipped_unnamed={csnap['skipped_unnamed']}  sacred_skipped={csnap['sacred_skipped']}")
