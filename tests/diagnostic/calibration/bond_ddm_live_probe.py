@@ -99,7 +99,6 @@ def run_arm(ddm: bool, n_steps: int, dim: int) -> dict:
     return {
         "coh_min":    float(np.min(coherence)),
         "coh_max":    float(np.max(coherence)),
-        "coh_p05":    float(np.percentile(coherence, 5)),
         "decisions":  decisions,
         "bonds":      {b.source_id: b.to_dict() for b in bm.all_bonds()},
         "formed_at":  formation_step,
@@ -166,12 +165,13 @@ def main() -> int:
     # ------------------------------------------------------------------
     # to_dict rounds bond_strength and trust_floor independently, so compare
     # with a rounding-aware tolerance (half an ulp at 4 decimals each side).
+    from agents.relational_bond_manager import FLOOR_FACTOR
     floors_ok = all(
-        abs(b["trust_floor"] - b["bond_strength"] * 0.40) <= 1e-4
+        abs(b["trust_floor"] - b["bond_strength"] * FLOOR_FACTOR) <= 1e-4
         for b in on["bonds"].values()
     )
     verdict("B2 bounded trust floor", floors_ok,
-            "formed bonds carry the standard bond_strength x 0.40 floor")
+            f"formed bonds carry the standard bond_strength x {FLOOR_FACTOR} floor")
     verdict("B2 no new quarantines",
             on["decisions"].get("quarantine", 0) == off["decisions"].get("quarantine", 0),
             f"ON {on['decisions'].get('quarantine', 0)} vs "

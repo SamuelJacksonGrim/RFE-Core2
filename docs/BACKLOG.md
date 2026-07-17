@@ -104,9 +104,16 @@ prefer the finding cited here.
   constants (`trust_asymmetry` carried by drift vs bound geometry, leak
   regime, `T_max`, reset policy) — current values are calibrated
   placeholders; (b) decide whether the lever graduates (requires the all-ON
-  composition gate per the standing rule); (c) the same asymmetric-DDM shape
-  extends naturally to bond *demotion* / un-binding (Fix 0-B territory) —
-  deliberately out of scope for the formation build.
+  composition gate per the standing rule — the probe now builds the lever
+  in); (c) the same asymmetric-DDM shape extends naturally to bond
+  *demotion* / un-binding (Fix 0-B territory) — deliberately out of scope
+  for the formation build; (d) deferred review cleanups (PR #74): fold the
+  live probe's `run_arm` into a shared `_common` runner with a per-step
+  callback (determinism-block duplication → false-verdict risk if
+  `_common` evolves alone), consider a YAML section for the DDM physics
+  constants (they are component parameters by the config-layering doc),
+  gate `trace` recording behind a constructor flag, pre-draw noise in the
+  synthetic battery's C1/C2 arms for iteration speed.
   → `docs/findings/2026-07-16-bond-formation-accumulator.md` §Open
 - [ ] **The satisfaction economy is starved (found 2026-07-09):**
   `emotional_satisfaction` is *defined* as `max(0, coherence_delta)` — the
