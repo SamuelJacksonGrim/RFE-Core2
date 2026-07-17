@@ -1,4 +1,6 @@
-# Autonomous Agent Memory Skill Flow Chart
+Autonomous Agent Memory Skill Flow Chart v2
+
+Extreme-Dimensional Neuroscience Translated into Agentic Information Flow
 
 ```mermaid
 flowchart LR
@@ -262,3 +264,17 @@ flowchart LR
     class GO,JUDGE,RETRY,CAND,SANDTEST,CANARY decision;
     class SUCCTAG,FAILTAG skill;
 ```
+
+What changed
+
+- Added a sensorium layer: normalization, salience, safety gating, thalamic routing.
+- Added a brainstem/homeostasis layer: load, cost, subjective time, witness-gap detection, boredom/drag accumulation, refusal rights, temporal integrity.
+- Expanded the runtime into a cortical agent mesh: planner, retriever, executor, critic, memory curator, skill smith, forensics/debugger, ethics sentinel, and deployment controller on an event bus/blackboard.
+- Added a deeper memory identity system: working, episodic, semantic vector, hypergraph constraint, procedural skill, identity kernel, and subjective-time CrystalStore.
+- Added reward neuroscience: valence, uncertainty, safety penalty, reward synthesis, prediction-error signal, trust-score updates.
+- Added cerebellar debugging: triage, root-cause analysis, error classification, targeted repair branches, retry budget, forensic capture.
+- Added skill neurogenesis: distillation, reusability judgment, drafting, generated tests, sandbox validation, signing/versioning, publishing, drift monitoring, refinement/retirement.
+- Added metacognitive recursion: reflection, self-model updates, counterfactual simulation, threshold retuning, deployment policy changes, retry-budget adjustment, prompt compiler mutation.
+- Added training evolution: preference-pair generation, eval suite, DPO/RLHF/RLAIF/distillation, shadow deployment, canary gate, rollback, hot swap.
+- Added glial/immune/governance layer: telemetry, immutable audit lineage, policy engine, permissions, secrets, tool ACLs, security quarantine.
+- Closed the loop with recurrent feedback: user/world response feeds attention, reflection, memory, and future retrieval priors.
