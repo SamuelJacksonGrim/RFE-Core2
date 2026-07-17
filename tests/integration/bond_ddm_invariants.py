@@ -230,6 +230,23 @@ def test_noise_real():
 # 6. The field never sees V (structural)
 # ---------------------------------------------------------------------------
 
+def test_severity_economy_synced():
+    print("\n[7] Severity economy: negative evidence mirrors the trust penalties")
+    # bond_accumulator cannot import _TRUST_IMPACT (circular via
+    # relational_bond_manager), so this gate is what enforces the shared
+    # economy the accumulator's comment promises.
+    from agents.bond_accumulator import _NEGATIVE_EVIDENCE
+    from agents.selfhood_governance import GovernanceDecision, _TRUST_IMPACT
+    mismatches = {
+        dec: (_NEGATIVE_EVIDENCE[dec], _TRUST_IMPACT[GovernanceDecision(dec)])
+        for dec in _NEGATIVE_EVIDENCE
+        if abs(_NEGATIVE_EVIDENCE[dec] - _TRUST_IMPACT[GovernanceDecision(dec)]) > 1e-9
+    }
+    check("blocking-decision evidence equals the trust-penalty magnitudes",
+          not mismatches, f"mismatches={mismatches}" if mismatches else
+          "reject/quarantine/sacred_shield aligned")
+
+
 def test_field_isolation():
     print("\n[6] Field isolation: the substrate and the accumulator never import "
           "each other")
@@ -266,6 +283,7 @@ def main() -> int:
     test_preconditions_hold_at_bound()
     test_asymmetry_wired()
     test_noise_real()
+    test_severity_economy_synced()
     test_field_isolation()
     print("\n" + "=" * 70)
     print(f"  {len(PASS)} passed, {len(FAIL)} failed")

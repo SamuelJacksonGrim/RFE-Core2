@@ -252,11 +252,12 @@ class BondFormationAccumulator:
     ) -> AccumulatorOutcome:
         """
         Advance the candidate's decision variable one step and report the
-        outcome. ACCEPT does NOT reset — the manager confirms the structural
-        preconditions and calls commit() (forming the bond) or hold_at_bound()
-        (preconditions not yet met: V pins at the bound, the window keeps
-        running, and negative evidence can still pull the candidate back
-        down). REJECT_* reset the window internally.
+        outcome. ACCEPT does NOT retire the candidate — the manager confirms
+        the structural preconditions and calls commit() (forming the bond);
+        when a precondition lags (no crystal yet) the candidate is simply
+        HELD: V is clamped at the bound, the choice window refreshes while
+        it stays there, and negative evidence can still pull it back down.
+        REJECT_* close and reset the window internally.
         """
         state = self._candidates.get(source_id)
         if state is None:
@@ -265,6 +266,8 @@ class BondFormationAccumulator:
             self._evict_if_needed()
         else:
             self._candidates.move_to_end(source_id)
+
+        was_below_accept = state.V < self.b_accept
 
         c  = self.evidence(decision, field_alignment)
         mu = self.drift(c)
@@ -277,6 +280,15 @@ class BondFormationAccumulator:
         if state.V >= self.b_accept:
             state.V = self.b_accept           # runtime clamp — V is bounded state
             outcome = AccumulatorOutcome.ACCEPT
+            if was_below_accept:
+                state.outcomes[AccumulatorOutcome.ACCEPT.value] += 1  # count crossings
+            # A candidate AT the bound is held, not waiting: refresh the
+            # choice window so a held candidate whose structural
+            # preconditions lag (no crystal yet) is never mislabeled
+            # REJECT_TIMEOUT ("input was noise") on its first sub-bound dip
+            # after t_max — sustained evidence keeps the window fresh, and
+            # the timeout clock only runs while V is genuinely below bound.
+            state.steps = 0
         elif state.V <= self.b_reject:
             state.V = self.b_reject
             outcome = AccumulatorOutcome.REJECT_ACTIVE
@@ -298,20 +310,12 @@ class BondFormationAccumulator:
         """The manager formed the bond — retire the candidate's accumulator."""
         state = self._candidates.pop(source_id, None)
         if state is not None:
-            state.outcomes[AccumulatorOutcome.ACCEPT.value] += 1
             logger.info(
-                "Bond accumulator ACCEPT committed: source='%s' after %d steps "
-                "(windows=%d)", source_id, state.steps, state.windows + 1)
-
-    def hold_at_bound(self, source_id: str):
-        """
-        ACCEPT crossed but a structural precondition (interactions/crystals)
-        is not yet met: pin V at B_accept and keep the window running.
-        Evidence must be *sustained* while the footprint catches up.
-        """
-        state = self._candidates.get(source_id)
-        if state is not None:
-            state.V = self.b_accept
+                "Bond accumulator ACCEPT committed: source='%s' "
+                "(crossings=%d, closed_windows=%d)",
+                source_id,
+                state.outcomes.get(AccumulatorOutcome.ACCEPT.value, 0),
+                state.windows)
 
     def drop(self, source_id: str):
         """Forget a candidate entirely (e.g. bond formed by another path)."""

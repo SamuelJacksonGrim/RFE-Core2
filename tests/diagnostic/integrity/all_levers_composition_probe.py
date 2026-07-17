@@ -69,7 +69,11 @@ def build_all_on(with_consumer: bool = True):
     # lever: novelty-gated loop attenuation -----------------------------------
     cycle = AutonomousCycle(generator=gen, dim=DIM, use_chorus=True,
                             log_interval=99999, reflect_novelty_attenuation=True)
-    gov = SelfhoodGovernance(registry=gen.registry)
+    # lever: bond-formation accumulator (DDM) — in the all-ON stack so the
+    # graduation gate actually exercises it alongside the other levers
+    # (isolation-green is not enough; PR #74 review finding).
+    gov = SelfhoodGovernance(registry=gen.registry,
+                             bond_config={"ddm_formation": True})
     cycle.attach_governance(gov)
     ve = ValueEmergenceEngine(registry=gen.registry, generator=gen, governance=gov)
     cycle.attach_value_engine(ve)

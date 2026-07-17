@@ -157,6 +157,22 @@ existing baselines are untouched by construction.
 - Physics constants are placeholders. The asymmetry can be carried by
   drift-gain, bound-distance, or both — currently drift-gain only.
 
+## Post-review fixes (same day, PR #74 review)
+
+The multi-angle review caught one real semantic bug and several hygiene
+gaps, fixed in-branch: (1) a held-at-bound candidate's choice window kept
+counting, so its first sub-bound dip after `T_max` closed the window as
+REJECT_TIMEOUT and discarded sustained evidence — now a crossing/held bound
+**refreshes the window** (the timeout clock only runs while V is genuinely
+below bound), and the no-op `hold_at_bound()` was deleted; (2) ACCEPT is
+now counted at the crossing (bookkeeping was a dead write in `commit()`);
+(3) the structural preconditions live in ONE predicate shared by both
+formation paths; (4) the all-ON composition probe now builds the lever in
+(the graduation gate would otherwise have silently excluded it); (5) a new
+invariants check pins `_NEGATIVE_EVIDENCE` to `_TRUST_IMPACT` (the shared
+severity economy is now machine-enforced); (6) `summary()` shape logic
+unified; probe cleanups (dead `coh_p05`, `FLOOR_FACTOR` literal).
+
 ## Open / next (filed in BACKLOG §1)
 
 - Architect sets the final constants and the reset policy; decides
