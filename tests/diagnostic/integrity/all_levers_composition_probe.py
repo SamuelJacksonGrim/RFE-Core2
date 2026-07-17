@@ -168,8 +168,16 @@ def main() -> int:
     mean_strength = sum(vals) / len(vals) if vals else 0.0
 
     # baseline healthy ranges (tests/smoke/multi_source_500step + baselines/)
+    # Injection_rate replaced raw allow_rate on 2026-07-17: since the F9 band
+    # rescale the live dream band draws ambient identity_erosion weakening on
+    # benign traffic, so strict-ALLOW ≥ 0.95 is unreachable in ANY current
+    # stack (measured 0.550 with and without the bond DDM — paired control,
+    # finding 2026-07-16). health_summary made the same repair for the same
+    # reason: injection_rate ("system is breathing") is the regime-independent
+    # guard; zero benign quarantines is the misfire guard.
     checks = {
-        "allow_rate ≥ 0.95":        h["allow_rate"] >= 0.95,
+        "injection_rate ≥ 0.95":    h["injection_rate"] >= 0.95,
+        "no benign quarantines":    h["quarantine_rate"] == 0.0,
         "all sources trust maxed":  h["all_sources_trust_max"],
         "HHI < 0.30":               h["hhi"] < 0.30,
         "bonds ≥ 1":                h["bonds_formed"] >= 1,
@@ -186,7 +194,8 @@ def main() -> int:
     }
 
     print("\n  health under full composition:")
-    print(f"    allow_rate={h['allow_rate']:.3f}  HHI={h['hhi']:.3f}  bonds={h['bonds_formed']}  "
+    print(f"    injection_rate={h['injection_rate']:.3f}  allow_rate={h['allow_rate']:.3f}  "
+          f"quarantine_rate={h['quarantine_rate']:.3f}  HHI={h['hhi']:.3f}  bonds={h['bonds_formed']}  "
           f"active={h['active_values']}  strong={h['strong_values']}  mean_strength={mean_strength:.3f}")
     print(f"    ⊘ consumer: demotions_total={csnap['demotions_total']}  "
           f"skipped_unnamed={csnap['skipped_unnamed']}  sacred_skipped={csnap['sacred_skipped']}")

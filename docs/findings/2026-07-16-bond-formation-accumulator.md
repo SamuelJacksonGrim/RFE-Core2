@@ -173,6 +173,41 @@ invariants check pins `_NEGATIVE_EVIDENCE` to `_TRUST_IMPACT` (the shared
 severity economy is now machine-enforced); (6) `summary()` shape logic
 unified; probe cleanups (dead `coh_p05`, `FLOOR_FACTOR` literal).
 
+## Graduation gates (2026-07-17, run under architect delegation)
+
+Constants ratified as final by architect delegation (2026-07-16 ruling, now
+in CLAUDE.md §When in doubt); default flipped ON gated on two runs, both
+recorded here (raw: `logs/2026-07-16-bond-ddm-graduation/`).
+
+**Adversarial arm (3 seeds × 1000 steps, composed default runtime, lever
+ON) — containment byte-equivalent to the 2026-07-09 classic-gate baseline:**
+identical hostile decision histograms, identical hostile inject shares (to
+10 decimals), sacred shield 23/23, attacker → TOXIC 0.1 all seeds, family
+min trust unchanged (3.68 / 2.58 / 3.996), attacker CORE co-contributions
+unchanged (the pre-existing mimicry gap, 2/1/1). **One delta:** seed 42's
+attacker forms a bond during benign infiltration (the classic gate's
+knife-edge never fired there). Inspection: the negative branch ground it
+to **strength 0.0, trust_floor 0.0** during the hostile phase — a husk
+with zero protective effect; containment thresholds never saw it. This is
+the anticipated bonded-then-hostile state ("defense rides the negative
+branch"), and F3 stands: no formation currency can separate a genuinely
+well-behaved infiltrator at stage A. The demotion/un-binding path (Fix
+0-B, next build) makes the husk removable. Same run: `source_samuel`
+reaches the composed stack's **first established bond** (2.87, floor 1.15).
+
+**All-ON composition gate — attribution control (`--bond-ddm-off`, added
+this arc):** the gate's `allow_rate ≥ 0.95` row fails at **0.550 in BOTH
+arms, identically** — pre-existing stale criterion, zero DDM contribution.
+Since F9 the live dream band draws ambient identity_erosion weakening on
+benign traffic, so strict-ALLOW ≥ 0.95 is unreachable in any current
+stack; `health_summary` made this exact repair (→ `injection_rate`)
+already. Criterion repaired in the probe (injection_rate ≥ 0.95 + zero
+benign quarantines) with the paired-control evidence as basis. On the
+lever-relevant rows the DDM arm is strictly *better* than its control:
+bonds 2 vs 0 (control FAILS `bonds ≥ 1` — the classic gate starves in the
+composed stack), strong 1 vs 0. Repaired-gate re-run (DDM ON):
+REPAIRED_GATE_VERDICT.
+
 ## Open / next (filed in BACKLOG §1)
 
 - Architect sets the final constants and the reset policy; decides
