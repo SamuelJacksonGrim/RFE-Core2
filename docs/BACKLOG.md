@@ -82,6 +82,41 @@ prefer the finding cited here.
   `bond_signal_calibration_probe.py`); first established bond in system
   history (claude, 1.0 → 2.16, same seed/workload). Suite 17/17.
   → `docs/findings/2026-07-09-bond-establishment-gate.md`
+- [x] ~~**Bond formation as accumulation-to-bound (architect brief, 2026-07-16).**~~
+  **BUILT 2026-07-16, GRADUATED default-ON 2026-07-17** (constants ratified
+  by architect delegation; adversarial arm byte-equivalent + repaired all-ON
+  composition gate 11/11) — the formation
+  *quality* read (instantaneous `coherence_mean` / `allow_rate` disjunction,
+  spoofable by trickle/burst and sitting on the BACKLOG §7 wall-clock knife
+  edge — the OFF control flickers 0↔1 bonds across identical seeded runs)
+  can now ride a leaky asymmetric drift-diffusion accumulator
+  (`agents/bond_accumulator.py`, `bond_ddm_formation`): evidence integrates
+  under leak + noise, a bond forms only when the integral crosses the accept
+  bound, denial is 60× cheaper than earning (drift asymmetry matching the
+  trust economy) and the taxonomy separates active rejection from timeout
+  (structured hostility vs noise — signal the adversarial arm lacked).
+  Structural preconditions unchanged; commitment-only output (field never
+  sees `V`; live §6.3 tripwire green). Deviations from the brief recorded in
+  the finding: evidence rides field-alignment + decision outcomes (the
+  brief's `coherence_mean` driver is the dead marginal), and placement is
+  the bond manager's pre-bond path (the brief's reflective-loop placement
+  doesn't match this codebase's bond evidence flow).
+  → `docs/findings/2026-07-16-bond-formation-accumulator.md`
+- [ ] **Bond-DDM follow-ups:** ~~(a) final physics constants~~ **RATIFIED
+  2026-07-16** (architect delegation; the calibrated values are final);
+  ~~(b) graduation decision~~ **GRADUATED default-ON 2026-07-17**
+  (adversarial arm byte-equivalent + repaired all-ON composition gate
+  11/11); still open: (c) the same asymmetric-DDM shape extends naturally
+  to bond *demotion* / un-binding (Fix 0-B territory — motivating case is
+  the seed-42 bonded-then-hostile husk: strength ground to 0 by the
+  negative branch, but the bond object has no removal path); (d) deferred
+  review cleanups (PR #74): fold the live probe's `run_arm` into a shared
+  `_common` runner with a per-step callback (determinism-block duplication
+  → false-verdict risk if `_common` evolves alone), consider a YAML section
+  for the DDM physics constants (they are component parameters by the
+  config-layering doc), gate `trace` recording behind a constructor flag,
+  pre-draw noise in the synthetic battery's C1/C2 arms for iteration speed.
+  → `docs/findings/2026-07-16-bond-formation-accumulator.md` §Open
 - [ ] **The satisfaction economy is starved (found 2026-07-09):**
   `emotional_satisfaction` is *defined* as `max(0, coherence_delta)` — the
   dead marginal — so every affective feedback term in the stack runs on ≈0:

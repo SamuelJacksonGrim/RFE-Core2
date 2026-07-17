@@ -120,6 +120,19 @@ CONFIG = {
     # safe, but the default stays honest to the standing decision.
     "session_persistence":          False,
     "checkpoint_dir":               "data/checkpoints",
+    # Bond formation as accumulation-to-bound (agents/bond_accumulator.py):
+    # the formation *quality* decision rides a leaky asymmetric
+    # drift-diffusion accumulator instead of the instantaneous
+    # coherence_mean / allow_rate read — trickle/burst-immune by physics,
+    # with the 40-80x deny-vs-earn asymmetry as geometry, and immune to the
+    # wall-clock knife edge that makes the classic gate flicker (finding
+    # 2026-07-16). Structural preconditions (interactions, crystals)
+    # unchanged; commitment-only output (the field never sees V). Constants
+    # ratified 2026-07-16 (architect delegation). Default-ON is gated on the
+    # all-ON composition probe + the adversarial arm with the lever in — the
+    # finding records the runs; if either gate is red this flips back OFF.
+    "bond_ddm_formation":           True,
+    "bond_ddm_config":              {},     # BondFormationAccumulator overrides
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -277,7 +290,16 @@ def build_engine(config: dict = None):
 
     # Attach the upper tiers. Order matters: governance before the value engine
     # (the engine subscribes to the governance feedback stream at construction).
-    governance = SelfhoodGovernance(registry=generator.registry)
+    bond_config = None
+    if config.get("bond_ddm_formation"):
+        bond_config = {
+            "ddm_formation": True,
+            "ddm_config":    dict(config.get("bond_ddm_config") or {}),
+        }
+        logger.info("Bond formation accumulator ON (leaky asymmetric DDM; "
+                    "opt-in lever, see docs/EXPERIMENTAL_LEVERS.md).")
+    governance = SelfhoodGovernance(registry=generator.registry,
+                                    bond_config=bond_config)
     cycle.attach_governance(governance)
     value_engine = ValueEmergenceEngine(
         registry   = generator.registry,

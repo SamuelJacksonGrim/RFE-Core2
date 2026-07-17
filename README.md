@@ -550,6 +550,7 @@ RFE-Core2/
 │   │   # Tier 2 — Relational Integrity
 │   ├── dependency_monitor.py       HHI source concentration
 │   ├── relational_bond_manager.py  Emergent bonds + bond_type inference
+│   ├── bond_accumulator.py         Formation-as-accumulation: leaky asymmetric DDM (opt-in lever)
 │   ├── manipulation_resistance.py  5 detectors + severity scoring
 │   │
 │   │   # Tier 3 — Independent Value Emergence
@@ -679,7 +680,8 @@ RFE-Core2/
 │   │   ├── reflective_loop_lock_guard.py Lock characteristic guard (loop on=RIGID, off=migrates)
 │   │   ├── attractor_merge_guard.py      Attractor merge/prune removal (array-__eq__ crash regression)
 │   │   ├── checkpoint_registry_identity.py  Checkpoint load preserves registry object (orphaned-subsystem guard)
-│   │   └── config_loading_neutrality.py  configs/*.yaml load + day-one behavioral neutrality guard
+│   │   ├── config_loading_neutrality.py  configs/*.yaml load + day-one behavioral neutrality guard
+│   │   └── bond_ddm_invariants.py        Bond-DDM hard-invariant gate (OFF-default parity, ACCEPT-only commit, asymmetry, field isolation)
 │   │
 │   ├── adversarial/
 │   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels
@@ -750,7 +752,9 @@ RFE-Core2/
 │   │   └── calibration/                  Floor calibration — measure-before-change
 │   │       ├── floor_calibration_probe.py    energy/rhythm bands + CORE coherence-signal candidates (no change applied)
 │   │       ├── rhythm_band_equilibria_probe.py  pinned-band equilibrium energies — re-run before any band retune (F9)
-│   │       └── bond_signal_calibration_probe.py marginal vs absolute bond-growth currency — the ruler behind the 2026-07-09 establishment fix
+│   │       ├── bond_signal_calibration_probe.py marginal vs absolute bond-growth currency — the ruler behind the 2026-07-09 establishment fix
+│   │       ├── bond_ddm_synthetic_probe.py   Bond-DDM acceptance battery: RT/asymmetry/varCE/corCE + trickle/burst/negative/noise (pre-declared)
+│   │       └── bond_ddm_live_probe.py        Bond-DDM live arm: lever OFF vs ON, reachable-coherence §6.3 tripwire, commitment-only check
 │   │
 │   └── baselines/
 │       ├── tier1_revision_500step.json   Healthy-state metric ranges
