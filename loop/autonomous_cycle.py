@@ -189,6 +189,8 @@ class AutonomousCycle:
         log_interval:                 int   = 10,
         track_metastability:          bool  = True,
         reflect_novelty_attenuation:  bool  = False,
+        diversity_fitness:            bool  = False,
+        binding_leak:                 float = 0.0,
         config:                       Optional[dict] = None,
     ):
         # config: merged YAML dict (configs.loader.load_config()) or None. Used to
@@ -260,10 +262,27 @@ class AutonomousCycle:
             StreamMetastabilityMonitor(window=128, interval=16)
             if track_metastability else None
         )
+        # Stage C additionally tracks per-step regime occupancy when the
+        # Fix 0-B diversity-fitness lever is ON — that is what the fitness
+        # read consumes. The monitor itself stays observe-only either way.
         self.expression_metastability: Optional[StreamMetastabilityMonitor] = (
-            StreamMetastabilityMonitor(window=128, interval=16)
+            StreamMetastabilityMonitor(window=128, interval=16,
+                                       track_regime_share=diversity_fitness)
             if track_metastability else None
         )
+        # Fix 0-B: survival counterbalance. When ON, each step's expressed
+        # tokens EMA-accumulate the stream-diversity credit
+        # (1 − regime occupancy) × metastability, read from the stage-C
+        # monitor OUTSIDE the monitor (the plan's sanctioned read path), and
+        # the registry's decay profiles carry the calibrated
+        # diversity_weight (census 2026-07-18: k = 8.7 × crystal weight).
+        self.diversity_fitness = diversity_fitness and track_metastability
+        if self.diversity_fitness:
+            self.generator.registry.set_diversity_weights()
+        # Fix 0-C mechanism: leaky binding signals (demotion). 0.0 = the
+        # classic one-way ratchet, byte-identical.
+        if binding_leak > 0.0:
+            self.generator.registry.binding_leak = float(binding_leak)
 
         # Governance (optional — system runs without it)
         self.governance: Optional[SelfhoodGovernance] = None
@@ -391,6 +410,17 @@ class AutonomousCycle:
         # collapsed refinement reads ~0/locked here, a healthy one stays metastable.
         if self.expression_metastability is not None:
             self.expression_metastability.observe(vec)
+
+            # Fix 0-B (lever): attribute this step's stream-diversity credit
+            # to the tokens expressed in it. Read-only against the monitor;
+            # writes only the per-symbol EMA the decay profiles consume.
+            if self.diversity_fitness:
+                # Unconditional EMA — zero-credit (conformist) steps pull a
+                # symbol's credit DOWN, so the fitness signal is itself
+                # leaky, never a second ratchet.
+                credit = self.expression_metastability.diversity_credit()
+                for tok in tokens:
+                    self.generator.registry.update_diversity_credit(tok, credit)
 
         # ------------------------------------------------------------------
         # 5. Watcher evaluation

@@ -124,6 +124,16 @@ cooperate correctly."
   construction, and a rebinding load orphans both (governance lookups go
   stale; value emergence dies silently). Guards the in-place load contract
   discovered by the 2026-06-12 field-map matrix.
+- `fix0b_invariants.py` — Hard-invariant gate for the opt-in Fix 0-B
+  levers (diversity fitness + leaky bindings): OFF is default and
+  byte-identical (every shipped profile carries `diversity_weight` 0.0);
+  the metastability monitors stay observe-only (inert accessors when
+  tracking is off, structural import check); the credit EMA is bounded,
+  leaky (zero-credit steps pull it down — no second ratchet) and
+  volume-blind (rate beats traffic); the fitness term has the right sign
+  at the census-calibrated per-class scale; the binding leak touches only
+  unrefreshed symbols and never sacred/protected/SPECIAL. Synthetic
+  states, <1 s.
 - `bond_ddm_invariants.py` — Hard-invariant gate for the opt-in
   bond-formation accumulator (`agents/bond_accumulator.py`): OFF is the
   default and preserves the classic formation rule exactly; with the lever
@@ -163,7 +173,7 @@ The probes are grouped into subfolders by investigation (run as
 | Subfolder | What lives there |
 |---|---|
 | `tier4/`    | Tier 4.2/4.3 physics validators + affective-state probe |
-| `lockin/`   | The coherence lock-in research arc (migration, ablation, gate decomposition, metastability, gain-sign) |
+| `lockin/`   | The coherence lock-in research arc (migration, ablation, gate decomposition, metastability, gain-sign) — plus the Fix 0-B pair: the currency census (survival-currency decomposition, diversity-signal room, ratchet evidence — the measure-first ruler) and the paired OFF/ON effect probe (counterweight band, governance health, leaky-ratchet mass; pre-declared, incl. the recorded E3 metric correction) |
 | `fix2/`     | Fix-2 reflective-loop governor investigation (trigger calibration, governor validation, live/common-mode/dim sweeps) |
 | `training/` | Generator training path (gradient-path check, corpus integrity + G1/G2 gates, diversity audit, trained-generator sim) |
 | `audit/`    | Runtime behavior audits (decision histogram, gate firing, trust, value polarity, identity-stability baseline, return canary) |

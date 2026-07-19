@@ -354,7 +354,10 @@ README tree entry in the same commit or CI goes red.
   regime, metastability 0). Keep it in `(0, 1)`.
 - Let the metastability monitors (`StreamMetastabilityMonitor`) feed back into the
   cognitive or governance loop — they are observe-only terminal sinks like
-  `dilation_factor`.
+  `dilation_factor`. (The Fix 0-B lever's `diversity_credit()` read is the one
+  sanctioned exception, and it is a READ performed by the cycle from outside:
+  the plan carved it out explicitly — "the read does not happen inside the
+  monitor" — and the monitor still consumes nothing from the loop.)
 - Give `source_dream` (the system's own voice) a path around `arbitrate()`, or
   let `DreamSession` / any `tools/` instrument inject into the live field —
   every voice passes the gate; instruments observe only.

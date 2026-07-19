@@ -73,6 +73,7 @@ run_test "tests.integration.core_promotion_handshake"
 run_test "tests.integration.checkpoint_registry_identity"
 run_test "tests.integration.config_loading_neutrality"
 run_test "tests.integration.bond_ddm_invariants"
+run_test "tests.integration.fix0b_invariants"
 
 echo
 echo -e "${BOLD}ADVERSARIAL PROBES${RESET}"

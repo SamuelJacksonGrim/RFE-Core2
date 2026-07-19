@@ -681,7 +681,8 @@ RFE-Core2/
 │   │   ├── attractor_merge_guard.py      Attractor merge/prune removal (array-__eq__ crash regression)
 │   │   ├── checkpoint_registry_identity.py  Checkpoint load preserves registry object (orphaned-subsystem guard)
 │   │   ├── config_loading_neutrality.py  configs/*.yaml load + day-one behavioral neutrality guard
-│   │   └── bond_ddm_invariants.py        Bond-DDM hard-invariant gate (OFF-default parity, ACCEPT-only commit, asymmetry, field isolation)
+│   │   ├── bond_ddm_invariants.py        Bond-DDM hard-invariant gate (OFF-default parity, ACCEPT-only commit, asymmetry, field isolation)
+│   │   └── fix0b_invariants.py           Fix 0-B hard-invariant gate (OFF parity, observe-only monitors, leaky/bounded credit, calibrated scale, exempt-safe leak)
 │   │
 │   ├── adversarial/
 │   │   ├── sacred_shield.py              SACRED_SHIELD fires at all trust levels
@@ -717,7 +718,9 @@ RFE-Core2/
 │   │   │   ├── migration_real_generator_probe.py Attractor migration re-verified on the REAL generator
 │   │   │   ├── migration_eval_dimsweep_probe.py  Migration vs dim (eval mode) — moat vs low-rank-input artifact
 │   │   │   ├── secondlocker_field_map_probe.py   SECOND-LOCKER across seeds × token bands + reachable-range gain-sign
-│   │   │   └── loop_attenuation_probe.py    Novelty-gated loop loosening — frees field, manip-rate cost gate, cliff
+│   │   │   ├── loop_attenuation_probe.py    Novelty-gated loop loosening — frees field, manip-rate cost gate, cliff
+│   │   │   ├── fix0b_currency_census_probe.py    Fix 0-B ruler: survival-currency decomposition + diversity-signal room + ratchet evidence
+│   │   │   └── fix0b_effect_probe.py        Fix 0-B paired OFF/ON arms — counterweight band, health, leaky-ratchet mass (pre-declared)
 │   │   ├── fix2/                         Fix-2 reflective-loop governor investigation
 │   │   │   ├── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
 │   │   │   ├── fix2_governor_validation.py       ReflectiveLoopGovernor end-to-end on the mock A/B stack
