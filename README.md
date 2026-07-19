@@ -651,6 +651,8 @@ RFE-Core2/
 │   ├── alchemical_correspondence.md     The Magnum Opus map — RFE as an alchemical process (a lens, not a spec)
 │   ├── self_model_thesis.md             The theory of mind RFE instantiates — self as smithable emergent attractor
 │   ├── lock_in_remediation_plan.md      Coherence-pin → metastability plan (shipped/planned)
+│   ├── GARAGE_SETUP.md                  The AI PC (GPU box) setup path — verbatim, for architect or instance
+│   ├── GARAGE_RUN_PLAN.md               Program of record for healing the saturated field (G0–G5, pre-declared gates)
 │   ├── tier4_2_validation.md            Tier 4.2 validation + findings
 │   ├── tier4_3_validation.md            Tier 4.3 validation + findings
 │   ├── build_b_plan.md                  Two-Operator Build B plan (λ-ledger + ⊕ solvent gate)
