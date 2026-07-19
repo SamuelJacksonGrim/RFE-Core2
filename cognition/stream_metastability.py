@@ -35,7 +35,12 @@ from collections import deque
 
 import numpy as np
 
-from substrate.metastability import compute_metastability, MetastabilityReport
+from substrate.metastability import (
+    _CLUSTER_TOL,
+    _unit,
+    compute_metastability,
+    MetastabilityReport,
+)
 
 
 class StreamMetastabilityMonitor:
@@ -55,7 +60,8 @@ class StreamMetastabilityMonitor:
         samples, so an early reading isn't dominated by warmup transients.
     """
 
-    def __init__(self, window: int = 128, interval: int = 16, min_samples: int = 16):
+    def __init__(self, window: int = 128, interval: int = 16, min_samples: int = 16,
+                 track_regime_share: bool = False):
         if window < 4:
             raise ValueError("window must be >= 4 (metric needs >=4 samples)")
         self.window      = window
@@ -66,6 +72,16 @@ class StreamMetastabilityMonitor:
         self._seen: int   = 0
         self._report: MetastabilityReport = MetastabilityReport(notes="no samples yet")
 
+        # Fix 0-B read support (opt-in; zero overhead when False): incremental
+        # per-step regime assignment mirroring _cluster_configs' rule, so the
+        # newest sample's regime-occupancy share is readable each step without
+        # re-clustering the window. Still observe-only — this adds READS, the
+        # monitor consumes nothing from the loop.
+        self.track_regime_share = track_regime_share
+        self._centroids: list  = []
+        self._labels: deque    = deque(maxlen=window)
+        self._max_centroids    = 64   # bounded; reset on overflow (rare)
+
     def observe(self, vec: np.ndarray) -> None:
         """Record one vector from the observed stream.
 
@@ -74,10 +90,53 @@ class StreamMetastabilityMonitor:
         hot path. A copy is stored so later in-place mutation of `vec` downstream
         (attractor pull, refinement) cannot corrupt the recorded trajectory.
         """
-        self._vecs.append(np.asarray(vec, dtype=float).copy())
+        v = np.asarray(vec, dtype=float).copy()
+        self._vecs.append(v)
         self._seen += 1
+        if self.track_regime_share:
+            self._assign_regime(v)
         if len(self._vecs) >= self.min_samples and self._seen % self.interval == 0:
             self._recompute()
+
+    def _assign_regime(self, v: np.ndarray) -> None:
+        """Incremental nearest-centroid assignment — the same rule
+        _cluster_configs applies offline (unit direction, cosine tolerance
+        _CLUSTER_TOL, running centroid update), kept online so
+        current_regime_share() is O(1) to read. O(k·dim) per step."""
+        u = _unit(v)
+        if not self._centroids:
+            self._centroids.append(u)
+            self._labels.append(0)
+            return
+        sims = [float(np.dot(u, c)) for c in self._centroids]
+        best = int(np.argmax(sims))
+        if (1.0 - sims[best]) <= _CLUSTER_TOL:
+            self._labels.append(best)
+            self._centroids[best] = _unit(self._centroids[best] * 0.9 + u * 0.1)
+        elif len(self._centroids) >= self._max_centroids:
+            self._centroids, self._labels = [u], deque([0], maxlen=self.window)
+        else:
+            self._centroids.append(u)
+            self._labels.append(len(self._centroids) - 1)
+
+    def current_regime_share(self) -> float:
+        """Occupancy share of the newest sample's regime within the window.
+        1.0 (fully occupied → zero rarity) when tracking is off or empty,
+        so an un-wired reader computes zero credit, never a perturbation."""
+        if not self.track_regime_share or not self._labels:
+            return 1.0
+        newest = self._labels[-1]
+        return sum(1 for l in self._labels if l == newest) / len(self._labels)
+
+    def diversity_credit(self) -> float:
+        """The Fix 0-B per-step fitness credit, computed in one place:
+        (1 − regime occupancy share) × cached metastability score. Reads the
+        cached report (≤ interval steps stale — rarity moves slowly). Returns
+        0.0 before min_samples or with tracking off — inert by default."""
+        if not self.track_regime_share or len(self._vecs) < self.min_samples:
+            return 0.0
+        return max(0.0, (1.0 - self.current_regime_share())
+                   * float(self._report.metastability))
 
     def _stream_alignment(self) -> float:
         """Mean cosine alignment of the windowed stream — the metric's coherence
