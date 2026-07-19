@@ -56,6 +56,19 @@ prefer the finding cited here.
 
 ## 1 · Now — high leverage, unblocked
 
+- [ ] **THE GARAGE PROGRAM (architect + instance consensus, 2026-07-19) —
+  the saturated-field cure, unparked by the GPU box.** Recent work (bond
+  DDM, Fix 0-B) repaired consumers of dead signals; the disease is the
+  generator's representational floor, and every documented cure was parked
+  on compute. The program of record is `docs/GARAGE_RUN_PLAN.md` (G0 box
+  verification → G1 dim-256 re-baseline → G2 lived long runs with a live
+  reaper economy, doubling as the Fix 0-B composed-runtime gate → G3
+  corpus v1.3 incl. the F3 Wall-1 hostile-vocabulary arm → G4 local
+  cortex → G5 gated online training); setup path is
+  `docs/GARAGE_SETUP.md`. Phases check off in the run plan and here,
+  same-commit. This entry supersedes the scattered "needs compute /
+  needs lived runs" caveats across §1/§3/§4.
+
 - [x] ~~**F9: rhythm/energy rescale.**~~ **DONE 2026-07-06** — bands rescaled
   0.5/2/5 → 5/150/300, co-tuned against each band's *pinned-run equilibrium*
   (stabilize placed below its degraded ALLOW_WEAKENED equilibrium — the
