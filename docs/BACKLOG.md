@@ -150,13 +150,36 @@ prefer the finding cited here.
   goes TOXIC, or whether permanent provenance is correct. Design call, not a
   breach.
   → `docs/findings/2026-07-09-adversarial-arm-composed-runtime.md`
-- [ ] **Fix 0-B: counterbalance survival selection** (highest-leverage
-  lock-in item still unbuilt): wire the metastability score into the
-  reinforcement formula as a fitness term so survival stops being currencied
-  purely by coherence; add a demotion path (reinforcement is currently a
-  one-way ratchet). Gated by the §6.3 gain-sign caveat (runtime coherence
-  guard). → `ROADMAP.md` §Tracked open items (planned #6);
-  `docs/lock_in_remediation_plan.md`
+- [x] ~~**Fix 0-B: counterbalance survival selection**~~ **BUILT 2026-07-18,
+  opt-in** (`fix0b_diversity_fitness` + `fix0b_binding_leak`, default OFF) —
+  census first: tenure is bought by coherence-laundered bindings (~85–90%)
+  and the shipped per-symbol novelty counterweight is structurally dead
+  (fourth saturated-field organ); the live stream-diversity credit
+  (1 − regime occupancy) × metastability now enters the reaper's
+  reinforcement at the census-calibrated k = 8.7 × crystal weight (paired
+  probe: 15.5% counterweight share, in the pre-declared 5–40% band, health
+  untouched), and unrefreshed bindings leak per decay pass (the Fix 0-C
+  demotion mechanism; sacred/protected exempt). Invariants gate 14/14 in
+  CI. NB: the plan clarifies §6.3 does NOT gate 0-B (reaper currency, not
+  field-loop coupling); Fix 0-A remains §6.3-gated.
+  → `docs/findings/2026-07-18-fix0b-diversity-fitness.md`
+- [ ] **Fix 0-B follow-ups:** (a) composed-runtime gates before any
+  graduation (all-ON composition probe + adversarial arm with both levers
+  ON; re-derive k at dim 128); (b) stricter refresh criterion for the leak
+  (touch vs reinforcement-floor) — design choice recorded, architect
+  override welcome; (c) Fix 0-A (reinforcement → field) still separately
+  gated by §6.3.
+  → `docs/findings/2026-07-18-fix0b-diversity-fitness.md` §Open
+- [ ] **The reaper economy is dormant at harness scale (found 2026-07-18,
+  during Fix 0-B):** `decay_step()` fires only every 10th maintenance call
+  and maintenance every 200 cycle steps → first selection pass at cycle
+  step ~2000, so **every ≤800-step suite/baseline run ever executed zero
+  reaper passes** — the survival-selection layer has never been covered by
+  the regression gates (same family as the runtime-was-Tier0-only trap).
+  Add a decay-exercising smoke/integration gate (e.g. `decay_interval=1`
+  arm asserting the reaper lifecycle actually cycles); until then the
+  Fix 0-B effect probe self-arms decay in both arms.
+  → `docs/findings/2026-07-18-fix0b-diversity-fitness.md` §Found
 - [x] ~~**Bonded-adversarial probe (F3)** — build it~~ **BUILT + first run
   (PR #68, merged).** Verdict: the question is *not yet answerable* — the attack never
   becomes a signal (hostile ≡ benign at injection, cos ~0.98, 11 seeds). Two

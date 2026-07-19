@@ -627,6 +627,15 @@ class SymbolState:
     attractor_strength: float = 0.0
     crystal_binding:    float = 0.0
     field_coherence:    float = 0.0
+    # Fix 0-B fitness signal: EMA of "this symbol was expressed while the
+    # stream visited a rare regime of a genuinely multi-regime configuration"
+    # — (1 − regime occupancy) × metastability, attributed per step from the
+    # stage-C monitor (read outside the monitor; the monitor stays a
+    # terminal sink). The per-symbol field_coherence-derived novelty term is
+    # structurally dead in a saturated field (census 2026-07-18: signal
+    # ~0.96 → novelty ~0); this stream-level credit is the live currency
+    # (p50 0.23, p90 0.53 measured).
+    diversity_credit:   float = 0.0
 
     # Temporal
     created_step:  int = 0
@@ -662,6 +671,7 @@ class SymbolState:
             "attractor_strength": self.attractor_strength,
             "crystal_binding":    self.crystal_binding,
             "field_coherence":    self.field_coherence,
+            "diversity_credit":   self.diversity_credit,
             "created_step":       self.created_step,
             "last_seen_step":     self.last_seen_step,
             "lifespan":           self.lifespan,
@@ -685,6 +695,7 @@ class SymbolState:
             attractor_strength = data["attractor_strength"],
             crystal_binding    = data.get("crystal_binding", 0.0),
             field_coherence    = data.get("field_coherence", 0.0),
+            diversity_credit   = data.get("diversity_credit", 0.0),
             created_step       = data["created_step"],
             last_seen_step     = data["last_seen_step"],
             lifespan           = data.get("lifespan", 0),
@@ -725,7 +736,8 @@ class DecayProfile:
     centrality_weight:     float
     field_coherence_weight: float
     crystal_binding_weight: float
-    novelty_weight:         float = 0.0   # Fix 0-B: counterweight to coherence lean
+    novelty_weight:         float = 0.0   # per-symbol 1−coherence (dead in a saturated field — census 2026-07-18)
+    diversity_weight:       float = 0.0   # Fix 0-B: stream-metastability fitness (the live counterweight); 0.0 = inert
     minimum_lifespan:      int = 0
 
     def compute(self, state: SymbolState, current_step: int) -> float:
@@ -752,6 +764,7 @@ class DecayProfile:
             + self.field_coherence_weight * state.field_coherence
             + self.crystal_binding_weight * state.crystal_binding
             + self.novelty_weight         * effective_novelty
+            + self.diversity_weight       * state.diversity_credit
         )
 
         return max(0.0, state.usage * effective_decay * reinforcement)
@@ -1215,6 +1228,19 @@ class SymbolRegistry:
 
         self._pending_compaction: Optional[CompactionReport] = None
 
+        # ---- Fix 0-B levers (both inert at defaults) ----
+        # Per-registry decay-profile overrides carrying a nonzero
+        # diversity_weight. NEVER mutate the module-level DECAY_PROFILES —
+        # they are shared across every registry in the process (test stacks
+        # build several); set_diversity_weights() builds private copies.
+        self._profiles: Optional[Dict[TokenClass, DecayProfile]] = None
+        # Fix 0-C mechanism (demotion): per-decay-pass leak on binding
+        # signals that were not refreshed since the previous pass — the
+        # one-way reinforcement ratchet becomes leaky, so symbols the field
+        # drifted away from genuinely lose tenure. 0.0 = ratchet unchanged.
+        self.binding_leak: float = 0.0
+        self._last_decay_at: int = 0
+
     # ------------------------------------------------------------------
     # Registration
     # ------------------------------------------------------------------
@@ -1310,9 +1336,23 @@ class SymbolRegistry:
         acknowledge_compaction().
         """
         to_remove: List[str] = []
+        profiles = self._profiles if self._profiles is not None else DECAY_PROFILES
 
         for token, state in self.symbols.items():
-            profile    = DECAY_PROFILES.get(state.token_class, _DEFAULT_PROFILE)
+            # Fix 0-C mechanism (binding_leak > 0 only when the lever is ON):
+            # bindings unrefreshed since the previous decay pass leak, so
+            # reinforcement can genuinely DECREASE for symbols the field has
+            # drifted away from. Sacred/protected symbols and SPECIAL class
+            # are exempt — the reaper cannot touch them and neither can this.
+            if (self.binding_leak > 0.0
+                    and not state.sacred and not state.protected
+                    and state.token_class is not TokenClass.SPECIAL
+                    and state.last_seen_step < self._last_decay_at):
+                keep = 1.0 - self.binding_leak
+                state.attractor_strength *= keep
+                state.crystal_binding    *= keep
+
+            profile    = profiles.get(state.token_class, _DEFAULT_PROFILE)
             state.usage = profile.compute(state, self.step_counter)
             decision   = self.reaper.evaluate(state, self.step_counter)
             state.reaper_stage = decision
@@ -1337,6 +1377,8 @@ class SymbolRegistry:
 
         for token in to_remove:
             self.symbols.pop(token, None)
+
+        self._last_decay_at = self.step_counter
 
         # Schedule compaction if fragmentation threshold exceeded
         if self.compaction.should_compact(self.address_space):
@@ -1375,6 +1417,39 @@ class SymbolRegistry:
     # ------------------------------------------------------------------
     # External signal hooks
     # ------------------------------------------------------------------
+
+    def set_diversity_weights(self, k: float = 8.7):
+        """
+        Fix 0-B lever: activate the diversity fitness term by building
+        PRIVATE per-registry profile copies with
+        diversity_weight = k × crystal_binding_weight per class.
+
+        The single constant k is calibrated, not chosen: the 2026-07-18
+        currency census measured the weight each class needs for a
+        p90-credit symbol's fitness term to counterweight ~25% of that
+        class's dominant reinforcement component — and the two measured
+        classes agreed independently (language 1.3/0.15 ≈ ephemeral
+        0.26/0.03 ≈ 8.7). Module-level DECAY_PROFILES are never mutated.
+        """
+        from dataclasses import replace as _dc_replace
+        self._profiles = {
+            cls: _dc_replace(prof, diversity_weight=k * prof.crystal_binding_weight)
+            for cls, prof in DECAY_PROFILES.items()
+        }
+
+    def update_diversity_credit(self, symbol: str, credit: float,
+                                alpha: float = 0.05):
+        """
+        Fix 0-B fitness hook — EMA the step's stream-diversity credit into
+        the symbol. credit ∈ [0,1]; EMA (not a sum) so the signal rewards a
+        symbol's *rate* of variance contribution, never raw traffic volume.
+        Called from the cycle when the diversity-fitness lever is ON.
+        """
+        state = self.symbols.get(symbol)
+        if state is not None:
+            c = min(1.0, max(0.0, float(credit)))
+            state.diversity_credit = min(
+                1.0, (1.0 - alpha) * state.diversity_credit + alpha * c)
 
     def update_attractor_strength(self, symbol: str, delta: float):
         """Called by Attractor when symbol becomes an attractor center."""
