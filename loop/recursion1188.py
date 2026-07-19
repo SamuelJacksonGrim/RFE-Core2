@@ -133,6 +133,16 @@ CONFIG = {
     # finding records the runs; if either gate is red this flips back OFF.
     "bond_ddm_formation":           True,
     "bond_ddm_config":              {},     # BondFormationAccumulator overrides
+    # Fix 0-B (survival counterbalance) + Fix 0-C mechanism (demotion):
+    # diversity_fitness adds the stream-metastability fitness term to the
+    # reaper's reinforcement currency (per-symbol EMA credit × the census-
+    # calibrated per-class weight) so tenure stops being bought purely by
+    # coherence-laundered bindings; binding_leak makes unrefreshed
+    # attractor/crystal bindings decay per reaper pass (the one-way ratchet
+    # becomes leaky). OPT-IN pending the paired-effect probe + gates
+    # (docs/EXPERIMENTAL_LEVERS.md; finding 2026-07-18).
+    "fix0b_diversity_fitness":      False,
+    "fix0b_binding_leak":           0.0,    # suggested 0.10/decay-pass when ON
 }
 
 # Default token sequences — replace with your own input pipeline
@@ -281,6 +291,8 @@ def build_engine(config: dict = None):
         maintenance_interval          = config["maintenance_interval"],
         log_interval                  = config["log_interval"],
         reflect_novelty_attenuation   = config["reflect_novelty_attenuation"],
+        diversity_fitness             = config.get("fix0b_diversity_fitness", False),
+        binding_leak                  = config.get("fix0b_binding_leak", 0.0),
         attractor_formation_threshold = cyc.get("attractor_formation_threshold", 0.88),
         merge_interval                = cyc.get("merge_interval", 50),
         lattice_emit_interval         = cyc.get("lattice_emit_interval", 100),

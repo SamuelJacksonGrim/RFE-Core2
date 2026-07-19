@@ -80,6 +80,8 @@ def build_full_stack(
     use_chorus: bool = True,
     torch_seed: int  = 42,
     bond_config: Optional[dict] = None,
+    diversity_fitness: bool = False,
+    binding_leak: float = 0.0,
 ) -> Tuple[Generator, AutonomousCycle, SelfhoodGovernance, ValueEmergenceEngine]:
     """
     Build the full Tier 0 + Tier 1 + Tier 2 + Tier 3 stack with sensible defaults.
@@ -114,10 +116,12 @@ def build_full_stack(
         heads      = heads,
     )
     cycle = AutonomousCycle(
-        generator    = generator,
-        dim          = dim,
-        use_chorus   = use_chorus,
-        log_interval = 99999,    # suppress per-step logging
+        generator         = generator,
+        dim               = dim,
+        use_chorus        = use_chorus,
+        log_interval      = 99999,    # suppress per-step logging
+        diversity_fitness = diversity_fitness,   # Fix 0-B lever (default OFF)
+        binding_leak      = binding_leak,        # Fix 0-C mechanism (default 0.0)
     )
     governance = SelfhoodGovernance(registry=generator.registry,
                                     bond_config=bond_config)
