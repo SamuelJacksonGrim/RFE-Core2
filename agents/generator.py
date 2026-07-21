@@ -684,8 +684,20 @@ class Generator(nn.Module):
         dies entirely (every stable_id lookup misses). Verified 2026-06-12.
         """
         loaded = SymbolRegistry.load(path)
+        # Config-derived lever state (Fix 0-B diversity profiles, Fix 0-C
+        # binding_leak) is applied at boot from CONFIG by the cycle constructor
+        # and is deliberately NOT part of the ecology snapshot (to_dict omits
+        # it). Carry it across the in-place restore so a resumed Fix-0B-ON run
+        # keeps its live counterweight instead of the dict-swap silently
+        # resetting it. CONFIG stays authoritative — the checkpoint never
+        # overrides the lever flag.
+        _lever_state = {
+            "_profiles":    self.registry._profiles,
+            "binding_leak": self.registry.binding_leak,
+        }
         self.registry.__dict__.clear()
         self.registry.__dict__.update(loaded.__dict__)
+        self.registry.__dict__.update(_lever_state)
         self.address_space = self.registry.address_space
 
         new_vocab = self.address_space.vocab_size
