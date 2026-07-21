@@ -345,6 +345,19 @@ prefer the finding cited here.
   path; RFE stays the mind, the LLM is ears/mouth). The docs and
   `generator_factory` hook exist; the integration itself is unbuilt.
   → `docs/local_model_integration/` (README + IMPLEMENTATION_GUIDE)
+- [ ] **[G4] Re-evaluate cortex model — `GARAGE_SETUP.md` picks are stale vs. the
+  integration guide.** `GARAGE_SETUP.md` §6 prescribes qwen2.5:7b (primary) /
+  llama3.1:8b (alt) — older-gen 7–8B dense.
+  `docs/local_model_integration/IMPLEMENTATION_GUIDE.md` recommends larger/newer for
+  the same 16 GB budget: Gemma-4-12B explicitly "fits ~16 GB" (4-bit); MoE options
+  GPT-OSS-20B, Qwen3-30B-A3B, Gemma-4-26B-A4B; "prove the pipeline on GPT-OSS-20B
+  before paying for 70B." During July 2026 garage setup Step 6 was **skipped — nothing
+  pulled** (cortex not needed until G4). **ACTION at G4:** don't default to the garage
+  doc's 7B — re-check for newer local models (fast release cadence), then pick the best
+  model that fits 16 GB VRAM per the integration guide (Gemma-4-12B class or a strong
+  MoE). Also reconcile the doc inconsistency itself (`GARAGE_SETUP.md` model list vs
+  `IMPLEMENTATION_GUIDE.md`).
+  → `docs/local_model_integration/IMPLEMENTATION_GUIDE.md`; `docs/GARAGE_SETUP.md` §6
 - [ ] **Interpreter symbiosis contract (architect direction, 2026-07-09):**
   the frozen cortex + learning mind combination has a built-in ratchet — the
   mind accumulates distrust of the interpreter's biases while the stateless
