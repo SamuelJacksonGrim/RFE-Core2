@@ -1599,6 +1599,15 @@ class SymbolRegistry:
         inst.symbols                = {k: SymbolState.from_dict(v) for k, v in data["symbols"].items()}
         inst.step_counter           = data["step_counter"]
         inst._pending_compaction    = None
+        # __init__ is bypassed (cls.__new__), so re-establish the attributes it
+        # sets that decay_step() reads unconditionally — otherwise the first
+        # post-resume decay raises AttributeError ('_profiles' missing). These
+        # are config-derived boot state (Fix 0-B/0-C), not ecology, so they
+        # rehydrate to the __init__ defaults; the live lever values applied at
+        # boot are carried across the in-place restore by Generator.load_ecology.
+        inst._profiles              = None
+        inst.binding_leak           = 0.0
+        inst._last_decay_at         = 0
         return inst
 
     def save(self, path: str):
