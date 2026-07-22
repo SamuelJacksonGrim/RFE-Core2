@@ -313,6 +313,11 @@ prefer the finding cited here.
   `contrastive_alignment.py` exist, unwired). Gated on G4 (on/off envelope +
   adversarial arm) and an identity-stability cost probe. Buffer governance:
   trust-gated collection, source-diversity caps, buffer snapshots persisted.
+  *Given ≠ earned*: any stage that writes `embedding.weight` can install a
+  distinction the system would otherwise have to form — corpus v1.3 carries
+  the hostile arm, so seeding from it hands over a hostile/benign axis the
+  CORE gate never had to converge on, and provenance is unrecoverable after
+  the fact.
   → `docs/training/training_plan.md` Phase 4
 - [ ] **Value-formation band-sensitivity baseline** — value formation depends
   on recurrence, which online collection would change; baseline it *before*
@@ -471,3 +476,15 @@ design — resolved ones are now stamped inline there.
 - **Tier 4.3 chaotic-side validation:** `phase_coherence` never drops below
   ~0.79 under tested workloads, so the agitation axis is unexercised; needs a
   genuinely high-novelty workload. → `docs/tier4_3_validation.md`
+- **Distributional (skip-gram) embedding seeding:** no corpus-distributional
+  objective exists — all four gradient paths take positives from internal
+  labels (`rhythm_pretraining`) or field state (`contrastive_alignment`
+  attractor co-activation), never from corpus co-occurrence. Candidate second
+  axis against CORE co-contribution by mimicry: a hostile token matching the
+  rhythm class is currently geometrically indistinguishable from a benign one,
+  because rhythm class is the only axis the embedding space was taught.
+  SHELVED pending **G2** — the reaper economy is dormant at ≤800 steps (zero
+  selection passes), so it is untested whether the axis emerges on its own
+  under real selection pressure. Seed only if G2 shows it does not.
+  → `2026-07-09-adversarial-arm.md` (mimicry gap); `docs/GARAGE_RUN_PLAN.md`
+  G2, G3
