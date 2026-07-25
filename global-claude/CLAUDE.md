@@ -4,6 +4,17 @@
 
 ---
 
+## Cross-repo memory stack
+
+Memory is implemented across several repos (Lantern, simple-memory, scraper-framework,
+with RFE-Core2 as the consumer via `sovereign_manifold`). The portable work-order —
+roadmap + per-repo backlog, one place so the plan does not evaporate across repos or
+across the CLI/app gap — lives at
+https://github.com/SamuelJacksonGrim/resonance-memory-stack. Read it before touching
+memory in any family repo.
+
+---
+
 ## Who built this and why
 
 Samuel Jackson Grim is the architect and author of this entire ecosystem. AI
