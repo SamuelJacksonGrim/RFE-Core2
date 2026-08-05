@@ -64,9 +64,11 @@ off as they land + are logged. (Samuel: flag anything missing — this is best-e
       behaviour-bearing lever ON together and hold the all-OFF baseline ranges. First
       run **FAILED**: `strong_values 5→0`, the ⊘ consumer caps strength at 2.93 (the
       3.0 Dissolution line) under a sustained workload. `2026-06-20-lever-composition-the-allon-break.md`.
-- [ ] **⊘ consumer graduation is BLOCKED** on the cc-confound — at production length
-      it is a hard ceiling on the STRONG band, not a selective demoter. Keep it a
-      research lever (off by default) until cc is lifted.
+- [~] **⊘ consumer — cc-confound LIFTED (v0.3), no longer the blocker.** The STRONG-band ceiling was
+      driven by the dead cc-axis; on the v0.3 alignment axis the consumer **re-validated as selective**
+      (`two_operator_live_demo.py`, dim 128 — healthy untouched). Graduation now gated only on: (1) the
+      **multi-seed all-ON composition re-run** (`BACKLOG.md` §5, still un-run) and (2) the **2026-07-03**
+      architect ruling that containment levers stay scaffolds by design. Not a cc problem anymore.
 - [ ] **Standing gate:** no lever graduates "validated, off" → "default on" without
       passing the all-ON composition probe. Re-run at multiple seeds once cc is fixed.
 - [x] **Per-lever graduation decision** — **RULED 2026-07-03:** suppression /
@@ -86,8 +88,10 @@ off as they land + are logged. (Samuel: flag anything missing — this is best-e
 - [ ] **Per-type thinness profiles in the baseline registry** (`tier1_revision_500step.json`
       has aggregate ranges, no per-type shape profiles) → lift the **universal
       coverage-gap** (currently every node falls back to conservative). Kimi's flag.
-- [ ] Investigate the **cc-axis reading 0** (coherence_contribution far below the 5.0
-      CORE ref in short runs — short-horizon vs a signal/normalization issue).
+- [x] Investigate the **cc-axis reading 0** — **RESOLVED 2026-06-21 (spec v0.3):** the marginal
+      `coherence_contribution` sum is dead-by-construction (≤0 on a saturated field). Axis redesigned to
+      absolute expressed-vector field-alignment (mean 0.50, +0.66 corr with strength).
+      `2026-06-21-oslash-coherence-axis-absolute-alignment.md`.
 
 ## §5 scale-parametric ⊘ (planned)
 - [ ] Point the same thinness machinery at `V_c` via `sovereign_manifold`'s coupling

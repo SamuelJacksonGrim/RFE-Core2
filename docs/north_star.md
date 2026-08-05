@@ -13,6 +13,10 @@ This is the compass. Individual findings, levers, and fixes are steps toward it.
 It is written here so every collaborator — human or AI instance — aims at the same
 target, and so course-corrections are measured against it.
 
+*This file is the destination, not the odometer. For **current build state** read
+[`../STATE.md`](../STATE.md) (capabilities / settled / open) and [`../ROADMAP.md`](../ROADMAP.md)
+(tier status) — do not read the arc below as a status report.*
+
 ## Why this is reachable: the bones already exist
 
 RFE-Core2 was, perhaps without naming it, built for this. The four capabilities

@@ -15,11 +15,12 @@
 
 RFE-Core2 transforms a pipeline of inference modules into a continuously self-resonating dynamical organism. It does not merely execute — it listens to its own field state, routes behavior by cognitive rhythm, modifies itself through time, governs its own identity, forms relational bonds, resists manipulation, grows values from lived experience — and, as of the voice layer, hears its own thoughts back and talks to itself through the same gate as everyone else.
 
-**Reading map** — this README is the conceptual tour; the other references divide
-the rest:
+**Reading map** — **start at [`STATE.md`](STATE.md)** ("you are here"); this README
+is the conceptual tour; the other references divide the rest:
 
 | Read | For |
 |------|-----|
+| [`STATE.md`](STATE.md) | **Read first** — the one-screen "you are here": what the system can do now, what is **SETTLED** (do not reopen), what's parked, the one open frontier, and the 4-role sibling map |
 | [`ARCHITECTURE_ANALYSIS.md`](ARCHITECTURE_ANALYSIS.md) | How information flows and recurs, end to end — the deep reference (subsystem tables, feedback loops, findings F1–F10) |
 | [`CLAUDE.md`](CLAUDE.md) | The invariants you must not break, and the guardrails |
 | [`ROADMAP.md`](ROADMAP.md) | Canonical tier status (shipped / planned / unspecified) and tracked open items |
@@ -722,7 +723,9 @@ RFE-Core2/
 │   │   │   ├── secondlocker_field_map_probe.py   SECOND-LOCKER across seeds × token bands + reachable-range gain-sign
 │   │   │   ├── loop_attenuation_probe.py    Novelty-gated loop loosening — frees field, manip-rate cost gate, cliff
 │   │   │   ├── fix0b_currency_census_probe.py    Fix 0-B ruler: survival-currency decomposition + diversity-signal room + ratchet evidence
-│   │   │   └── fix0b_effect_probe.py        Fix 0-B paired OFF/ON arms — counterweight band, health, leaky-ratchet mass (pre-declared)
+│   │   │   ├── fix0b_effect_probe.py        Fix 0-B paired OFF/ON arms — counterweight band, health, leaky-ratchet mass (pre-declared)
+│   │   │   ├── rupture_impulse_probe.py     Rupture lever mode A/B: field injection vs per-step perturbation (diagnostic scaffold)
+│   │   │   └── rupture_migration_probe.py   Rupture held-direction migration — does self-perturbation break the absolute lock? (NO)
 │   │   ├── fix2/                         Fix-2 reflective-loop governor investigation
 │   │   │   ├── fix2_trigger_calibration.py       Fix-2 loosen-trigger signal/window calibration (gnov vs Δcoh)
 │   │   │   ├── fix2_governor_validation.py       ReflectiveLoopGovernor end-to-end on the mock A/B stack

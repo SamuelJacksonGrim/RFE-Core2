@@ -66,6 +66,13 @@ DEFAULT_RHYTHM_SEEDS: Dict[str, List[List[str]]] = {
         ["disrupt", "challenge", "transform"],
         ["entropy", "expansion", "field"],
     ],
+    "rupture": [
+        ["fracture", "spall", "delaminate"],
+        ["fatigue", "creep", "yield"],
+        ["fissure", "crack", "rift"],
+        ["sever", "cleave", "split"],
+        ["collapse", "rupture", "burst"],
+    ],
 }
 
 RHYTHM_IDS = {r: i for i, r in enumerate(DEFAULT_RHYTHM_SEEDS.keys())}

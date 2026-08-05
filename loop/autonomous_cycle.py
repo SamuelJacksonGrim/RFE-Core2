@@ -435,7 +435,39 @@ class AutonomousCycle:
         reflection_passes = 0
         converged         = False
 
-        if rhythm in ("reflect", "explore") and report.stable:
+        # Rupture (mode B, HELD-DIRECTION) — self-perturbation on lock-detect.
+        # When the stethoscope reads a LOCKED field, FORCE the reflective branch (a
+        # lock sits in the stabilize rhythm, which wouldn't otherwise run it) and
+        # push the expressed vector toward ONE HELD novel direction, sustained for
+        # the whole pulse. Per-step RANDOM noise cancels in the ~84-magnitude field
+        # integrator (rupture_impulse_probe + findings); a CONSISTENT held target is
+        # what the field can ACCUMULATE into a migration — the mechanism 2026-06-15
+        # used with sustained regime-B novelty. The existing novelty-gated
+        # attenuation (reflective_loop.py, capped 0.30, validated) then loosens the
+        # lock toward it — same 0.30 ceiling, same validated manip envelope. Opt-in
+        # (config.rupture_on_lock, default OFF); byte-identical when off.
+        rupture_now = (
+            self.config.get("rupture_on_lock", False)
+            and report.stable
+            and self.generator_metastability is not None
+            and self.generator_metastability.report.regime_state == "locked"
+        )
+        if self.config.get("rupture_on_lock", False) and not rupture_now:
+            self._rupture_target = None          # release: fresh target next lock
+        if (rhythm in ("reflect", "explore") and report.stable) or rupture_now:
+            if rupture_now:
+                tgt = getattr(self, "_rupture_target", None)
+                if tgt is None:                  # pick ONCE, on lock-onset
+                    base = anchor if anchor is not None else vec
+                    tgt = inject_ambiguity(
+                        base, scale=self.config.get("rupture_lock_scale", 1.5),
+                        mode="gaussian")
+                    self._rupture_target = tgt
+                blend = self.config.get("rupture_hold_blend", 0.5)
+                mixed = (1.0 - blend) * vec + blend * tgt
+                nrm   = np.linalg.norm(mixed)
+                vec   = (mixed / (nrm + 1e-8)).astype(vec.dtype)
+                self._rupture_fires = getattr(self, "_rupture_fires", 0) + 1
             result = self.reflector.reflect(
                 vec       = vec,
                 watcher   = self.watcher,
@@ -980,6 +1012,48 @@ class AutonomousCycle:
         scale      = self.emotion.mutation_scale()
         mutated    = inject_ambiguity(anchor, scale=scale * 1.5, mode="rotational")
         self.field.inject(mutated, strength=0.5)
+
+    def _rupture_behavior(self, tokens: List[str]):
+        """
+        Rupture phase — ONE deliberate destabilization pulse. (Phase 1: inject-only.)
+
+        The missing named actuator in the metastability control loop: when the
+        field locks into a single over-coherent attractor (the upstream
+        stethoscopes read regime_state == "locked"), a rupture pulse injects
+        high-entropy noise to knock it back into the poised, escapable,
+        metastable band. It is the deliberate lock-breaker that "Boredom with
+        Teeth" (force-jump to explore) has been faking.
+
+        DISRUPTIVE sibling of _explore_behavior. Explore uses mode="rotational"
+        (magnitude-preserving, gentle directional wander — seek novelty);
+        rupture uses mode="gaussian" (isotropic — perturbs magnitude AND
+        direction before renorm) at larger scale and injection strength. The
+        difference between "wander outward" and "shatter a too-deep basin."
+
+        Phase 1 scope, deliberate:
+        - INJECT-ONLY. Does NOT touch self.reflector.novelty_attenuation. We stay
+          entirely clear of the reflective-loop attenuation envelope (0.30
+          ceiling), whose sustained/unconditional use is documented to collapse
+          identity (2026-06-20 unlock-chain; tests/diagnostic/lockin/). Reaching
+          for the attenuator is Phase 2 (mode B), gated on inject-only proving
+          too weak a lock-breaker — not before.
+        - ONE pulse per call. The N-cycle safety cap and the auto-release into
+          `stabilize` live in the probe driver for Phase 1, so the per-cycle
+          impulse response stays measurable. When rupture is later wired into the
+          `field_obs.rhythm` selector, that cap becomes a PERMANENT never-exceed
+          backstop alongside the sensor-based release: a rupture that gets stuck
+          firing IS the sustained-destabilization collapse mode.
+
+        Not in the _rhythm_behavior dispatch or the selector yet — callable only
+        directly (by rupture_impulse_probe.py). Purely additive; the live loop is
+        unchanged until the selector can emit "rupture".
+        """
+        anchor    = self.witness.current_anchor()
+        scale     = self.emotion.mutation_scale()
+        mult      = self.config.get("rupture_scale_mult", 3.0)   # vs explore's 1.5
+        strength  = self.config.get("rupture_strength", 0.7)     # vs explore's 0.5
+        shattered = inject_ambiguity(anchor, scale=scale * mult, mode="gaussian")
+        self.field.inject(shattered, strength=strength)
 
     # ------------------------------------------------------------------
     # Generation (rhythm-sensitive)

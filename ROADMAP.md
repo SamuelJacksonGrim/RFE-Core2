@@ -116,203 +116,28 @@ collision + epistemic-discipline process that produced Tier 4.2.
 **This supersedes "4.4 next" as the next substantive work.** 4.4
 (frequency → emotion) remains **planned** but no longer leads.
 
-> **CURRENT UNDERSTANDING (2026-06-12) — start here; everything below is dated history.**
-> - The field pins high coherence. The "multi-layer lock" decomposed: the **85% gate** was
->   a single-source monopoly artifact (not a filter); the **magnitude moat** is surmountable;
->   the **reflective loop** is the active reconstitution mechanism — ablation-proven (suppress
->   it and the field migrates). `2026-06-07-{gate-decomposition, attractor-migration,
->   reconstruction-ablation}.md`.
-> - **But the generator presents low-rank input.** Deterministic effective rank ~1.6 at dim 64,
->   and the live system runs it with **dropout active** (it never `.eval()`s), so ~half the
->   apparent input diversity is noise and the deterministic expression collapses to one regime.
->   `2026-06-08-generator-dropout-diversity.md`.
-> - **Net:** the reflective loop is a real lock, but it locks *low-rank* input. Adaptivity is
->   gated by BOTH generator diversity (upstream) and the loop. **Generator diversity — training,
->   raising dim, and the eval-decision — is the more upstream lever.**
-> - **Fix 2** (the reflective-loop-loosening governor — designed: `gnov` trigger W=10/T≈0.65,
->   rails, gain floor 0.45; `2026-06-08-fix2-trigger-calibration.md`) is **DEFERRED as
->   premature**: loosening the loop now would mostly admit dropout noise. Build it after the
->   generator presents real diversity.
-> - **Open architect decision:** should the live generator run in `eval()` (dropout off)?
->   Intentional stochastic exploration vs a missing `eval()` — this decides what the field's
->   "input diversity" even is. **[RESOLVED below — Phase 3 decided eval-mode, 2026-06-12;
->   kept here only as dated history.]**
-> - **The training lever is live (2026-06-11).** The training stack's gradient path was
->   broken in two of three trainers (training had never been possible); after repair, a
->   controlled rhythm-pretraining run moved the *deterministic* dim-64 generator from
->   eff_rank 1.3 / cos 0.855 to eff_rank 3.1 / cos 0.210 on the trained distribution,
->   with the disjoint-vocab battery unmoved — **the mechanism works; corpus coverage is
->   the binding constraint.** `2026-06-11-trainer-gradient-path.md`. The phased,
->   gate-disciplined path from here to Fix-2 un-deferral and a Tier 5 spec is
->   `docs/training/` (proposed direction, not committed scope).
-> - **Phase 1 complete — Gate G1 passed (2026-06-11).** Curated corpus landed
->   (`data/corpus/` v1.0.1: 2336 train / 410 holdout, 272 tokens, integrity-gated in CI);
->   8 epochs of rhythm pretraining generalize to held-out sequences: eff_rank 1.45→3.46 /
->   1.28→3.55 (≥2× gate), rhythm-NN 0.99+ (≥0.75 gate), determinism 1.0, norms bounded —
->   two seeds. **Coverage was the binding constraint, and it is paid.**
->   `2026-06-11-corpus-g1-pretrain.md`. Next: Phase 2 (cost-gated live-stack validation
->   from the boot checkpoint), then the `.eval()` decision.
-> - **Phase 2 complete — Gate G2 passed (2026-06-12).** Corpus extended to v1.1.0 first
->   (63 missing *operational* tokens — the live workload's own vocabulary; G1 re-passed).
->   Pretrained boot on the full live stack: all baselines hold in both dropout modes,
->   identity_stability 0.9974, manipulation layer silent. Two pivotal readouts:
->   (1) **SECOND-LOCKER** — the coherence pin persists with real trained input, so the
->   reflective loop / field moat is the operative lock and **Fix 2 is re-prioritized on
->   real signal**; (2) the expression pipeline now *preserves* upstream regime structure
->   (stage A ≡ stage C) instead of collapsing it. Eval-mode boot is live-viable (Phase 3
->   data). `2026-06-12-phase2-fullstack-g2.md`. **Phase 3 — the `.eval()` decision,
->   boot-checkpoint adoption, online go/no-go — is now the blocking step, and it is the
->   architect's.**
-> - **Phase 3 decided (2026-06-12, architect):** eval-mode is the operating regime;
->   boot-checkpoint adoption and Fix 2 are SHELVED pending the §6.3 verdict + a
->   SECOND-LOCKER field map (`docs/training/phase3_architect_decisions.md`, DECIDED
->   block). Both tracks were then run:
->   **(a) Field map** — 30 cells (5 token bands incl. the full-corpus broad band ×
->   3 seeds × control/pretrained, eval-mode): **SECOND-LOCKER GENERALIZES** — the
->   pin (0.967–0.976) is seed-, band-, and regime-invariant; identity rail clean
->   everywhere; Tier 4.3's chaotic regime still unreached even on the broad band.
->   `2026-06-12-secondlocker-field-map.md`.
->   **(b) §6.3 gain-sign** — the synthetic-warm instrument is CONFOUNDED by its own
->   criteria (sub-0.49 coherence structurally unreachable by phase seeding); relocated
->   in-run on real field states: the live system never leaves coherence [0.99, 1.0]
->   under any tested workload, and in that bin marginal `coherence_impact` is uniformly
->   slightly **negative and direction-insensitive** (recent ≈ novel ≈ anti) — no
->   positive-feedback signal at the margin; the low-coherence regime where runaway
->   would live is unreachable, so any future Fix 0-A wiring needs a runtime coherence
->   guard. `2026-06-12-gain-sign-reachable-range.md`.
->   **(c) Checkpoint round-trip defect found + fixed** — the field map's first run
->   caught `load_ecology` rebinding the registry, silently orphaning governance + the
->   value engine (Tier 3 formed zero values in all 15 loaded cells). In-place load
->   shipped; standing guard `tests/integration/checkpoint_registry_identity.py`.
->   `2026-06-12-checkpoint-registry-orphan.md`. **Decision 2's reopen-condition is now
->   met on both tracks — and adoption is RULED 2026-07-03: adopt** (train once →
->   canonical boot checkpoint → `build_engine()` loads it; live pretraining becomes
->   the fallback). `docs/ARCHITECT_RULINGS_2026-07-03.md` §2; implementation queued
->   behind the bonded-adversarial probe.
+Field lock-in was the **lead investigation for two months; it is now SETTLED** — see
+`STATE.md` (§ SETTLED) and the findings ledger. Summary:
 
-**Finding (verified, June 3 session).** The accumulated symbol-state feedback
-signals — field coherence, attractor strength, crystal binding, centrality —
-are written onto `SymbolState` but read by exactly one consumer: the
-decay/reaper retention score (`agents/symbolic_memory.py`). They do **not**
-reach generation. `Generator.forward()` reads only the learned embedding +
-encoder weights; a controlled probe shows generation **byte-identical**
-(Δ = 0.0, `eval()` mode) under 1000× reinforcement of every signal hook — a
-naive run without a dropout control shows a spurious Δ ≈ 0.63, which is
-train-mode nondeterminism, not feedback. So accumulated state gates **survival
-only**: the feedback loop terminates at the reaper, not at cognition.
+- **The lock is the reflective loop's active reconstitution, and it is by design** — the
+  field is the long-memory identity integrator; the coherence pin is identity persistence,
+  not a defect. `2026-06-07-reconstruction-ablation` (core), SECOND-LOCKER
+  (`2026-06-12-phase2-fullstack-g2`, `-secondlocker-field-map`).
+- **It cannot be unlocked upstream (generator / corpus).** Falsified via baseline / evened
+  corpus / a verified separable rupture basin, plus a 5000-step run (`disp ≤ 0.00012`).
+  `2026-08-04-rupture-and-the-lock-is-a-landscape-problem`. **Do not reopen.**
+- **Metastability, if pursued, lives upstream** on the per-stage streams
+  (`generator_metastability` / `expression_metastability`), never on the field.
+  `2026-06-06-frame-correction`.
 
-**Consequence (measured).** Because survival is currencied largely in
-coherence, and coherence rewards alignment, the reaper selects for agreement
-and the live-Generator field pins to ~0.998 internal coherence — rigid-
-attractor lock-in (a collapsed, monocultural field), not a healthy state. High
-coherence is the routing axis, **not** a health signal. Ref:
-`ARCHITECTURE_ANALYSIS.md` §4 caveat + ecology read-side boundary.
+Live remediation items that remain (NOT the lock itself — the healthy-metastability program):
 
-**Refinement (2026-06-06 — see `docs/findings/`).** The empirical pass sharpened
-this picture, and the dated findings ledger now records it (every entry names its
-control):
+- **Fix 0-B** (metastability as a survival-fitness counterweight) — built, opt-in; gates on a
+  composed-runtime run before graduation. `2026-07-18-fix0b-diversity-fitness`.
+- **Fix 2** (reflective-loop convergence attenuation, novelty-gated) — **deferred as premature**
+  (loosening now admits dropout noise); revive only after the generator presents real diversity.
 
-- **The lock is multi-layer, not one thing** — generator 1-D projection · a
-  ~85% governance **gate block** of diverse internal input · the accumulate-decay
-  **magnitude moat** (what lands averages ~0.91 cosine even under maximal source
-  diversity). `2026-06-06-multilayer-lock.md` /
-  `tests/diagnostic/training/trained_generator_sim.py`.
-- **Locus correction** — a coherent *field* is the spec (the integrator that holds
-  identity); lock-in is real only if survival-by-coherence flattens the
-  *generator/expression* into monoculture. Metastability belongs **upstream**.
-  `2026-06-06-frame-correction.md`.
-- **Pin-vs-band retired** — the live question is **attractor plasticity** (does the
-  attractor migrate under persistent surviving novelty?), not the coherence value;
-  coherence may still enter as an *input* to plasticity via moat depth.
-  `2026-06-06-coherence-is-not-plasticity.md`. The 85% gate must be decomposed
-  before the plasticity test is interpretable.
-
-**Update (2026-06-07 — plasticity arc complete; four findings).** The multi-layer
-picture above resolved to a single mechanism. Every entry names its control:
-
-- **Gate decomposed → not a filter.** The ~85% gate block was a single-source
-  **monopoly artifact** (one source → HHI=1.0 → manipulation detector → trust
-  cascade); with multi-source diverse input the gate passes 100%, `field_collapse`
-  never fires. `2026-06-07-gate-decomposition.md`.
-- **Attractor migration: RIGID.** Under a persistent gate-surviving coherent new
-  regime (best case, 3 seeds) the field does not migrate; the magnitude moat is real
-  but **surmountable**, not the locker. `2026-06-07-attractor-migration.md`.
-- **The lock is the reflective loop.** One-variable ablation: suppressing only
-  `reflector.reflect` frees full migration (~100×, 3 seeds); attractor-pull, refine
-  blend, crystal, explore all inert. Coherence and rigidity are the *same* mechanism.
-  `2026-06-07-reconstruction-ablation.md`.
-- **Reaper conformity term: small + mislocated.** `2026-06-07-fix0b-fullloop-validation.md`.
-
-Net: the earlier candidates (generator/gate/moat, and the reaper) are cleared as
-*the* locker; the lock is the reflective loop's unconditional convergence to the
-anchor. Remediation relocates accordingly (see item 7 below) — **held for the
-architect, pending a cost probe** (the identity-stability cost of touching the loop).
-
-**Direction (planned, not frozen).** The healthy target is *metastability* —
-mid-band coherence with high dwell-time variance ("formed enough to hold,
-light enough to drift"). The full curated plan — build order, gating
-dependencies, validation gates, and the load-bearing epistemic warnings — is
-`docs/lock_in_remediation_plan.md`. Progress against that plan:
-
-**Shipped:**
-
-1. **Metastability metric** — `substrate/metastability.py` (Fix 1). Config-space
-   vector clustering (not the coherence scalar, which is many-to-one and blind to
-   config-space limit cycles), with a transition-sequence-entropy / aperiodicity
-   term (a perfect limit cycle reads LOW) and coherence *level* folded into the
-   regime label (locked-at-0.99 vs structureless-at-0.50 must not share a label).
-   Validated G1–G5 incl. on the live-Generator field
-   (`tests/diagnostic/lockin/metastability_validation.py`). **shipped + validated** (PR #23).
-2. **Generator scale fix** — embeddings scaled by `sqrt(d_model)` + raised init
-   std (AIAYN §3.4), fixing the positional-dominance collinearity that made the
-   untrained generator emit one near-collinear direction. Precondition for
-   metastability to exist anywhere upstream. **shipped** (PR #25/#26).
-3. **Metric relocation + live monitors** — the decisive refinement to Fix 1's
-   *locus*: metastability is read UPSTREAM, on the per-stage vector streams
-   (`StreamMetastabilityMonitor`, wired as `cycle.generator_metastability` at
-   stage A and `cycle.expression_metastability` at stage C, exposed in
-   `status()`), **not** on the resonance field — the field's long-memory decay
-   smooths config wander away by construction, so metastability cannot live there.
-   Observe-only terminal sinks. **shipped** (PR #27).
-4. **Recursive-attention expression de-collapse** — untrained recursive attention
-   mean-pools its context, collapsing the injected expression to one direction
-   (metastability → 0); the `diversity_blend` knob (default 0.60) weights the raw
-   vector back in so the expression stays coherent-but-not-locked (multi-regime
-   metastable). A de-collapse at the *expression* stage, distinct from the planned
-   field-side operator. **shipped** (PR #27).
-
-**Instrument shipped, verdict pending:**
-
-5. **Feedback gain-sign check at low coherence** — analysis only; gates Fix 0-A
-   and the paper-boat operator. The gating **diagnostic is built**
-   (`tests/diagnostic/lockin/gain_sign_check.py`); a **conditional verdict is
-   recorded** (2026-06-12, reachable-range only: no positive-feedback signal at
-   the margin, but the low-coherence regime is unreachable under tested
-   workloads, so any Fix 0-A wiring needs a runtime coherence guard —
-   `2026-06-12-gain-sign-reachable-range.md`). A full-range verdict stays open.
-
-**Planned (the structural counterbalance — not yet built):**
-
-6. **Counterbalance survival selection (Fix 0-B, highest leverage)** — wire the
-   metastability score into the reinforcement formula as a fitness term so
-   survival stops being currencied purely by coherence; add a demotion path
-   (reinforcement is currently all-positive-additive, a one-way ratchet); let
-   `attractor_strength` shape the field trajectory rather than only outlive other
-   symbols (internal to RFE — *not* the transformer weights).
-7. **Field paper-boat operator (Fix 2, last)** — a phase-domain intervention that
-   lightens the current motif's attractor depth while preserving structure, so the
-   field drifts under its own dynamics. Its main failure mode (point-attractor →
-   limit cycle) is exactly what Fix 1's aperiodicity term detects.
-   **→ Locus relocated (2026-06-07):** the lock is the reflective loop, not the field
-   accumulator (`2026-06-07-reconstruction-ablation.md`). The leading candidate is now
-   *conditional attenuation of the reflective loop's convergence gain, gated on
-   surviving novelty*; the paper-boat framing is retained but no longer the primary
-   lever. **Not committed** — awaits the cost probe (identity-stability tradeoff) and
-   architect decision.
-
-Treat the above as direction, not committed scope, per this document's status
-discipline. Full detail in `docs/lock_in_remediation_plan.md`; the raw verbatim
-working brief is archived externally (not in-repo).
+Full curated plan: `docs/lock_in_remediation_plan.md`. Complete dated arc: `docs/findings/INDEX.md`.
 
 ### Two-Operator Coherence program (spec v0.2 → v0.3) — in progress
 

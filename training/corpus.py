@@ -35,7 +35,7 @@ TRAIN_PATH = CORPUS_DIR / "rhythm_train.jsonl"
 HOLDOUT_PATH = CORPUS_DIR / "rhythm_holdout.jsonl"
 MANIFEST_PATH = CORPUS_DIR / "MANIFEST.md"
 
-RHYTHMS = ("stabilize", "dream", "reflect", "explore")
+RHYTHMS = ("stabilize", "dream", "reflect", "explore", "rupture")
 
 
 def load_corpus(path: Path) -> List[dict]:

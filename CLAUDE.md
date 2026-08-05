@@ -9,6 +9,11 @@ the tree.
 **Documentation map.** Keep these in sync when you change behavior (the README
 project-structure tree is enforced by `tests/doc_accuracy/verify_docs.py`):
 
+- `STATE.md` — **read first**: the repo-root "you are here" — current capabilities, the
+  **SETTLED** questions that must not be reopened (e.g. the field lock is by-design; it
+  cannot be unlocked via the corpus — falsified + a 5000-step run), the parked levers, the
+  one open frontier (the speech cortex), and the 4-role sibling map. Everything below is depth
+  behind it; this is the entry that stops re-derivation.
 - `README.md` — overview, structural tour, run commands, project-structure tree.
 - `docs/north_star.md` — **the compass**: the end goal (a communicating,
   self-understanding, safely self-modifying system), the three voices (waking
