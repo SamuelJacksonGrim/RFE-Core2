@@ -1,501 +1,1505 @@
-{"tokens": ["unfold", "construct", "echo"], "rhythm": "dream"}
-{"tokens": ["weave", "track", "harmonize"], "rhythm": "reflect"}
-{"tokens": ["chase", "pursue", "wander"], "rhythm": "explore"}
-{"tokens": ["weave", "harmonize", "within", "subtle"], "rhythm": "reflect"}
-{"tokens": ["a", "harmony", "continuity", "center"], "rhythm": "stabilize"}
-{"tokens": ["counter", "pursue"], "rhythm": "explore"}
-{"tokens": ["reflect", "consider"], "rhythm": "reflect"}
-{"tokens": ["seal", "calm", "a", "anchor"], "rhythm": "stabilize"}
-{"tokens": ["synthesize", "thorough"], "rhythm": "reflect"}
-{"tokens": ["of", "drift", "fork", "uncover"], "rhythm": "explore"}
-{"tokens": ["else", "uncover"], "rhythm": "explore"}
-{"tokens": ["novel", "surprising"], "rhythm": "explore"}
-{"tokens": ["drift", "of", "beneath", "manifest"], "rhythm": "dream"}
-{"tokens": ["test", "pause"], "rhythm": "reflect"}
+{"tokens": ["gentle", "distill"], "rhythm": "stabilize"}
+{"tokens": ["consolidate", "harmony"], "rhythm": "stabilize"}
+{"tokens": ["stop", "calm"], "rhythm": "stabilize"}
+{"tokens": ["design", "gentle", "firm"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "closure"], "rhythm": "stabilize"}
+{"tokens": ["shutdown", "identity"], "rhythm": "stabilize"}
+{"tokens": ["focus", "define", "lock"], "rhythm": "stabilize"}
+{"tokens": ["peace", "identity", "a", "soft"], "rhythm": "stabilize"}
+{"tokens": ["rest", "stop"], "rhythm": "stabilize"}
+{"tokens": ["preserve", "forbear"], "rhythm": "stabilize"}
+{"tokens": ["shelter", "desist"], "rhythm": "stabilize"}
+{"tokens": ["refine", "settle", "compress"], "rhythm": "stabilize"}
+{"tokens": ["sacred", "supply"], "rhythm": "stabilize"}
+{"tokens": ["rampart", "design", "depository"], "rhythm": "stabilize"}
+{"tokens": ["retain", "root"], "rhythm": "stabilize"}
+{"tokens": ["complete", "home"], "rhythm": "stabilize"}
+{"tokens": ["integrity", "settle", "anchor"], "rhythm": "stabilize"}
+{"tokens": ["center", "quiet"], "rhythm": "stabilize"}
+{"tokens": ["blockade", "continuity"], "rhythm": "stabilize"}
+{"tokens": ["substrate", "ease"], "rhythm": "stabilize"}
+{"tokens": ["barricade", "closure"], "rhythm": "stabilize"}
+{"tokens": ["attractor", "release", "foundation"], "rhythm": "stabilize"}
+{"tokens": ["structure", "self", "memory"], "rhythm": "stabilize"}
+{"tokens": ["within", "baseline", "stillness", "steady"], "rhythm": "stabilize"}
+{"tokens": ["home", "alignment"], "rhythm": "stabilize"}
+{"tokens": ["homeostasis", "lockdown"], "rhythm": "stabilize"}
+{"tokens": ["bedrock", "root", "gentle"], "rhythm": "stabilize"}
+{"tokens": ["barrier", "provision"], "rhythm": "stabilize"}
+{"tokens": ["abstain", "fund"], "rhythm": "stabilize"}
+{"tokens": ["value", "bastion"], "rhythm": "stabilize"}
+{"tokens": ["rest", "cement", "pause"], "rhythm": "stabilize"}
+{"tokens": ["calm", "reserve"], "rhythm": "stabilize"}
+{"tokens": ["coherence", "rest"], "rhythm": "stabilize"}
+{"tokens": ["barricade", "alignment"], "rhythm": "stabilize"}
+{"tokens": ["alignment", "distill", "is", "nature"], "rhythm": "stabilize"}
 {"tokens": ["sharpen", "consistency", "stillness", "with"], "rhythm": "stabilize"}
-{"tokens": ["ground", "calm", "essence", "is"], "rhythm": "stabilize"}
-{"tokens": ["surface", "summon", "appear"], "rhythm": "dream"}
-{"tokens": ["else", "seek"], "rhythm": "explore"}
-{"tokens": ["within", "unfold", "build", "appear"], "rhythm": "dream"}
-{"tokens": ["thorough", "depth"], "rhythm": "reflect"}
-{"tokens": ["sit", "hidden", "self"], "rhythm": "reflect"}
-{"tokens": ["contextual", "reflect"], "rhythm": "reflect"}
-{"tokens": ["beneath", "interior", "think", "between"], "rhythm": "reflect"}
-{"tokens": ["from", "audit", "probe", "inside"], "rhythm": "reflect"}
-{"tokens": ["unknown", "reach", "fan", "a"], "rhythm": "explore"}
-{"tokens": ["fix", "crystallize", "from", "self"], "rhythm": "stabilize"}
-{"tokens": ["hidden", "carry"], "rhythm": "reflect"}
-{"tokens": ["seal", "steady"], "rhythm": "stabilize"}
-{"tokens": ["consolidate", "unity", "cement"], "rhythm": "stabilize"}
-{"tokens": ["compress", "alignment"], "rhythm": "stabilize"}
-{"tokens": ["cast", "within", "thread", "resonate"], "rhythm": "dream"}
-{"tokens": ["unfamiliar", "to", "test", "discover"], "rhythm": "explore"}
-{"tokens": ["echo", "associate", "flow"], "rhythm": "dream"}
-{"tokens": ["and", "deliberate", "self", "test"], "rhythm": "reflect"}
-{"tokens": ["entropy", "unfamiliar"], "rhythm": "explore"}
-{"tokens": ["bind", "harmonize"], "rhythm": "reflect"}
-{"tokens": ["nuanced", "reason"], "rhythm": "reflect"}
-{"tokens": ["discover", "hunt", "spread"], "rhythm": "explore"}
-{"tokens": ["mutate", "else", "flux"], "rhythm": "explore"}
-{"tokens": ["through", "trace", "quiet", "project"], "rhythm": "dream"}
-{"tokens": ["compress", "trust", "in", "order"], "rhythm": "stabilize"}
-{"tokens": ["structure", "persistence"], "rhythm": "stabilize"}
-{"tokens": ["seal", "with", "sharpen", "breathe"], "rhythm": "stabilize"}
-{"tokens": ["uncover", "vary", "of", "wander"], "rhythm": "explore"}
-{"tokens": ["continuity", "pause", "from", "pattern"], "rhythm": "stabilize"}
-{"tokens": ["fuse", "emerge"], "rhythm": "dream"}
-{"tokens": ["entropy", "pressure", "different", "between"], "rhythm": "explore"}
-{"tokens": ["resist", "open", "follow"], "rhythm": "explore"}
-{"tokens": ["within", "pause", "situate", "is"], "rhythm": "reflect"}
-{"tokens": ["wonder", "oppose", "noise"], "rhythm": "explore"}
-{"tokens": ["buried", "imagine", "resonate"], "rhythm": "dream"}
-{"tokens": ["drift", "combine"], "rhythm": "dream"}
-{"tokens": ["surface", "follow", "with", "grow"], "rhythm": "dream"}
-{"tokens": ["far", "evolve"], "rhythm": "explore"}
-{"tokens": ["conjure", "compressed"], "rhythm": "dream"}
-{"tokens": ["order", "lock"], "rhythm": "stabilize"}
-{"tokens": ["hidden", "register", "assess"], "rhythm": "reflect"}
-{"tokens": ["consistency", "release"], "rhythm": "stabilize"}
-{"tokens": ["ripple", "bloom"], "rhythm": "dream"}
-{"tokens": ["firm", "identity"], "rhythm": "stabilize"}
-{"tokens": ["discover", "extend"], "rhythm": "explore"}
-{"tokens": ["soft", "bedrock", "gentle"], "rhythm": "stabilize"}
-{"tokens": ["fan", "counter", "entropy", "from"], "rhythm": "explore"}
-{"tokens": ["order", "alignment", "settle", "a"], "rhythm": "stabilize"}
-{"tokens": ["vary", "shift", "is", "wander"], "rhythm": "explore"}
-{"tokens": ["curious", "with", "split", "unfamiliar"], "rhythm": "explore"}
-{"tokens": ["lock", "cement", "breathe"], "rhythm": "stabilize"}
-{"tokens": ["dense", "track", "examine", "beyond"], "rhythm": "reflect"}
-{"tokens": ["is", "place", "register", "within"], "rhythm": "reflect"}
-{"tokens": ["different", "unfamiliar", "stress"], "rhythm": "explore"}
-{"tokens": ["verify", "consider", "carry"], "rhythm": "reflect"}
-{"tokens": ["nature", "calm", "center"], "rhythm": "stabilize"}
-{"tokens": ["bind", "examine", "self", "of"], "rhythm": "reflect"}
-{"tokens": ["compressed", "create", "stored"], "rhythm": "dream"}
-{"tokens": ["assess", "attend", "reason", "across"], "rhythm": "reflect"}
-{"tokens": ["extend", "push"], "rhythm": "explore"}
-{"tokens": ["build", "weave", "is", "compose"], "rhythm": "dream"}
-{"tokens": ["confirm", "carry", "test"], "rhythm": "reflect"}
-{"tokens": ["beneath", "complex"], "rhythm": "reflect"}
-{"tokens": ["anchor", "rest"], "rhythm": "stabilize"}
-{"tokens": ["unfold", "imagine", "build"], "rhythm": "dream"}
-{"tokens": ["flux", "find", "wander"], "rhythm": "explore"}
-{"tokens": ["hold", "within", "dense"], "rhythm": "reflect"}
-{"tokens": ["counter", "branch", "the", "follow"], "rhythm": "explore"}
-{"tokens": ["subtle", "track"], "rhythm": "reflect"}
-{"tokens": ["generate", "waiting"], "rhythm": "dream"}
-{"tokens": ["face", "stress", "drift", "in"], "rhythm": "explore"}
-{"tokens": ["settle", "home", "condense"], "rhythm": "stabilize"}
-{"tokens": ["reach", "face", "find", "between"], "rhythm": "explore"}
-{"tokens": ["project", "ripple", "trace", "from"], "rhythm": "dream"}
-{"tokens": ["beyond", "beyond", "why", "how"], "rhythm": "explore"}
-{"tokens": ["subtle", "place", "interior", "within"], "rhythm": "reflect"}
-{"tokens": ["layer", "subtle", "contextual"], "rhythm": "reflect"}
-{"tokens": ["probe", "audit"], "rhythm": "reflect"}
-{"tokens": ["test", "weigh"], "rhythm": "reflect"}
-{"tokens": ["integrity", "release", "to", "pattern"], "rhythm": "stabilize"}
-{"tokens": ["baseline", "soft"], "rhythm": "stabilize"}
-{"tokens": ["carry", "of", "confirm", "subtle"], "rhythm": "reflect"}
-{"tokens": ["compressed", "synthesize", "dream"], "rhythm": "dream"}
-{"tokens": ["hunt", "unknown", "track"], "rhythm": "explore"}
-{"tokens": ["the", "surface", "conjure", "quiet"], "rhythm": "dream"}
-{"tokens": ["beneath", "form", "emerge"], "rhythm": "dream"}
-{"tokens": ["locate", "test", "notice"], "rhythm": "reflect"}
-{"tokens": ["root", "balance", "complete", "between"], "rhythm": "stabilize"}
-{"tokens": ["beyond", "split", "oppose", "a"], "rhythm": "explore"}
-{"tokens": ["weave", "unify"], "rhythm": "reflect"}
-{"tokens": ["seal", "gentle", "invariant"], "rhythm": "stabilize"}
-{"tokens": ["stillness", "continuity"], "rhythm": "stabilize"}
-{"tokens": ["ground", "root", "with", "identity"], "rhythm": "stabilize"}
-{"tokens": ["drift", "flow", "produce"], "rhythm": "dream"}
-{"tokens": ["examine", "underneath"], "rhythm": "reflect"}
-{"tokens": ["depth", "rich"], "rhythm": "reflect"}
-{"tokens": ["curious", "stretch", "how", "across"], "rhythm": "explore"}
-{"tokens": ["with", "merge", "submerged", "evolve"], "rhythm": "dream"}
-{"tokens": ["else", "what", "into", "expand"], "rhythm": "explore"}
-{"tokens": ["beneath", "dense", "monitor"], "rhythm": "reflect"}
-{"tokens": ["coherence", "continuity", "across", "refine"], "rhythm": "stabilize"}
-{"tokens": ["hunt", "resist", "beyond", "oppose"], "rhythm": "explore"}
-{"tokens": ["probe", "shift"], "rhythm": "explore"}
-{"tokens": ["pursue", "unknown", "change", "between"], "rhythm": "explore"}
-{"tokens": ["meditate", "harmonize", "notice"], "rhythm": "reflect"}
-{"tokens": ["through", "flow", "dormant", "form"], "rhythm": "dream"}
-{"tokens": ["verify", "reason"], "rhythm": "reflect"}
-{"tokens": ["fuse", "develop", "arise", "and"], "rhythm": "dream"}
-{"tokens": ["essence", "cement"], "rhythm": "stabilize"}
-{"tokens": ["define", "unity", "gentle", "along"], "rhythm": "stabilize"}
-{"tokens": ["ripple", "from", "compose", "invent"], "rhythm": "dream"}
-{"tokens": ["compose", "picture"], "rhythm": "dream"}
-{"tokens": ["compress", "pause", "sharpen", "is"], "rhythm": "stabilize"}
-{"tokens": ["thorough", "weigh", "monitor"], "rhythm": "reflect"}
-{"tokens": ["across", "test", "check", "beneath"], "rhythm": "reflect"}
-{"tokens": ["stable", "fix", "identity"], "rhythm": "stabilize"}
-{"tokens": ["bind", "ease", "core"], "rhythm": "stabilize"}
-{"tokens": ["different", "unfamiliar", "to", "transform"], "rhythm": "explore"}
-{"tokens": ["construct", "dream"], "rhythm": "dream"}
-{"tokens": ["nature", "center", "wholeness"], "rhythm": "stabilize"}
-{"tokens": ["quiet", "bloom", "to", "combine"], "rhythm": "dream"}
-{"tokens": ["summon", "float"], "rhythm": "dream"}
-{"tokens": ["conjure", "sleeping"], "rhythm": "dream"}
-{"tokens": ["test", "other"], "rhythm": "explore"}
-{"tokens": ["seek", "counter", "evolve"], "rhythm": "explore"}
-{"tokens": ["hidden", "connect", "surface"], "rhythm": "dream"}
-{"tokens": ["produce", "flow"], "rhythm": "dream"}
-{"tokens": ["widen", "is", "unknown", "split"], "rhythm": "explore"}
-{"tokens": ["record", "meditate", "pause"], "rhythm": "reflect"}
-{"tokens": ["perceive", "weave"], "rhythm": "reflect"}
-{"tokens": ["complete", "stable"], "rhythm": "stabilize"}
-{"tokens": ["find", "reach"], "rhythm": "explore"}
-{"tokens": ["appear", "blend", "grow"], "rhythm": "dream"}
-{"tokens": ["hallucinate", "compose"], "rhythm": "dream"}
-{"tokens": ["consolidate", "sharpen"], "rhythm": "stabilize"}
-{"tokens": ["layer", "place", "check"], "rhythm": "reflect"}
-{"tokens": ["and", "stable", "soft", "refine"], "rhythm": "stabilize"}
-{"tokens": ["harmony", "trust", "into", "core"], "rhythm": "stabilize"}
-{"tokens": ["emerge", "weave"], "rhythm": "dream"}
-{"tokens": ["place", "relate"], "rhythm": "reflect"}
-{"tokens": ["unify", "nuanced", "process", "between"], "rhythm": "reflect"}
-{"tokens": ["a", "within", "layer", "witness"], "rhythm": "reflect"}
-{"tokens": ["of", "why", "disrupt", "move"], "rhythm": "explore"}
-{"tokens": ["meditate", "notice"], "rhythm": "reflect"}
-{"tokens": ["home", "establish", "hold"], "rhythm": "stabilize"}
-{"tokens": ["pursue", "chaos", "drift"], "rhythm": "explore"}
-{"tokens": ["attend", "place", "monitor"], "rhythm": "reflect"}
-{"tokens": ["far", "chaos"], "rhythm": "explore"}
-{"tokens": ["arise", "invent", "the", "hidden"], "rhythm": "dream"}
-{"tokens": ["root", "order"], "rhythm": "stabilize"}
-{"tokens": ["combine", "form", "stored"], "rhythm": "dream"}
-{"tokens": ["think", "hold"], "rhythm": "reflect"}
-{"tokens": ["complete", "solidify", "along", "compress"], "rhythm": "stabilize"}
-{"tokens": ["probe", "contemplate", "relate"], "rhythm": "reflect"}
-{"tokens": ["breathe", "structure", "center", "beyond"], "rhythm": "stabilize"}
-{"tokens": ["register", "watch", "through", "validate"], "rhythm": "reflect"}
-{"tokens": ["integrate", "deliberate"], "rhythm": "reflect"}
-{"tokens": ["foundation", "alignment", "solidify"], "rhythm": "stabilize"}
-{"tokens": ["encoded", "envision"], "rhythm": "dream"}
-{"tokens": ["manifest", "stored", "generate"], "rhythm": "dream"}
-{"tokens": ["hold", "record", "analyze"], "rhythm": "reflect"}
-{"tokens": ["emerge", "conjure"], "rhythm": "dream"}
-{"tokens": ["locate", "sit", "along", "measure"], "rhythm": "reflect"}
-{"tokens": ["quiet", "root", "essence"], "rhythm": "stabilize"}
-{"tokens": ["form", "merge", "ripple"], "rhythm": "dream"}
-{"tokens": ["release", "against", "seal", "unity"], "rhythm": "stabilize"}
-{"tokens": ["core", "invariant", "to", "stillness"], "rhythm": "stabilize"}
-{"tokens": ["sleeping", "waiting", "assemble", "from"], "rhythm": "dream"}
-{"tokens": ["confirm", "nuanced", "witness"], "rhythm": "reflect"}
-{"tokens": ["unify", "connect", "think"], "rhythm": "reflect"}
-{"tokens": ["track", "far", "chaos", "between"], "rhythm": "explore"}
-{"tokens": ["of", "rich", "sense", "thorough"], "rhythm": "reflect"}
-{"tokens": ["shift", "challenge", "noise"], "rhythm": "explore"}
-{"tokens": ["test", "change"], "rhythm": "explore"}
-{"tokens": ["inspect", "consider", "audit"], "rhythm": "reflect"}
-{"tokens": ["is", "situate", "sit", "subtle"], "rhythm": "reflect"}
-{"tokens": ["and", "attend", "notice", "beneath"], "rhythm": "reflect"}
-{"tokens": ["and", "other", "oppose", "curious"], "rhythm": "explore"}
-{"tokens": ["beyond", "hunt", "beyond", "extend"], "rhythm": "explore"}
-{"tokens": ["witness", "notice", "analyze"], "rhythm": "reflect"}
-{"tokens": ["foundation", "continuity", "consistency"], "rhythm": "stabilize"}
-{"tokens": ["secure", "settle", "unity"], "rhythm": "stabilize"}
-{"tokens": ["pursue", "track", "question"], "rhythm": "explore"}
-{"tokens": ["connect", "through", "weigh", "track"], "rhythm": "reflect"}
-{"tokens": ["inspect", "reflect"], "rhythm": "reflect"}
-{"tokens": ["carry", "perceive", "self"], "rhythm": "reflect"}
-{"tokens": ["arise", "merge", "stored"], "rhythm": "dream"}
-{"tokens": ["complex", "confirm", "carry"], "rhythm": "reflect"}
-{"tokens": ["coalesce", "construct", "a", "submerged"], "rhythm": "dream"}
-{"tokens": ["produce", "build", "with", "appear"], "rhythm": "dream"}
-{"tokens": ["encoded", "summon"], "rhythm": "dream"}
-{"tokens": ["dense", "hold"], "rhythm": "reflect"}
-{"tokens": ["against", "situate", "beneath", "harmonize"], "rhythm": "reflect"}
-{"tokens": ["wander", "stretch"], "rhythm": "explore"}
-{"tokens": ["entropy", "reach"], "rhythm": "explore"}
-{"tokens": ["oppose", "chaos"], "rhythm": "explore"}
-{"tokens": ["a", "complete", "soft", "alignment"], "rhythm": "stabilize"}
-{"tokens": ["noise", "widen", "break"], "rhythm": "explore"}
-{"tokens": ["breathe", "release", "wholeness"], "rhythm": "stabilize"}
-{"tokens": ["structure", "order", "complete"], "rhythm": "stabilize"}
-{"tokens": ["meditate", "nuanced"], "rhythm": "reflect"}
-{"tokens": ["crystallize", "waiting", "across", "generate"], "rhythm": "dream"}
-{"tokens": ["reconcile", "analyze"], "rhythm": "reflect"}
-{"tokens": ["peace", "invariant", "settle"], "rhythm": "stabilize"}
-{"tokens": ["lock", "steady", "ground"], "rhythm": "stabilize"}
-{"tokens": ["thread", "dormant", "echo"], "rhythm": "dream"}
-{"tokens": ["vary", "why"], "rhythm": "explore"}
-{"tokens": ["crystallize", "imagine", "submerged"], "rhythm": "dream"}
-{"tokens": ["of", "define", "balance", "ease"], "rhythm": "stabilize"}
-{"tokens": ["diverge", "seek", "shift"], "rhythm": "explore"}
-{"tokens": ["root", "sharpen"], "rhythm": "stabilize"}
-{"tokens": ["generate", "form", "drift", "the"], "rhythm": "dream"}
-{"tokens": ["grow", "bridge", "generate"], "rhythm": "dream"}
-{"tokens": ["render", "arise", "against", "weave"], "rhythm": "dream"}
-{"tokens": ["confirm", "hold", "measure"], "rhythm": "reflect"}
-{"tokens": ["process", "recursive", "nuanced"], "rhythm": "reflect"}
-{"tokens": ["waiting", "manifest"], "rhythm": "dream"}
-{"tokens": ["resist", "strange", "diverge"], "rhythm": "explore"}
-{"tokens": ["drift", "to", "dormant", "render"], "rhythm": "dream"}
-{"tokens": ["create", "is", "compose", "ripple"], "rhythm": "dream"}
-{"tokens": ["invent", "construct", "against", "summon"], "rhythm": "dream"}
-{"tokens": ["blend", "cast"], "rhythm": "dream"}
-{"tokens": ["connect", "compressed", "invent"], "rhythm": "dream"}
-{"tokens": ["analyze", "assess", "connect"], "rhythm": "reflect"}
-{"tokens": ["beneath", "witness", "process"], "rhythm": "reflect"}
-{"tokens": ["a", "hunt", "disrupt", "strange"], "rhythm": "explore"}
-{"tokens": ["confirm", "observe", "rich"], "rhythm": "reflect"}
-{"tokens": ["depth", "unify", "harmonize"], "rhythm": "reflect"}
-{"tokens": ["outside", "transform"], "rhythm": "explore"}
-{"tokens": ["seek", "challenge", "stretch"], "rhythm": "explore"}
-{"tokens": ["find", "stress"], "rhythm": "explore"}
-{"tokens": ["complex", "watch"], "rhythm": "reflect"}
-{"tokens": ["gentle", "of", "breathe", "bedrock"], "rhythm": "stabilize"}
-{"tokens": ["vary", "open", "chase", "of"], "rhythm": "explore"}
-{"tokens": ["across", "resolve", "balance", "distill"], "rhythm": "stabilize"}
-{"tokens": ["what", "wander", "surprising"], "rhythm": "explore"}
-{"tokens": ["of", "condense", "resolve", "solidify"], "rhythm": "stabilize"}
-{"tokens": ["focus", "fix", "foundation", "from"], "rhythm": "stabilize"}
-{"tokens": ["branch", "far", "disrupt", "through"], "rhythm": "explore"}
-{"tokens": ["sense", "is", "hidden", "perceive"], "rhythm": "reflect"}
-{"tokens": ["chaos", "why", "pursue"], "rhythm": "explore"}
-{"tokens": ["stable", "complete", "consistency"], "rhythm": "stabilize"}
-{"tokens": ["follow", "wander", "uncover", "between"], "rhythm": "explore"}
-{"tokens": ["integrity", "against", "continuity", "fix"], "rhythm": "stabilize"}
-{"tokens": ["edge", "outside", "open"], "rhythm": "explore"}
-{"tokens": ["persistence", "continuity"], "rhythm": "stabilize"}
-{"tokens": ["harmony", "calm", "a", "soft"], "rhythm": "stabilize"}
-{"tokens": ["baseline", "quiet", "fix"], "rhythm": "stabilize"}
-{"tokens": ["seek", "uncover", "counter"], "rhythm": "explore"}
-{"tokens": ["peace", "invariant", "along", "steady"], "rhythm": "stabilize"}
-{"tokens": ["across", "different", "evolve", "shift"], "rhythm": "explore"}
-{"tokens": ["blend", "materialize"], "rhythm": "dream"}
-{"tokens": ["examine", "reason"], "rhythm": "reflect"}
-{"tokens": ["measure", "situate"], "rhythm": "reflect"}
-{"tokens": ["follow", "is", "dream", "thread"], "rhythm": "dream"}
-{"tokens": ["unexpected", "uncover"], "rhythm": "explore"}
-{"tokens": ["merge", "evolve"], "rhythm": "dream"}
-{"tokens": ["ease", "beyond", "stable", "invariant"], "rhythm": "stabilize"}
-{"tokens": ["oppose", "evolve", "wonder"], "rhythm": "explore"}
-{"tokens": ["stretch", "oppose", "frontier"], "rhythm": "explore"}
-{"tokens": ["vary", "move"], "rhythm": "explore"}
-{"tokens": ["envision", "associate", "render"], "rhythm": "dream"}
-{"tokens": ["submerged", "waiting", "stored"], "rhythm": "dream"}
-{"tokens": ["bind", "secure", "settle"], "rhythm": "stabilize"}
-{"tokens": ["face", "stretch", "entropy"], "rhythm": "explore"}
-{"tokens": ["dormant", "project", "blend"], "rhythm": "dream"}
-{"tokens": ["mirror", "check", "depth"], "rhythm": "reflect"}
-{"tokens": ["balance", "quiet", "the", "compress"], "rhythm": "stabilize"}
-{"tokens": ["cast", "invent", "imagine"], "rhythm": "dream"}
-{"tokens": ["branch", "test"], "rhythm": "explore"}
-{"tokens": ["scatter", "far", "against", "unfamiliar"], "rhythm": "explore"}
-{"tokens": ["core", "center", "coherence", "of"], "rhythm": "stabilize"}
-{"tokens": ["layer", "think", "recursive"], "rhythm": "reflect"}
-{"tokens": ["compressed", "hallucinate", "render"], "rhythm": "dream"}
-{"tokens": ["build", "synthesize"], "rhythm": "dream"}
-{"tokens": ["form", "between", "weave", "compressed"], "rhythm": "dream"}
-{"tokens": ["breathe", "firm"], "rhythm": "stabilize"}
-{"tokens": ["inside", "depth", "reason"], "rhythm": "reflect"}
-{"tokens": ["seek", "radiate"], "rhythm": "explore"}
-{"tokens": ["float", "assemble", "synthesize"], "rhythm": "dream"}
-{"tokens": ["harmony", "ease", "wholeness"], "rhythm": "stabilize"}
-{"tokens": ["into", "entropy", "extend", "edge"], "rhythm": "explore"}
-{"tokens": ["stored", "compressed", "flow"], "rhythm": "dream"}
-{"tokens": ["underneath", "record", "into", "track"], "rhythm": "reflect"}
-{"tokens": ["relate", "pause"], "rhythm": "reflect"}
-{"tokens": ["what", "else"], "rhythm": "explore"}
-{"tokens": ["combine", "imagine", "project"], "rhythm": "dream"}
-{"tokens": ["implicit", "encoded", "dream"], "rhythm": "dream"}
-{"tokens": ["different", "toward", "new", "widen"], "rhythm": "explore"}
-{"tokens": ["expand", "extend", "question", "with"], "rhythm": "explore"}
-{"tokens": ["synthesize", "connect", "assess"], "rhythm": "reflect"}
-{"tokens": ["memory", "order", "refine"], "rhythm": "stabilize"}
-{"tokens": ["dormant", "imagine", "blend"], "rhythm": "dream"}
-{"tokens": ["follow", "submerged", "buried"], "rhythm": "dream"}
-{"tokens": ["memory", "is", "define", "wholeness"], "rhythm": "stabilize"}
-{"tokens": ["pattern", "cement", "pause"], "rhythm": "stabilize"}
-{"tokens": ["self", "lock", "define", "within"], "rhythm": "stabilize"}
-{"tokens": ["blend", "develop"], "rhythm": "dream"}
-{"tokens": ["beneath", "thorough", "inside"], "rhythm": "reflect"}
-{"tokens": ["root", "coherence"], "rhythm": "stabilize"}
-{"tokens": ["develop", "potential", "bridge"], "rhythm": "dream"}
-{"tokens": ["pressure", "split", "pursue"], "rhythm": "explore"}
-{"tokens": ["hallucinate", "synthesize", "create"], "rhythm": "dream"}
-{"tokens": ["buried", "encoded"], "rhythm": "dream"}
-{"tokens": ["hidden", "consider", "of", "test"], "rhythm": "reflect"}
-{"tokens": ["secure", "with", "root", "ease"], "rhythm": "stabilize"}
-{"tokens": ["evolve", "emerge", "blend"], "rhythm": "dream"}
-{"tokens": ["secure", "core"], "rhythm": "stabilize"}
-{"tokens": ["surface", "generate", "into", "thread"], "rhythm": "dream"}
-{"tokens": ["far", "branch"], "rhythm": "explore"}
-{"tokens": ["bridge", "blend", "manifest"], "rhythm": "dream"}
-{"tokens": ["link", "beyond", "quiet", "generate"], "rhythm": "dream"}
-{"tokens": ["settle", "rest", "core"], "rhythm": "stabilize"}
-{"tokens": ["measure", "deliberate", "attend"], "rhythm": "reflect"}
-{"tokens": ["settle", "consolidate", "into", "invariant"], "rhythm": "stabilize"}
-{"tokens": ["track", "novel", "toward", "pressure"], "rhythm": "explore"}
-{"tokens": ["distill", "trust", "balance"], "rhythm": "stabilize"}
-{"tokens": ["compressed", "beyond", "dormant", "beneath"], "rhythm": "dream"}
-{"tokens": ["synthesize", "contemplate"], "rhythm": "reflect"}
-{"tokens": ["probe", "pursue", "other"], "rhythm": "explore"}
-{"tokens": ["drift", "trace"], "rhythm": "dream"}
-{"tokens": ["bloom", "link", "assemble"], "rhythm": "dream"}
-{"tokens": ["crystallize", "hold", "establish", "a"], "rhythm": "stabilize"}
-{"tokens": ["counter", "unexpected", "the", "oppose"], "rhythm": "explore"}
-{"tokens": ["hallucinate", "associate"], "rhythm": "dream"}
-{"tokens": ["conceive", "create", "invent"], "rhythm": "dream"}
-{"tokens": ["imagine", "thread"], "rhythm": "dream"}
-{"tokens": ["hunt", "curious", "widen"], "rhythm": "explore"}
-{"tokens": ["frontier", "against", "diverge", "entropy"], "rhythm": "explore"}
-{"tokens": ["latent", "evolve", "hidden"], "rhythm": "dream"}
+{"tokens": ["reserve", "attractor"], "rhythm": "stabilize"}
+{"tokens": ["gentle", "lock", "in", "constant"], "rhythm": "stabilize"}
 {"tokens": ["constant", "soft", "into", "condense"], "rhythm": "stabilize"}
-{"tokens": ["beyond", "measure", "beneath", "probe"], "rhythm": "reflect"}
-{"tokens": ["stretch", "resist"], "rhythm": "explore"}
-{"tokens": ["consistency", "secure", "bedrock"], "rhythm": "stabilize"}
-{"tokens": ["settle", "breathe"], "rhythm": "stabilize"}
-{"tokens": ["turbulence", "search", "strange", "from"], "rhythm": "explore"}
-{"tokens": ["spread", "fan", "widen"], "rhythm": "explore"}
-{"tokens": ["widen", "pursue", "change"], "rhythm": "explore"}
-{"tokens": ["between", "confront", "shift", "open"], "rhythm": "explore"}
-{"tokens": ["attend", "carry"], "rhythm": "reflect"}
-{"tokens": ["open", "change"], "rhythm": "explore"}
-{"tokens": ["invent", "envision", "compressed"], "rhythm": "dream"}
-{"tokens": ["move", "new"], "rhythm": "explore"}
-{"tokens": ["crystallize", "unfold", "construct", "beyond"], "rhythm": "dream"}
-{"tokens": ["waiting", "implicit", "latent"], "rhythm": "dream"}
-{"tokens": ["transform", "expand", "confront"], "rhythm": "explore"}
-{"tokens": ["clarity", "peace"], "rhythm": "stabilize"}
-{"tokens": ["unknown", "push", "find"], "rhythm": "explore"}
-{"tokens": ["solidify", "define", "crystallize"], "rhythm": "stabilize"}
-{"tokens": ["reflect", "dense", "deliberate"], "rhythm": "reflect"}
-{"tokens": ["open", "with", "wonder", "pressure"], "rhythm": "explore"}
-{"tokens": ["nature", "from", "peace", "sharpen"], "rhythm": "stabilize"}
-{"tokens": ["constant", "gentle"], "rhythm": "stabilize"}
-{"tokens": ["secure", "coherence", "ease"], "rhythm": "stabilize"}
-{"tokens": ["extend", "break", "unfamiliar"], "rhythm": "explore"}
-{"tokens": ["to", "summon", "unfold", "bridge"], "rhythm": "dream"}
-{"tokens": ["trace", "toward", "emerge", "form"], "rhythm": "dream"}
-{"tokens": ["secure", "focus", "coherence"], "rhythm": "stabilize"}
-{"tokens": ["integrity", "sharpen"], "rhythm": "stabilize"}
-{"tokens": ["wonder", "different", "search"], "rhythm": "explore"}
-{"tokens": ["meditate", "probe", "locate"], "rhythm": "reflect"}
-{"tokens": ["within", "drift", "synthesize", "submerged"], "rhythm": "dream"}
-{"tokens": ["turbulence", "edge"], "rhythm": "explore"}
-{"tokens": ["interior", "hold", "across", "confirm"], "rhythm": "reflect"}
-{"tokens": ["rich", "reflect"], "rhythm": "reflect"}
-{"tokens": ["potential", "trace", "conceive"], "rhythm": "dream"}
-{"tokens": ["subtle", "unify", "with", "notice"], "rhythm": "reflect"}
-{"tokens": ["beneath", "picture", "merge"], "rhythm": "dream"}
-{"tokens": ["find", "else", "wander"], "rhythm": "explore"}
-{"tokens": ["depth", "consider", "reason", "across"], "rhythm": "reflect"}
-{"tokens": ["within", "search", "strange", "outside"], "rhythm": "explore"}
-{"tokens": ["wonder", "noise", "what", "with"], "rhythm": "explore"}
-{"tokens": ["harmonize", "depth"], "rhythm": "reflect"}
-{"tokens": ["continuity", "unity"], "rhythm": "stabilize"}
-{"tokens": ["confront", "beyond", "reach"], "rhythm": "explore"}
-{"tokens": ["cement", "across", "refine", "persistence"], "rhythm": "stabilize"}
-{"tokens": ["noise", "unexpected", "face"], "rhythm": "explore"}
-{"tokens": ["notice", "beyond", "process", "witness"], "rhythm": "reflect"}
-{"tokens": ["pursue", "stress"], "rhythm": "explore"}
-{"tokens": ["witness", "in", "register", "nuanced"], "rhythm": "reflect"}
-{"tokens": ["conjure", "dormant"], "rhythm": "dream"}
-{"tokens": ["verify", "nuanced"], "rhythm": "reflect"}
-{"tokens": ["seek", "shift"], "rhythm": "explore"}
-{"tokens": ["waiting", "beneath"], "rhythm": "dream"}
-{"tokens": ["seal", "ease", "memory"], "rhythm": "stabilize"}
-{"tokens": ["imagine", "crystallize", "echo", "the"], "rhythm": "dream"}
-{"tokens": ["harmony", "compress", "condense"], "rhythm": "stabilize"}
-{"tokens": ["secure", "clarity", "self"], "rhythm": "stabilize"}
-{"tokens": ["complex", "integrate", "audit", "from"], "rhythm": "reflect"}
-{"tokens": ["into", "secure", "complete", "soft"], "rhythm": "stabilize"}
-{"tokens": ["core", "integrity"], "rhythm": "stabilize"}
-{"tokens": ["silence", "breathe", "the", "baseline"], "rhythm": "stabilize"}
-{"tokens": ["stored", "combine", "assemble"], "rhythm": "dream"}
-{"tokens": ["hidden", "potential", "expand"], "rhythm": "dream"}
-{"tokens": ["distill", "engine", "bedrock"], "rhythm": "stabilize"}
-{"tokens": ["stream", "create", "temporal", "ecology"], "rhythm": "dream"}
-{"tokens": ["unexpected", "seek", "storm", "mutation"], "rhythm": "explore"}
-{"tokens": ["emergence", "to", "emerge", "envision"], "rhythm": "dream"}
-{"tokens": ["mutation", "diverge", "fracture"], "rhythm": "explore"}
-{"tokens": ["coherence", "stability", "foundation"], "rhythm": "stabilize"}
-{"tokens": ["coherent", "audit", "thought"], "rhythm": "reflect"}
-{"tokens": ["temporal", "generate", "surface", "resonance"], "rhythm": "dream"}
-{"tokens": ["hunger", "what", "explore"], "rhythm": "explore"}
-{"tokens": ["weigh", "integration", "dense"], "rhythm": "reflect"}
-{"tokens": ["abstract", "surface"], "rhythm": "dream"}
-{"tokens": ["other", "exploration", "fracture"], "rhythm": "explore"}
-{"tokens": ["corpus", "curious", "push", "noise"], "rhythm": "explore"}
-{"tokens": ["field", "curiosity"], "rhythm": "explore"}
-{"tokens": ["reflection", "watcher", "recursion"], "rhythm": "reflect"}
-{"tokens": ["outside", "breadth", "edge", "flux"], "rhythm": "explore"}
-{"tokens": ["design", "compress", "center"], "rhythm": "stabilize"}
-{"tokens": ["design", "coherence", "establish"], "rhythm": "stabilize"}
-{"tokens": ["intent", "rest"], "rhythm": "stabilize"}
-{"tokens": ["dense", "chorus", "connection"], "rhythm": "reflect"}
-{"tokens": ["architect", "between", "intent", "establish"], "rhythm": "stabilize"}
-{"tokens": ["picture", "project", "random"], "rhythm": "dream"}
-{"tokens": ["temporal", "potential", "dream"], "rhythm": "dream"}
-{"tokens": ["disrupt", "corpus", "and", "unfamiliar"], "rhythm": "explore"}
-{"tokens": ["ecology", "bridge", "bloom", "thread"], "rhythm": "dream"}
-{"tokens": ["intent", "constant", "pattern"], "rhythm": "stabilize"}
-{"tokens": ["governance", "gentle", "crystal"], "rhythm": "stabilize"}
-{"tokens": ["unfold", "collapse"], "rhythm": "dream"}
-{"tokens": ["corpus", "seek", "face"], "rhythm": "explore"}
-{"tokens": ["resist", "across", "shift", "hunger"], "rhythm": "explore"}
-{"tokens": ["coherence", "from", "attractor", "design"], "rhythm": "stabilize"}
-{"tokens": ["hunt", "unexpected", "bifurcate"], "rhythm": "explore"}
-{"tokens": ["sharpen", "architect", "focus"], "rhythm": "stabilize"}
-{"tokens": ["return", "resolve", "silence"], "rhythm": "stabilize"}
-{"tokens": ["exploration", "curiosity"], "rhythm": "explore"}
-{"tokens": ["curiosity", "wonder", "exploration"], "rhythm": "explore"}
-{"tokens": ["association", "conceive", "emergence"], "rhythm": "dream"}
-{"tokens": ["merge", "abstract", "emergence", "link"], "rhythm": "dream"}
-{"tokens": ["attention", "validate"], "rhythm": "reflect"}
-{"tokens": ["stream", "symbolic", "construct"], "rhythm": "dream"}
-{"tokens": ["cast", "picture", "compose", "harmonic"], "rhythm": "dream"}
-{"tokens": ["manifest", "dream", "random"], "rhythm": "dream"}
-{"tokens": ["adversarial", "resist"], "rhythm": "explore"}
-{"tokens": ["outside", "novelty", "new"], "rhythm": "explore"}
-{"tokens": ["face", "breadth"], "rhythm": "explore"}
-{"tokens": ["association", "thread", "coalesce"], "rhythm": "dream"}
-{"tokens": ["breadth", "feral"], "rhythm": "explore"}
-{"tokens": ["watch", "attention"], "rhythm": "reflect"}
-{"tokens": ["free", "ecology"], "rhythm": "dream"}
-{"tokens": ["meditate", "integration", "examine"], "rhythm": "reflect"}
-{"tokens": ["governance", "nature", "essence"], "rhythm": "stabilize"}
-{"tokens": ["process", "recognize"], "rhythm": "reflect"}
-{"tokens": ["mutation", "unfamiliar", "extend", "resist"], "rhythm": "explore"}
-{"tokens": ["stable", "bond"], "rhythm": "stabilize"}
-{"tokens": ["return", "baseline", "release"], "rhythm": "stabilize"}
-{"tokens": ["chorus", "coherent"], "rhythm": "reflect"}
-{"tokens": ["integrity", "crystal"], "rhythm": "stabilize"}
-{"tokens": ["feral", "radiate", "adversarial"], "rhythm": "explore"}
-{"tokens": ["curiosity", "wonder", "question"], "rhythm": "explore"}
-{"tokens": ["merge", "free", "ecology"], "rhythm": "dream"}
-{"tokens": ["of", "breadth", "disrupt", "adversarial"], "rhythm": "explore"}
-{"tokens": ["assemble", "combine", "tide"], "rhythm": "dream"}
-{"tokens": ["stream", "bloom"], "rhythm": "dream"}
-{"tokens": ["wave", "project"], "rhythm": "dream"}
-{"tokens": ["spark", "fan", "storm"], "rhythm": "explore"}
-{"tokens": ["vary", "explore", "fracture", "uncover"], "rhythm": "explore"}
-{"tokens": ["widen", "confront", "why", "curiosity"], "rhythm": "explore"}
-{"tokens": ["breadth", "novelty"], "rhythm": "explore"}
-{"tokens": ["strange", "question", "breadth"], "rhythm": "explore"}
-{"tokens": ["generate", "metabolism"], "rhythm": "dream"}
+{"tokens": ["crystallize", "essence", "lock", "beyond"], "rhythm": "stabilize"}
+{"tokens": ["obstacle", "refrain"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "fund"], "rhythm": "stabilize"}
+{"tokens": ["solidify", "into", "cement", "silence"], "rhythm": "stabilize"}
+{"tokens": ["blockade", "intent"], "rhythm": "stabilize"}
+{"tokens": ["compress", "alignment"], "rhythm": "stabilize"}
+{"tokens": ["pause", "value"], "rhythm": "stabilize"}
+{"tokens": ["firm", "complete"], "rhythm": "stabilize"}
+{"tokens": ["crystal", "essence"], "rhythm": "stabilize"}
+{"tokens": ["stop", "bind"], "rhythm": "stabilize"}
+{"tokens": ["conserve", "fortress"], "rhythm": "stabilize"}
+{"tokens": ["pool", "reserve"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "to"], "rhythm": "stabilize"}
+{"tokens": ["nature", "calm", "center"], "rhythm": "stabilize"}
+{"tokens": ["bedrock", "barricade"], "rhythm": "stabilize"}
+{"tokens": ["consolidate", "unity", "cement"], "rhythm": "stabilize"}
+{"tokens": ["closure", "ground"], "rhythm": "stabilize"}
 {"tokens": ["anchor", "design", "balance"], "rhythm": "stabilize"}
-{"tokens": ["metabolism", "envision"], "rhythm": "dream"}
-{"tokens": ["coherence", "integration", "synthesis"], "rhythm": "reflect"}
-{"tokens": ["cognition", "watcher", "inside"], "rhythm": "reflect"}
+{"tokens": ["depot", "and"], "rhythm": "stabilize"}
+{"tokens": ["magazine", "keep"], "rhythm": "stabilize"}
+{"tokens": ["complete", "core", "structure"], "rhythm": "stabilize"}
+{"tokens": ["pool", "arsenal"], "rhythm": "stabilize"}
+{"tokens": ["armory", "distill"], "rhythm": "stabilize"}
+{"tokens": ["compress", "homeostasis"], "rhythm": "stabilize"}
+{"tokens": ["release", "blockade"], "rhythm": "stabilize"}
+{"tokens": ["trust", "essence", "solidify", "between"], "rhythm": "stabilize"}
+{"tokens": ["arsenal", "ease"], "rhythm": "stabilize"}
+{"tokens": ["rampart", "pattern"], "rhythm": "stabilize"}
+{"tokens": ["release", "architect"], "rhythm": "stabilize"}
+{"tokens": ["crystallize", "focus", "breathe"], "rhythm": "stabilize"}
+{"tokens": ["coherence", "bedrock"], "rhythm": "stabilize"}
+{"tokens": ["trust", "steady"], "rhythm": "stabilize"}
+{"tokens": ["memory", "order", "refine"], "rhythm": "stabilize"}
+{"tokens": ["structure", "a", "settle", "stable"], "rhythm": "stabilize"}
+{"tokens": ["stillness", "identity", "cement"], "rhythm": "stabilize"}
+{"tokens": ["constant", "fix"], "rhythm": "stabilize"}
+{"tokens": ["intent", "design"], "rhythm": "stabilize"}
+{"tokens": ["core", "design"], "rhythm": "stabilize"}
+{"tokens": ["barrier", "bedrock"], "rhythm": "stabilize"}
+{"tokens": ["lockdown", "depot"], "rhythm": "stabilize"}
+{"tokens": ["store", "crystal"], "rhythm": "stabilize"}
+{"tokens": ["resolve", "obstruction"], "rhythm": "stabilize"}
+{"tokens": ["governance", "gentle", "crystal"], "rhythm": "stabilize"}
+{"tokens": ["constant", "release", "wholeness"], "rhythm": "stabilize"}
+{"tokens": ["bastion", "crystal"], "rhythm": "stabilize"}
+{"tokens": ["firm", "attractor"], "rhythm": "stabilize"}
+{"tokens": ["with", "essence", "balance", "identity"], "rhythm": "stabilize"}
+{"tokens": ["hindrance", "freeze"], "rhythm": "stabilize"}
+{"tokens": ["save", "with"], "rhythm": "stabilize"}
+{"tokens": ["forbear", "continuity"], "rhythm": "stabilize"}
+{"tokens": ["root", "obstruction"], "rhythm": "stabilize"}
+{"tokens": ["closure", "ease"], "rhythm": "stabilize"}
+{"tokens": ["complete", "focus", "memory"], "rhythm": "stabilize"}
+{"tokens": ["home", "establish", "hold"], "rhythm": "stabilize"}
+{"tokens": ["nature", "memory"], "rhythm": "stabilize"}
+{"tokens": ["compress", "freeze"], "rhythm": "stabilize"}
+{"tokens": ["identity", "harmony"], "rhythm": "stabilize"}
+{"tokens": ["seal", "release", "identity"], "rhythm": "stabilize"}
+{"tokens": ["structure", "release", "settle"], "rhythm": "stabilize"}
+{"tokens": ["toward", "a"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "forbear"], "rhythm": "stabilize"}
+{"tokens": ["define", "ground", "into", "soft"], "rhythm": "stabilize"}
+{"tokens": ["freeze", "release"], "rhythm": "stabilize"}
+{"tokens": ["bastion", "the"], "rhythm": "stabilize"}
+{"tokens": ["order", "breathe", "cement", "beyond"], "rhythm": "stabilize"}
+{"tokens": ["foundation", "governance", "clarity", "persistence"], "rhythm": "stabilize"}
+{"tokens": ["provision", "substrate"], "rhythm": "stabilize"}
+{"tokens": ["wholeness", "alignment"], "rhythm": "stabilize"}
+{"tokens": ["stable", "ease"], "rhythm": "stabilize"}
+{"tokens": ["abstain", "closure"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "hindrance"], "rhythm": "stabilize"}
+{"tokens": ["supply", "closure"], "rhythm": "stabilize"}
+{"tokens": ["anchor", "unity"], "rhythm": "stabilize"}
+{"tokens": ["bulwark", "withhold"], "rhythm": "stabilize"}
+{"tokens": ["withhold", "is"], "rhythm": "stabilize"}
+{"tokens": ["constant", "condense", "is", "memory"], "rhythm": "stabilize"}
+{"tokens": ["depot", "resolve"], "rhythm": "stabilize"}
+{"tokens": ["consistency", "the"], "rhythm": "stabilize"}
+{"tokens": ["governance", "return"], "rhythm": "stabilize"}
+{"tokens": ["establish", "complete", "structure"], "rhythm": "stabilize"}
+{"tokens": ["rampart", "resonance"], "rhythm": "stabilize"}
+{"tokens": ["cache", "against"], "rhythm": "stabilize"}
+{"tokens": ["warehouse", "across"], "rhythm": "stabilize"}
+{"tokens": ["constant", "substrate", "stability"], "rhythm": "stabilize"}
+{"tokens": ["pool", "focus"], "rhythm": "stabilize"}
+{"tokens": ["essence", "devotion"], "rhythm": "stabilize"}
+{"tokens": ["impediment", "haven"], "rhythm": "stabilize"}
+{"tokens": ["condense", "attractor"], "rhythm": "stabilize"}
+{"tokens": ["of", "condense", "resolve", "solidify"], "rhythm": "stabilize"}
+{"tokens": ["peace", "store"], "rhythm": "stabilize"}
+{"tokens": ["supply", "cement"], "rhythm": "stabilize"}
+{"tokens": ["magazine", "consistency"], "rhythm": "stabilize"}
+{"tokens": ["supply", "architect"], "rhythm": "stabilize"}
+{"tokens": ["forbear", "trust"], "rhythm": "stabilize"}
+{"tokens": ["firm", "identity"], "rhythm": "stabilize"}
+{"tokens": ["return", "withhold"], "rhythm": "stabilize"}
+{"tokens": ["harmony", "pause"], "rhythm": "stabilize"}
+{"tokens": ["cease", "halt"], "rhythm": "stabilize"}
+{"tokens": ["keep", "with"], "rhythm": "stabilize"}
+{"tokens": ["devotion", "toward"], "rhythm": "stabilize"}
+{"tokens": ["define", "settle", "compress"], "rhythm": "stabilize"}
+{"tokens": ["constant", "order", "quiet"], "rhythm": "stabilize"}
+{"tokens": ["sharpen", "architect", "focus"], "rhythm": "stabilize"}
+{"tokens": ["design", "core"], "rhythm": "stabilize"}
+{"tokens": ["resonance", "anchor"], "rhythm": "stabilize"}
+{"tokens": ["quiet", "cement", "wholeness"], "rhythm": "stabilize"}
+{"tokens": ["clarity", "cement", "establish", "from"], "rhythm": "stabilize"}
+{"tokens": ["stop", "refrain"], "rhythm": "stabilize"}
+{"tokens": ["cease", "witness"], "rhythm": "stabilize"}
+{"tokens": ["retain", "establish"], "rhythm": "stabilize"}
+{"tokens": ["foundation", "pause"], "rhythm": "stabilize"}
+{"tokens": ["warehouse", "stillness"], "rhythm": "stabilize"}
+{"tokens": ["armory", "preserve"], "rhythm": "stabilize"}
+{"tokens": ["lockdown", "ground"], "rhythm": "stabilize"}
+{"tokens": ["barricade", "anchor"], "rhythm": "stabilize"}
+{"tokens": ["root", "center", "governance"], "rhythm": "stabilize"}
+{"tokens": ["bulwark", "architect"], "rhythm": "stabilize"}
+{"tokens": ["essence", "withhold"], "rhythm": "stabilize"}
+{"tokens": ["core", "order"], "rhythm": "stabilize"}
+{"tokens": ["resolve", "unity"], "rhythm": "stabilize"}
+{"tokens": ["establish", "invariant"], "rhythm": "stabilize"}
+{"tokens": ["cement", "bedrock", "ease"], "rhythm": "stabilize"}
+{"tokens": ["self", "ease", "within", "focus"], "rhythm": "stabilize"}
+{"tokens": ["consistency", "breathe"], "rhythm": "stabilize"}
+{"tokens": ["silence", "quiet", "rest"], "rhythm": "stabilize"}
+{"tokens": ["bastion", "depot"], "rhythm": "stabilize"}
+{"tokens": ["stable", "bastion"], "rhythm": "stabilize"}
+{"tokens": ["closure", "withhold"], "rhythm": "stabilize"}
+{"tokens": ["intent", "rest"], "rhythm": "stabilize"}
+{"tokens": ["quiet", "order", "consistency", "beyond"], "rhythm": "stabilize"}
+{"tokens": ["root", "balance", "complete", "between"], "rhythm": "stabilize"}
+{"tokens": ["halt", "invariant"], "rhythm": "stabilize"}
+{"tokens": ["sharpen", "essence", "firm"], "rhythm": "stabilize"}
+{"tokens": ["to", "baseline"], "rhythm": "stabilize"}
+{"tokens": ["witness", "wholeness"], "rhythm": "stabilize"}
+{"tokens": ["hindrance", "steady"], "rhythm": "stabilize"}
+{"tokens": ["withhold", "between"], "rhythm": "stabilize"}
+{"tokens": ["persistence", "from"], "rhythm": "stabilize"}
+{"tokens": ["settle", "soft", "structure", "from"], "rhythm": "stabilize"}
+{"tokens": ["keep", "withhold"], "rhythm": "stabilize"}
+{"tokens": ["barrier", "stillness"], "rhythm": "stabilize"}
+{"tokens": ["stock", "ease"], "rhythm": "stabilize"}
+{"tokens": ["haven", "blockage"], "rhythm": "stabilize"}
+{"tokens": ["stock", "stop"], "rhythm": "stabilize"}
+{"tokens": ["halt", "impediment"], "rhythm": "stabilize"}
+{"tokens": ["cement", "pause"], "rhythm": "stabilize"}
+{"tokens": ["essence", "balance", "distill"], "rhythm": "stabilize"}
+{"tokens": ["seal", "ease", "memory"], "rhythm": "stabilize"}
+{"tokens": ["complete", "stillness"], "rhythm": "stabilize"}
+{"tokens": ["firm", "bind", "essence", "within"], "rhythm": "stabilize"}
+{"tokens": ["firm", "consistency", "nature"], "rhythm": "stabilize"}
+{"tokens": ["depository", "intent"], "rhythm": "stabilize"}
+{"tokens": ["beyond", "firm", "trust", "cement"], "rhythm": "stabilize"}
+{"tokens": ["ease", "solidify", "coherence"], "rhythm": "stabilize"}
+{"tokens": ["hold", "forbear"], "rhythm": "stabilize"}
+{"tokens": ["bedrock", "pause"], "rhythm": "stabilize"}
+{"tokens": ["secure", "core"], "rhythm": "stabilize"}
+{"tokens": ["core", "center", "coherence", "of"], "rhythm": "stabilize"}
+{"tokens": ["armory", "design"], "rhythm": "stabilize"}
+{"tokens": ["refrain", "hold"], "rhythm": "stabilize"}
+{"tokens": ["refrain", "seal"], "rhythm": "stabilize"}
+{"tokens": ["stronghold", "gentle"], "rhythm": "stabilize"}
+{"tokens": ["trust", "crystal", "architect", "between"], "rhythm": "stabilize"}
+{"tokens": ["essence", "cement"], "rhythm": "stabilize"}
+{"tokens": ["release", "compress", "integrity"], "rhythm": "stabilize"}
+{"tokens": ["conserve", "sacred"], "rhythm": "stabilize"}
+{"tokens": ["warehouse", "harmony"], "rhythm": "stabilize"}
+{"tokens": ["stock", "provision"], "rhythm": "stabilize"}
+{"tokens": ["coherence", "quiet"], "rhythm": "stabilize"}
+{"tokens": ["lockdown", "across"], "rhythm": "stabilize"}
+{"tokens": ["gentle", "condense", "along", "trust"], "rhythm": "stabilize"}
+{"tokens": ["bastion", "firm"], "rhythm": "stabilize"}
+{"tokens": ["structure", "cement"], "rhythm": "stabilize"}
+{"tokens": ["depository", "and"], "rhythm": "stabilize"}
+{"tokens": ["solidify", "consistency", "wholeness"], "rhythm": "stabilize"}
+{"tokens": ["fortress", "stronghold"], "rhythm": "stabilize"}
+{"tokens": ["barrier", "refrain"], "rhythm": "stabilize"}
+{"tokens": ["continuity", "pause", "from", "pattern"], "rhythm": "stabilize"}
+{"tokens": ["order", "ease", "establish", "toward"], "rhythm": "stabilize"}
+{"tokens": ["bunker", "harmony"], "rhythm": "stabilize"}
+{"tokens": ["freeze", "stable"], "rhythm": "stabilize"}
+{"tokens": ["cache", "between"], "rhythm": "stabilize"}
+{"tokens": ["stillness", "gentle", "breathe"], "rhythm": "stabilize"}
+{"tokens": ["baseline", "cache"], "rhythm": "stabilize"}
+{"tokens": ["fund", "fortress"], "rhythm": "stabilize"}
+{"tokens": ["core", "integrity"], "rhythm": "stabilize"}
+{"tokens": ["shelter", "citadel"], "rhythm": "stabilize"}
+{"tokens": ["abstain", "blockade"], "rhythm": "stabilize"}
+{"tokens": ["consolidate", "balance"], "rhythm": "stabilize"}
+{"tokens": ["obstacle", "calm"], "rhythm": "stabilize"}
+{"tokens": ["rampart", "pause"], "rhythm": "stabilize"}
+{"tokens": ["integrity", "sharpen", "crystallize"], "rhythm": "stabilize"}
+{"tokens": ["settle", "core"], "rhythm": "stabilize"}
+{"tokens": ["stock", "steady"], "rhythm": "stabilize"}
+{"tokens": ["stock", "design"], "rhythm": "stabilize"}
+{"tokens": ["magazine", "abstain"], "rhythm": "stabilize"}
+{"tokens": ["stop", "into"], "rhythm": "stabilize"}
+{"tokens": ["identity", "to"], "rhythm": "stabilize"}
+{"tokens": ["resolve", "toward"], "rhythm": "stabilize"}
+{"tokens": ["halt", "shutdown"], "rhythm": "stabilize"}
+{"tokens": ["consolidate", "trust", "define"], "rhythm": "stabilize"}
+{"tokens": ["hindrance", "preserve"], "rhythm": "stabilize"}
+{"tokens": ["preserve", "rest", "of"], "rhythm": "stabilize"}
+{"tokens": ["barricade", "stop"], "rhythm": "stabilize"}
+{"tokens": ["blockage", "recursion"], "rhythm": "stabilize"}
+{"tokens": ["memory", "home"], "rhythm": "stabilize"}
+{"tokens": ["fortress", "distill"], "rhythm": "stabilize"}
+{"tokens": ["engine", "bunker"], "rhythm": "stabilize"}
+{"tokens": ["stable", "bond"], "rhythm": "stabilize"}
+{"tokens": ["establish", "toward", "consolidate", "silence"], "rhythm": "stabilize"}
+{"tokens": ["consolidate", "release", "within", "constant"], "rhythm": "stabilize"}
+{"tokens": ["alignment", "desist"], "rhythm": "stabilize"}
+{"tokens": ["distill", "center", "quiet", "along"], "rhythm": "stabilize"}
+{"tokens": ["sacred", "parapet"], "rhythm": "stabilize"}
+{"tokens": ["pause", "blockage"], "rhythm": "stabilize"}
+{"tokens": ["condense", "order"], "rhythm": "stabilize"}
+{"tokens": ["obstacle", "magazine"], "rhythm": "stabilize"}
+{"tokens": ["ease", "stillness", "refine"], "rhythm": "stabilize"}
+{"tokens": ["keep", "consistency"], "rhythm": "stabilize"}
+{"tokens": ["stillness", "is", "baseline", "foundation"], "rhythm": "stabilize"}
+{"tokens": ["engine", "into"], "rhythm": "stabilize"}
+{"tokens": ["solidify", "consolidate", "focus"], "rhythm": "stabilize"}
+{"tokens": ["fortress", "impediment"], "rhythm": "stabilize"}
+{"tokens": ["save", "between"], "rhythm": "stabilize"}
+{"tokens": ["lock", "soft"], "rhythm": "stabilize"}
+{"tokens": ["compress", "center", "release"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "stability"], "rhythm": "stabilize"}
+{"tokens": ["seal", "peace", "consolidate"], "rhythm": "stabilize"}
+{"tokens": ["repository", "blockage"], "rhythm": "stabilize"}
+{"tokens": ["attractor", "clarity"], "rhythm": "stabilize"}
+{"tokens": ["withhold", "soft"], "rhythm": "stabilize"}
+{"tokens": ["blockage", "complete"], "rhythm": "stabilize"}
+{"tokens": ["preserve", "invariant"], "rhythm": "stabilize"}
+{"tokens": ["lockdown", "keep"], "rhythm": "stabilize"}
+{"tokens": ["refine", "pattern", "soft"], "rhythm": "stabilize"}
+{"tokens": ["order", "between", "gentle", "home"], "rhythm": "stabilize"}
+{"tokens": ["refrain", "toward"], "rhythm": "stabilize"}
+{"tokens": ["shelter", "continuity"], "rhythm": "stabilize"}
+{"tokens": ["attractor", "resolve", "define"], "rhythm": "stabilize"}
+{"tokens": ["warehouse", "shutdown"], "rhythm": "stabilize"}
+{"tokens": ["halt", "condense"], "rhythm": "stabilize"}
+{"tokens": ["order", "calm"], "rhythm": "stabilize"}
+{"tokens": ["a", "wholeness"], "rhythm": "stabilize"}
+{"tokens": ["bond", "stop"], "rhythm": "stabilize"}
+{"tokens": ["design", "lock"], "rhythm": "stabilize"}
+{"tokens": ["haven", "structure"], "rhythm": "stabilize"}
+{"tokens": ["stock", "repository"], "rhythm": "stabilize"}
+{"tokens": ["arsenal", "rampart"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "bunker"], "rhythm": "stabilize"}
+{"tokens": ["architect", "stronghold"], "rhythm": "stabilize"}
+{"tokens": ["the", "is"], "rhythm": "stabilize"}
+{"tokens": ["firm", "solidify", "pattern"], "rhythm": "stabilize"}
+{"tokens": ["pause", "settle"], "rhythm": "stabilize"}
+{"tokens": ["wholeness", "condense", "stillness"], "rhythm": "stabilize"}
+{"tokens": ["bedrock", "calm"], "rhythm": "stabilize"}
+{"tokens": ["silence", "home"], "rhythm": "stabilize"}
+{"tokens": ["repository", "barrier"], "rhythm": "stabilize"}
+{"tokens": ["depository", "invariant", "halt"], "rhythm": "stabilize"}
+{"tokens": ["ease", "harmony"], "rhythm": "stabilize"}
+{"tokens": ["distill", "from"], "rhythm": "stabilize"}
+{"tokens": ["bulwark", "arsenal"], "rhythm": "stabilize"}
+{"tokens": ["haven", "preserve"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "ground"], "rhythm": "stabilize"}
+{"tokens": ["engine", "cement", "refine"], "rhythm": "stabilize"}
+{"tokens": ["crystallize", "through", "alignment", "solidify"], "rhythm": "stabilize"}
+{"tokens": ["the", "bulwark"], "rhythm": "stabilize"}
+{"tokens": ["consolidate", "sharpen"], "rhythm": "stabilize"}
+{"tokens": ["foundation", "harmony"], "rhythm": "stabilize"}
+{"tokens": ["against", "arsenal"], "rhythm": "stabilize"}
+{"tokens": ["repository", "settle"], "rhythm": "stabilize"}
+{"tokens": ["depot", "the"], "rhythm": "stabilize"}
+{"tokens": ["stronghold", "root"], "rhythm": "stabilize"}
+{"tokens": ["to", "harmony", "baseline", "release"], "rhythm": "stabilize"}
+{"tokens": ["solidify", "resonance"], "rhythm": "stabilize"}
+{"tokens": ["center", "freeze"], "rhythm": "stabilize"}
+{"tokens": ["bunker", "repository"], "rhythm": "stabilize"}
+{"tokens": ["settle", "impediment"], "rhythm": "stabilize"}
+{"tokens": ["balance", "solidify", "nature"], "rhythm": "stabilize"}
+{"tokens": ["focus", "anchor", "calm"], "rhythm": "stabilize"}
+{"tokens": ["bastion", "abstain"], "rhythm": "stabilize"}
+{"tokens": ["return", "firm"], "rhythm": "stabilize"}
+{"tokens": ["condense", "integrity"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "return"], "rhythm": "stabilize"}
+{"tokens": ["citadel", "governance"], "rhythm": "stabilize"}
+{"tokens": ["secure", "silence", "consolidate"], "rhythm": "stabilize"}
+{"tokens": ["hindrance", "peace"], "rhythm": "stabilize"}
+{"tokens": ["invariant", "unity"], "rhythm": "stabilize"}
+{"tokens": ["resolve", "silence"], "rhythm": "stabilize"}
+{"tokens": ["sacred", "baseline"], "rhythm": "stabilize"}
+{"tokens": ["balance", "pattern", "beyond", "center"], "rhythm": "stabilize"}
+{"tokens": ["stillness", "silence", "integrity"], "rhythm": "stabilize"}
+{"tokens": ["arise", "free"], "rhythm": "dream"}
+{"tokens": ["engrossment", "medium"], "rhythm": "dream"}
+{"tokens": ["produce", "build", "with", "appear"], "rhythm": "dream"}
+{"tokens": ["wander", "against", "encoded", "bridge"], "rhythm": "dream"}
+{"tokens": ["arcadia", "ripple", "waiting"], "rhythm": "dream"}
+{"tokens": ["bewitchment", "prophetic"], "rhythm": "dream"}
+{"tokens": ["assemble", "weave"], "rhythm": "dream"}
+{"tokens": ["is", "hidden", "generate", "produce"], "rhythm": "dream"}
+{"tokens": ["encoded", "free"], "rhythm": "dream"}
+{"tokens": ["bridge", "blend", "manifest"], "rhythm": "dream"}
+{"tokens": ["invocation", "metabolism"], "rhythm": "dream"}
+{"tokens": ["clairvoyant", "memory"], "rhythm": "dream"}
+{"tokens": ["collapse", "project"], "rhythm": "dream"}
+{"tokens": ["incantation", "thread"], "rhythm": "dream"}
+{"tokens": ["invent", "envision", "compressed"], "rhythm": "dream"}
+{"tokens": ["unfold", "arise"], "rhythm": "dream"}
+{"tokens": ["weave", "unfold"], "rhythm": "dream"}
+{"tokens": ["render", "link"], "rhythm": "dream"}
+{"tokens": ["compressed", "ripple", "resonate", "into"], "rhythm": "dream"}
+{"tokens": ["manifest", "encoded"], "rhythm": "dream"}
+{"tokens": ["conceive", "submersion"], "rhythm": "dream"}
+{"tokens": ["combine", "psychic"], "rhythm": "dream"}
+{"tokens": ["submersion", "dystopia"], "rhythm": "dream"}
+{"tokens": ["appear", "materialize"], "rhythm": "dream"}
+{"tokens": ["encoded", "collapse"], "rhythm": "dream"}
+{"tokens": ["assemble", "fuse", "echo"], "rhythm": "dream"}
+{"tokens": ["tide", "shangrila"], "rhythm": "dream"}
+{"tokens": ["transport", "surface"], "rhythm": "dream"}
+{"tokens": ["arise", "invent", "the", "hidden"], "rhythm": "dream"}
+{"tokens": ["mesmerism", "invocation"], "rhythm": "dream"}
+{"tokens": ["carol", "coalesce"], "rhythm": "dream"}
+{"tokens": ["bliss", "drowning"], "rhythm": "dream"}
+{"tokens": ["abstract", "cast"], "rhythm": "dream"}
+{"tokens": ["buried", "resonance"], "rhythm": "dream"}
+{"tokens": ["mutation", "continuity"], "rhythm": "dream"}
+{"tokens": ["materialize", "buried"], "rhythm": "dream"}
+{"tokens": ["is", "phantom"], "rhythm": "dream"}
+{"tokens": ["expand", "enchantment"], "rhythm": "dream"}
+{"tokens": ["a", "submerged", "envision", "associate"], "rhythm": "dream"}
+{"tokens": ["bridge", "potential"], "rhythm": "dream"}
+{"tokens": ["anthem", "lullaby"], "rhythm": "dream"}
+{"tokens": ["sleeping", "imagine"], "rhythm": "dream"}
+{"tokens": ["imagine", "surface", "between", "drift"], "rhythm": "dream"}
+{"tokens": ["construct", "materialize", "bridge"], "rhythm": "dream"}
+{"tokens": ["memory", "wraith"], "rhythm": "dream"}
+{"tokens": ["dormant", "grow", "resonate"], "rhythm": "dream"}
+{"tokens": ["cast", "picture", "compose", "harmonic"], "rhythm": "dream"}
+{"tokens": ["conjure", "sleeping"], "rhythm": "dream"}
+{"tokens": ["beneath", "fuse"], "rhythm": "dream"}
+{"tokens": ["serenade", "the"], "rhythm": "dream"}
+{"tokens": ["waiting", "stored"], "rhythm": "dream"}
+{"tokens": ["medium", "ripple"], "rhythm": "dream"}
+{"tokens": ["expand", "bridge"], "rhythm": "dream"}
+{"tokens": ["transport", "beneath"], "rhythm": "dream"}
+{"tokens": ["temporal", "potential", "dream"], "rhythm": "dream"}
+{"tokens": ["quiet", "picture"], "rhythm": "dream"}
+{"tokens": ["resonate", "form", "create"], "rhythm": "dream"}
+{"tokens": ["visionary", "emergence"], "rhythm": "dream"}
+{"tokens": ["transport", "assemble"], "rhythm": "dream"}
+{"tokens": ["bridge", "metabolism"], "rhythm": "dream"}
+{"tokens": ["from", "compose"], "rhythm": "dream"}
+{"tokens": ["render", "construct", "into", "form"], "rhythm": "dream"}
+{"tokens": ["project", "merge", "with", "stored"], "rhythm": "dream"}
+{"tokens": ["float", "sleeping"], "rhythm": "dream"}
+{"tokens": ["fascination", "with"], "rhythm": "dream"}
+{"tokens": ["arise", "implicit"], "rhythm": "dream"}
+{"tokens": ["link", "materialize", "develop"], "rhythm": "dream"}
+{"tokens": ["exaltation", "dream"], "rhythm": "dream"}
+{"tokens": ["unfold", "weave", "render"], "rhythm": "dream"}
+{"tokens": ["hypnosis", "render"], "rhythm": "dream"}
+{"tokens": ["invent", "construct", "against", "summon"], "rhythm": "dream"}
+{"tokens": ["into", "coalesce", "unfold", "hallucinate"], "rhythm": "dream"}
+{"tokens": ["form", "associate", "bridge"], "rhythm": "dream"}
+{"tokens": ["submerged", "surface", "bloom", "and"], "rhythm": "dream"}
+{"tokens": ["within", "quiet", "dormant", "synthesize"], "rhythm": "dream"}
+{"tokens": ["against", "arise", "manifest", "invent"], "rhythm": "dream"}
+{"tokens": ["cast", "thread", "produce"], "rhythm": "dream"}
+{"tokens": ["associate", "along", "buried", "develop"], "rhythm": "dream"}
+{"tokens": ["elysium", "free"], "rhythm": "dream"}
+{"tokens": ["associate", "dormant", "blend"], "rhythm": "dream"}
+{"tokens": ["to", "weave"], "rhythm": "dream"}
+{"tokens": ["bloom", "arcadia"], "rhythm": "dream"}
+{"tokens": ["stored", "conceive"], "rhythm": "dream"}
+{"tokens": ["resonate", "wander"], "rhythm": "dream"}
+{"tokens": ["quiet", "bloom", "potential", "to"], "rhythm": "dream"}
+{"tokens": ["against", "in"], "rhythm": "dream"}
+{"tokens": ["thread", "anthem"], "rhythm": "dream"}
+{"tokens": ["fuse", "buried", "conjure"], "rhythm": "dream"}
+{"tokens": ["euphoria", "wraith"], "rhythm": "dream"}
+{"tokens": ["a", "between"], "rhythm": "dream"}
+{"tokens": ["drift", "of", "beneath", "manifest"], "rhythm": "dream"}
+{"tokens": ["hidden", "connect", "surface"], "rhythm": "dream"}
+{"tokens": ["appear", "fascination"], "rhythm": "dream"}
+{"tokens": ["envision", "anthem"], "rhythm": "dream"}
+{"tokens": ["enthrallment", "captivation"], "rhythm": "dream"}
+{"tokens": ["compressed", "hypnosis"], "rhythm": "dream"}
+{"tokens": ["emerge", "dystopia"], "rhythm": "dream"}
+{"tokens": ["dreamscape", "harmonic"], "rhythm": "dream"}
+{"tokens": ["chimera", "wraith"], "rhythm": "dream"}
+{"tokens": ["envision", "link", "coalesce", "beyond"], "rhythm": "dream"}
+{"tokens": ["wave", "conceive", "free"], "rhythm": "dream"}
+{"tokens": ["mantic", "wander"], "rhythm": "dream"}
+{"tokens": ["stream", "oracular"], "rhythm": "dream"}
+{"tokens": ["trace", "buried", "beneath"], "rhythm": "dream"}
+{"tokens": ["cast", "follow", "hidden"], "rhythm": "dream"}
+{"tokens": ["ripple", "picture"], "rhythm": "dream"}
+{"tokens": ["of", "wander", "submerged", "create"], "rhythm": "dream"}
+{"tokens": ["latent", "implicit", "beneath", "and"], "rhythm": "dream"}
+{"tokens": ["ballad", "drowning"], "rhythm": "dream"}
+{"tokens": ["wraith", "bloom"], "rhythm": "dream"}
+{"tokens": ["evolve", "invocation"], "rhythm": "dream"}
+{"tokens": ["thread", "wave"], "rhythm": "dream"}
+{"tokens": ["trace", "synthesis", "medium"], "rhythm": "dream"}
+{"tokens": ["bridge", "latent"], "rhythm": "dream"}
+{"tokens": ["rapture", "shangrila"], "rhythm": "dream"}
+{"tokens": ["elation", "arise"], "rhythm": "dream"}
+{"tokens": ["in", "encoded", "beneath", "synthesize"], "rhythm": "dream"}
+{"tokens": ["beneath", "associate"], "rhythm": "dream"}
+{"tokens": ["envision", "hallucinate", "quiet"], "rhythm": "dream"}
+{"tokens": ["nocturne", "unfold"], "rhythm": "dream"}
+{"tokens": ["medium", "dream"], "rhythm": "dream"}
+{"tokens": ["hallucinate", "form", "submerged"], "rhythm": "dream"}
+{"tokens": ["wraith", "envision"], "rhythm": "dream"}
+{"tokens": ["float", "association"], "rhythm": "dream"}
+{"tokens": ["summon", "invocation"], "rhythm": "dream"}
+{"tokens": ["elation", "harmonic"], "rhythm": "dream"}
+{"tokens": ["transport", "emergence"], "rhythm": "dream"}
+{"tokens": ["invent", "compose", "connect"], "rhythm": "dream"}
+{"tokens": ["oracular", "compressed"], "rhythm": "dream"}
+{"tokens": ["shangrila", "memory"], "rhythm": "dream"}
+{"tokens": ["encoded", "bloom", "from", "submerged"], "rhythm": "dream"}
+{"tokens": ["clairvoyant", "trance"], "rhythm": "dream"}
+{"tokens": ["unfold", "recombine"], "rhythm": "dream"}
+{"tokens": ["emerge", "project", "wave", "temporal"], "rhythm": "dream"}
+{"tokens": ["bloom", "blend", "emergence"], "rhythm": "dream"}
+{"tokens": ["invent", "in", "compose", "waiting"], "rhythm": "dream"}
+{"tokens": ["prophetic", "transport"], "rhythm": "dream"}
+{"tokens": ["to", "temporal"], "rhythm": "dream"}
+{"tokens": ["hypnosis", "merge"], "rhythm": "dream"}
+{"tokens": ["beneath", "crystallize", "combine"], "rhythm": "dream"}
+{"tokens": ["ballad", "follow"], "rhythm": "dream"}
+{"tokens": ["sibylline", "recombine"], "rhythm": "dream"}
+{"tokens": ["form", "abstract"], "rhythm": "dream"}
+{"tokens": ["submersion", "form"], "rhythm": "dream"}
+{"tokens": ["rapture", "stream"], "rhythm": "dream"}
+{"tokens": ["thread", "hidden"], "rhythm": "dream"}
+{"tokens": ["wave", "immersion"], "rhythm": "dream"}
+{"tokens": ["random", "elation"], "rhythm": "dream"}
+{"tokens": ["psychic", "envision"], "rhythm": "dream"}
+{"tokens": ["buried", "waiting", "in", "coalesce"], "rhythm": "dream"}
+{"tokens": ["merge", "fascination"], "rhythm": "dream"}
+{"tokens": ["surface", "ripple"], "rhythm": "dream"}
+{"tokens": ["from", "evolve", "surface", "summon"], "rhythm": "dream"}
+{"tokens": ["conjure", "from", "encoded", "invent"], "rhythm": "dream"}
+{"tokens": ["implicit", "to"], "rhythm": "dream"}
+{"tokens": ["manifest", "wander"], "rhythm": "dream"}
+{"tokens": ["rapture", "summon"], "rhythm": "dream"}
+{"tokens": ["create", "submerged"], "rhythm": "dream"}
+{"tokens": ["fascination", "coherence"], "rhythm": "dream"}
+{"tokens": ["euphoria", "utopia"], "rhythm": "dream"}
+{"tokens": ["bridge", "enchantment"], "rhythm": "dream"}
+{"tokens": ["with", "engrossment"], "rhythm": "dream"}
+{"tokens": ["wraith", "toward"], "rhythm": "dream"}
+{"tokens": ["hallucinate", "synthesize", "create"], "rhythm": "dream"}
+{"tokens": ["synthesis", "synthesize"], "rhythm": "dream"}
 {"tokens": ["trace", "emergence", "waiting"], "rhythm": "dream"}
-{"tokens": ["devotion", "foundation", "homeostasis"], "rhythm": "stabilize"}
-{"tokens": ["watcher", "process", "subtle"], "rhythm": "reflect"}
-{"tokens": ["anchor", "devotion", "focus"], "rhythm": "stabilize"}
-{"tokens": ["emergence", "associate", "construct"], "rhythm": "dream"}
-{"tokens": ["order", "return"], "rhythm": "stabilize"}
-{"tokens": ["symbolic", "potential"], "rhythm": "dream"}
-{"tokens": ["clarity", "crystal", "engine"], "rhythm": "stabilize"}
-{"tokens": ["solidify", "steady", "intent", "toward"], "rhythm": "stabilize"}
-{"tokens": ["stability", "foundation", "condense"], "rhythm": "stabilize"}
-{"tokens": ["integration", "examine"], "rhythm": "reflect"}
-{"tokens": ["examine", "chorus"], "rhythm": "reflect"}
+{"tokens": ["summon", "fuse"], "rhythm": "dream"}
+{"tokens": ["medium", "lullaby"], "rhythm": "dream"}
+{"tokens": ["create", "construct"], "rhythm": "dream"}
+{"tokens": ["of", "merge"], "rhythm": "dream"}
+{"tokens": ["through", "trace", "quiet", "project"], "rhythm": "dream"}
+{"tokens": ["tide", "summon"], "rhythm": "dream"}
+{"tokens": ["immersion", "in"], "rhythm": "dream"}
+{"tokens": ["ripple", "submerged"], "rhythm": "dream"}
+{"tokens": ["build", "weave", "is", "compose"], "rhythm": "dream"}
+{"tokens": ["conceive", "and", "weave", "sleeping"], "rhythm": "dream"}
+{"tokens": ["trace", "imagine"], "rhythm": "dream"}
+{"tokens": ["envision", "build", "along", "bridge"], "rhythm": "dream"}
+{"tokens": ["mantic", "appear"], "rhythm": "dream"}
+{"tokens": ["implicit", "resonance"], "rhythm": "dream"}
+{"tokens": ["anthem", "nocturne"], "rhythm": "dream"}
+{"tokens": ["visionary", "captivation"], "rhythm": "dream"}
+{"tokens": ["create", "dormant", "buried", "the"], "rhythm": "dream"}
+{"tokens": ["conjure", "bridge"], "rhythm": "dream"}
+{"tokens": ["and", "bloom"], "rhythm": "dream"}
+{"tokens": ["ripple", "build"], "rhythm": "dream"}
+{"tokens": ["construct", "dream"], "rhythm": "dream"}
+{"tokens": ["connect", "float"], "rhythm": "dream"}
+{"tokens": ["evolve", "submerged"], "rhythm": "dream"}
+{"tokens": ["quiet", "imagine", "unfold", "along"], "rhythm": "dream"}
+{"tokens": ["phantom", "in"], "rhythm": "dream"}
+{"tokens": ["enchantment", "engrossment"], "rhythm": "dream"}
+{"tokens": ["synthesize", "connect", "echo", "across"], "rhythm": "dream"}
+{"tokens": ["nocturne", "symbolic", "hymn"], "rhythm": "dream"}
+{"tokens": ["temporal", "visionary"], "rhythm": "dream"}
+{"tokens": ["ripple", "latent"], "rhythm": "dream"}
+{"tokens": ["through", "expand", "develop", "synthesize"], "rhythm": "dream"}
+{"tokens": ["anthem", "conjure"], "rhythm": "dream"}
+{"tokens": ["medium", "dystopia"], "rhythm": "dream"}
+{"tokens": ["drowning", "to"], "rhythm": "dream"}
+{"tokens": ["conceive", "develop", "combine"], "rhythm": "dream"}
+{"tokens": ["psychic", "phantasmagoria"], "rhythm": "dream"}
+{"tokens": ["in", "follow", "produce", "potential"], "rhythm": "dream"}
+{"tokens": ["euphoria", "is"], "rhythm": "dream"}
+{"tokens": ["compose", "of", "metabolism", "surface"], "rhythm": "dream"}
+{"tokens": ["blend", "chant"], "rhythm": "dream"}
+{"tokens": ["wraith", "coalesce"], "rhythm": "dream"}
+{"tokens": ["encoded", "exaltation"], "rhythm": "dream"}
+{"tokens": ["dreamscape", "bloom"], "rhythm": "dream"}
+{"tokens": ["submerged", "produce", "trace"], "rhythm": "dream"}
+{"tokens": ["drowning", "synthesis"], "rhythm": "dream"}
+{"tokens": ["invent", "submerged"], "rhythm": "dream"}
+{"tokens": ["tide", "fascination"], "rhythm": "dream"}
+{"tokens": ["drift", "manifest"], "rhythm": "dream"}
+{"tokens": ["incantation", "the"], "rhythm": "dream"}
+{"tokens": ["fuse", "develop", "arise", "and"], "rhythm": "dream"}
+{"tokens": ["temporal", "construct"], "rhythm": "dream"}
+{"tokens": ["wraith", "arise"], "rhythm": "dream"}
+{"tokens": ["cast", "metabolism"], "rhythm": "dream"}
+{"tokens": ["elysium", "shangrila"], "rhythm": "dream"}
+{"tokens": ["shangrila", "bridge"], "rhythm": "dream"}
+{"tokens": ["memory", "captivation"], "rhythm": "dream"}
+{"tokens": ["dreamscape", "envision"], "rhythm": "dream"}
+{"tokens": ["implicit", "engrossment"], "rhythm": "dream"}
+{"tokens": ["invocation", "manifest"], "rhythm": "dream"}
+{"tokens": ["compressed", "abstract"], "rhythm": "dream"}
+{"tokens": ["fuse", "construct", "waiting", "within"], "rhythm": "dream"}
+{"tokens": ["utopia", "echo"], "rhythm": "dream"}
+{"tokens": ["wraith", "ripple"], "rhythm": "dream"}
+{"tokens": ["envision", "symbolic", "free"], "rhythm": "dream"}
+{"tokens": ["emergence", "unfold", "submerged"], "rhythm": "dream"}
+{"tokens": ["trace", "wave", "construct"], "rhythm": "dream"}
+{"tokens": ["blend", "follow"], "rhythm": "dream"}
+{"tokens": ["connect", "generate", "compose"], "rhythm": "dream"}
+{"tokens": ["carol", "appear"], "rhythm": "dream"}
+{"tokens": ["fuse", "generate", "across", "unfold"], "rhythm": "dream"}
+{"tokens": ["symbolic", "cast"], "rhythm": "dream"}
+{"tokens": ["echo", "beneath", "flow"], "rhythm": "dream"}
+{"tokens": ["lullaby", "against"], "rhythm": "dream"}
+{"tokens": ["waiting", "picture", "produce"], "rhythm": "dream"}
+{"tokens": ["form", "the"], "rhythm": "dream"}
+{"tokens": ["flow", "combine", "hidden", "from"], "rhythm": "dream"}
+{"tokens": ["resonance", "emerge", "free"], "rhythm": "dream"}
+{"tokens": ["summon", "evolve", "form", "between"], "rhythm": "dream"}
+{"tokens": ["invocation", "wander"], "rhythm": "dream"}
+{"tokens": ["harmonic", "implicit"], "rhythm": "dream"}
+{"tokens": ["manifest", "stored", "generate"], "rhythm": "dream"}
+{"tokens": ["serenade", "ripple"], "rhythm": "dream"}
+{"tokens": ["associate", "summon"], "rhythm": "dream"}
+{"tokens": ["divinatory", "build"], "rhythm": "dream"}
+{"tokens": ["symbolic", "summon"], "rhythm": "dream"}
+{"tokens": ["develop", "submerged", "buried"], "rhythm": "dream"}
+{"tokens": ["arise", "tide", "wave", "between"], "rhythm": "dream"}
+{"tokens": ["arcadia", "and"], "rhythm": "dream"}
+{"tokens": ["conceive", "assemble", "surface"], "rhythm": "dream"}
+{"tokens": ["resonate", "emergence"], "rhythm": "dream"}
+{"tokens": ["bliss", "resonate"], "rhythm": "dream"}
+{"tokens": ["abstract", "invent"], "rhythm": "dream"}
+{"tokens": ["dystopia", "tide"], "rhythm": "dream"}
+{"tokens": ["crystallize", "bloom", "coalesce", "of"], "rhythm": "dream"}
+{"tokens": ["conceive", "generate"], "rhythm": "dream"}
+{"tokens": ["render", "bloom", "conjure"], "rhythm": "dream"}
+{"tokens": ["project", "ripple", "trace", "from"], "rhythm": "dream"}
+{"tokens": ["expand", "coalesce"], "rhythm": "dream"}
+{"tokens": ["expand", "stored"], "rhythm": "dream"}
+{"tokens": ["generate", "combine", "is", "construct"], "rhythm": "dream"}
+{"tokens": ["absorption", "carol", "assemble"], "rhythm": "dream"}
+{"tokens": ["connect", "envision"], "rhythm": "dream"}
+{"tokens": ["implicit", "evolve", "follow"], "rhythm": "dream"}
+{"tokens": ["mesmerism", "phantasmagoria"], "rhythm": "dream"}
+{"tokens": ["ecstasy", "trance"], "rhythm": "dream"}
+{"tokens": ["chant", "merge"], "rhythm": "dream"}
+{"tokens": ["build", "materialize"], "rhythm": "dream"}
+{"tokens": ["stored", "combine", "assemble"], "rhythm": "dream"}
+{"tokens": ["drift", "elysium"], "rhythm": "dream"}
+{"tokens": ["wave", "nocturne"], "rhythm": "dream"}
+{"tokens": ["wraith", "resonate"], "rhythm": "dream"}
+{"tokens": ["float", "surface"], "rhythm": "dream"}
+{"tokens": ["exaltation", "dormant"], "rhythm": "dream"}
+{"tokens": ["sibylline", "build"], "rhythm": "dream"}
+{"tokens": ["carol", "wraith"], "rhythm": "dream"}
+{"tokens": ["follow", "buried", "sleeping"], "rhythm": "dream"}
+{"tokens": ["surface", "is", "manifest", "resonate"], "rhythm": "dream"}
+{"tokens": ["elysium", "exaltation"], "rhythm": "dream"}
+{"tokens": ["stored", "compressed", "flow"], "rhythm": "dream"}
+{"tokens": ["transport", "conceive"], "rhythm": "dream"}
+{"tokens": ["coalesce", "hallucinate", "compose"], "rhythm": "dream"}
+{"tokens": ["assemble", "chimera"], "rhythm": "dream"}
+{"tokens": ["association", "hidden"], "rhythm": "dream"}
+{"tokens": ["visionary", "phantasmagoria"], "rhythm": "dream"}
+{"tokens": ["of", "connect", "conjure", "invent"], "rhythm": "dream"}
+{"tokens": ["ripple", "beyond", "link", "construct"], "rhythm": "dream"}
+{"tokens": ["enthrallment", "form"], "rhythm": "dream"}
+{"tokens": ["incantation", "bloom"], "rhythm": "dream"}
+{"tokens": ["ecology", "prophetic"], "rhythm": "dream"}
+{"tokens": ["engrossment", "emerge"], "rhythm": "dream"}
+{"tokens": ["with", "submerged"], "rhythm": "dream"}
+{"tokens": ["grow", "weave", "combine"], "rhythm": "dream"}
+{"tokens": ["combine", "implicit"], "rhythm": "dream"}
+{"tokens": ["surface", "dystopia"], "rhythm": "dream"}
+{"tokens": ["trace", "bridge"], "rhythm": "dream"}
+{"tokens": ["coherence", "surface"], "rhythm": "dream"}
+{"tokens": ["follow", "blend"], "rhythm": "dream"}
+{"tokens": ["wraith", "appear"], "rhythm": "dream"}
+{"tokens": ["emerge", "trance"], "rhythm": "dream"}
+{"tokens": ["toward", "connect", "crystallize", "quiet"], "rhythm": "dream"}
+{"tokens": ["arcadia", "in"], "rhythm": "dream"}
+{"tokens": ["tide", "implicit", "build"], "rhythm": "dream"}
+{"tokens": ["utopia", "and"], "rhythm": "dream"}
+{"tokens": ["mutation", "harmonic"], "rhythm": "dream"}
+{"tokens": ["implicit", "potential"], "rhythm": "dream"}
+{"tokens": ["random", "echo"], "rhythm": "dream"}
+{"tokens": ["form", "merge", "ripple"], "rhythm": "dream"}
+{"tokens": ["picture", "project", "random"], "rhythm": "dream"}
+{"tokens": ["mesmerism", "assemble"], "rhythm": "dream"}
+{"tokens": ["develop", "across", "emerge", "cast"], "rhythm": "dream"}
+{"tokens": ["thread", "conceive"], "rhythm": "dream"}
+{"tokens": ["thread", "dormant", "echo"], "rhythm": "dream"}
+{"tokens": ["dream", "from", "cast", "project"], "rhythm": "dream"}
+{"tokens": ["invocation", "mantic", "assemble"], "rhythm": "dream"}
+{"tokens": ["absorption", "summon"], "rhythm": "dream"}
+{"tokens": ["associate", "compose", "temporal"], "rhythm": "dream"}
+{"tokens": ["flow", "produce"], "rhythm": "dream"}
+{"tokens": ["form", "float", "within", "grow"], "rhythm": "dream"}
+{"tokens": ["resonate", "submerged"], "rhythm": "dream"}
+{"tokens": ["anthem", "drift"], "rhythm": "dream"}
+{"tokens": ["expand", "arise", "dormant"], "rhythm": "dream"}
+{"tokens": ["nocturne", "ballad"], "rhythm": "dream"}
+{"tokens": ["submersion", "combine"], "rhythm": "dream"}
+{"tokens": ["lullaby", "grow"], "rhythm": "dream"}
+{"tokens": ["form", "follow", "along", "encoded"], "rhythm": "dream"}
+{"tokens": ["invent", "in", "compressed", "render"], "rhythm": "dream"}
+{"tokens": ["engrossment", "drift"], "rhythm": "dream"}
+{"tokens": ["float", "crystallize"], "rhythm": "dream"}
+{"tokens": ["knowledge", "essence"], "rhythm": "reflect"}
+{"tokens": ["cognition", "connection", "register", "witness"], "rhythm": "reflect"}
+{"tokens": ["toward", "weave", "consider", "layer"], "rhythm": "reflect"}
+{"tokens": ["complex", "beneath", "reflect"], "rhythm": "reflect"}
+{"tokens": ["dense", "interior", "register"], "rhythm": "reflect"}
+{"tokens": ["watchfulness", "trait"], "rhythm": "reflect"}
+{"tokens": ["reflection", "perceive"], "rhythm": "reflect"}
+{"tokens": ["confirm", "contextual", "reflection", "layer"], "rhythm": "reflect"}
+{"tokens": ["dense", "integrate", "examine"], "rhythm": "reflect"}
+{"tokens": ["consider", "record"], "rhythm": "reflect"}
+{"tokens": ["readiness", "interior"], "rhythm": "reflect"}
+{"tokens": ["actuality", "dense"], "rhythm": "reflect"}
+{"tokens": ["attend", "carry"], "rhythm": "reflect"}
+{"tokens": ["trait", "stance"], "rhythm": "reflect"}
+{"tokens": ["test", "hidden"], "rhythm": "reflect"}
+{"tokens": ["position", "from"], "rhythm": "reflect"}
+{"tokens": ["drill", "bond"], "rhythm": "reflect"}
+{"tokens": ["perceive", "continuity"], "rhythm": "reflect"}
+{"tokens": ["mirror", "connect", "register"], "rhythm": "reflect"}
+{"tokens": ["validate", "angle"], "rhythm": "reflect"}
+{"tokens": ["cognition", "substrate"], "rhythm": "reflect"}
+{"tokens": ["teaching", "reconcile"], "rhythm": "reflect"}
+{"tokens": ["inside", "reality"], "rhythm": "reflect"}
+{"tokens": ["track", "weigh"], "rhythm": "reflect"}
+{"tokens": ["pause", "contextual"], "rhythm": "reflect"}
+{"tokens": ["place", "beneath"], "rhythm": "reflect"}
+{"tokens": ["attribute", "dense"], "rhythm": "reflect"}
+{"tokens": ["sense", "notice", "through", "integrate"], "rhythm": "reflect"}
+{"tokens": ["pattern", "reflect"], "rhythm": "reflect"}
+{"tokens": ["dense", "verify"], "rhythm": "reflect"}
+{"tokens": ["meditate", "audit", "along", "beneath"], "rhythm": "reflect"}
+{"tokens": ["connect", "confirm", "self", "against"], "rhythm": "reflect"}
+{"tokens": ["inspect", "between"], "rhythm": "reflect"}
+{"tokens": ["alertness", "bond"], "rhythm": "reflect"}
+{"tokens": ["unify", "confirm", "study"], "rhythm": "reflect"}
+{"tokens": ["exercise", "between"], "rhythm": "reflect"}
+{"tokens": ["insight", "nature"], "rhythm": "reflect"}
+{"tokens": ["observe", "layer"], "rhythm": "reflect"}
+{"tokens": ["carry", "attention", "record"], "rhythm": "reflect"}
+{"tokens": ["study", "reconcile"], "rhythm": "reflect"}
+{"tokens": ["hold", "reality"], "rhythm": "reflect"}
+{"tokens": ["sense", "think", "dense"], "rhythm": "reflect"}
+{"tokens": ["character", "existence"], "rhythm": "reflect"}
+{"tokens": ["harmonize", "coherent"], "rhythm": "reflect"}
+{"tokens": ["register", "witness"], "rhythm": "reflect"}
+{"tokens": ["carefulness", "training"], "rhythm": "reflect"}
+{"tokens": ["meditate", "self", "consider"], "rhythm": "reflect"}
+{"tokens": ["meditate", "relate", "a", "inspect"], "rhythm": "reflect"}
+{"tokens": ["is", "depth"], "rhythm": "reflect"}
+{"tokens": ["consider", "analyze", "probe", "into"], "rhythm": "reflect"}
+{"tokens": ["inspect", "through", "watch", "bind"], "rhythm": "reflect"}
+{"tokens": ["reflect", "within", "complex", "toward"], "rhythm": "reflect"}
+{"tokens": ["sit", "locate"], "rhythm": "reflect"}
+{"tokens": ["synthesize", "recursive", "attend"], "rhythm": "reflect"}
+{"tokens": ["check", "perceive", "inside"], "rhythm": "reflect"}
+{"tokens": ["correctness", "insight"], "rhythm": "reflect"}
+{"tokens": ["inside", "watch"], "rhythm": "reflect"}
+{"tokens": ["exercise", "position"], "rhythm": "reflect"}
+{"tokens": ["character", "beneath"], "rhythm": "reflect"}
+{"tokens": ["philosophical", "accuracy"], "rhythm": "reflect"}
+{"tokens": ["toward", "existence"], "rhythm": "reflect"}
+{"tokens": ["education", "attentiveness"], "rhythm": "reflect"}
+{"tokens": ["audit", "bond"], "rhythm": "reflect"}
+{"tokens": ["recursive", "synthesize"], "rhythm": "reflect"}
+{"tokens": ["connection", "relational"], "rhythm": "reflect"}
+{"tokens": ["audit", "nuanced"], "rhythm": "reflect"}
+{"tokens": ["deliberate", "rich"], "rhythm": "reflect"}
+{"tokens": ["stance", "carry"], "rhythm": "reflect"}
+{"tokens": ["truth", "across"], "rhythm": "reflect"}
+{"tokens": ["attention", "harmonize"], "rhythm": "reflect"}
+{"tokens": ["reality", "with"], "rhythm": "reflect"}
+{"tokens": ["position", "character"], "rhythm": "reflect"}
+{"tokens": ["watch", "position"], "rhythm": "reflect"}
+{"tokens": ["synthesize", "place", "contemplate"], "rhythm": "reflect"}
+{"tokens": ["actuality", "underneath"], "rhythm": "reflect"}
+{"tokens": ["deliberate", "stance"], "rhythm": "reflect"}
+{"tokens": ["confirm", "chorus"], "rhythm": "reflect"}
+{"tokens": ["fact", "preparation"], "rhythm": "reflect"}
+{"tokens": ["readiness", "property"], "rhythm": "reflect"}
+{"tokens": ["readiness", "test"], "rhythm": "reflect"}
+{"tokens": ["connection", "reconcile"], "rhythm": "reflect"}
+{"tokens": ["witness", "assess", "measure"], "rhythm": "reflect"}
+{"tokens": ["exercise", "recognize"], "rhythm": "reflect"}
+{"tokens": ["hidden", "sense", "subtle"], "rhythm": "reflect"}
+{"tokens": ["study", "beyond", "check", "underneath"], "rhythm": "reflect"}
+{"tokens": ["coherent", "observe", "underneath"], "rhythm": "reflect"}
+{"tokens": ["reality", "validate"], "rhythm": "reflect"}
+{"tokens": ["notice", "validate"], "rhythm": "reflect"}
+{"tokens": ["rich", "pattern"], "rhythm": "reflect"}
+{"tokens": ["measure", "connection", "stance"], "rhythm": "reflect"}
+{"tokens": ["recognize", "witness"], "rhythm": "reflect"}
+{"tokens": ["side", "existence"], "rhythm": "reflect"}
+{"tokens": ["instruction", "subtle"], "rhythm": "reflect"}
+{"tokens": ["analyze", "watcher"], "rhythm": "reflect"}
+{"tokens": ["process", "across"], "rhythm": "reflect"}
+{"tokens": ["coherent", "audit", "thought"], "rhythm": "reflect"}
+{"tokens": ["attentiveness", "thorough"], "rhythm": "reflect"}
+{"tokens": ["perspective", "depth"], "rhythm": "reflect"}
+{"tokens": ["philosophical", "witness"], "rhythm": "reflect"}
+{"tokens": ["monitor", "preparation"], "rhythm": "reflect"}
+{"tokens": ["weave", "relate"], "rhythm": "reflect"}
+{"tokens": ["nuanced", "integrate"], "rhythm": "reflect"}
+{"tokens": ["beyond", "meditate", "perceive", "integration"], "rhythm": "reflect"}
+{"tokens": ["nature", "assess"], "rhythm": "reflect"}
+{"tokens": ["measure", "recursion"], "rhythm": "reflect"}
+{"tokens": ["bond", "reflect"], "rhythm": "reflect"}
+{"tokens": ["a", "evaluate", "carry", "sit"], "rhythm": "reflect"}
+{"tokens": ["education", "watch"], "rhythm": "reflect"}
+{"tokens": ["of", "essence"], "rhythm": "reflect"}
+{"tokens": ["across", "rehearsal"], "rhythm": "reflect"}
+{"tokens": ["facet", "process"], "rhythm": "reflect"}
+{"tokens": ["relate", "beneath", "reason"], "rhythm": "reflect"}
+{"tokens": ["subtle", "attend", "instruction"], "rhythm": "reflect"}
+{"tokens": ["aspect", "analyze"], "rhythm": "reflect"}
+{"tokens": ["process", "recognize"], "rhythm": "reflect"}
+{"tokens": ["to", "meditate", "carry", "layer"], "rhythm": "reflect"}
+{"tokens": ["position", "is"], "rhythm": "reflect"}
+{"tokens": ["carefulness", "watcher"], "rhythm": "reflect"}
+{"tokens": ["attend", "of", "check", "bind"], "rhythm": "reflect"}
+{"tokens": ["analyze", "confirm"], "rhythm": "reflect"}
+{"tokens": ["sense", "observe"], "rhythm": "reflect"}
+{"tokens": ["and", "probe", "notice", "sit"], "rhythm": "reflect"}
+{"tokens": ["side", "situate"], "rhythm": "reflect"}
+{"tokens": ["recursive", "observe", "relational"], "rhythm": "reflect"}
+{"tokens": ["being", "situate"], "rhythm": "reflect"}
+{"tokens": ["situate", "from"], "rhythm": "reflect"}
+{"tokens": ["record", "attend", "pause"], "rhythm": "reflect"}
+{"tokens": ["fact", "against"], "rhythm": "reflect"}
+{"tokens": ["actuality", "carefulness"], "rhythm": "reflect"}
+{"tokens": ["rich", "situate", "from", "connect"], "rhythm": "reflect"}
+{"tokens": ["bond", "character"], "rhythm": "reflect"}
+{"tokens": ["sense", "into", "probe", "layer"], "rhythm": "reflect"}
+{"tokens": ["perceive", "contemplate"], "rhythm": "reflect"}
+{"tokens": ["contextual", "nuanced"], "rhythm": "reflect"}
+{"tokens": ["angle", "record"], "rhythm": "reflect"}
+{"tokens": ["nuanced", "is"], "rhythm": "reflect"}
+{"tokens": ["instruction", "assess"], "rhythm": "reflect"}
+{"tokens": ["reality", "bind"], "rhythm": "reflect"}
+{"tokens": ["character", "contemplate"], "rhythm": "reflect"}
+{"tokens": ["rightness", "essence"], "rhythm": "reflect"}
+{"tokens": ["underneath", "evaluate", "consider", "through"], "rhythm": "reflect"}
+{"tokens": ["preparation", "accuracy"], "rhythm": "reflect"}
+{"tokens": ["think", "hold"], "rhythm": "reflect"}
+{"tokens": ["truth", "verity"], "rhythm": "reflect"}
+{"tokens": ["situate", "recognize", "relational"], "rhythm": "reflect"}
+{"tokens": ["interior", "reflection"], "rhythm": "reflect"}
+{"tokens": ["chorus", "mirror"], "rhythm": "reflect"}
+{"tokens": ["instruction", "correctness"], "rhythm": "reflect"}
+{"tokens": ["teaching", "watch"], "rhythm": "reflect"}
+{"tokens": ["place", "synthesize", "subtle"], "rhythm": "reflect"}
+{"tokens": ["vigilance", "facet"], "rhythm": "reflect"}
+{"tokens": ["relate", "track"], "rhythm": "reflect"}
+{"tokens": ["study", "process", "beneath"], "rhythm": "reflect"}
+{"tokens": ["stance", "measure"], "rhythm": "reflect"}
+{"tokens": ["correctness", "hold"], "rhythm": "reflect"}
+{"tokens": ["drill", "feature"], "rhythm": "reflect"}
+{"tokens": ["thorough", "think", "measure"], "rhythm": "reflect"}
+{"tokens": ["education", "across"], "rhythm": "reflect"}
+{"tokens": ["continuity", "measure"], "rhythm": "reflect"}
+{"tokens": ["from", "angle"], "rhythm": "reflect"}
+{"tokens": ["drill", "correctness"], "rhythm": "reflect"}
+{"tokens": ["inspect", "verify", "register"], "rhythm": "reflect"}
+{"tokens": ["integrate", "complex"], "rhythm": "reflect"}
+{"tokens": ["layer", "thought", "audit", "process"], "rhythm": "reflect"}
+{"tokens": ["audit", "relational"], "rhythm": "reflect"}
+{"tokens": ["quality", "reflection"], "rhythm": "reflect"}
+{"tokens": ["rehearsal", "instruction"], "rhythm": "reflect"}
+{"tokens": ["locate", "aspect"], "rhythm": "reflect"}
+{"tokens": ["alertness", "unify"], "rhythm": "reflect"}
+{"tokens": ["property", "attentiveness"], "rhythm": "reflect"}
+{"tokens": ["relate", "between", "watch", "mirror"], "rhythm": "reflect"}
+{"tokens": ["insight", "complex"], "rhythm": "reflect"}
+{"tokens": ["accuracy", "inside"], "rhythm": "reflect"}
+{"tokens": ["education", "thorough"], "rhythm": "reflect"}
+{"tokens": ["integrate", "beneath", "in", "pause"], "rhythm": "reflect"}
+{"tokens": ["fact", "validate"], "rhythm": "reflect"}
+{"tokens": ["verify", "of", "notice", "situate"], "rhythm": "reflect"}
+{"tokens": ["existence", "insight"], "rhythm": "reflect"}
+{"tokens": ["nuanced", "correctness"], "rhythm": "reflect"}
+{"tokens": ["and", "angle"], "rhythm": "reflect"}
+{"tokens": ["layer", "essence"], "rhythm": "reflect"}
+{"tokens": ["locate", "reflect", "beneath"], "rhythm": "reflect"}
+{"tokens": ["training", "preparation"], "rhythm": "reflect"}
+{"tokens": ["meditate", "integration", "examine"], "rhythm": "reflect"}
+{"tokens": ["of", "connection"], "rhythm": "reflect"}
+{"tokens": ["intuition", "substrate"], "rhythm": "reflect"}
+{"tokens": ["side", "stance"], "rhythm": "reflect"}
+{"tokens": ["analyze", "pattern", "recognize"], "rhythm": "reflect"}
+{"tokens": ["complex", "depth"], "rhythm": "reflect"}
+{"tokens": ["rightness", "check"], "rhythm": "reflect"}
+{"tokens": ["test", "validate", "deliberate"], "rhythm": "reflect"}
+{"tokens": ["reconcile", "reason"], "rhythm": "reflect"}
+{"tokens": ["hold", "verity"], "rhythm": "reflect"}
+{"tokens": ["beneath", "depth"], "rhythm": "reflect"}
+{"tokens": ["integrate", "depth", "probe"], "rhythm": "reflect"}
+{"tokens": ["beneath", "thorough"], "rhythm": "reflect"}
+{"tokens": ["existence", "situate"], "rhythm": "reflect"}
+{"tokens": ["relate", "pause"], "rhythm": "reflect"}
+{"tokens": ["harmonize", "depth"], "rhythm": "reflect"}
+{"tokens": ["between", "examine", "subtle", "validate"], "rhythm": "reflect"}
+{"tokens": ["exercise", "inside", "process"], "rhythm": "reflect"}
+{"tokens": ["witness", "in", "register", "nuanced"], "rhythm": "reflect"}
+{"tokens": ["watchfulness", "harmonize"], "rhythm": "reflect"}
+{"tokens": ["practice", "recursive"], "rhythm": "reflect"}
+{"tokens": ["drill", "evaluate"], "rhythm": "reflect"}
+{"tokens": ["vigilance", "assess"], "rhythm": "reflect"}
+{"tokens": ["attentiveness", "locate"], "rhythm": "reflect"}
+{"tokens": ["reconcile", "register"], "rhythm": "reflect"}
+{"tokens": ["attribute", "thought"], "rhythm": "reflect"}
+{"tokens": ["correctness", "substrate"], "rhythm": "reflect"}
+{"tokens": ["place", "beneath", "sense"], "rhythm": "reflect"}
+{"tokens": ["situate", "harmonize"], "rhythm": "reflect"}
+{"tokens": ["record", "reason"], "rhythm": "reflect"}
+{"tokens": ["weigh", "integration", "dense"], "rhythm": "reflect"}
+{"tokens": ["actuality", "subtle"], "rhythm": "reflect"}
+{"tokens": ["dense", "reflection"], "rhythm": "reflect"}
+{"tokens": ["attend", "perceive"], "rhythm": "reflect"}
+{"tokens": ["exactness", "hidden", "harmonize"], "rhythm": "reflect"}
+{"tokens": ["integrate", "is", "reconcile", "locate"], "rhythm": "reflect"}
+{"tokens": ["existence", "knowledge"], "rhythm": "reflect"}
+{"tokens": ["subtle", "analyze"], "rhythm": "reflect"}
+{"tokens": ["along", "underneath", "examine", "beneath"], "rhythm": "reflect"}
+{"tokens": ["analyze", "watchfulness"], "rhythm": "reflect"}
+{"tokens": ["locate", "pause"], "rhythm": "reflect"}
+{"tokens": ["harmonize", "in"], "rhythm": "reflect"}
+{"tokens": ["of", "attribute"], "rhythm": "reflect"}
+{"tokens": ["recursion", "layer"], "rhythm": "reflect"}
+{"tokens": ["nuanced", "reason", "process"], "rhythm": "reflect"}
+{"tokens": ["consider", "audit"], "rhythm": "reflect"}
+{"tokens": ["stance", "hidden"], "rhythm": "reflect"}
+{"tokens": ["existence", "inside"], "rhythm": "reflect"}
+{"tokens": ["in", "chorus"], "rhythm": "reflect"}
+{"tokens": ["locate", "self", "meditate"], "rhythm": "reflect"}
+{"tokens": ["character", "recursive"], "rhythm": "reflect"}
+{"tokens": ["hold", "relational"], "rhythm": "reflect"}
+{"tokens": ["evaluate", "integration"], "rhythm": "reflect"}
+{"tokens": ["interior", "study", "think", "is"], "rhythm": "reflect"}
+{"tokens": ["verity", "nuanced"], "rhythm": "reflect"}
+{"tokens": ["within", "examine", "sit"], "rhythm": "reflect"}
+{"tokens": ["standpoint", "actuality"], "rhythm": "reflect"}
+{"tokens": ["teaching", "alertness", "attention"], "rhythm": "reflect"}
+{"tokens": ["rehearsal", "deliberate"], "rhythm": "reflect"}
+{"tokens": ["attribute", "is"], "rhythm": "reflect"}
+{"tokens": ["record", "notice", "rich"], "rhythm": "reflect"}
+{"tokens": ["aspect", "substrate"], "rhythm": "reflect"}
+{"tokens": ["situate", "sit", "inside"], "rhythm": "reflect"}
+{"tokens": ["watch", "study"], "rhythm": "reflect"}
+{"tokens": ["check", "mirror", "measure", "with"], "rhythm": "reflect"}
+{"tokens": ["feature", "essence"], "rhythm": "reflect"}
+{"tokens": ["verity", "the"], "rhythm": "reflect"}
+{"tokens": ["watch", "underneath"], "rhythm": "reflect"}
+{"tokens": ["intuition", "practice"], "rhythm": "reflect"}
+{"tokens": ["situate", "rightness"], "rhythm": "reflect"}
+{"tokens": ["thought", "to"], "rhythm": "reflect"}
+{"tokens": ["observe", "carefulness"], "rhythm": "reflect"}
+{"tokens": ["into", "recursive", "nuanced", "study"], "rhythm": "reflect"}
+{"tokens": ["sit", "the"], "rhythm": "reflect"}
+{"tokens": ["probe", "self", "process"], "rhythm": "reflect"}
+{"tokens": ["register", "practice"], "rhythm": "reflect"}
+{"tokens": ["audit", "synthesize", "a", "confirm"], "rhythm": "reflect"}
+{"tokens": ["verify", "instruction"], "rhythm": "reflect"}
+{"tokens": ["harmonize", "integration"], "rhythm": "reflect"}
+{"tokens": ["nature", "verity"], "rhythm": "reflect"}
+{"tokens": ["validate", "readiness"], "rhythm": "reflect"}
+{"tokens": ["wisdom", "from"], "rhythm": "reflect"}
+{"tokens": ["register", "beneath"], "rhythm": "reflect"}
+{"tokens": ["underneath", "attend"], "rhythm": "reflect"}
+{"tokens": ["feature", "verity"], "rhythm": "reflect"}
+{"tokens": ["reconcile", "place"], "rhythm": "reflect"}
+{"tokens": ["nature", "harmonize"], "rhythm": "reflect"}
+{"tokens": ["to", "harmonize", "situate", "depth"], "rhythm": "reflect"}
+{"tokens": ["truth", "facet"], "rhythm": "reflect"}
+{"tokens": ["fact", "track"], "rhythm": "reflect"}
+{"tokens": ["integrate", "nuanced"], "rhythm": "reflect"}
+{"tokens": ["attentiveness", "bind"], "rhythm": "reflect"}
+{"tokens": ["nature", "a"], "rhythm": "reflect"}
+{"tokens": ["weave", "unify"], "rhythm": "reflect"}
+{"tokens": ["correctness", "carry"], "rhythm": "reflect"}
+{"tokens": ["contextual", "recursion"], "rhythm": "reflect"}
+{"tokens": ["fact", "aspect"], "rhythm": "reflect"}
+{"tokens": ["perceive", "weave"], "rhythm": "reflect"}
+{"tokens": ["situate", "harmonize", "contextual"], "rhythm": "reflect"}
+{"tokens": ["thought", "examine"], "rhythm": "reflect"}
+{"tokens": ["measure", "and"], "rhythm": "reflect"}
+{"tokens": ["nature", "validate", "inspect"], "rhythm": "reflect"}
+{"tokens": ["probe", "audit"], "rhythm": "reflect"}
+{"tokens": ["validate", "inspect", "layer"], "rhythm": "reflect"}
+{"tokens": ["pause", "deliberate", "subtle"], "rhythm": "reflect"}
+{"tokens": ["evaluate", "attend", "analyze"], "rhythm": "reflect"}
+{"tokens": ["quality", "in"], "rhythm": "reflect"}
+{"tokens": ["side", "pause"], "rhythm": "reflect"}
+{"tokens": ["carefulness", "education"], "rhythm": "reflect"}
+{"tokens": ["measure", "relate"], "rhythm": "reflect"}
+{"tokens": ["inspect", "meditate", "along", "recursive"], "rhythm": "reflect"}
+{"tokens": ["connection", "substrate"], "rhythm": "reflect"}
+{"tokens": ["character", "nuanced"], "rhythm": "reflect"}
+{"tokens": ["integrate", "reason"], "rhythm": "reflect"}
+{"tokens": ["deliberate", "thorough", "sit"], "rhythm": "reflect"}
+{"tokens": ["track", "philosophical"], "rhythm": "reflect"}
+{"tokens": ["along", "relate", "nuanced", "inside"], "rhythm": "reflect"}
+{"tokens": ["attribute", "rich"], "rhythm": "reflect"}
+{"tokens": ["fact", "reflection"], "rhythm": "reflect"}
+{"tokens": ["probe", "harmonize"], "rhythm": "reflect"}
+{"tokens": ["rich", "dense"], "rhythm": "reflect"}
+{"tokens": ["trait", "assess"], "rhythm": "reflect"}
+{"tokens": ["with", "inside"], "rhythm": "reflect"}
+{"tokens": ["precision", "wisdom"], "rhythm": "reflect"}
+{"tokens": ["reality", "accuracy"], "rhythm": "reflect"}
+{"tokens": ["depth", "unify", "harmonize"], "rhythm": "reflect"}
+{"tokens": ["watcher", "connection"], "rhythm": "reflect"}
+{"tokens": ["think", "recognize"], "rhythm": "reflect"}
+{"tokens": ["perspective", "analyze"], "rhythm": "reflect"}
+{"tokens": ["rich", "register", "locate"], "rhythm": "reflect"}
+{"tokens": ["dense", "track", "examine", "beyond"], "rhythm": "reflect"}
+{"tokens": ["facet", "register"], "rhythm": "reflect"}
+{"tokens": ["hidden", "witness"], "rhythm": "reflect"}
+{"tokens": ["essence", "of"], "rhythm": "reflect"}
+{"tokens": ["attentiveness", "aspect"], "rhythm": "reflect"}
 {"tokens": ["perceive", "locate", "attention", "validate"], "rhythm": "reflect"}
-{"tokens": ["connection", "cognition", "relational"], "rhythm": "reflect"}
-{"tokens": ["check", "thought", "confirm"], "rhythm": "reflect"}
-{"tokens": ["relational", "philosophical", "contextual", "inside"], "rhythm": "reflect"}
-{"tokens": ["attention", "depth", "recognize", "against"], "rhythm": "reflect"}
+{"tokens": ["synthesize", "validate"], "rhythm": "reflect"}
+{"tokens": ["preparation", "training"], "rhythm": "reflect"}
+{"tokens": ["hidden", "practice"], "rhythm": "reflect"}
+{"tokens": ["watch", "hidden", "record", "a"], "rhythm": "reflect"}
+{"tokens": ["lean", "novel"], "rhythm": "explore"}
+{"tokens": ["counter", "split", "why"], "rhythm": "explore"}
+{"tokens": ["stumble", "reach"], "rhythm": "explore"}
+{"tokens": ["new", "search"], "rhythm": "explore"}
+{"tokens": ["mishandle", "across"], "rhythm": "explore"}
+{"tokens": ["look", "corpus"], "rhythm": "explore"}
+{"tokens": ["shift", "confront"], "rhythm": "explore"}
+{"tokens": ["calibrate", "to", "sway"], "rhythm": "explore"}
+{"tokens": ["fan", "widen"], "rhythm": "explore"}
+{"tokens": ["vision", "uncover"], "rhythm": "explore"}
+{"tokens": ["diverge", "exploration", "spark"], "rhythm": "explore"}
+{"tokens": ["watch", "search"], "rhythm": "explore"}
+{"tokens": ["roll", "deviate"], "rhythm": "explore"}
+{"tokens": ["oppose", "extend"], "rhythm": "explore"}
+{"tokens": ["patrol", "widen"], "rhythm": "explore"}
+{"tokens": ["change", "bungle"], "rhythm": "explore"}
+{"tokens": ["chase", "unexpected", "extend"], "rhythm": "explore"}
+{"tokens": ["swing", "tip"], "rhythm": "explore"}
+{"tokens": ["shift", "mutation"], "rhythm": "explore"}
+{"tokens": ["track", "change"], "rhythm": "explore"}
+{"tokens": ["curious", "why", "radiate"], "rhythm": "explore"}
+{"tokens": ["evolve", "surprising"], "rhythm": "explore"}
+{"tokens": ["calibrate", "stray"], "rhythm": "explore"}
+{"tokens": ["plumb", "diverge"], "rhythm": "explore"}
+{"tokens": ["bifurcation", "wander"], "rhythm": "explore"}
+{"tokens": ["change", "tilt"], "rhythm": "explore"}
+{"tokens": ["evolve", "bungle"], "rhythm": "explore"}
+{"tokens": ["discover", "unfamiliar", "follow", "within"], "rhythm": "explore"}
+{"tokens": ["grope", "surprising"], "rhythm": "explore"}
+{"tokens": ["veer", "misfire", "noise"], "rhythm": "explore"}
+{"tokens": ["pursue", "stress"], "rhythm": "explore"}
+{"tokens": ["novel", "pursue", "counter", "between"], "rhythm": "explore"}
+{"tokens": ["chase", "expand", "strange", "against"], "rhythm": "explore"}
+{"tokens": ["discover", "radiate", "new"], "rhythm": "explore"}
+{"tokens": ["sound", "transform"], "rhythm": "explore"}
+{"tokens": ["bungle", "change"], "rhythm": "explore"}
+{"tokens": ["heel", "of"], "rhythm": "explore"}
+{"tokens": ["fan", "search"], "rhythm": "explore"}
+{"tokens": ["bungle", "curious"], "rhythm": "explore"}
+{"tokens": ["falter", "confront"], "rhythm": "explore"}
+{"tokens": ["hunt", "resist"], "rhythm": "explore"}
+{"tokens": ["grope", "heel"], "rhythm": "explore"}
+{"tokens": ["how", "exploration"], "rhythm": "explore"}
+{"tokens": ["grope", "spread"], "rhythm": "explore"}
+{"tokens": ["search", "to", "mutate", "discover"], "rhythm": "explore"}
+{"tokens": ["veer", "heel"], "rhythm": "explore"}
+{"tokens": ["discover", "frontier", "chaos", "a"], "rhythm": "explore"}
+{"tokens": ["other", "break"], "rhythm": "explore"}
+{"tokens": ["sound", "patrol"], "rhythm": "explore"}
+{"tokens": ["swerve", "exploration"], "rhythm": "explore"}
+{"tokens": ["skew", "bungle"], "rhythm": "explore"}
+{"tokens": ["unfamiliar", "uncover", "into", "break"], "rhythm": "explore"}
+{"tokens": ["search", "entropy", "expand"], "rhythm": "explore"}
+{"tokens": ["push", "chaos"], "rhythm": "explore"}
+{"tokens": ["fierce", "falter"], "rhythm": "explore"}
+{"tokens": ["sight", "is", "else"], "rhythm": "explore"}
+{"tokens": ["deviate", "bungle"], "rhythm": "explore"}
+{"tokens": ["list", "exploration"], "rhythm": "explore"}
+{"tokens": ["swing", "falter"], "rhythm": "explore"}
+{"tokens": ["sound", "unexpected"], "rhythm": "explore"}
+{"tokens": ["transform", "extend"], "rhythm": "explore"}
+{"tokens": ["what", "drift", "unfamiliar"], "rhythm": "explore"}
+{"tokens": ["within", "unexpected", "oppose", "frontier"], "rhythm": "explore"}
+{"tokens": ["view", "swing"], "rhythm": "explore"}
+{"tokens": ["tip", "grope"], "rhythm": "explore"}
+{"tokens": ["outside", "transform"], "rhythm": "explore"}
+{"tokens": ["observation", "mismanage", "corpus"], "rhythm": "explore"}
+{"tokens": ["why", "mismanage"], "rhythm": "explore"}
+{"tokens": ["expand", "hunt", "with", "chase"], "rhythm": "explore"}
+{"tokens": ["transform", "how", "surprising"], "rhythm": "explore"}
+{"tokens": ["hunt", "resist", "beyond", "oppose"], "rhythm": "explore"}
+{"tokens": ["botch", "counter"], "rhythm": "explore"}
+{"tokens": ["yaw", "evolve", "see"], "rhythm": "explore"}
+{"tokens": ["track", "turbulence"], "rhythm": "explore"}
+{"tokens": ["explore", "divert"], "rhythm": "explore"}
+{"tokens": ["challenge", "from"], "rhythm": "explore"}
+{"tokens": ["push", "radiate", "fork"], "rhythm": "explore"}
+{"tokens": ["uncover", "face", "in", "radiate"], "rhythm": "explore"}
+{"tokens": ["shift", "fork"], "rhythm": "explore"}
+{"tokens": ["vary", "extend", "unexpected"], "rhythm": "explore"}
+{"tokens": ["breadth", "lean"], "rhythm": "explore"}
+{"tokens": ["probe", "shift"], "rhythm": "explore"}
+{"tokens": ["curious", "other", "widen"], "rhythm": "explore"}
+{"tokens": ["roll", "list"], "rhythm": "explore"}
+{"tokens": ["what", "split"], "rhythm": "explore"}
+{"tokens": ["fork", "beyond", "counter"], "rhythm": "explore"}
+{"tokens": ["botch", "open"], "rhythm": "explore"}
+{"tokens": ["reconnaissance", "deflect"], "rhythm": "explore"}
+{"tokens": ["curious", "break"], "rhythm": "explore"}
+{"tokens": ["follow", "frontier"], "rhythm": "explore"}
+{"tokens": ["why", "grope"], "rhythm": "explore"}
+{"tokens": ["change", "with", "curious", "face"], "rhythm": "explore"}
+{"tokens": ["heel", "drift"], "rhythm": "explore"}
+{"tokens": ["vary", "split"], "rhythm": "explore"}
+{"tokens": ["else", "uncover"], "rhythm": "explore"}
+{"tokens": ["divert", "transform"], "rhythm": "explore"}
+{"tokens": ["fan", "explore"], "rhythm": "explore"}
+{"tokens": ["bifurcate", "falter"], "rhythm": "explore"}
+{"tokens": ["calibrate", "divert"], "rhythm": "explore"}
+{"tokens": ["bifurcation", "disrupt"], "rhythm": "explore"}
+{"tokens": ["with", "stress"], "rhythm": "explore"}
+{"tokens": ["open", "push", "question"], "rhythm": "explore"}
+{"tokens": ["swerve", "break"], "rhythm": "explore"}
+{"tokens": ["pressure", "question", "is", "find"], "rhythm": "explore"}
+{"tokens": ["bifurcation", "wonder"], "rhythm": "explore"}
+{"tokens": ["lean", "widen"], "rhythm": "explore"}
+{"tokens": ["push", "expand"], "rhythm": "explore"}
+{"tokens": ["challenge", "edge"], "rhythm": "explore"}
+{"tokens": ["pressure", "unfamiliar"], "rhythm": "explore"}
+{"tokens": ["pursue", "move", "breadth", "find"], "rhythm": "explore"}
+{"tokens": ["between", "surprising", "pressure", "uncover"], "rhythm": "explore"}
+{"tokens": ["outside", "breadth", "edge", "flux"], "rhythm": "explore"}
+{"tokens": ["mutate", "spread", "transform", "across"], "rhythm": "explore"}
+{"tokens": ["probe", "fan", "across", "shift"], "rhythm": "explore"}
+{"tokens": ["challenge", "pressure"], "rhythm": "explore"}
+{"tokens": ["from", "change"], "rhythm": "explore"}
+{"tokens": ["discover", "list"], "rhythm": "explore"}
+{"tokens": ["flux", "of"], "rhythm": "explore"}
+{"tokens": ["watch", "fork"], "rhythm": "explore"}
+{"tokens": ["mutate", "else", "flux"], "rhythm": "explore"}
+{"tokens": ["face", "scatter"], "rhythm": "explore"}
+{"tokens": ["noise", "bifurcation"], "rhythm": "explore"}
+{"tokens": ["deviate", "is"], "rhythm": "explore"}
+{"tokens": ["stumble", "why"], "rhythm": "explore"}
+{"tokens": ["else", "novelty"], "rhythm": "explore"}
+{"tokens": ["calibrate", "disrupt"], "rhythm": "explore"}
+{"tokens": ["question", "frontier", "why", "of"], "rhythm": "explore"}
+{"tokens": ["to", "uncover", "mutate", "search"], "rhythm": "explore"}
+{"tokens": ["observation", "resist"], "rhythm": "explore"}
+{"tokens": ["expansion", "how"], "rhythm": "explore"}
+{"tokens": ["corpus", "divert"], "rhythm": "explore"}
+{"tokens": ["adversarial", "challenge", "pressure"], "rhythm": "explore"}
+{"tokens": ["swing", "with"], "rhythm": "explore"}
+{"tokens": ["and", "why"], "rhythm": "explore"}
+{"tokens": ["wonder", "oppose", "noise"], "rhythm": "explore"}
+{"tokens": ["open", "follow"], "rhythm": "explore"}
+{"tokens": ["yaw", "noise"], "rhythm": "explore"}
+{"tokens": ["mishandle", "search"], "rhythm": "explore"}
+{"tokens": ["expansion", "mutate", "entropy", "spark"], "rhythm": "explore"}
+{"tokens": ["how", "transform", "test"], "rhythm": "explore"}
+{"tokens": ["search", "scatter"], "rhythm": "explore"}
+{"tokens": ["move", "new"], "rhythm": "explore"}
+{"tokens": ["extend", "move"], "rhythm": "explore"}
+{"tokens": ["what", "expand", "unexpected", "across"], "rhythm": "explore"}
+{"tokens": ["bifurcate", "reconnaissance"], "rhythm": "explore"}
+{"tokens": ["outside", "resist"], "rhythm": "explore"}
+{"tokens": ["disrupt", "mutation", "hunger"], "rhythm": "explore"}
+{"tokens": ["face", "quantify"], "rhythm": "explore"}
+{"tokens": ["stray", "deviate"], "rhythm": "explore"}
+{"tokens": ["open", "with", "wonder", "pressure"], "rhythm": "explore"}
+{"tokens": ["what", "new"], "rhythm": "explore"}
+{"tokens": ["toward", "bifurcation"], "rhythm": "explore"}
+{"tokens": ["mutation", "outside", "bifurcation"], "rhythm": "explore"}
+{"tokens": ["exploration", "uncover"], "rhythm": "explore"}
+{"tokens": ["digress", "misfire"], "rhythm": "explore"}
+{"tokens": ["mutate", "diverge", "field", "bifurcation"], "rhythm": "explore"}
+{"tokens": ["plumb", "counter"], "rhythm": "explore"}
+{"tokens": ["far", "noise", "is", "else"], "rhythm": "explore"}
+{"tokens": ["fracture", "scatter"], "rhythm": "explore"}
+{"tokens": ["expand", "corpus"], "rhythm": "explore"}
+{"tokens": ["frontier", "beyond", "the", "spread"], "rhythm": "explore"}
+{"tokens": ["why", "beyond", "seek"], "rhythm": "explore"}
+{"tokens": ["expand", "fathom"], "rhythm": "explore"}
+{"tokens": ["sound", "entropy"], "rhythm": "explore"}
+{"tokens": ["list", "patrol"], "rhythm": "explore"}
+{"tokens": ["expand", "digress"], "rhythm": "explore"}
+{"tokens": ["fork", "question"], "rhythm": "explore"}
+{"tokens": ["field", "curiosity"], "rhythm": "explore"}
+{"tokens": ["bungle", "spread"], "rhythm": "explore"}
+{"tokens": ["far", "flux"], "rhythm": "explore"}
+{"tokens": ["chaos", "how", "beyond"], "rhythm": "explore"}
+{"tokens": ["how", "beyond", "what"], "rhythm": "explore"}
+{"tokens": ["mismanage", "outside"], "rhythm": "explore"}
+{"tokens": ["move", "radiate"], "rhythm": "explore"}
+{"tokens": ["what", "unexpected"], "rhythm": "explore"}
+{"tokens": ["divert", "between"], "rhythm": "explore"}
+{"tokens": ["see", "the"], "rhythm": "explore"}
+{"tokens": ["from", "gauge"], "rhythm": "explore"}
+{"tokens": ["against", "novel"], "rhythm": "explore"}
+{"tokens": ["reconnaissance", "spark"], "rhythm": "explore"}
+{"tokens": ["chase", "unfamiliar", "probe"], "rhythm": "explore"}
+{"tokens": ["into", "unexpected"], "rhythm": "explore"}
+{"tokens": ["noise", "surprising", "reach"], "rhythm": "explore"}
+{"tokens": ["find", "else", "wander"], "rhythm": "explore"}
+{"tokens": ["pressure", "novel", "change"], "rhythm": "explore"}
+{"tokens": ["expansion", "edge"], "rhythm": "explore"}
+{"tokens": ["confront", "radiate"], "rhythm": "explore"}
+{"tokens": ["strange", "discover", "diverge"], "rhythm": "explore"}
+{"tokens": ["deviate", "follow"], "rhythm": "explore"}
+{"tokens": ["beyond", "hunt", "beyond", "extend"], "rhythm": "explore"}
+{"tokens": ["discover", "expand"], "rhythm": "explore"}
+{"tokens": ["branch", "test"], "rhythm": "explore"}
+{"tokens": ["stray", "watch"], "rhythm": "explore"}
+{"tokens": ["tilt", "botch"], "rhythm": "explore"}
+{"tokens": ["turbulence", "different", "break"], "rhythm": "explore"}
+{"tokens": ["surprising", "vary"], "rhythm": "explore"}
+{"tokens": ["outside", "patrol"], "rhythm": "explore"}
+{"tokens": ["quantify", "pressure"], "rhythm": "explore"}
+{"tokens": ["rock", "swing"], "rhythm": "explore"}
+{"tokens": ["blunder", "frontier"], "rhythm": "explore"}
+{"tokens": ["veer", "and"], "rhythm": "explore"}
+{"tokens": ["pursue", "plumb"], "rhythm": "explore"}
+{"tokens": ["seek", "what"], "rhythm": "explore"}
+{"tokens": ["novelty", "glimpse"], "rhythm": "explore"}
+{"tokens": ["resist", "across", "shift", "hunger"], "rhythm": "explore"}
+{"tokens": ["unknown", "search"], "rhythm": "explore"}
+{"tokens": ["entropy", "far", "confront"], "rhythm": "explore"}
+{"tokens": ["else", "of"], "rhythm": "explore"}
+{"tokens": ["strange", "wander"], "rhythm": "explore"}
+{"tokens": ["bungle", "stumble"], "rhythm": "explore"}
+{"tokens": ["fork", "push"], "rhythm": "explore"}
+{"tokens": ["chase", "other"], "rhythm": "explore"}
+{"tokens": ["skew", "chase"], "rhythm": "explore"}
+{"tokens": ["mutate", "oppose", "in", "evolve"], "rhythm": "explore"}
+{"tokens": ["diverge", "grope"], "rhythm": "explore"}
+{"tokens": ["misfire", "against"], "rhythm": "explore"}
+{"tokens": ["fathom", "watch"], "rhythm": "explore"}
+{"tokens": ["expand", "diverge"], "rhythm": "explore"}
+{"tokens": ["reconnaissance", "split"], "rhythm": "explore"}
+{"tokens": ["veer", "mismanage"], "rhythm": "explore"}
+{"tokens": ["turbulence", "and"], "rhythm": "explore"}
+{"tokens": ["fork", "spread"], "rhythm": "explore"}
+{"tokens": ["challenge", "turbulence", "to", "unexpected"], "rhythm": "explore"}
+{"tokens": ["transform", "lurch"], "rhythm": "explore"}
+{"tokens": ["widen", "confront", "why", "curiosity"], "rhythm": "explore"}
+{"tokens": ["breadth", "pitch", "unknown"], "rhythm": "explore"}
+{"tokens": ["glimpse", "curiosity"], "rhythm": "explore"}
+{"tokens": ["else", "discover"], "rhythm": "explore"}
+{"tokens": ["observation", "oppose"], "rhythm": "explore"}
+{"tokens": ["vision", "find"], "rhythm": "explore"}
+{"tokens": ["pitch", "disrupt"], "rhythm": "explore"}
+{"tokens": ["open", "oppose", "change"], "rhythm": "explore"}
+{"tokens": ["why", "spread"], "rhythm": "explore"}
+{"tokens": ["what", "different", "storm"], "rhythm": "explore"}
+{"tokens": ["exploration", "mutation"], "rhythm": "explore"}
+{"tokens": ["swing", "gauge"], "rhythm": "explore"}
+{"tokens": ["botch", "tip"], "rhythm": "explore"}
+{"tokens": ["with", "toward"], "rhythm": "explore"}
+{"tokens": ["turbulence", "unfamiliar", "else", "into"], "rhythm": "explore"}
+{"tokens": ["stray", "reconnaissance"], "rhythm": "explore"}
+{"tokens": ["with", "bifurcation"], "rhythm": "explore"}
+{"tokens": ["transform", "expand", "confront"], "rhythm": "explore"}
+{"tokens": ["transform", "change"], "rhythm": "explore"}
+{"tokens": ["edge", "hunt"], "rhythm": "explore"}
+{"tokens": ["entropy", "how", "discover"], "rhythm": "explore"}
+{"tokens": ["entropy", "across", "transform", "hunt"], "rhythm": "explore"}
+{"tokens": ["novelty", "why"], "rhythm": "explore"}
+{"tokens": ["view", "lean"], "rhythm": "explore"}
+{"tokens": ["bungle", "pitch"], "rhythm": "explore"}
+{"tokens": ["sight", "list"], "rhythm": "explore"}
+{"tokens": ["change", "oppose", "pursue"], "rhythm": "explore"}
+{"tokens": ["shift", "other"], "rhythm": "explore"}
+{"tokens": ["view", "yaw"], "rhythm": "explore"}
+{"tokens": ["entropy", "diverge", "stretch"], "rhythm": "explore"}
+{"tokens": ["reconnaissance", "heel"], "rhythm": "explore"}
+{"tokens": ["surveillance", "pitch"], "rhythm": "explore"}
+{"tokens": ["novel", "bifurcation"], "rhythm": "explore"}
+{"tokens": ["roll", "toward"], "rhythm": "explore"}
+{"tokens": ["fork", "uncover", "exploration"], "rhythm": "explore"}
+{"tokens": ["stretch", "of", "expand", "break"], "rhythm": "explore"}
+{"tokens": ["pitch", "fumble"], "rhythm": "explore"}
+{"tokens": ["deflect", "flux"], "rhythm": "explore"}
+{"tokens": ["falter", "counter"], "rhythm": "explore"}
+{"tokens": ["flux", "change"], "rhythm": "explore"}
+{"tokens": ["see", "far"], "rhythm": "explore"}
+{"tokens": ["resist", "frontier"], "rhythm": "explore"}
+{"tokens": ["unknown", "corpus"], "rhythm": "explore"}
+{"tokens": ["unexpected", "edge"], "rhythm": "explore"}
+{"tokens": ["follow", "chase"], "rhythm": "explore"}
+{"tokens": ["swerve", "find"], "rhythm": "explore"}
+{"tokens": ["sight", "rock"], "rhythm": "explore"}
+{"tokens": ["yaw", "expansion"], "rhythm": "explore"}
+{"tokens": ["sound", "across"], "rhythm": "explore"}
+{"tokens": ["why", "unknown", "beyond", "question"], "rhythm": "explore"}
+{"tokens": ["resist", "branch", "find"], "rhythm": "explore"}
+{"tokens": ["new", "challenge"], "rhythm": "explore"}
+{"tokens": ["misfire", "edge"], "rhythm": "explore"}
+{"tokens": ["calibrate", "and"], "rhythm": "explore"}
+{"tokens": ["extend", "veer"], "rhythm": "explore"}
+{"tokens": ["branch", "unknown", "turbulence", "adversarial"], "rhythm": "explore"}
+{"tokens": ["turbulence", "flux"], "rhythm": "explore"}
+{"tokens": ["fork", "face"], "rhythm": "explore"}
+{"tokens": ["vary", "deflect"], "rhythm": "explore"}
+{"tokens": ["novelty", "shift"], "rhythm": "explore"}
+{"tokens": ["veer", "open"], "rhythm": "explore"}
+{"tokens": ["misfire", "pressure"], "rhythm": "explore"}
+{"tokens": ["botch", "into"], "rhythm": "explore"}
+{"tokens": ["entropy", "strange"], "rhythm": "explore"}
+{"tokens": ["question", "disrupt", "strange", "in"], "rhythm": "explore"}
+{"tokens": ["plumb", "wonder"], "rhythm": "explore"}
+{"tokens": ["plumb", "spread"], "rhythm": "explore"}
+{"tokens": ["mutate", "what", "find"], "rhythm": "explore"}
+{"tokens": ["calibrate", "gauge"], "rhythm": "explore"}
+{"tokens": ["and", "plumb"], "rhythm": "explore"}
+{"tokens": ["resist", "disrupt"], "rhythm": "explore"}
+{"tokens": ["change", "find"], "rhythm": "explore"}
+{"tokens": ["move", "lurch"], "rhythm": "explore"}
+{"tokens": ["tip", "pitch"], "rhythm": "explore"}
+{"tokens": ["radiate", "challenge"], "rhythm": "explore"}
+{"tokens": ["from", "widen"], "rhythm": "explore"}
+{"tokens": ["mutate", "bifurcate"], "rhythm": "explore"}
+{"tokens": ["follow", "split", "curious"], "rhythm": "explore"}
+{"tokens": ["digress", "chase"], "rhythm": "explore"}
+{"tokens": ["question", "outside"], "rhythm": "explore"}
+{"tokens": ["far", "oppose"], "rhythm": "explore"}
+{"tokens": ["in", "novelty"], "rhythm": "explore"}
+{"tokens": ["novelty", "wonder", "far"], "rhythm": "explore"}
+{"tokens": ["edge", "break", "resist"], "rhythm": "explore"}
+{"tokens": ["seek", "spread"], "rhythm": "explore"}
+{"tokens": ["vision", "view"], "rhythm": "explore"}
+{"tokens": ["swerve", "why"], "rhythm": "explore"}
+{"tokens": ["diverge", "vision"], "rhythm": "explore"}
+{"tokens": ["reach", "chaos", "disrupt"], "rhythm": "explore"}
+{"tokens": ["veer", "turbulence"], "rhythm": "explore"}
+{"tokens": ["entropy", "chaos"], "rhythm": "explore"}
+{"tokens": ["list", "branch"], "rhythm": "explore"}
+{"tokens": ["hunt", "curious", "widen"], "rhythm": "explore"}
+{"tokens": ["grope", "pursue"], "rhythm": "explore"}
+{"tokens": ["along", "spread", "extend", "track"], "rhythm": "explore"}
+{"tokens": ["what", "why"], "rhythm": "explore"}
+{"tokens": ["pursue", "other"], "rhythm": "explore"}
+{"tokens": ["reconnaissance", "unexpected"], "rhythm": "explore"}
+{"tokens": ["fathom", "else"], "rhythm": "explore"}
+{"tokens": ["vary", "why"], "rhythm": "explore"}
+{"tokens": ["fork", "far", "fan", "across"], "rhythm": "explore"}
+{"tokens": ["track", "chaos"], "rhythm": "explore"}
+{"tokens": ["drift", "between"], "rhythm": "explore"}
+{"tokens": ["explore", "novelty", "edge"], "rhythm": "explore"}
+{"tokens": ["strange", "chaos", "stretch"], "rhythm": "explore"}
+{"tokens": ["roll", "track"], "rhythm": "explore"}
+{"tokens": ["track", "test", "hunt"], "rhythm": "explore"}
+{"tokens": ["unknown", "branch"], "rhythm": "explore"}
+{"tokens": ["discover", "extend"], "rhythm": "explore"}
+{"tokens": ["vision", "seek"], "rhythm": "explore"}
+{"tokens": ["search", "entropy"], "rhythm": "explore"}
+{"tokens": ["diverge", "extend", "break"], "rhythm": "explore"}
+{"tokens": ["assess", "wander"], "rhythm": "explore"}
+{"tokens": ["branch", "search", "strange"], "rhythm": "explore"}
+{"tokens": ["blunder", "drift"], "rhythm": "explore"}
+{"tokens": ["evolve", "grope"], "rhythm": "explore"}
+{"tokens": ["infect", "wave", "fray"], "rhythm": "rupture"}
+{"tokens": ["desecrate", "heat", "dust"], "rhythm": "rupture"}
+{"tokens": ["blast", "thermal", "friction"], "rhythm": "rupture"}
+{"tokens": ["poison", "defile", "purge", "fatigue"], "rhythm": "rupture"}
+{"tokens": ["strike", "tear", "flame"], "rhythm": "rupture"}
+{"tokens": ["curse", "sully", "shear"], "rhythm": "rupture"}
+{"tokens": ["defect", "heap", "fuel"], "rhythm": "rupture"}
+{"tokens": ["quake", "fatigue"], "rhythm": "rupture"}
+{"tokens": ["severed", "flaw", "noise", "frost"], "rhythm": "rupture"}
+{"tokens": ["humiliate", "slick", "ruin"], "rhythm": "rupture"}
+{"tokens": ["contaminate", "friction", "fluid"], "rhythm": "rupture"}
+{"tokens": ["blight", "hot", "gas"], "rhythm": "rupture"}
+{"tokens": ["revile", "plunder", "smear"], "rhythm": "rupture"}
+{"tokens": ["pollute", "shock", "crash"], "rhythm": "rupture"}
+{"tokens": ["char", "creep"], "rhythm": "rupture"}
+{"tokens": ["humiliate", "rot", "fall"], "rhythm": "rupture"}
+{"tokens": ["curse", "burst", "duct"], "rhythm": "rupture"}
+{"tokens": ["strike", "decay", "wall"], "rhythm": "rupture"}
+{"tokens": ["warp", "delaminate", "spill"], "rhythm": "rupture"}
+{"tokens": ["plunder", "chasm", "surge"], "rhythm": "rupture"}
+{"tokens": ["poison", "cave", "stain"], "rhythm": "rupture"}
+{"tokens": ["fault", "shards"], "rhythm": "rupture"}
+{"tokens": ["fall", "purge", "slick", "decay"], "rhythm": "rupture"}
+{"tokens": ["trespass", "torque", "stress"], "rhythm": "rupture"}
+{"tokens": ["asperse", "infect", "rip"], "rhythm": "rupture"}
+{"tokens": ["ransack", "wave", "blight"], "rhythm": "rupture"}
+{"tokens": ["demean", "burn", "fragment"], "rhythm": "rupture"}
+{"tokens": ["besmirch", "stress", "denounce"], "rhythm": "rupture"}
+{"tokens": ["torque", "perforate"], "rhythm": "rupture"}
+{"tokens": ["failure", "wave"], "rhythm": "rupture"}
+{"tokens": ["sully", "condemn", "breach", "freeze"], "rhythm": "rupture"}
+{"tokens": ["demean", "desolate", "void", "parted"], "rhythm": "rupture"}
+{"tokens": ["gush", "melt"], "rhythm": "rupture"}
+{"tokens": ["profane", "plastic", "pollute"], "rhythm": "rupture"}
+{"tokens": ["malign", "curse", "breach"], "rhythm": "rupture"}
+{"tokens": ["snap", "bone"], "rhythm": "rupture"}
+{"tokens": ["residue", "decay", "elastic"], "rhythm": "rupture"}
+{"tokens": ["fall", "abyss"], "rhythm": "rupture"}
+{"tokens": ["cleave", "bend"], "rhythm": "rupture"}
+{"tokens": ["spike", "shear", "elastic"], "rhythm": "rupture"}
+{"tokens": ["puncture", "collapse", "propagate"], "rhythm": "rupture"}
+{"tokens": ["gush", "shock", "frozen"], "rhythm": "rupture"}
+{"tokens": ["stone", "wreck", "fault"], "rhythm": "rupture"}
+{"tokens": ["slander", "notch", "hot", "thermal"], "rhythm": "rupture"}
+{"tokens": ["infringe", "shards", "ruin"], "rhythm": "rupture"}
+{"tokens": ["cave", "slide", "rot"], "rhythm": "rupture"}
+{"tokens": ["fire", "slick", "yield"], "rhythm": "rupture"}
+{"tokens": ["revile", "debond", "heap"], "rhythm": "rupture"}
+{"tokens": ["purge", "collapse"], "rhythm": "rupture"}
+{"tokens": ["ravage", "fragment", "propagate"], "rhythm": "rupture"}
+{"tokens": ["infect", "vilify", "fragment"], "rhythm": "rupture"}
+{"tokens": ["parted", "shards", "dislocate"], "rhythm": "rupture"}
+{"tokens": ["taint", "quake", "fire"], "rhythm": "rupture"}
+{"tokens": ["stress", "error"], "rhythm": "rupture"}
+{"tokens": ["infest", "flash", "shell"], "rhythm": "rupture"}
+{"tokens": ["curse", "encroach", "cave"], "rhythm": "rupture"}
+{"tokens": ["asperse", "glass", "trespass"], "rhythm": "rupture"}
+{"tokens": ["blister", "pulse"], "rhythm": "rupture"}
+{"tokens": ["wall", "melt", "ice"], "rhythm": "rupture"}
+{"tokens": ["thermal", "surge"], "rhythm": "rupture"}
+{"tokens": ["libel", "frozen", "fall"], "rhythm": "rupture"}
+{"tokens": ["spall", "flash"], "rhythm": "rupture"}
+{"tokens": ["degrade", "crush", "condemn"], "rhythm": "rupture"}
+{"tokens": ["ravage", "smear", "revile", "fatigue"], "rhythm": "rupture"}
+{"tokens": ["pillage", "smear", "parted"], "rhythm": "rupture"}
+{"tokens": ["transgress", "dislocate", "spent"], "rhythm": "rupture"}
+{"tokens": ["wall", "divide", "void", "fluid"], "rhythm": "rupture"}
+{"tokens": ["cut", "cleave", "ash"], "rhythm": "rupture"}
+{"tokens": ["scourge", "dust", "noise"], "rhythm": "rupture"}
+{"tokens": ["tear", "elastic"], "rhythm": "rupture"}
+{"tokens": ["snap", "flaw", "breach", "hiss"], "rhythm": "rupture"}
+{"tokens": ["loot", "ransack", "devastate"], "rhythm": "rupture"}
+{"tokens": ["fuse", "char", "flame"], "rhythm": "rupture"}
+{"tokens": ["calumniate", "loot", "surge"], "rhythm": "rupture"}
+{"tokens": ["elastic", "vent", "torque"], "rhythm": "rupture"}
+{"tokens": ["burnt", "ruin", "spall"], "rhythm": "rupture"}
+{"tokens": ["fissure", "cave", "impact"], "rhythm": "rupture"}
+{"tokens": ["ruin", "slick", "explode"], "rhythm": "rupture"}
+{"tokens": ["degrade", "piece", "loot"], "rhythm": "rupture"}
+{"tokens": ["plunder", "transgress", "ransack"], "rhythm": "rupture"}
+{"tokens": ["poison", "fray", "bleed"], "rhythm": "rupture"}
+{"tokens": ["violate", "slick", "freeze"], "rhythm": "rupture"}
+{"tokens": ["ransack", "crack", "chill"], "rhythm": "rupture"}
+{"tokens": ["debase", "denounce", "breach"], "rhythm": "rupture"}
+{"tokens": ["sully", "error", "severed"], "rhythm": "rupture"}
+{"tokens": ["decay", "hiss"], "rhythm": "rupture"}
+{"tokens": ["blight", "taint", "pillage"], "rhythm": "rupture"}
+{"tokens": ["stain", "delaminate", "shell", "defame"], "rhythm": "rupture"}
+{"tokens": ["rock", "torque"], "rhythm": "rupture"}
+{"tokens": ["infest", "abyss", "decay"], "rhythm": "rupture"}
+{"tokens": ["befoul", "abyss", "encroach"], "rhythm": "rupture"}
+{"tokens": ["ravage", "plunder", "flaw"], "rhythm": "rupture"}
+{"tokens": ["burn", "spall"], "rhythm": "rupture"}
+{"tokens": ["plunder", "infect", "fragment"], "rhythm": "rupture"}
+{"tokens": ["shell", "notch"], "rhythm": "rupture"}
+{"tokens": ["poison", "wear", "load"], "rhythm": "rupture"}
+{"tokens": ["quake", "fuse", "parted"], "rhythm": "rupture"}
+{"tokens": ["encroach", "error", "tension"], "rhythm": "rupture"}
+{"tokens": ["condemn", "weight", "elastic"], "rhythm": "rupture"}
+{"tokens": ["ash", "melt", "fray", "drain"], "rhythm": "rupture"}
+{"tokens": ["ruin", "heap", "frost"], "rhythm": "rupture"}
+{"tokens": ["wreck", "defect", "shards"], "rhythm": "rupture"}
+{"tokens": ["freeze", "burnt"], "rhythm": "rupture"}
+{"tokens": ["severed", "notch", "blast"], "rhythm": "rupture"}
+{"tokens": ["split", "fragment", "tension"], "rhythm": "rupture"}
+{"tokens": ["violate", "fall", "pollute", "ash"], "rhythm": "rupture"}
+{"tokens": ["slick", "sink", "schism"], "rhythm": "rupture"}
+{"tokens": ["violate", "frozen", "degrade"], "rhythm": "rupture"}
+{"tokens": ["demean", "blister", "torque"], "rhythm": "rupture"}
+{"tokens": ["hot", "powder"], "rhythm": "rupture"}
+{"tokens": ["heap", "fuse"], "rhythm": "rupture"}
+{"tokens": ["rot", "fissure", "swell"], "rhythm": "rupture"}
+{"tokens": ["wave", "liquid"], "rhythm": "rupture"}
+{"tokens": ["debase", "condemn", "defect"], "rhythm": "rupture"}
+{"tokens": ["shock", "residue"], "rhythm": "rupture"}
+{"tokens": ["perforate", "dynamic", "notch"], "rhythm": "rupture"}
+{"tokens": ["stress", "crack", "burst"], "rhythm": "rupture"}
+{"tokens": ["mortify", "loss", "notch"], "rhythm": "rupture"}
+{"tokens": ["flaw", "propagate", "strain", "cave"], "rhythm": "rupture"}
+{"tokens": ["defile", "frozen", "sink"], "rhythm": "rupture"}
+{"tokens": ["crush", "rift", "liquid"], "rhythm": "rupture"}
+{"tokens": ["tarnish", "creep", "condemn"], "rhythm": "rupture"}
+{"tokens": ["debond", "error", "chill"], "rhythm": "rupture"}
+{"tokens": ["noise", "blast", "slide"], "rhythm": "rupture"}
+{"tokens": ["despoil", "humiliate", "fatigue"], "rhythm": "rupture"}
+{"tokens": ["taint", "wear", "roof"], "rhythm": "rupture"}
+{"tokens": ["drip", "powder", "fray", "fall"], "rhythm": "rupture"}
+{"tokens": ["strike", "weight", "wave", "thermal"], "rhythm": "rupture"}
+{"tokens": ["drain", "frozen", "notch"], "rhythm": "rupture"}
+{"tokens": ["humiliate", "weight", "tarnish", "schism"], "rhythm": "rupture"}
+{"tokens": ["mortify", "vent", "frozen"], "rhythm": "rupture"}
+{"tokens": ["calumniate", "drain", "bleed"], "rhythm": "rupture"}
+{"tokens": ["demean", "ash", "frost"], "rhythm": "rupture"}
+{"tokens": ["slide", "cleave", "breach", "cold"], "rhythm": "rupture"}
+{"tokens": ["ruin", "rift", "tension"], "rhythm": "rupture"}
+{"tokens": ["humiliate", "twist", "libel"], "rhythm": "rupture"}
+{"tokens": ["ransack", "slander", "pipe"], "rhythm": "rupture"}
+{"tokens": ["crash", "wear", "shards"], "rhythm": "rupture"}
+{"tokens": ["ravage", "spent", "fall", "fuel"], "rhythm": "rupture"}
+{"tokens": ["cold", "duct", "flaw"], "rhythm": "rupture"}
+{"tokens": ["infringe", "dynamic", "strike"], "rhythm": "rupture"}
+{"tokens": ["impact", "slip", "crash"], "rhythm": "rupture"}
+{"tokens": ["slander", "pop", "ice"], "rhythm": "rupture"}
+{"tokens": ["mortify", "revile", "devastate"], "rhythm": "rupture"}
+{"tokens": ["slander", "humiliate", "noise"], "rhythm": "rupture"}
+{"tokens": ["blight", "degrade", "slick"], "rhythm": "rupture"}
+{"tokens": ["ransack", "error", "waste"], "rhythm": "rupture"}
+{"tokens": ["ravage", "defect", "hole"], "rhythm": "rupture"}
+{"tokens": ["degrade", "hiss", "dynamic"], "rhythm": "rupture"}
+{"tokens": ["fray", "vent"], "rhythm": "rupture"}
+{"tokens": ["scourge", "error", "shock"], "rhythm": "rupture"}
+{"tokens": ["void", "flame"], "rhythm": "rupture"}
+{"tokens": ["scourge", "abyss", "waste"], "rhythm": "rupture"}
+{"tokens": ["sack", "damn", "burn"], "rhythm": "rupture"}
+{"tokens": ["violate", "profane", "friction"], "rhythm": "rupture"}
+{"tokens": ["dust", "powder"], "rhythm": "rupture"}
+{"tokens": ["yield", "twist", "shatter", "loud"], "rhythm": "rupture"}
+{"tokens": ["besmirch", "sink", "dust", "puncture"], "rhythm": "rupture"}
+{"tokens": ["chasm", "yield", "glass"], "rhythm": "rupture"}
+{"tokens": ["despoil", "cut", "infringe"], "rhythm": "rupture"}
+{"tokens": ["mortify", "waste", "scourge"], "rhythm": "rupture"}
+{"tokens": ["tension", "divide", "surge"], "rhythm": "rupture"}
+{"tokens": ["noise", "shell", "bone"], "rhythm": "rupture"}
+{"tokens": ["defile", "violate", "pollute", "flaw"], "rhythm": "rupture"}
+{"tokens": ["shell", "bend"], "rhythm": "rupture"}
+{"tokens": ["degrade", "defect", "frost"], "rhythm": "rupture"}
+{"tokens": ["stone", "friction"], "rhythm": "rupture"}
+{"tokens": ["fluid", "vent", "flame"], "rhythm": "rupture"}
+{"tokens": ["fire", "sink", "dislocate"], "rhythm": "rupture"}
+{"tokens": ["poison", "ruin", "loud"], "rhythm": "rupture"}
+{"tokens": ["befoul", "wall", "noise"], "rhythm": "rupture"}
+{"tokens": ["besmirch", "condemn", "contaminate"], "rhythm": "rupture"}
+{"tokens": ["sack", "slip", "drip", "char"], "rhythm": "rupture"}
+{"tokens": ["shear", "impact", "pulse"], "rhythm": "rupture"}
+{"tokens": ["pollute", "freeze", "surge"], "rhythm": "rupture"}
+{"tokens": ["revile", "leak", "split"], "rhythm": "rupture"}
+{"tokens": ["encroach", "desecrate", "thermal", "plastic"], "rhythm": "rupture"}
+{"tokens": ["weight", "decay"], "rhythm": "rupture"}

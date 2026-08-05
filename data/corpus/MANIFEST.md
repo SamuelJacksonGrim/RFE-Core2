@@ -1,18 +1,18 @@
 # Corpus MANIFEST
 
-version: 1.2.0
-date: 2026-07-06
+version: 1.3.0
+date: 2026-08-05
 generated_by: Claude (automated, RFE vocabulary); validated and cleaned in-repo;
 operational-vocabulary extension built by data/corpus/build_extension_v1_1_0.py
 
 ## Composition
-- train: 2870 sequences
-- holdout: 501 sequences — 14.9%
-- rhythms: stabilize, dream, reflect, explore
-- vocab: 335 plain-English tokens — RFE conceptual neighborhood + the full
+- train: 8527 sequences
+- holdout: 1505 sequences — 15.0%
+- rhythms: stabilize, dream, reflect, explore, rupture
+- vocab: 709 plain-English tokens — RFE conceptual neighborhood + the full
   operational vocabulary (Resonance Family streams, DEFAULT_RHYTHM_SEEDS,
   bootstrap WORDS, recursion1188 DEFAULT_TOKENS)
-- contexts per unique token (train): min 9 (spec floor is 8)
+- contexts per unique token (train): min 10 (spec floor is 8)
 - sequence lengths: 2–4 tokens
 - sacred-constant tokens (`3.12`, `11.88`, `280.90`): absent, per
   `docs/training/data_curation.md` §3 exclusions. The English word "anchor"
@@ -45,6 +45,9 @@ generalization — exactly what Gate G1 needs.
 
 ## Versioning
 Any corpus change increments version. All findings reference corpus version.
+
+### 1.3.0 (2026-08-05)
+- **Rupture 5th rhythm + vocabulary expansion.** Added the `rupture` rhythm (structural-failure / kinetic-disruption axis, verified separable — rupture⊥explore centroid cos -0.096) and expanded the vocabulary (~335 -> 709 tokens) via a hand-audited procedural pass (Kimi K3). Train 2870 -> 8527; the train/holdout split was **rebuilt** — stratified ~15% per rhythm (incl. rupture), de-duplicated, leakage-free, label-coherent, every train token >= 8 contexts. `RHYTHMS` + `DEFAULT_RHYTHM_SEEDS` gained `rupture` (`training/corpus.py`, `training/rhythm_pretraining.py`).
 
 ### 1.2.0 (2026-07-06)
 - **Source field removed** (schema: `{tokens, rhythm}`). The labels were
