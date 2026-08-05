@@ -57,6 +57,7 @@ from typing import Callable, List, Optional, Tuple
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 README     = REPO_ROOT / "README.md"
 CLAUDE_MD  = REPO_ROOT / "CLAUDE.md"
+PROJECT_STRUCTURE = REPO_ROOT / "docs" / "PROJECT_STRUCTURE.md"  # the file tree lives here
 TESTS_DIR  = REPO_ROOT / "tests"
 
 
@@ -90,6 +91,7 @@ def _read(path: Path) -> str:
 
 _README_TEXT    = _read(README)
 _CLAUDE_MD_TEXT = _read(CLAUDE_MD)
+_STRUCTURE_TEXT = _read(PROJECT_STRUCTURE)   # project-structure tree (transplanted out of README)
 
 
 # ===========================================================================
@@ -119,7 +121,7 @@ def _readme_listed_files_in_subdir(subdir_label: str) -> Optional[List[str]]:
     nested group subfolders (e.g. diagnostic/lockin/) — stopping only at the
     next directory marker at the same-or-shallower indentation (a true sibling).
     """
-    if not _README_TEXT:
+    if not _STRUCTURE_TEXT:
         return None
 
     # Find the opening "├── <subdir_label>/" line, capturing its indent column.
@@ -127,7 +129,7 @@ def _readme_listed_files_in_subdir(subdir_label: str) -> Optional[List[str]]:
         r"^(?P<indent>[│ ]*)├──\s+" + re.escape(subdir_label) + r"/\s*$",
         re.MULTILINE,
     )
-    m = open_re.search(_README_TEXT)
+    m = open_re.search(_STRUCTURE_TEXT)
     if not m:
         return None
 
@@ -137,12 +139,12 @@ def _readme_listed_files_in_subdir(subdir_label: str) -> Optional[List[str]]:
     opener_indent = len(m.group("indent"))
     start = m.end()
     dir_line = re.compile(r"^(?P<indent>[│ ]*)[├└]──\s+\S+/", re.MULTILINE)
-    end = len(_README_TEXT)
-    for dm in dir_line.finditer(_README_TEXT, start):
+    end = len(_STRUCTURE_TEXT)
+    for dm in dir_line.finditer(_STRUCTURE_TEXT, start):
         if len(dm.group("indent")) <= opener_indent:
             end = dm.start()
             break
-    block = _README_TEXT[start:end]
+    block = _STRUCTURE_TEXT[start:end]
 
     return _TREE_PY_FILE.findall(block)
 
