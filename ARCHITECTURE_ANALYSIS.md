@@ -22,8 +22,11 @@ Every formula, constant, and `file:line` anchor below was checked against
 source at the time of writing. Where a number is sacred, CLAUDE.md is the
 authority; this document only reports where the code honors it.
 
-**Current as of 2026-07-02.** This revision moves the file to the repo root and
-tracks the changes since 2026-06-26: the **voice/dialogue layer** landed — the
+**Current as of 2026-08-08.** This revision tracks the changes since 2026-07-02: the
+**5th rhythm `rupture`** is now documented (§2), and the open frontier is corrected to the
+**speech cortex — gap 1**, with meta-cognition (Tier 5) behind it (§1), per `STATE.md` and
+`docs/north_star.md`. The prior revision (2026-07-02) moved the file to the repo root and
+tracked the changes since 2026-06-26: the **voice/dialogue layer** landed — the
 `TokenDecoder` read-out head (vector → bag-of-tokens, §1), the default-on
 **waking dream channel** (`source_dream` self-dialogue through `arbitrate()`,
 §8.1), and offline **downtime dreaming** (`DreamSession`, §7) — plus the
@@ -100,8 +103,9 @@ semantic *bag-of-tokens* (word-cloud) from an expressed vector. It is **lossy
 by design** (recall@8 ≈ 0.10; the semantic neighborhood, not sentences), which
 is a gap only for literal external speech — for inner monologue and dreaming
 the non-literal cloud is the right register (`docs/north_star.md`). RFE-Core2
-still emits no literal language; that upgrade is the planned speech-cortex
-mirror of the encoder swap below. Two consequences follow that the rest of
+still emits no literal language; that upgrade — the **speech cortex** (an LLM decode
+conditioned on the field-state → real sentences) — is **the one open frontier** (North-Star
+*gap 1*; see `STATE.md`), and the mirror of the encoder swap below. Two consequences follow that the rest of
 this document leans on:
 
 - **The encoder backend is swappable.** "Wiring in a local LLM" (GPT-OSS-20B,
@@ -110,10 +114,12 @@ this document leans on:
   `docs/SYSTEM_REVIEW_2026-06-13.md`).
 - **Generator representational room is the upstream lever.** The lock-in analysis
   (§4) keeps returning to it, which is why the **generator training path**
-  (`training/`, §7) and a **proposed Tier 5** (meta-cognition / attentional
-  control — the loop *directing* its attention rather than only responding to it)
-  are anchored but uncommitted: Tier 5 is gated on the generator presenting real
-  diversity to direct (`docs/training/tier5_readiness.md`).
+  (`training/`, §7) matters. Beyond it the North-Star arc is *rungs, each using the one
+  below* (`docs/north_star.md`): the **speech cortex** (gap 1, above) is next — the voice.
+  **Meta-cognition / attentional control (the proposed Tier 5)** — the loop *directing* its
+  attention rather than only responding to it — sits *behind* the voice (you cannot verify
+  meta-cognition without a voice to observe it), and stays anchored-but-uncommitted, gated on
+  the generator presenting real diversity to direct (`docs/training/tier5_readiness.md`).
 
 For the conceptual lenses behind the design — the self-as-structure thesis and
 the alchemical reading of the tiers — see `docs/self_model_thesis.md` and
@@ -144,7 +150,7 @@ drift this resolved). For each step below: what it reads → what it writes.
 | 3 | Attractor pull | `vec`, `emotion.attractor_pull()` | `vec` blended toward nearest center |
 | 4 | Recursive attention — `rec_attn.refine(vec)` | `vec`, attention history | refined `vec` (3 passes) |
 | 5 | Watcher evaluation — `watcher.evaluate(vec, anchor, field_state)` | `vec`, witness anchor, resonated field | `CoherenceReport(G,T,R,C, coherence_delta, crystallization_pressure, stable)` |
-| 6 | Reflective loop (reflect/explore only, if stable) | `vec`, watcher, attractor, field | refined `vec` → re-evaluated `report` (≤5 passes) |
+| 6 | Reflective loop — reflect/explore if stable, **or on rupture** (`rupture_on_lock`, opt-in) | `vec`, watcher, attractor, field | refined `vec` → re-evaluated `report` (≤5 passes) |
 | 7 | Witness update — `witness.update(vec, coherence, energy)` | `vec`, `report.composite`, energy | three-timescale anchors → `RelationalProfile` |
 | 8 | Predictive echo — `predictor.update(vec)` | `vec`, prediction history | `EchoReport(prediction_error, curiosity, surprise, tension, boredom)` |
 | 9 | Emotional gradient — `emotion.update(...)` | prediction_error, coherence, field_energy | six EMA scalars → derived `arousal`/`valence` + six modulation outputs |
@@ -220,6 +226,15 @@ step's expressed vector through the `TokenDecoder` and, on `dream_channel_p`
 (0.20) of waking steps, feeds the resulting tokens back as an ordinary
 `step(source_id='source_dream')` call. The system's own voice enters through
 the same step 10 gate as every external source — no bypass.
+
+**Rupture** (`rupture_on_lock`, opt-in, default OFF) is the 5th rhythm and the one deliberate
+lock-*break*. When the generator's metastability reports `locked`, on lock-onset it picks a
+single held novel target and blends the expressed vector toward it each step
+(`rupture_lock_scale` 1.5, `rupture_hold_blend` 0.5) so the field can *accumulate* a migration;
+the validated 0.30 loop attenuation (§8.1) then loosens the lock toward it — same manipulation
+envelope. It enters at **step 6** (the reflective loop), not as a step-20 behavior — so the
+step-20 list above stays the four router-selected rhythms. Byte-identical when off. See
+`docs/findings/2026-08-04-rupture-and-the-lock-is-a-landscape-problem.md`.
 
 ---
 
@@ -315,29 +330,25 @@ timescales all feeding the same field.
 
 ## 4. Coherence as the central decision axis
 
-> **Caveat — "central" is mechanistic, not normative. High coherence is not a
-> health signal.** Coherence is what the system routes on; it is *not* a measure
-> of the system working well. Left to run, the live-Generator field pins to the
-> ceiling — a quick run this session sits at ~0.998 internal coherence,
-> essentially locked from the first steps. That pin is *rigid-attractor
-> lock-in* (the signature of a collapsed, monocultural field), not a thriving
-> state. The mechanism that produces it is partly evolutionary: because the
-> reaper currencies symbol survival largely in coherence (the read-side boundary
-> above), and coherence rewards alignment, the population is selected toward
-> agreement and converges. Read the rest of this section as *how the axis works*,
-> not as *more coherence is better*. The healthy target is **metastability** —
-> mid-band coherence with high dwell-time variance — which is active work.
-> Progress so far: the metastability metric exists and is validated
-> (`substrate/metastability.py`, G1–G5), and it is now read **upstream** on the
-> per-stage vector streams (`StreamMetastabilityMonitor`, observe-only), not on
-> this field — the field's long-memory decay smooths config wander away by
-> construction. The injected expression is kept metastable by the recursive-
-> attention de-collapse (`diversity_blend`). What remains is the *field-side*
-> counterbalance — wiring metastability into survival selection (Fix 0-B) so the
-> field stops being *driven* to the pin. See `docs/lock_in_remediation_plan.md`
-> and the dated `docs/findings/` ledger (the June-6 pass decomposed the lock into
-> generator · ~85% governance gate · magnitude moat, and reframed the field
-> question from coherence-value to *attractor plasticity*).
+> **Caveat — "central" is mechanistic, not normative.** Coherence is what the
+> system routes on; it is *not* a score of the system working well, and *more
+> coherence is not better*. Left to run, the live-Generator field pins to the
+> ceiling — ~0.998 internal coherence, essentially locked from the first steps.
+> **That pin is BY DESIGN — SETTLED (see `STATE.md`).** The field is the long-memory
+> **identity integrator**, and identity *requires* the pin (`SECOND-LOCKER`; "the
+> loop *is* the lock"). It is not a defect to cure, and you **cannot** unlock it via
+> the corpus/generator — falsified three ways plus a 5000-step run
+> (`docs/findings/2026-08-04-rupture-and-the-lock-is-a-landscape-problem.md`). The
+> monoculture / echo-chamber risk the pin could carry is real but **already
+> handled**: the two-operator ⊘/⊕ system + the dream channel (§8). Metastability,
+> where wanted, is read **upstream** on the per-stage vector streams
+> (`StreamMetastabilityMonitor`, observe-only; validated `substrate/metastability.py`,
+> G1–G5), never by trying to make *this field* wander — its long-memory decay smooths
+> config wander away by construction, and the injected expression is kept metastable
+> upstream by the recursive-attention de-collapse (`diversity_blend`). Where
+> deliberate *movement* is wanted, its home is the reflective loop's reconstitution
+> dynamics — the opt-in `rupture` path (§2), **not** the field. The dated updates
+> below trace how this was settled.
 >
 > **Update (2026-06-07 — plasticity arc complete).** That three-layer decomposition
 > is now resolved and largely superseded by the June-7 findings: the ~85% governance
@@ -671,8 +682,10 @@ multi-source). They were Tier-0 only until 2026-06-27 — the F6 fix had reached
 ### Generator training path (shapes the encoder; gates Tier 5)
 
 Self-supervised; reshapes the *encoder's* weights so it presents real diversity
-(the §4 upstream lever). Assessed viable 2026-06-11, proposed not committed
-(`docs/training/`).
+(the §4 upstream lever). Corpus rhythm-pretraining is now **graduated to default-on**
+(§8.1) and runs end to end (~45s on the 5070 Ti; corpus `v1.3.0`, the **five** rhythm
+basins incl. `rupture`). Saved checkpoints:
+`data/checkpoints/generator_weights_5rhythm{,_kimi}.pt` (`docs/training/`).
 
 | Module | Key class / methods | Role |
 |--------|---------------------|------|
@@ -795,13 +808,18 @@ sustained from outside; **⊘** can only *read and advise* — the consumer is t
 sole writer, and it only decays (never reinforces, never touches sacred).
 
 **Composition ceiling (F10).** Each lever is validated in *isolation*. Turning
-every behavior-bearing lever on at once at dim 128 **broke a baseline property** —
+every behavior-bearing lever on at once at dim 128 once **broke a baseline property** —
 `strong_values 5 → 0`, because the ⊘ consumer caps strength at 2.93 (just under the
-3.0 Dissolution line) under sustained load while the v0.2 cc-axis still read ≈ 0.
-Standing rule: no lever graduates "validated, off" → "default on" without passing
+3.0 Dissolution line) under sustained load while the *then*-`v0.2` cc-axis still read ≈ 0.
+The standing rule holds: no lever graduates "validated, off" → "default on" without passing
 `tests/diagnostic/integrity/all_levers_composition_probe.py` against the all-OFF
-baseline ranges. The ⊘ consumer is blocked from baseline until the cc-confound is
-lifted (`2026-06-20-lever-composition-the-allon-break.md`).
+baseline ranges. **Update (SETTLED — see `STATE.md`): the cc-confound is LIFTED** — the ⊘
+cc-axis was redesigned to v0.3 absolute field-alignment (§4;
+`2026-06-21-oslash-coherence-axis-absolute-alignment.md`), so the old "blocked on cc" marker
+no longer applies. The ⊘ consumer instead stays **parked off-by-default by design** (the
+2026-07-03 ruling that containment levers remain scaffolds), graduation now gated only on the
+un-run multi-seed all-ON composition probe (`docs/BACKLOG.md` §5)
+(`2026-06-20-lever-composition-the-allon-break.md`).
 
 ### 8.3 Instruments (observe-only)
 
