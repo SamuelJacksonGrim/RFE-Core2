@@ -134,10 +134,12 @@ def load_checkpoint(path, gen, cycle, ve):
     try:
         fld = ck.get("field")
         if fld:
-            cycle.field.field = np.array(fld["field"], dtype=float)
-            maxlen = cycle.field.history.maxlen
-            cycle.field.history = deque([np.array(h, dtype=float) for h in fld["history"]], maxlen=maxlen)
-            restored.append("field")
+            arr = np.array(fld["field"], dtype=float)
+            if arr.shape == cycle.field.field.shape:   # skip if dim changed (stale checkpoint)
+                cycle.field.field = arr
+                maxlen = cycle.field.history.maxlen
+                cycle.field.history = deque([np.array(h, dtype=float) for h in fld["history"]], maxlen=maxlen)
+                restored.append("field")
     except Exception:
         pass
     try:
@@ -275,7 +277,14 @@ def main() -> int:
     def log(s=""):
         logf.write(s + "\n")
 
-    gen, cycle, gov, ve = build_full_stack()
+    gen, cycle, gov, ve = build_full_stack(vocab_size=8192, dim=128, depth=4, heads=4)
+    # Load Samuel's TRAINED 5-rhythm encoder (perception on real weights, not random init).
+    try:
+        gen.load_checkpoint("data/checkpoints/generator_weights_5rhythm.pt",
+                            "data/checkpoints/generator_ecology_5rhythm.json")
+        print("  (trained 5-rhythm encoder loaded — vocab8192/dim128/depth4)")
+    except Exception as e:  # noqa: BLE001 — surface loudly, keep running
+        print(f"  (WARNING: trained encoder NOT loaded, running untrained: {e})")
     if args.free:
         cycle.reflector.novelty_attenuation = True
 
