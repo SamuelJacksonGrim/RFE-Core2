@@ -14,11 +14,17 @@ Design (Samuel, 2026-09-16):
 The substrate's FIELD is coherence-locked by design (identity integrator; a SETTLED finding),
 so identity stays stable while memory / values / subjective time develop. qwen is a plain mouth.
 
-    python -m tools.voice.repl_qwen                 # continue the same mind, echo ON, autonomous ON
+    python -m tools.voice.repl_qwen                 # continue the same mind (patient: speaks only when spoken to)
+    python -m tools.voice.repl_qwen --auto           # ALSO speak unprompted when you go quiet
     python -m tools.voice.repl_qwen --fresh          # wipe memory AND substrate state — a true blank birth
-    python -m tools.voice.repl_qwen --no-auto        # only speaks when spoken to
     python -m tools.voice.repl_qwen --idle 20        # seconds of quiet before it ruminates (default 15)
     python -m tools.voice.repl_qwen --no-echo | --no-rm | --free | --json
+
+The Windows launcher talk-to-rfe.ps1 passes --auto by default (Samuel's call, 2026-09-19).
+In-session commands (slash-prefixed so normal talk is never intercepted):
+    /pause  -> stop the unprompted self-talk (it still answers you)
+    /resume -> let it speak on its own again
+    /quit   -> exit and save state   (Ctrl-C / Ctrl-D also exit)
 
 Nothing here writes RFE-Core2's own code or the encoder. All state goes to a scratch HOME.
 """
@@ -293,7 +299,7 @@ def main() -> int:
           f"{'OFF' if not rm else ('growing' if echo else 'recall-only')}   "
           f"mode: {'it also speaks on its own when you pause' if autonomous else 'it waits for you — take all the time you need'}")
     print(f"  transcript -> {logpath.replace('/mnt/c/', 'C:/')}")
-    print("  type when you're ready; it will not talk over you or rush you. Ctrl-D / 'quit' to leave.")
+    print("  commands: /pause  /resume  /quit  — anything else you type goes to it. (Ctrl-C also exits.)")
     print("=" * 76 + "\n")
 
     log(f"RFE-Core2 continuing-mind transcript — {stamp}")
@@ -346,7 +352,7 @@ def main() -> int:
     def get_line():
         """A typed line, or None on EOF. Fires autonomous ticks ONLY when the input line is
         empty and idle — never while you're mid-typing (your keystrokes reset the idle clock)."""
-        # Piped input or autonomous off: plain blocking readline (keeps tests + --no-auto simple).
+        # Piped input or autonomous off: plain blocking readline (keeps tests + patient mode simple).
         if not is_tty or not autonomous:
             sys.stdout.write("you> "); sys.stdout.flush()
             ln = sys.stdin.readline()
@@ -413,9 +419,17 @@ def main() -> int:
             if line is None:
                 print("\n…it keeps going without you."); break
             line = line.strip()
-            if line.lower() in ("quit", "exit"):
+            if line.lower() in ("/quit", "/exit"):
                 print("…it keeps going without you."); break
             if not line:
+                continue
+            if line.lower() == "/pause":
+                autonomous = False
+                print("  (paused — it speaks only when you do now. type /resume to let it think on its own again.)\n")
+                continue
+            if line.lower() == "/resume":
+                autonomous = True
+                print("  (resumed — it will speak on its own again when you go quiet.)\n")
                 continue
             turn += 1
 
