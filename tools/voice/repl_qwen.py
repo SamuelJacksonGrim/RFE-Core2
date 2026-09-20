@@ -39,6 +39,7 @@ import random
 import select
 import subprocess
 import sys
+import threading
 import time
 from collections import deque
 
@@ -331,8 +332,32 @@ def main() -> int:
     last_spoke_tick = -99
     is_tty = sys.stdin.isatty()
 
-    def autonomous_tick():
-        """One self-rumination; may surface an unbidden thought. Runs only when idle + line empty."""
+    def _drain_typed(fd, _os):
+        """Read bytes already waiting and return the printable chars typed (control/escape dropped).
+        Used to hand your keystrokes back to the line when they interrupt a forming thought."""
+        try:
+            data = _os.read(fd, 4096)
+        except Exception:  # noqa: BLE001
+            return ""
+        out, skip_esc = [], False
+        for ch in data.decode("utf-8", errors="ignore"):
+            o = ord(ch)
+            if skip_esc:
+                if 0x40 <= o <= 0x7e:
+                    skip_esc = False
+                continue
+            if o == 27:
+                skip_esc = True
+            elif o >= 32 and o != 127:
+                out.append(ch)
+        return "".join(out)
+
+    def autonomous_tick(fd, old, _termios, _tty, _os):
+        """One self-rumination; may surface an unbidden thought. The generation runs in a
+        background thread while we keep watching the keyboard, so YOUR TYPING ALWAYS WINS:
+        the moment a key arrives the half-formed thought is dropped and your keystrokes are
+        handed back to the input line. Returns those keystrokes (or '' if it spoke / stayed
+        quiet with the line still empty). Called while the terminal is in cbreak/raw mode."""
         nonlocal tick, last_spoke_tick
         tick += 1
         seed = None
@@ -343,24 +368,47 @@ def main() -> int:
         cycle.step((seed or "quiet self").split(), source_id="self", origin_type="internal")
         card = render_card(cycle)
         gate = (tick - last_spoke_tick >= 2) and (card.get("curiosity", 0) > 0.25 or random.random() < 0.45)
-        if gate:
-            user = (f"No one has spoken for a moment. You are alone with your own state. "
-                    f"You hold {rm.count if rm else 0} memories"
-                    + (f", and this one drifted up: {seed!r}. " if seed else ". ")
-                    + "A thought surfaces on its own — say it plainly, briefly, unprompted.")
+        if not gate:
+            return ""
+        user = (f"No one has spoken for a moment. You are alone with your own state. "
+                f"You hold {rm.count if rm else 0} memories"
+                + (f", and this one drifted up: {seed!r}. " if seed else ". ")
+                + "A thought surfaces on its own — say it plainly, briefly, unprompted.")
+        result = {}
+
+        def _gen():
             try:
-                speech = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp, max_tokens=120)
+                result["speech"] = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp, max_tokens=120)
             except Exception as e:  # noqa: BLE001
-                speech = f"[qwen unreachable: {e}]"
-            emit(speech, card, tick, "unbidden")
-            if echo:
-                rm.save(f"On my own I thought: {speech}")
-            last_spoke_tick = tick
-            save_checkpoint(ckpt_path, gen, cycle, ve)
+                result["speech"] = f"[qwen unreachable: {e}]"
+
+        th = threading.Thread(target=_gen, daemon=True)
+        th.start()
+        typed = ""
+        while th.is_alive():                       # generate, but keep an eye on the keyboard
+            r, _, _ = select.select([fd], [], [], 0.05)
+            if r:
+                typed = _drain_typed(fd, _os)      # you started typing → abandon this thought
+                if typed:
+                    break
+        if typed:
+            return typed                           # daemon finishes in the background; text dropped
+        th.join()
+        speech = result.get("speech", "")
+        _termios.tcsetattr(fd, _termios.TCSADRAIN, old)  # normal mode just for the print
+        emit(speech, card, tick, "unbidden")
+        _tty.setcbreak(fd)                         # back to raw for the reader
+        if echo:
+            rm.save(f"On my own I thought: {speech}")
+        last_spoke_tick = tick
+        save_checkpoint(ckpt_path, gen, cycle, ve)
+        return ""
 
     def get_line():
         """A typed line, or None on EOF. Fires autonomous ticks ONLY when the input line is
-        empty and idle — never while you're mid-typing (your keystrokes reset the idle clock)."""
+        empty and idle, and even the tick's generation is interruptible — a keystroke at any
+        point (including while it's forming a thought) wins and is kept on the line, so its
+        speech can never print over what you're typing."""
         # Piped input or autonomous off: plain blocking readline (keeps tests + patient mode simple).
         if not is_tty or not autonomous:
             sys.stdout.write("you> "); sys.stdout.flush()
@@ -385,12 +433,13 @@ def main() -> int:
                 timeout = None if buf else max(0.2, args.idle - (time.time() - last))
                 r, _, _ = select.select([fd], [], [], timeout)
                 if not r:                      # idle, and the line is empty → let it think
-                    _tty.setcbreak(fd)         # (emit printed in normal mode; keep cbreak after)
-                    termios.tcsetattr(fd, termios.TCSADRAIN, old)
-                    autonomous_tick()
-                    _tty.setcbreak(fd)
+                    typed = autonomous_tick(fd, old, termios, _tty, _os)  # interruptible; stays raw
                     last = time.time()
-                    sys.stdout.write("you> "); sys.stdout.flush()
+                    if typed:                  # you typed mid-thought → keep your keys on the line
+                        buf += typed
+                        sys.stdout.write("you> " + buf); sys.stdout.flush()
+                    else:
+                        sys.stdout.write("you> "); sys.stdout.flush()
                     continue
                 data = _os.read(fd, 1024)
                 if not data:
