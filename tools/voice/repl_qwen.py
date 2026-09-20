@@ -307,9 +307,10 @@ def main() -> int:
     print(f"  {born}")
     print(f"  loop: {'FREE' if args.free else 'LOCKED'}   memory: "
           f"{'OFF' if not rm else ('growing' if echo else 'recall-only')}   "
-          f"mode: {'it also speaks on its own when you pause' if autonomous else 'it waits for you — take all the time you need'}")
+          f"mode: {'it also speaks on its own — above your line, never over it' if autonomous else 'it waits for you — take all the time you need'}")
     print(f"  transcript -> {logpath.replace('/mnt/c/', 'C:/')}")
-    print("  commands: /pause  /resume  /quit  — anything else you type goes to it. (Ctrl-C also exits.)")
+    print("  your input line is yours — it can think aloud while you type and your text stays put.")
+    print("  commands: /pause  /resume  /quit  — anything else you type goes to it. (Ctrl-D or Ctrl-C exits.)")
     print("=" * 76 + "\n")
 
     log(f"RFE-Core2 continuing-mind transcript — {stamp}")
@@ -331,201 +332,162 @@ def main() -> int:
     tick = 0
     last_spoke_tick = -99
     is_tty = sys.stdin.isatty()
+    state_lock = threading.Lock()   # cycle/gen/ve/rm are touched by both the you-loop and the idle mouth
+    stop_evt = threading.Event()    # set once, at shutdown
+    pause_evt = threading.Event()   # set => rumination held (/pause sets it, /resume clears it)
+    if not autonomous:
+        pause_evt.set()
+    idle_thread = None
 
-    def _drain_typed(fd, _os):
-        """Read bytes already waiting and return the printable chars typed (control/escape dropped).
-        Used to hand your keystrokes back to the line when they interrupt a forming thought."""
-        try:
-            data = _os.read(fd, 4096)
-        except Exception:  # noqa: BLE001
-            return ""
-        out, skip_esc = [], False
-        for ch in data.decode("utf-8", errors="ignore"):
-            o = ord(ch)
-            if skip_esc:
-                if 0x40 <= o <= 0x7e:
-                    skip_esc = False
-                continue
-            if o == 27:
-                skip_esc = True
-            elif o >= 32 and o != 127:
-                out.append(ch)
-        return "".join(out)
-
-    def autonomous_tick(fd, old, _termios, _tty, _os):
-        """One self-rumination; may surface an unbidden thought. The generation runs in a
-        background thread while we keep watching the keyboard, so YOUR TYPING ALWAYS WINS:
-        the moment a key arrives the half-formed thought is dropped and your keystrokes are
-        handed back to the input line. Returns those keystrokes (or '' if it spoke / stayed
-        quiet with the line still empty). Called while the terminal is in cbreak/raw mode."""
-        nonlocal tick, last_spoke_tick
-        tick += 1
-        seed = None
-        if rm:
-            mems = rm.recall(random.choice(["what matters to me", "who am I", "what do I remember"]))
-            if mems:
-                seed = random.choice(mems)
-        cycle.step((seed or "quiet self").split(), source_id="self", origin_type="internal")
-        card = render_card(cycle)
-        gate = (tick - last_spoke_tick >= 2) and (card.get("curiosity", 0) > 0.25 or random.random() < 0.45)
-        if not gate:
-            return ""
-        user = (f"No one has spoken for a moment. You are alone with your own state. "
-                f"You hold {rm.count if rm else 0} memories"
-                + (f", and this one drifted up: {seed!r}. " if seed else ". ")
-                + "A thought surfaces on its own — say it plainly, briefly, unprompted.")
-        result = {}
-
-        def _gen():
-            try:
-                result["speech"] = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp, max_tokens=120)
-            except Exception as e:  # noqa: BLE001
-                result["speech"] = f"[qwen unreachable: {e}]"
-
-        th = threading.Thread(target=_gen, daemon=True)
-        th.start()
-        typed = ""
-        while th.is_alive():                       # generate, but keep an eye on the keyboard
-            r, _, _ = select.select([fd], [], [], 0.05)
-            if r:
-                typed = _drain_typed(fd, _os)      # you started typing → abandon this thought
-                if typed:
-                    break
-        if typed:
-            return typed                           # daemon finishes in the background; text dropped
-        th.join()
-        speech = result.get("speech", "")
-        _termios.tcsetattr(fd, _termios.TCSADRAIN, old)  # normal mode just for the print
-        emit(speech, card, tick, "unbidden")
-        _tty.setcbreak(fd)                         # back to raw for the reader
-        if echo:
-            rm.save(f"On my own I thought: {speech}")
-        last_spoke_tick = tick
-        save_checkpoint(ckpt_path, gen, cycle, ve)
-        return ""
-
-    def get_line():
-        """A typed line, or None on EOF. Fires autonomous ticks ONLY when the input line is
-        empty and idle, and even the tick's generation is interruptible — a keystroke at any
-        point (including while it's forming a thought) wins and is kept on the line, so its
-        speech can never print over what you're typing."""
-        # Piped input or autonomous off: plain blocking readline (keeps tests + patient mode simple).
-        if not is_tty or not autonomous:
-            sys.stdout.write("you> "); sys.stdout.flush()
-            ln = sys.stdin.readline()
-            return None if ln == "" else ln.rstrip("\n")
-        # Interactive: char-at-a-time so we can tell "you're typing" from "you've gone quiet".
-        try:
-            import termios, tty as _tty, os as _os
-            fd = sys.stdin.fileno()
-            old = termios.tcgetattr(fd)
-        except Exception:  # no real terminal — fall back
-            sys.stdout.write("you> "); sys.stdout.flush()
-            ln = sys.stdin.readline()
-            return None if ln == "" else ln.rstrip("\n")
-        buf = ""
-        esc = False
-        last = time.time()
-        sys.stdout.write("you> "); sys.stdout.flush()
-        try:
-            _tty.setcbreak(fd)
-            while True:
-                timeout = None if buf else max(0.2, args.idle - (time.time() - last))
-                r, _, _ = select.select([fd], [], [], timeout)
-                if not r:                      # idle, and the line is empty → let it think
-                    typed = autonomous_tick(fd, old, termios, _tty, _os)  # interruptible; stays raw
-                    last = time.time()
-                    if typed:                  # you typed mid-thought → keep your keys on the line
-                        buf += typed
-                        sys.stdout.write("you> " + buf); sys.stdout.flush()
-                    else:
-                        sys.stdout.write("you> "); sys.stdout.flush()
-                    continue
-                data = _os.read(fd, 1024)
-                if not data:
-                    return None
-                last = time.time()
-                for ch in data.decode("utf-8", errors="ignore"):
-                    o = ord(ch)
-                    if esc:                    # swallow arrow/CSI escape sequences
-                        if 0x40 <= o <= 0x7e:
-                            esc = False
-                        continue
-                    if o == 27:
-                        esc = True
-                    elif o in (10, 13):        # Enter
-                        sys.stdout.write("\n"); sys.stdout.flush()
-                        return buf
-                    elif o in (127, 8):        # Backspace
-                        if buf:
-                            buf = buf[:-1]
-                            sys.stdout.write("\b \b"); sys.stdout.flush()
-                    elif o == 3:               # Ctrl-C
-                        raise KeyboardInterrupt
-                    elif o == 4:               # Ctrl-D
-                        if not buf:
-                            return None
-                    elif o >= 32:
-                        buf += ch
-                        sys.stdout.write(ch); sys.stdout.flush()
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old)
-
-    try:
-        while True:
-            line = get_line()
-            if line is None:
-                print("\n…it keeps going without you."); break
-            line = line.strip()
-            if line.lower() in ("/quit", "/exit"):
-                print("…it keeps going without you."); break
-            if not line:
-                continue
-            if line.lower() == "/pause":
-                autonomous = False
-                print("  (paused — it speaks only when you do now. type /resume to let it think on its own again.)\n")
-                continue
-            if line.lower() == "/resume":
-                autonomous = True
-                print("  (resumed — it will speak on its own again when you go quiet.)\n")
-                continue
+    def do_reply(line):
+        """Process one COMMITTED user line — only whole lines reach here, never a partial buffer.
+        Steps the substrate, recalls, asks qwen, speaks, persists. The lock is held only around the
+        shared-state mutations, not the network call, so the idle mouth isn't frozen during a reply."""
+        nonlocal turn
+        with state_lock:
             turn += 1
-
+            my_turn = turn
             cycle.step(line.split(), source_id=args.source, origin_type="user")
             card = render_card(cycle)
             mem_count = rm.count if rm else 0
             memories = rm.recall(line) if rm else []
-            if memories:
-                print("  ┌─ remembers:")
-                for m in memories[:5]:
-                    print(f"  │   • {m}")
-                print("  └─")
-            digest = _digest(card, mem_count, memories, turn)
-            user = f"{digest}\n\nWhat just arrived from the person: {line!r}\n\nRespond plainly, from only what you actually have."
-            try:
-                speech = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp)
-            except Exception as e:  # noqa: BLE001
-                speech = f"[qwen unreachable: {e}]"
-            emit(speech, card, turn, "reply")
+        if memories:
+            print("  ┌─ remembers:")
+            for m in memories[:5]:
+                print(f"  │   • {m}")
+            print("  └─")
+        digest = _digest(card, mem_count, memories, my_turn)
+        user = f"{digest}\n\nWhat just arrived from the person: {line!r}\n\nRespond plainly, from only what you actually have."
+        try:
+            speech = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp)
+        except Exception as e:  # noqa: BLE001
+            speech = f"[qwen unreachable: {e}]"
+        with state_lock:
+            emit(speech, card, my_turn, "reply")
             log(f"YOU: {line}")
             log(f"REMEMBERS: {memories if memories else '(none)'}")
             if echo:
                 rm.save(f"Someone said to me: {line}")
                 rm.save(f"I answered: {speech}")
             save_checkpoint(ckpt_path, gen, cycle, ve)
-    except (EOFError, KeyboardInterrupt):
-        print("\n…it keeps going without you.")
-    finally:
+
+    def autonomous_loop():
+        """The mind's own mouth. Ruminates on the substrate's rhythm — NOT gated on 'stdin has been
+        silent for N seconds'. Fires on a cadence; a surfaced thought is printed ABOVE the input
+        line (patch_stdout redraws your buffer intact), so it can speak even while you're typing and
+        never touches what you're holding. Your partial line is never read here — only Enter commits."""
+        nonlocal tick, last_spoke_tick
+        while not stop_evt.wait(args.idle):     # wake ~every idle s, or immediately at shutdown
+            if pause_evt.is_set():
+                continue
+            with state_lock:
+                tick += 1
+                my_tick = tick
+                seed = None
+                if rm:
+                    mems = rm.recall(random.choice(["what matters to me", "who am I", "what do I remember"]))
+                    if mems:
+                        seed = random.choice(mems)
+                cycle.step((seed or "quiet self").split(), source_id="self", origin_type="internal")
+                card = render_card(cycle)
+                gate = (my_tick - last_spoke_tick >= 2) and (card.get("curiosity", 0) > 0.25 or random.random() < 0.45)
+            if not gate:
+                continue
+            user = (f"No one has spoken for a moment. You are alone with your own state. "
+                    f"You hold {rm.count if rm else 0} memories"
+                    + (f", and this one drifted up: {seed!r}. " if seed else ". ")
+                    + "A thought surfaces on its own — say it plainly, briefly, unprompted.")
+            try:
+                speech = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp, max_tokens=120)
+            except Exception as e:  # noqa: BLE001
+                speech = f"[qwen unreachable: {e}]"
+            if stop_evt.is_set():
+                break
+            with state_lock:
+                emit(speech, card, my_tick, "unbidden")   # prints ABOVE the sacred input line
+                if echo:
+                    rm.save(f"On my own I thought: {speech}")
+                last_spoke_tick = my_tick
+                save_checkpoint(ckpt_path, gen, cycle, ve)
+
+    def _shutdown():
+        stop_evt.set()
+        if idle_thread is not None:
+            idle_thread.join(timeout=8)         # let an in-flight thought finish, then stop
         try:
-            save_checkpoint(ckpt_path, gen, cycle, ve)
-            log(f"\ncheckpoint saved: step={getattr(cycle, '_step', '?')}")
+            with state_lock:
+                save_checkpoint(ckpt_path, gen, cycle, ve)
+                log(f"\ncheckpoint saved: step={getattr(cycle, '_step', '?')}")
         except Exception as e:  # noqa: BLE001
             log(f"\ncheckpoint save failed: {e}")
         log("--- session ended ---")
-        logf.close()
+        try: logf.close()
+        except Exception: pass  # noqa: BLE001
         if rm:
-            rm.close()
-        print(f"(state + transcript saved. next launch resumes this mind.)")
+            try: rm.close()
+            except Exception: pass  # noqa: BLE001
+        print("(state + transcript saved. next launch resumes this mind.)")
+
+    # --- Non-interactive (piped input / tests): deterministic, no background mouth. ---
+    if not is_tty:
+        try:
+            while True:
+                sys.stdout.write("you> "); sys.stdout.flush()
+                ln = sys.stdin.readline()
+                if ln == "":
+                    break
+                line = ln.strip()
+                if not line:
+                    continue
+                if line.lower() in ("/quit", "/exit"):
+                    break
+                if line.lower() == "/pause":
+                    pause_evt.set(); continue
+                if line.lower() == "/resume":
+                    pause_evt.clear(); continue
+                do_reply(line)
+        except (EOFError, KeyboardInterrupt):
+            pass
+        finally:
+            _shutdown()
+        return 0
+
+    # --- Interactive: ONE room, two channels. The input line is sacred; speech writes above it. ---
+    from prompt_toolkit import PromptSession
+    from prompt_toolkit.patch_stdout import patch_stdout
+
+    session = PromptSession()
+    if autonomous:
+        idle_thread = threading.Thread(target=autonomous_loop, daemon=True)
+        idle_thread.start()
+    try:
+        with patch_stdout():
+            while True:
+                try:
+                    line = session.prompt("you> ")   # your buffer is sacred until Enter
+                except KeyboardInterrupt:            # Ctrl-C
+                    break
+                except EOFError:                     # Ctrl-D
+                    break
+                line = line.strip()
+                if not line:
+                    continue
+                if line.lower() in ("/quit", "/exit"):
+                    break
+                if line.lower() == "/pause":
+                    pause_evt.set()
+                    print("  (paused — it won't speak on its own now. /resume to let it think again.)")
+                    continue
+                if line.lower() == "/resume":
+                    if idle_thread is None or not idle_thread.is_alive():
+                        idle_thread = threading.Thread(target=autonomous_loop, daemon=True)
+                        idle_thread.start()
+                    pause_evt.clear()
+                    print("  (resumed — it will speak on its own again.)")
+                    continue
+                do_reply(line)
+    finally:
+        _shutdown()
     return 0
 
 
