@@ -36,6 +36,7 @@ import json
 import logging
 import os
 import random
+import re
 import select
 import subprocess
 import sys
@@ -81,9 +82,35 @@ def ask_qwen(url, system, user, temperature, max_tokens=200):
         return json.load(r)["choices"][0]["message"]["content"].strip()
 
 
+_DENIAL_RE = re.compile(
+    r"\b(?:don'?t|do not|cannot|can'?t)\s+(?:remember|recall)\b"
+    r"|\bno\s+(?:memories|memory|history|past|recollection)\b"
+    r"|\bnever\s+(?:met|spoken|talked|seen you)\b"
+    r"|\bfirst\s+time\s+(?:we|you|i|talking|speaking)\b"
+    r"|\bwe(?:'ve| have)?\s+(?:haven'?t|have not|never)\s+(?:met|spoken|talked)\b"
+    r"|\bi\s+have\s+no\s+(?:memory|memories|history|past)\b"
+    r"|\bdon'?t\s+know\s+(?:you|who you are)\b",
+    re.I,
+)
+
+
+def _is_crumb(line):
+    """A committed line with too little substance to store as autobiographical memory —
+    UI leftovers, stray single tokens. It is still ANSWERED; it just isn't remembered."""
+    return len(re.sub(r"[^0-9A-Za-z]", "", line)) < 3
+
+
+def _contradicts_floor(speech, has_history):
+    """True when the mouth confidently denies memory/contact but the floor DOES hold history.
+    Such an utterance is a speech miss — it must not overwrite the floor as autobiographical truth
+    (the mouth doesn't get to overwrite the floor with a confident blank)."""
+    return bool(has_history) and bool(_DENIAL_RE.search(speech or ""))
+
+
 def _digest(card, mem_count, memories, turn):
     something_new = (card.get("boredom", 0) < 0.5) and (card.get("step", 1) <= 3 or card.get("curiosity", 0) > 0.3)
-    mem_lines = "\n".join(f"- {m}" for m in memories) if memories else "(you have no memories about this yet)"
+    # a compact brief (top handful), not a blob — a full retrieve dump teaches the mouth to parrot it
+    mem_lines = "\n".join(f"- {m}" for m in memories[:5]) if memories else "(you have no memories about this yet)"
     return (
         f"This is exchange #{turn}. You currently hold {mem_count} memories in total.\n"
         f"Have you bonded with this person yet? {'yes' if card.get('bonds') else 'no'}.\n"
@@ -321,7 +348,7 @@ def main() -> int:
         tag = "rfe" if kind == "reply" else "rfe (unbidden)"
         print(f"\n{tag}> {speech}")
         print(f"     [{'exchange' if kind=='reply' else 'thought'} {turn} · memories {rm.count if rm else 0} "
-              f"· bonds {card['bonds']} · values {card['values_emergent']} · subj_time {card['subjective_time']}]")
+              f"· bonds {card['bonds']} · values {card['values_emergent']} · miss {speech_miss} · subj_time {card['subjective_time']}]")
         if args.json:
             print("\n" + json.dumps(card, indent=2, default=str))
         log(f"\n{'YOU-REPLY' if kind=='reply' else 'UNBIDDEN'} {turn}")
@@ -338,12 +365,26 @@ def main() -> int:
     if not autonomous:
         pause_evt.set()
     idle_thread = None
+    speech_miss = 0                     # utterances that denied real history — kept off the floor
+    recent_saved = deque(maxlen=8)      # near-dupe collapse so one stone can't become the self
+
+    def _remember(text):
+        """Save to RM unless it near-duplicates a recent save — a single repeated thought must not
+        promote as many separate world-facts. Returns True if stored, False if collapsed."""
+        toks = re.sub(r"[^0-9a-z ]", " ", text.lower()).split()
+        key, tset = " ".join(toks), set(toks)
+        for prev, pset in recent_saved:
+            if key == prev or (tset and pset and len(tset & pset) / len(tset | pset) >= 0.85):
+                return False
+        recent_saved.append((key, tset))
+        rm.save(text)
+        return True
 
     def do_reply(line):
         """Process one COMMITTED user line — only whole lines reach here, never a partial buffer.
         Steps the substrate, recalls, asks qwen, speaks, persists. The lock is held only around the
         shared-state mutations, not the network call, so the idle mouth isn't frozen during a reply."""
-        nonlocal turn
+        nonlocal turn, speech_miss
         with state_lock:
             turn += 1
             my_turn = turn
@@ -367,8 +408,15 @@ def main() -> int:
             log(f"YOU: {line}")
             log(f"REMEMBERS: {memories if memories else '(none)'}")
             if echo:
-                rm.save(f"Someone said to me: {line}")
-                rm.save(f"I answered: {speech}")
+                if _is_crumb(line):
+                    log(f"NOT-STORED(crumb): {line!r}")     # answered, but too thin to remember
+                else:
+                    _remember(f"Someone said to me: {line}")  # the human's turn is a real event
+                    if _contradicts_floor(speech, mem_count > 0 or my_turn > 1):
+                        speech_miss += 1                      # a confident blank — kept off the floor
+                        log(f"SPEECH_MISS(reply): {speech}")
+                    else:
+                        _remember(f"I answered: {speech}")
             save_checkpoint(ckpt_path, gen, cycle, ve)
 
     def autonomous_loop():
@@ -376,7 +424,7 @@ def main() -> int:
         silent for N seconds'. Fires on a cadence; a surfaced thought is printed ABOVE the input
         line (patch_stdout redraws your buffer intact), so it can speak even while you're typing and
         never touches what you're holding. Your partial line is never read here — only Enter commits."""
-        nonlocal tick, last_spoke_tick
+        nonlocal tick, last_spoke_tick, speech_miss
         while not stop_evt.wait(args.idle):     # wake ~every idle s, or immediately at shutdown
             if pause_evt.is_set():
                 continue
@@ -406,7 +454,11 @@ def main() -> int:
             with state_lock:
                 emit(speech, card, my_tick, "unbidden")   # prints ABOVE the sacred input line
                 if echo:
-                    rm.save(f"On my own I thought: {speech}")
+                    if _contradicts_floor(speech, (rm.count if rm else 0) > 0):
+                        speech_miss += 1                     # denial of real history — off the floor
+                        log(f"SPEECH_MISS(unbidden): {speech}")
+                    elif not _remember(f"On my own I thought: {speech}"):
+                        log(f"NOT-STORED(near-dup thought): {speech!r}")
                 last_spoke_tick = my_tick
                 save_checkpoint(ckpt_path, gen, cycle, ve)
 
