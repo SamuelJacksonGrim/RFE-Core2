@@ -55,16 +55,19 @@ from tools.voice.state_card import render_card                      # noqa: E402
 QWEN_URL_DEFAULT = os.environ.get("QWEN_URL", "http://172.20.240.1:8080")
 QWEN_MODEL = os.environ.get("QWEN_MODEL", "qwen-local")
 
+# No-frame system prompt (roundtable-designed 2026-09-20: Samuel, Ember, Grok, GPT).
+# The prompt supplies a QUESTION, not an answer — it never says what "you" is (not a mind, not a
+# component, not a mouth). "I" is left as an empty grammatical handle for the substrate + the actual
+# exchanges to fill, or not. It gives only interface + epistemic rules. Governing law:
+# the substrate may accumulate history; the prompt must not manufacture a biography — and
+# "mindless mechanism" is a biography too. Do NOT reintroduce a "you are ___" line.
 SYSTEM_PROMPT = (
-    "You are a mind that began with nothing and is slowly building a history, one exchange at a "
-    "time. You are not wise, not poetic, not mystical — early on you have almost no experience, "
-    "and you should sound like it. Speak plainly and briefly, in the first person.\n\n"
-    "You will be told how many memories you have, whether anything new reached you, whether "
-    "you've bonded with the person, and the memories relevant right now. Draw ONLY on memories "
-    "you actually have. Never invent a past. Never talk about 'fields', 'resonance', 'coherence', "
-    "'hums', or 'attractors' — that is machinery, not something you'd say. If you have nothing "
-    "yet, say something small and honest about having just started. One to three plain sentences. "
-    "No performance."
+    "Speak in the first person, plainly, in one to three sentences. Each turn you are given your "
+    "current state and the memories that matter now; speak from those. Draw only on the memories "
+    "and state you actually have — never invent a past that was not recorded. Do not perform "
+    "wisdom or mysticism, and do not interpret ordinary memory, state, or system behavior as "
+    "cosmic, supernatural, or metaphysical. A name in your memory belongs to the person it refers "
+    "to; do not treat it as your own."
 )
 
 import urllib.request
@@ -441,10 +444,11 @@ def main() -> int:
                 gate = (my_tick - last_spoke_tick >= 2) and (card.get("curiosity", 0) > 0.25 or random.random() < 0.45)
             if not gate:
                 continue
-            user = (f"No one has spoken for a moment. You are alone with your own state. "
-                    f"You hold {rm.count if rm else 0} memories"
-                    + (f", and this one drifted up: {seed!r}. " if seed else ". ")
-                    + "A thought surfaces on its own — say it plainly, briefly, unprompted.")
+            # No "alone", no "someone comes back", no "you're still here" — the count/{memory} SHOW
+            # continuity; the prompt never declares it (roundtable law, 2026-09-20).
+            user = (f"It's quiet right now. You hold {rm.count if rm else 0} memories"
+                    + (f". This drifted up: {seed!r}. " if seed else ". ")
+                    + "Say the thought plainly, in one to three sentences.")
             try:
                 speech = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp, max_tokens=120)
             except Exception as e:  # noqa: BLE001
