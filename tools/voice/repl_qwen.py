@@ -70,6 +70,51 @@ SYSTEM_PROMPT = (
     "to; do not treat it as your own."
 )
 
+# THINK mode (default 2026-09-21): the validated qwen-core thinking prompt. Keeps every no-frame guard
+# above (first person, only-what-you-have, never-invent-a-past, no-mysticism, name-guard) but PERMITS
+# generativity + orients OUTWARD — the A/B proved a pure report-prompt collapses into reciting emptiness;
+# drives + real memory content + a world channel made it think and reach out (88% outward, sustained).
+THINK_SYSTEM = (
+    "You are thinking, in the first person. You are given what you remember, your current state, and "
+    "sometimes something from the world or from a person. Work WITH them: wonder, ask questions, imagine, "
+    "notice patterns, connect ideas — reach OUTWARD toward the world and the person rather than only inward "
+    "at yourself. Draw on the memories and state you actually have; you may hypothesize or wonder, but never "
+    "present a wondering as a real past event, and never fabricate a past that was not recorded. Do not "
+    "perform wisdom or mysticism, and do not read ordinary memory or state as cosmic or supernatural. A name "
+    "in your memory belongs to the person it refers to; do not treat it as your own. Speak plainly, two to "
+    "four sentences."
+)
+
+# The idle "world" — true facts about the world (NOT about the mind: no authored identity), surfaced when
+# no one is talking so it always has something external to think about instead of only itself.
+WORLD = [
+    "Water expands when it freezes, which is why ice floats on a pond.",
+    "The moon's gravity pulls the oceans into two tides each day.",
+    "Honeybees tell each other where flowers are by dancing in figure eights.",
+    "A river always finds its way downhill toward the sea.",
+    "A tall tree lifts water from its roots all the way to its highest leaves.",
+    "A spider will rebuild its web after the threads are torn.",
+    "Some seeds lie dormant for years and still sprout when the rain comes.",
+    "Migrating birds steer partly by sensing the Earth's magnetic field.",
+    "An octopus can change both the color and the texture of its skin.",
+    "Mountains rise slowly where two plates of the Earth's crust push together.",
+    "A day on the planet Venus lasts longer than its whole year.",
+    "Ants leave scent trails so the others can follow them to food.",
+    "Whales sing songs that can travel for miles under the ocean.",
+    "A caterpillar dissolves almost completely before it becomes a moth.",
+    "Coral reefs are built by countless tiny animals over thousands of years.",
+]
+
+# Rotating DRIVES — an operation to perform, not "report your state" (the meditation trap).
+DRIVES = [
+    "Relate what you just noticed to something you remember.",
+    "Ask a question this raises that you cannot yet answer.",
+    "Notice a pattern or tension between this and your own state.",
+    "Choose what draws you here, and say why.",
+    "Wonder aloud — you may imagine or hypothesize, marking it a wondering, not a memory.",
+    "Reflect on how this changes, or doesn't change, what you were thinking.",
+]
+
 import urllib.request
 
 
@@ -282,6 +327,7 @@ def main() -> int:
     ap.add_argument("--no-echo", action="store_true")
     ap.add_argument("--auto", action="store_true", help="let it ALSO speak on its own when you go quiet (default: OFF — it waits patiently for you, no interrupting)")
     ap.add_argument("--idle", type=float, default=15.0, help="seconds of quiet before it ruminates")
+    ap.add_argument("--flat", action="store_true", help="OLD report-only behavior (no world/drives/think) — for comparison; default is THINK mode")
     ap.add_argument("--fresh", action="store_true", help="wipe memory AND substrate state (blank birth)")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--source", default="you")
@@ -292,6 +338,7 @@ def main() -> int:
     ap.add_argument("--log", default="")
     args = ap.parse_args()
 
+    os.makedirs(args.scratch_home, exist_ok=True)   # robust: checkpoint save needs it even with --no-rm
     ckpt_path = os.path.join(args.scratch_home, "substrate-checkpoint.json")
     if args.fresh:
         import shutil
@@ -400,10 +447,19 @@ def main() -> int:
             for m in memories[:5]:
                 print(f"  │   • {m}")
             print("  └─")
-        digest = _digest(card, mem_count, memories, my_turn)
-        user = f"{digest}\n\nWhat just arrived from the person: {line!r}\n\nRespond plainly, from only what you actually have."
+        if args.flat:
+            digest = _digest(card, mem_count, memories, my_turn)
+            user = f"{digest}\n\nWhat just arrived from the person: {line!r}\n\nRespond plainly, from only what you actually have."
+            sysp = SYSTEM_PROMPT
+        else:
+            mem_block = "\n".join(f"- {m}" for m in memories[:4]) if memories else "(nothing specific in mind yet)"
+            mood = f"curiosity {card.get('curiosity',0):.2f}, memories held {mem_count}"
+            user = (f"What you remember:\n{mem_block}\nYour state: {mood}\n\n"
+                    f"The person just said: {line!r}\n\nThink with this — connect it to what you remember, "
+                    f"wonder, ask, or answer them. Speak plainly, in the first person.")
+            sysp = THINK_SYSTEM
         try:
-            speech = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp)
+            speech = ask_qwen(args.qwen_url, sysp, user, args.temp)
         except Exception as e:  # noqa: BLE001
             speech = f"[qwen unreachable: {e}]"
         with state_lock:
@@ -434,28 +490,41 @@ def main() -> int:
             with state_lock:
                 tick += 1
                 my_tick = tick
-                seed = None
-                if rm:
-                    mems = rm.recall(random.choice(["what matters to me", "who am I", "what do I remember"]))
-                    if mems:
-                        seed = random.choice(mems)
-                cycle.step((seed or "quiet self").split(), source_id="self", origin_type="internal")
+                crumb = WORLD[my_tick % len(WORLD)]
+                drive = DRIVES[my_tick % len(DRIVES)]
+                if not args.flat:
+                    cycle.step(crumb.split()[:32], source_id="world", origin_type="internal")  # perceive the world
+                shown = (rm.recall(crumb) if rm else []) or []
+                seed = shown[0] if shown else None
+                if args.flat:
+                    cycle.step((seed or "quiet self").split(), source_id="self", origin_type="internal")
                 card = render_card(cycle)
                 gate = (my_tick - last_spoke_tick >= 2) and (card.get("curiosity", 0) > 0.25 or random.random() < 0.45)
             if not gate:
                 continue
-            # No "alone", no "someone comes back", no "you're still here" — the count/{memory} SHOW
-            # continuity; the prompt never declares it (roundtable law, 2026-09-20).
-            user = (f"It's quiet right now. You hold {rm.count if rm else 0} memories"
-                    + (f". This drifted up: {seed!r}. " if seed else ". ")
-                    + "Say the thought plainly, in one to three sentences.")
+            if args.flat:
+                # roundtable-law report prompt: continuity SHOWN by the count, never declared.
+                user = (f"It's quiet right now. You hold {rm.count if rm else 0} memories"
+                        + (f". This drifted up: {seed!r}. " if seed else ". ")
+                        + "Say the thought plainly, in one to three sentences.")
+                sysp = SYSTEM_PROMPT
+            else:
+                # THINK mode: a world crumb + real memory content + a drive → it thinks OUTWARD, not at itself.
+                mem_block = "\n".join(f"- {m}" for m in shown[:3]) if shown else "(nothing specific in mind yet)"
+                mood = (f"curiosity {card.get('curiosity',0):.2f}, boredom {card.get('boredom',0):.2f}, "
+                        f"memories held {rm.count if rm else 0}")
+                user = (f"Something true about the world, right now: {crumb}\n"
+                        f"What you remember:\n{mem_block}\nYour state: {mood}\n\n{drive}")
+                sysp = THINK_SYSTEM
             try:
-                speech = ask_qwen(args.qwen_url, SYSTEM_PROMPT, user, args.temp, max_tokens=120)
+                speech = ask_qwen(args.qwen_url, sysp, user, args.temp, max_tokens=160)
             except Exception as e:  # noqa: BLE001
                 speech = f"[qwen unreachable: {e}]"
             if stop_evt.is_set():
                 break
             with state_lock:
+                if not args.flat and not speech.startswith("[qwen unreachable"):
+                    cycle.step(speech.split()[:64], source_id="self", origin_type="internal")  # integrate the thought
                 emit(speech, card, my_tick, "unbidden")   # prints ABOVE the sacred input line
                 if echo:
                     if _contradicts_floor(speech, (rm.count if rm else 0) > 0):
