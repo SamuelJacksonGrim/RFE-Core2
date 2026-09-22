@@ -56,6 +56,13 @@ logging.disable(logging.CRITICAL)
 sys.path.insert(0, ".")
 
 from tests._common import build_full_stack                          # noqa: E402
+from tools.voice.attention import (                                 # noqa: E402
+    AUTONOMOUS_SAVE_WINDOW, apply_recall_floor, classify_regime, cosine,
+    drop_ring_dupes, embed_family, far_cos_max, format_embed_input,
+    note_sticky, parse_primary_hits, parse_say_at, recall_floor_for,
+    recall_query, render_idle_prompt, save_max_for, should_promote, step_world,
+    THREAD_MIN_BEFORE_RELOCATE,
+)
 from tools.voice.state_card import render_card                      # noqa: E402
 from tools.voice.qwen_perception import try_install as try_install_perception  # noqa: E402
 
@@ -265,6 +272,14 @@ def load_checkpoint(path, gen, cycle, ve):
 class RMClient:
     def __init__(self, rm_dir, scratch_home):
         os.makedirs(scratch_home, exist_ok=True)
+        self.scratch_home = scratch_home
+        # Same defaults as server.js. The floor re-embeds with this endpoint
+        # and this model id so the cosine is the one that ranked the hit.
+        self.embed_url = os.environ.get("EMBED_ENDPOINT", "http://localhost:1234/v1/embeddings")
+        self.embed_model = os.environ.get("EMBED_MODEL", "text-embedding-nomic-embed-text-v1.5")
+        self._embed_cache = {}
+        self._thought_vecs = deque(maxlen=AUTONOMOUS_SAVE_WINDOW)
+        self._pending_thought_vec = None
         env = dict(os.environ)
         env["HOME"] = scratch_home
         # Pin the store. On Windows Node prefers USERPROFILE over HOME, and
@@ -318,18 +333,119 @@ class RMClient:
             return ""
 
     def recall(self, query):
+        """Raw primary listing, no floor. Older harnesses still call this.
+        The live mouth uses recall_for_prompt."""
         text = self._call_text("recall_memory", {"query": query})
         if not text or text.lower().startswith("no "):
             return []
+        hits = parse_primary_hits(text)
+        if hits:
+            return hits
         out = []
         for ln in text.splitlines():
             ln = ln.strip()
-            if not ln:
-                continue
+            if not ln or ln.lower().startswith("related:"):
+                break
             if "]" in ln and ln[:3].strip().rstrip(".").isdigit():
                 ln = ln.split("]", 1)[1].strip()
-            out.append(ln)
+                out.append(ln)
         return out
+
+    def _family(self):
+        config_embedder = None
+        cfg = os.path.join(self.scratch_home, ".resonance-memory", "resonance-memory.config.json")
+        try:
+            with open(cfg, encoding="utf-8") as f:
+                config_embedder = json.load(f).get("embedder")
+        except (OSError, json.JSONDecodeError, AttributeError):
+            config_embedder = None
+        return embed_family(self.embed_model, config_embedder)
+
+    def _embed(self, formatted):
+        """Embed already-prefixed strings. Returns a list of vectors or None."""
+        if not formatted:
+            return []
+        missing = [t for t in formatted if t not in self._embed_cache]
+        if missing:
+            body = json.dumps({"model": self.embed_model, "input": missing}).encode()
+            req = urllib.request.Request(
+                self.embed_url, data=body, headers={"Content-Type": "application/json"},
+            )
+            try:
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    data = json.load(r).get("data") or []
+            except Exception:
+                return None
+            if data and isinstance(data[0], dict) and "index" in data[0]:
+                data = sorted(data, key=lambda d: d.get("index", 0))
+            vecs = [d.get("embedding") for d in data]
+            if len(vecs) != len(missing) or any(v is None for v in vecs):
+                return None
+            for t, v in zip(missing, vecs):
+                self._embed_cache[t] = v
+        return [self._embed_cache[t] for t in formatted]
+
+    def _embed_one(self, text, role):
+        formatted = format_embed_input(text, role, self._family())
+        vecs = self._embed([formatted])
+        if not vecs:
+            return None
+        return vecs[0]
+
+    def cosine_query_doc(self, query, document):
+        """Cosine of one query against one document, or None if the embedder failed."""
+        family = self._family()
+        vecs = self._embed([
+            format_embed_input(query, "query", family),
+            format_embed_input(document, "document", family),
+        ])
+        if not vecs or len(vecs) != 2:
+            return None
+        return cosine(vecs[0], vecs[1])
+
+    def recall_for_prompt(self, query):
+        """Primary hits that clear the embedder's floor, in rank order. No padding.
+
+        A scorer failure drops the hit (a miss must not be pasted). Related:
+        is never returned. Returns (kept_texts, rows).
+        """
+        text = self._call_text("recall_memory", {"query": query})
+        hits = parse_primary_hits(text)
+        if not hits:
+            return [], []
+        family = self._family()
+        floor = recall_floor_for(family)
+        formatted = [format_embed_input(query, "query", family)]
+        formatted.extend(format_embed_input(h, "document", family) for h in hits)
+        vecs = self._embed(formatted)
+        if not vecs or len(vecs) != len(formatted):
+            scored = [(h, None) for h in hits]
+        else:
+            qv = vecs[0]
+            scored = [(h, cosine(qv, dv)) for h, dv in zip(hits, vecs[1:])]
+        return apply_recall_floor(scored, floor)
+
+    def autonomous_too_close(self, text):
+        """Writer-local paraphrase gate. True means do not save.
+
+        Embed failure refuses the save (fail closed). Does not consult RM's
+        0.88 band and does not look at human-turn records.
+        Returns (refuse, max_cosine or None).
+        """
+        vec = self._embed_one(text, "document")
+        self._pending_thought_vec = vec
+        if vec is None:
+            return True, None
+        if not self._thought_vecs:
+            return False, None
+        limit = save_max_for(self._family())
+        mx = max(cosine(vec, prev) for prev in self._thought_vecs)
+        return mx >= limit, mx
+
+    def note_autonomous_saved(self):
+        if self._pending_thought_vec is not None:
+            self._thought_vecs.append(self._pending_thought_vec)
+        self._pending_thought_vec = None
 
     def save(self, content):
         import re
@@ -355,6 +471,8 @@ def main() -> int:
     ap.add_argument("--flat", action="store_true", help="OLD report-only behavior (no world/drives/think) — for comparison; default is THINK mode")
     ap.add_argument("--flat-encoder", action="store_true", help="use the trained 5-rhythm encoder (skip Qwen perception); default is Qwen-perception ON")
     ap.add_argument("--max-ticks", type=int, default=0, help="stop after N autonomous ticks (test/harness; 0 = unlimited)")
+    ap.add_argument("--say-at", action="append", default=[],
+                    help="harness: TICK=text commits that line before autonomous tick TICK (same process)")
     ap.add_argument("--fresh", action="store_true", help="wipe memory AND substrate state (blank birth)")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--source", default="you")
@@ -364,6 +482,7 @@ def main() -> int:
     ap.add_argument("--temp", type=float, default=0.6)
     ap.add_argument("--log", default="")
     args = ap.parse_args()
+    say_at = parse_say_at(args.say_at)
 
     os.makedirs(args.scratch_home, exist_ok=True)   # robust: checkpoint save needs it even with --no-rm
     ckpt_path = os.path.join(args.scratch_home, "substrate-checkpoint.json")
@@ -439,6 +558,12 @@ def main() -> int:
 
     log(f"RFE-Core2 continuing-mind transcript — {stamp}")
     log(f"born={born}  loop={'FREE' if args.free else 'LOCKED'}  memory={'off' if not rm else ('echo' if echo else 'recall')}  autonomous={autonomous}  perception={perc_label}  think={'flat' if args.flat else 'think'}")
+    if rm is not None:
+        fam = rm._family()
+        log(
+            f"ATTN family={fam} floor={recall_floor_for(fam)} save_max={save_max_for(fam)} "
+            f"far_below={far_cos_max(fam)} hot_until=12 warm_until=28"
+        )
     log("=" * 76)
 
     def emit(speech, card, turn, kind):
@@ -455,6 +580,14 @@ def main() -> int:
     turn = 0
     tick = 0
     last_spoke_tick = -99
+    # Attention rings are process-local on purpose. A resumed process wakes cold
+    # and thinks outward until someone is actually here. RM still holds the old turns.
+    last_human_tick = None
+    exchange = deque(maxlen=6)          # up to three (they, reply) pairs
+    thoughts = deque(maxlen=3)          # recent unbidden speech, verbatim
+    sticky = 0                          # consecutive near-paraphrase pairs
+    thoughts_since_move = 0             # cold thoughts since the last crumb promotion
+    spoken_since_human = 0
     is_tty = sys.stdin.isatty()
     state_lock = threading.Lock()   # cycle/gen/ve/rm are touched by both the you-loop and the idle mouth
     stop_evt = threading.Event()    # set once, at shutdown
@@ -465,30 +598,62 @@ def main() -> int:
     speech_miss = 0                     # utterances that denied real history — kept off the floor
     recent_saved = deque(maxlen=8)      # near-dupe collapse so one stone can't become the self
 
-    def _remember(text):
-        """Save to RM unless it near-duplicates a recent save — a single repeated thought must not
-        promote as many separate world-facts. Returns True if stored, False if collapsed."""
+    def _lexical_duplicate(text):
         toks = re.sub(r"[^0-9a-z ]", " ", text.lower()).split()
         key, tset = " ".join(toks), set(toks)
         for prev, pset in recent_saved:
             if key == prev or (tset and pset and len(tset & pset) / len(tset | pset) >= 0.85):
-                return False
-        recent_saved.append((key, tset))
+                return True
+        return False
+
+    def _remember(text):
+        """Save to RM unless it near-duplicates a recent save — a single repeated thought must not
+        promote as many separate world-facts. Returns True if stored, False if collapsed.
+        Human turns and replies use this path. The 0.85 gate is lexical and local to the
+        bridge; RM's 0.88 dedup band is not changed."""
+        if _lexical_duplicate(text):
+            return False
+        toks = re.sub(r"[^0-9a-z ]", " ", text.lower()).split()
+        recent_saved.append((" ".join(toks), set(toks)))
         rm.save(text)
         return True
+
+    def _remember_thought(speech):
+        """Autonomous writer only. Lexical collapse, then a cosine refusal against
+        recent autonomous speech (not against human turns). The stored record stays
+        'On my own I thought: …'. The cosine is on the speech body. Returns (stored, reason)."""
+        text = f"On my own I thought: {speech}"
+        if _lexical_duplicate(text):
+            return False, "near-dup"
+        refuse, mx = rm.autonomous_too_close(speech)
+        if refuse:
+            return False, "unscored" if mx is None else f"weld:{mx:.3f}"
+        if not _remember(text):
+            return False, "near-dup"
+        rm.note_autonomous_saved()
+        return True, "stored"
 
     def do_reply(line):
         """Process one COMMITTED user line — only whole lines reach here, never a partial buffer.
         Steps the substrate, recalls, asks qwen, speaks, persists. The lock is held only around the
         shared-state mutations, not the network call, so the idle mouth isn't frozen during a reply."""
-        nonlocal turn, speech_miss
+        nonlocal turn, speech_miss, last_human_tick, sticky, thoughts_since_move, spoken_since_human
         with state_lock:
             turn += 1
             my_turn = turn
+            last_human_tick = tick
+            sticky = 0
+            thoughts_since_move = 0
+            spoken_since_human = 0
+            exchange.append(("they", line))
             cycle.step(line.split(), source_id=args.source, origin_type="user")
             card = render_card(cycle)
             mem_count = rm.count if rm else 0
-            memories = rm.recall(line) if rm else []
+            if rm:
+                memories, recall_rows = rm.recall_for_prompt(line)
+                log(f"RECALL turn={my_turn} {json.dumps(recall_rows, ensure_ascii=False)}")
+            else:
+                memories = []
         if memories:
             print("  ┌─ remembers:")
             for m in memories[:5]:
@@ -523,6 +688,8 @@ def main() -> int:
                         log(f"SPEECH_MISS(reply): {speech}")
                     else:
                         _remember(f"I answered: {speech}")
+            if not speech.startswith("[qwen unreachable"):
+                exchange.append(("i", speech))
             save_checkpoint(ckpt_path, gen, cycle, ve)
 
     def autonomous_loop():
@@ -530,10 +697,17 @@ def main() -> int:
         silent for N seconds'. Fires on a cadence; a surfaced thought is printed ABOVE the input
         line (patch_stdout redraws your buffer intact), so it can speak even while you're typing and
         never touches what you're holding. Your partial line is never read here — only Enter commits."""
-        nonlocal tick, last_spoke_tick, speech_miss
+        nonlocal tick, last_spoke_tick, speech_miss, sticky, thoughts_since_move, spoken_since_human
         while not stop_evt.wait(args.idle):     # wake ~every idle s, or immediately at shutdown
             if pause_evt.is_set():
                 continue
+            # Harness injects a committed line BEFORE this tick, outside the lock
+            # (do_reply takes the lock itself). Unused when --say-at is empty.
+            nxt = tick + 1
+            if nxt in say_at:
+                do_reply(say_at.pop(nxt))
+                if stop_evt.is_set():
+                    break
             with state_lock:
                 tick += 1
                 my_tick = tick
@@ -542,9 +716,37 @@ def main() -> int:
                     break
                 crumb = WORLD[my_tick % len(WORLD)]
                 drive = DRIVES[my_tick % len(DRIVES)]
+                silence = None if last_human_tick is None else (my_tick - last_human_tick)
+                boredom = 0.0
+                try:
+                    boredom = float(render_card(cycle).get("boredom", 0) or 0)
+                except Exception:
+                    boredom = 0.0
+                regime = "cold" if args.flat else classify_regime(silence, boredom, spoken_since_human)
+                promoted = False
+                far = None
+                prior_sticky = sticky
+                prior_move = thoughts_since_move
+                fam = rm._family() if rm is not None else "nomic"
+                if (not args.flat and regime == "cold" and thoughts and sticky < 1
+                        and thoughts_since_move >= THREAD_MIN_BEFORE_RELOCATE and rm is not None):
+                    far = rm.cosine_query_doc(crumb, thoughts[-1])
                 if not args.flat:
-                    cycle.step(crumb.split()[:32], source_id="world", origin_type="internal")  # perceive the world
-                shown = (rm.recall(crumb) if rm else []) or []
+                    promoted = should_promote(regime, bool(thoughts), sticky, thoughts_since_move, far, fam)
+                if promoted:
+                    sticky = 0
+                    thoughts_since_move = 0
+                if not args.flat and step_world(regime):
+                    cycle.step(crumb.split()[:32], source_id="world", origin_type="internal")
+                query = crumb if args.flat else recall_query(regime, promoted, thoughts, exchange, crumb)
+                if rm:
+                    shown, recall_rows = rm.recall_for_prompt(query)
+                    log(f"RECALL tick={my_tick} {json.dumps(recall_rows, ensure_ascii=False)}")
+                else:
+                    shown = []
+                if not args.flat:
+                    ring_text = [t for _, t in exchange] + list(thoughts)
+                    shown = drop_ring_dupes(shown, ring_text)
                 seed = shown[0] if shown else None
                 if args.flat:
                     cycle.step((seed or "quiet self").split(), source_id="self", origin_type="internal")
@@ -553,8 +755,15 @@ def main() -> int:
                 gate = True if args.max_ticks else (
                     (my_tick - last_spoke_tick >= 2) and (card.get("curiosity", 0) > 0.25 or random.random() < 0.45)
                 )
+                attn_meta = (regime, promoted, silence, query, far, list(thoughts), list(exchange))
             if not gate:
+                # A silent tick must not burn a relocation that never spoke.
+                if promoted:
+                    with state_lock:
+                        sticky = prior_sticky
+                        thoughts_since_move = prior_move
                 continue
+            regime, promoted, silence, query, far, thoughts_snap, exchange_snap = attn_meta
             if args.flat:
                 # roundtable-law report prompt: continuity SHOWN by the count, never declared.
                 user = (f"It's quiet right now. You hold {rm.count if rm else 0} memories"
@@ -562,13 +771,19 @@ def main() -> int:
                         + "Say the thought plainly, in one to three sentences.")
                 sysp = SYSTEM_PROMPT
             else:
-                # THINK mode: a world crumb + real memory content + a drive → it thinks OUTWARD, not at itself.
-                mem_block = "\n".join(f"- {m}" for m in shown[:3]) if shown else "(nothing specific in mind yet)"
                 mood = (f"curiosity {card.get('curiosity',0):.2f}, boredom {card.get('boredom',0):.2f}, "
                         f"memories held {rm.count if rm else 0}")
-                user = (f"Something true about the world, right now: {crumb}\n"
-                        f"What you remember:\n{mem_block}\nYour state: {mood}\n\n{drive}")
+                user = render_idle_prompt(
+                    regime=regime, promoted=promoted, thoughts=thoughts_snap, exchange=exchange_snap,
+                    crumb=crumb, memories=shown, mood=mood, drive=drive,
+                )
                 sysp = THINK_SYSTEM
+            log(
+                f"ATTN tick={my_tick} regime={regime} promoted={int(bool(promoted))} "
+                f"silence={silence if silence is not None else 'none'} "
+                f"far={None if far is None else round(far, 3)}"
+            )
+            log("IDLE_USER: " + user.replace("\n", " | "))
             try:
                 speech = ask_qwen(args.qwen_url, sysp, user, args.temp, max_tokens=160)
             except Exception as e:  # noqa: BLE001
@@ -576,15 +791,28 @@ def main() -> int:
             if stop_evt.is_set():
                 break
             with state_lock:
-                if not args.flat and not speech.startswith("[qwen unreachable"):
+                reachable = not speech.startswith("[qwen unreachable")
+                if not args.flat and reachable:
                     cycle.step(speech.split()[:64], source_id="self", origin_type="internal")  # integrate the thought
                 emit(speech, card, my_tick, "unbidden")   # prints ABOVE the sacred input line
-                if echo:
+                if echo and reachable:
                     if _contradicts_floor(speech, (rm.count if rm else 0) > 0):
                         speech_miss += 1                     # denial of real history — off the floor
                         log(f"SPEECH_MISS(unbidden): {speech}")
-                    elif not _remember(f"On my own I thought: {speech}"):
-                        log(f"NOT-STORED(near-dup thought): {speech!r}")
+                    else:
+                        stored, why = _remember_thought(speech)
+                        if stored:
+                            log(f"STORED(thought): {why}")
+                        else:
+                            log(f"NOT-STORED({why} thought)")
+                if reachable and not args.flat:
+                    prev = thoughts[-1] if thoughts else ""
+                    sticky = note_sticky(prev, speech, 0 if promoted else sticky)
+                    thoughts.append(speech)
+                    if regime == "cold" and not promoted:
+                        thoughts_since_move += 1
+                    if last_human_tick is not None:
+                        spoken_since_human += 1
                 last_spoke_tick = my_tick
                 save_checkpoint(ckpt_path, gen, cycle, ve)
             if args.max_ticks and my_tick >= args.max_ticks:
