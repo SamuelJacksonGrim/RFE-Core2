@@ -35,14 +35,12 @@ import re
 import shutil
 import sys
 import time
-import urllib.request
-from collections import Counter, OrderedDict
+from collections import Counter
 
 sys.path.insert(0, ".")
 import numpy as np
 import torch
 
-from agents.symbolic_memory import TokenClass                       # noqa: E402
 from tests._common import build_full_stack                          # noqa: E402
 from tools.voice.ab_qwen_core import ECOLOGY, RM_DIR, SEED, WEIGHTS  # noqa: E402
 from tools.voice.repl_qwen import (                                 # noqa: E402
@@ -52,13 +50,20 @@ from tools.voice.repl_qwen import (                                 # noqa: E402
     save_checkpoint,
 )
 from tools.voice.state_card import render_card                      # noqa: E402
+from tools.voice.qwen_perception import (                           # noqa: E402
+    EMB_DIM,
+    EMB_URL,
+    LRU_MAX,
+    PROJ_DIM,
+    PROJ_SEED,
+    LRU as _LRU,
+    WrapStats as _WrapStats,
+    install_qwen_perception,
+    probe_wrap,
+    qwen_embed,
+)
 
 OUTDIR = "/mnt/c/Users/spamw/rfe-qwen-core"
-EMB_URL = "http://172.20.240.1:8081/v1/embeddings"
-EMB_DIM = 1024
-PROJ_DIM = 128
-PROJ_SEED = 1234
-LRU_MAX = 1024
 WORLD_JSONL = os.path.join(OUTDIR, "qwenworld150.jsonl")
 
 # Same frozen world + drives + system prompt as ab_qwen_world.py (direct A/B).
@@ -114,44 +119,6 @@ SELF_MODEL_TERMS = [
     "emptiness", "silence", "i am", "i exist", "no memories", "meta", "inward",
     "monologue", "lens", "hunger", "appetite",
 ]
-
-
-# ---------------------------------------------------------------------------
-# Bounded LRU for the :8081 embedding call (Chorus is up to 6x/step)
-# ---------------------------------------------------------------------------
-class _LRU:
-    def __init__(self, maxsize: int = LRU_MAX):
-        self.maxsize = maxsize
-        self._d: OrderedDict[str, np.ndarray] = OrderedDict()
-        self.hits = 0
-        self.misses = 0
-
-    def get(self, key: str):
-        if key in self._d:
-            self._d.move_to_end(key)
-            self.hits += 1
-            return self._d[key]
-        self.misses += 1
-        return None
-
-    def put(self, key: str, value: np.ndarray):
-        if key in self._d:
-            self._d.move_to_end(key)
-        self._d[key] = value
-        if len(self._d) > self.maxsize:
-            self._d.popitem(last=False)
-
-    def __len__(self):
-        return len(self._d)
-
-
-class _WrapStats:
-    def __init__(self):
-        self.used = 0
-        self.fallback = 0
-        self.last_err = None
-        self.last_norm = None
-        self.classes = Counter()
 
 
 def _norm(t):
@@ -212,64 +179,12 @@ def _window_means(xs, k: int = 20):
     return out
 
 
-def qwen_embed(text: str, cache: _LRU) -> np.ndarray:
-    text = (text or "").strip() or "quiet"
-    hit = cache.get(text)
-    if hit is not None:
-        return hit
-    req = urllib.request.Request(
-        EMB_URL,
-        data=json.dumps({"input": text, "model": "q"}).encode(),
-        headers={"Content-Type": "application/json"},
-    )
-    d = json.load(urllib.request.urlopen(req, timeout=20))
-    v = np.asarray(d["data"][0]["embedding"], dtype=np.float32)
-    if v.shape[-1] != EMB_DIM:
-        raise ValueError(f"embed dim {v.shape} != {EMB_DIM}")
-    if not np.isfinite(v).all():
-        raise ValueError("embed non-finite")
-    cache.put(text, v)
-    return v
-
-
 def _install_qwen_perception(gen, rng, txt, wrap: _WrapStats, cache: _LRU):
     """Drop-in wrap of Generator.generate. Returns the JL matrix W."""
-    orig_generate = gen.generate
-    # W ~ N(0, 1/128), (128, 1024). After unit-norm the scale is irrelevant;
-    # the seed is the experiment. Logged below.
     W = rng.normal(0.0, 1.0 / np.sqrt(PROJ_DIM), size=(PROJ_DIM, EMB_DIM)).astype(np.float32)
-
-    def wrapped_generate(tokens, token_class=None):
-        tokens = tokens or ["<BOS>"]
-        # Registry / capacity / maintenance must still run (wrap-don't-replace).
-        try:
-            gen._tokens_to_ids(tokens, token_class)
-            gen._ensure_embedding_capacity()
-            gen._maybe_auto_maintenance()
-        except Exception as e:  # noqa: BLE001
-            wrap.last_err = f"registry:{e!r}"
-
-        try:
-            cls_name = token_class.name if token_class is not None else "NONE"
-            wrap.classes[cls_name] += 1
-            text = " ".join(str(t) for t in tokens).strip() or "quiet"
-            e = qwen_embed(f"[{cls_name}] {text}", cache)
-            z = W @ e
-            n = float(np.linalg.norm(z))
-            if (not np.isfinite(n)) or n < 1e-12:
-                wrap.fallback += 1
-                wrap.last_err = "degenerate"
-                return orig_generate(tokens, token_class)
-            v = (z / n).astype(np.float32)
-            wrap.used += 1
-            wrap.last_norm = float(np.linalg.norm(v))
-            return v
-        except Exception as e:  # noqa: BLE001
-            wrap.fallback += 1
-            wrap.last_err = repr(e)
-            return orig_generate(tokens, token_class)
-
-    gen.generate = wrapped_generate
+    orig_generate = install_qwen_perception(
+        gen, W, wrap, cache, timeout=20.0, fail_limit=0
+    )
     txt.write(
         f"QWEN-PERCEPTION2 wrap=generator.generate  proj_seed={PROJ_SEED}  "
         f"W.shape={tuple(W.shape)}  W.std={float(W.std()):.6f}  "
@@ -280,36 +195,10 @@ def _install_qwen_perception(gen, rng, txt, wrap: _WrapStats, cache: _LRU):
 
 def _probe_wrap(gen, wrap: _WrapStats, txt) -> bool:
     """Confirm the wrap fires, returns unit-norm 128-d, and token_class prefixes separate."""
-    probe = ["the", "river", "finds", "the", "sea"]
-    before_u, before_f = wrap.used, wrap.fallback
-    vecs = {}
-    for tc in (TokenClass.LANGUAGE, TokenClass.RELATIONAL, TokenClass.EPHEMERAL):
-        v = np.asarray(gen.generate(probe, token_class=tc), dtype=np.float32)
-        vecs[tc.name] = v
-        n = float(np.linalg.norm(v))
-        txt.write(
-            f"PROBE class={tc.name} shape={tuple(v.shape)} dtype={v.dtype} "
-            f"norm={n:.6f} finite={bool(np.isfinite(v).all())}\n"
-        )
-        if v.shape[-1] != PROJ_DIM or abs(n - 1.0) > 0.02 or not np.isfinite(v).all():
-            txt.write("PROBE FAIL: vector contract (dim/unit-norm/finite)\n")
-            return False
-    fired = (wrap.used - before_u) >= 3 and (wrap.fallback - before_f) == 0
-    c_lr = float(np.dot(vecs["LANGUAGE"], vecs["RELATIONAL"]))
-    c_le = float(np.dot(vecs["LANGUAGE"], vecs["EPHEMERAL"]))
-    c_re = float(np.dot(vecs["RELATIONAL"], vecs["EPHEMERAL"]))
-    txt.write(
-        f"PROBE class-cos LANG-REL={c_lr:.4f} LANG-EPH={c_le:.4f} REL-EPH={c_re:.4f} "
-        f"fired={fired} used={wrap.used} fallback={wrap.fallback}\n"
-    )
-    if not fired:
-        txt.write("PROBE FAIL: wrap did not fire (fallback or miss)\n")
-        return False
-    # Prefix must actually move the vector. Identical class-vecs = wrap ignored token_class.
-    if min(c_lr, c_le, c_re) > 0.999:
-        txt.write("PROBE FAIL: token_class prefix did not differentiate\n")
-        return False
-    return True
+    ok, lines = probe_wrap(gen, wrap)
+    for ln in lines:
+        txt.write(ln + "\n")
+    return ok
 
 
 def _regime(cycle) -> str:
@@ -328,18 +217,20 @@ def _phase_coherence(cycle) -> float:
         return float("nan")
 
 
-def run(beats, url, temp, tag):
+def run(beats, url, temp, tag, seed=SEED, proj_seed=PROJ_SEED, wrap_on=True, verdict=True):
     scratch = os.path.join(OUTDIR, f"scratch-{tag}")
     shutil.rmtree(scratch, ignore_errors=True)
     os.makedirs(scratch, exist_ok=True)
     os.makedirs(OUTDIR, exist_ok=True)
     jsonl = open(os.path.join(OUTDIR, f"{tag}.jsonl"), "w", encoding="utf-8", buffering=1)
     txt = open(os.path.join(OUTDIR, f"{tag}.txt"), "w", encoding="utf-8", buffering=1)
-    txt.write(f"QWEN-PERCEPTION2 run={tag} temp={temp} beats={beats}  (generate() wrap)\n{'=' * 80}\n")
+    kind = "generate() wrap" if wrap_on else "rhythm-control (trained encoder, no wrap)"
+    txt.write(f"QWEN-PERCEPTION2 run={tag} temp={temp} beats={beats} seed={seed}  ({kind})\n{'=' * 80}\n")
 
-    random.seed(SEED)
-    torch.manual_seed(SEED)
-    rng = np.random.default_rng(PROJ_SEED)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    rng = np.random.default_rng(proj_seed)
 
     gen, cycle, gov, ve = build_full_stack(vocab_size=8192, dim=128, depth=4, heads=4)
     try:
@@ -350,16 +241,19 @@ def run(beats, url, temp, tag):
 
     wrap = _WrapStats()
     cache = _LRU(LRU_MAX)
-    orig_generate, W = _install_qwen_perception(gen, rng, txt, wrap, cache)
-    if not _probe_wrap(gen, wrap, txt):
-        txt.write("ABORT: generate() wrap probe failed — not running the loop.\n")
-        jsonl.close()
-        txt.close()
-        raise SystemExit("generate() wrap probe failed")
-    # Probe burned wrap.used; reset counters so the run's fire rate is clean.
-    wrap.used = 0
-    wrap.fallback = 0
-    wrap.classes = Counter()
+    if wrap_on:
+        orig_generate, W = _install_qwen_perception(gen, rng, txt, wrap, cache)
+        if not _probe_wrap(gen, wrap, txt):
+            txt.write("ABORT: generate() wrap probe failed — not running the loop.\n")
+            jsonl.close()
+            txt.close()
+            raise SystemExit("generate() wrap probe failed")
+        # Probe burned wrap.used; reset counters so the run's fire rate is clean.
+        wrap.used = 0
+        wrap.fallback = 0
+        wrap.classes = Counter()
+    else:
+        txt.write("RHYTHM-CONTROL: trained 5-rhythm encoder, generate() unwrapped\n")
 
     ckpt = os.path.join(scratch, "substrate-checkpoint.json")
     rm = RMClient(RM_DIR, scratch)
@@ -456,9 +350,14 @@ def run(beats, url, temp, tag):
             f"world: {crumb[:46]}\n     {thought}\n"
         )
         save_checkpoint(ckpt, gen, cycle, ve)
+        if tick == 1 or tick % 20 == 0 or tick == beats:
+            print(
+                f"  [{tag} {tick}/{beats} m{rm.count} wrap={wrap.used}/{wrap.fallback}]",
+                flush=True,
+            )
 
         # Hard fail if the wrap went silent after the probe.
-        if tick == 1 and wrap.used == 0:
+        if wrap_on and tick == 1 and wrap.used == 0:
             txt.write("ABORT: first step used 0 wrapped generate() calls\n")
             jsonl.close()
             txt.close()
@@ -486,7 +385,9 @@ def run(beats, url, temp, tag):
         "emb_cache": len(cache),
         "emb_hits": cache.hits,
         "emb_misses": cache.misses,
-        "proj_seed": PROJ_SEED,
+        "proj_seed": proj_seed,
+        "seed": seed,
+        "wrap_on": wrap_on,
         "last_err": wrap.last_err,
     }
     txt.write(f"{'=' * 80}\nSUMMARY {json.dumps(summary)}\n")
@@ -494,7 +395,8 @@ def run(beats, url, temp, tag):
     txt.close()
 
     # Analysis needs the closed jsonl. Re-open txt to append the gate table.
-    _write_verdict(os.path.join(OUTDIR, f"{tag}.jsonl"), os.path.join(OUTDIR, f"{tag}.txt"), summary)
+    if verdict:
+        _write_verdict(os.path.join(OUTDIR, f"{tag}.jsonl"), os.path.join(OUTDIR, f"{tag}.txt"), summary)
     return summary
 
 
@@ -753,11 +655,19 @@ def main():
     ap.add_argument("--temp", type=float, default=0.8)
     ap.add_argument("--qwen-url", default=QWEN_URL_DEFAULT)
     ap.add_argument("--tag", default="perc2")
+    ap.add_argument("--seed", type=int, default=SEED)
+    ap.add_argument("--proj-seed", type=int, default=PROJ_SEED)
+    ap.add_argument("--control", action="store_true", help="rhythm-control: skip the Qwen wrap")
+    ap.add_argument("--no-verdict", action="store_true")
     args = ap.parse_args()
     stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    print(f"[{stamp}] qwen-PERCEPTION2 — {args.beats} beats, temp {args.temp}", flush=True)
+    print(f"[{stamp}] qwen-PERCEPTION2 — {args.beats} beats, temp {args.temp} seed={args.seed} wrap={not args.control}", flush=True)
     t0 = time.time()
-    s = run(args.beats, args.qwen_url, args.temp, args.tag)
+    s = run(
+        args.beats, args.qwen_url, args.temp, args.tag,
+        seed=args.seed, proj_seed=args.proj_seed,
+        wrap_on=not args.control, verdict=not args.no_verdict,
+    )
     s["secs"] = round(time.time() - t0, 1)
     print("DONE " + json.dumps(s) + " -> " + OUTDIR.replace("/mnt/c/", "C:/"), flush=True)
 

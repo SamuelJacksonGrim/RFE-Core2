@@ -18,6 +18,7 @@ so identity stays stable while memory / values / subjective time develop. qwen i
     python -m tools.voice.repl_qwen --auto           # ALSO speak unprompted when you go quiet
     python -m tools.voice.repl_qwen --fresh          # wipe memory AND substrate state — a true blank birth
     python -m tools.voice.repl_qwen --idle 20        # seconds of quiet before it ruminates (default 15)
+    python -m tools.voice.repl_qwen --flat-encoder   # trained 5-rhythm encoder (skip Qwen perception)
     python -m tools.voice.repl_qwen --no-echo | --no-rm | --free | --json
 
 The Windows launcher talk-to-rfe.ps1 passes --auto by default (Samuel's call, 2026-09-19).
@@ -26,7 +27,12 @@ In-session commands (slash-prefixed so normal talk is never intercepted):
     /resume -> let it speak on its own again
     /quit   -> exit and save state   (Ctrl-C / Ctrl-D also exit)
 
-Nothing here writes RFE-Core2's own code or the encoder. All state goes to a scratch HOME.
+Qwen-perception is the DEFAULT encoder path (Stage 2 wrap of Generator.generate):
+[CLASS] tokens -> Qwen3-Embedding-0.6B on :8081 -> JL 1024->128 -> unit-norm.
+`--flat-encoder` restores the trained 5-rhythm encoder. A down :8081 at launch or
+mid-run warns once and falls back; it never crashes the live mouth.
+
+Nothing here writes RFE-Core2's own code or the encoder training. All state goes to a scratch HOME.
 """
 from __future__ import annotations
 
@@ -51,6 +57,7 @@ sys.path.insert(0, ".")
 
 from tests._common import build_full_stack                          # noqa: E402
 from tools.voice.state_card import render_card                      # noqa: E402
+from tools.voice.qwen_perception import try_install as try_install_perception  # noqa: E402
 
 QWEN_URL_DEFAULT = os.environ.get("QWEN_URL", "http://172.20.240.1:8080")
 QWEN_MODEL = os.environ.get("QWEN_MODEL", "qwen-local")
@@ -328,6 +335,8 @@ def main() -> int:
     ap.add_argument("--auto", action="store_true", help="let it ALSO speak on its own when you go quiet (default: OFF — it waits patiently for you, no interrupting)")
     ap.add_argument("--idle", type=float, default=15.0, help="seconds of quiet before it ruminates")
     ap.add_argument("--flat", action="store_true", help="OLD report-only behavior (no world/drives/think) — for comparison; default is THINK mode")
+    ap.add_argument("--flat-encoder", action="store_true", help="use the trained 5-rhythm encoder (skip Qwen perception); default is Qwen-perception ON")
+    ap.add_argument("--max-ticks", type=int, default=0, help="stop after N autonomous ticks (test/harness; 0 = unlimited)")
     ap.add_argument("--fresh", action="store_true", help="wipe memory AND substrate state (blank birth)")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--source", default="you")
@@ -363,6 +372,21 @@ def main() -> int:
         print("  (trained 5-rhythm encoder loaded — vocab8192/dim128/depth4)")
     except Exception as e:  # noqa: BLE001 — surface loudly, keep running
         print(f"  (WARNING: trained encoder NOT loaded, running untrained: {e})")
+
+    # Qwen-perception (default ON): wrap generate() AFTER the trained encoder load
+    # and BEFORE substrate resume, so a restored registry/field sits on the new body.
+    # Down :8081 at launch → one warning, trained encoder, never crash.
+    def _perc_warn(msg: str):
+        print(msg)
+        log(msg)
+
+    perception = try_install_perception(
+        gen,
+        args.scratch_home,
+        flat_encoder=args.flat_encoder,
+        warn=_perc_warn,
+    )
+
     if args.free:
         cycle.reflector.novelty_attenuation = True
 
@@ -382,16 +406,21 @@ def main() -> int:
     print("  RFE-Core2 — a continuing mind. It keeps its own state between our talks.")
     born = "fresh blank birth" if args.fresh else (f"resumed [{', '.join(resumed)}] from {saved_at}" if resumed else "new (no prior state)")
     print(f"  {born}")
+    perc_label = (
+        "OFF (--flat-encoder)" if args.flat_encoder
+        else ("ON (qwen :8081)" if perception else "OFF (embedder down — trained encoder)")
+    )
     print(f"  loop: {'FREE' if args.free else 'LOCKED'}   memory: "
           f"{'OFF' if not rm else ('growing' if echo else 'recall-only')}   "
           f"mode: {'it also speaks on its own — above your line, never over it' if autonomous else 'it waits for you — take all the time you need'}")
+    print(f"  perception: {perc_label}   think: {'FLAT (report-only)' if args.flat else 'THINK (default)'}")
     print(f"  transcript -> {logpath.replace('/mnt/c/', 'C:/')}")
     print("  your input line is yours — it can think aloud while you type and your text stays put.")
     print("  commands: /pause  /resume  /quit  — anything else you type goes to it. (Ctrl-D or Ctrl-C exits.)")
     print("=" * 76 + "\n")
 
     log(f"RFE-Core2 continuing-mind transcript — {stamp}")
-    log(f"born={born}  loop={'FREE' if args.free else 'LOCKED'}  memory={'off' if not rm else ('echo' if echo else 'recall')}  autonomous={autonomous}")
+    log(f"born={born}  loop={'FREE' if args.free else 'LOCKED'}  memory={'off' if not rm else ('echo' if echo else 'recall')}  autonomous={autonomous}  perception={perc_label}  think={'flat' if args.flat else 'think'}")
     log("=" * 76)
 
     def emit(speech, card, turn, kind):
@@ -490,6 +519,9 @@ def main() -> int:
             with state_lock:
                 tick += 1
                 my_tick = tick
+                if args.max_ticks and my_tick > args.max_ticks:
+                    stop_evt.set()
+                    break
                 crumb = WORLD[my_tick % len(WORLD)]
                 drive = DRIVES[my_tick % len(DRIVES)]
                 if not args.flat:
@@ -499,7 +531,10 @@ def main() -> int:
                 if args.flat:
                     cycle.step((seed or "quiet self").split(), source_id="self", origin_type="internal")
                 card = render_card(cycle)
-                gate = (my_tick - last_spoke_tick >= 2) and (card.get("curiosity", 0) > 0.25 or random.random() < 0.45)
+                # --max-ticks is a harness: speak every tick so the mouth path is actually exercised.
+                gate = True if args.max_ticks else (
+                    (my_tick - last_spoke_tick >= 2) and (card.get("curiosity", 0) > 0.25 or random.random() < 0.45)
+                )
             if not gate:
                 continue
             if args.flat:
@@ -534,6 +569,9 @@ def main() -> int:
                         log(f"NOT-STORED(near-dup thought): {speech!r}")
                 last_spoke_tick = my_tick
                 save_checkpoint(ckpt_path, gen, cycle, ve)
+            if args.max_ticks and my_tick >= args.max_ticks:
+                stop_evt.set()
+                break
 
     def _shutdown():
         stop_evt.set()
@@ -545,6 +583,10 @@ def main() -> int:
                 log(f"\ncheckpoint saved: step={getattr(cycle, '_step', '?')}")
         except Exception as e:  # noqa: BLE001
             log(f"\ncheckpoint save failed: {e}")
+        if perception:
+            w = perception["wrap"]
+            log(f"perception wrap: used={w.used} fallback={w.fallback} disabled={w.disabled} last_err={w.last_err}")
+            print(f"  (qwen-perception: used={w.used} fallback={w.fallback} disabled={w.disabled})")
         log("--- session ended ---")
         try: logf.close()
         except Exception: pass  # noqa: BLE001
@@ -553,8 +595,17 @@ def main() -> int:
             except Exception: pass  # noqa: BLE001
         print("(state + transcript saved. next launch resumes this mind.)")
 
-    # --- Non-interactive (piped input / tests): deterministic, no background mouth. ---
+    # --- Non-interactive (piped input / tests): deterministic, no background mouth
+    # unless --auto --max-ticks N (bounded autonomous run for harnesses). ---
     if not is_tty:
+        if autonomous and args.max_ticks:
+            try:
+                autonomous_loop()
+            except (EOFError, KeyboardInterrupt):
+                pass
+            finally:
+                _shutdown()
+            return 0
         try:
             while True:
                 sys.stdout.write("you> "); sys.stdout.flush()
