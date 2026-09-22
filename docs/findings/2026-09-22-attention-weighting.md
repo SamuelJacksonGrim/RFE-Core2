@@ -67,3 +67,25 @@ RM is still the only episodic store. The rings are prompt context, process-local
 ## How a run is scored
 
 Predeclared in `tools/voice/ab_attention_score.py` before the A/B. Idle: moon-lock, emptiness collapse, paraphrase self-loop, flashcard tour, consecutive-cosine band. Conversation: the next five unbidden thoughts move toward the human line and off the moon centroid, without copying the line or the reply.
+
+## A/B (one sample, temp 0.6, 2026-09-22)
+
+Isolated scratches under `C:\Users\spamw\rfe-speech-logs\ab-attention-20260922`. Perception on, nomic `:1234`, qwen `:8080`. Fresh birth, 12 ticks, `--idle 0.2`. The talk probe was injected in-process before tick 7: "The clock on my desk has a gear that slips every time the hour strikes." Baseline is `fcaa831` plus a harness hook that only injects that line and logs the prompt. It does not change the crumb-led idle string. Real `~/.rfe-speech-cortex` and `~/.resonance-memory` signatures matched before and after.
+
+| | baseline | weighted |
+|---|---|---|
+| Talk, moved (of 5) | 0 fail | 4 pass |
+| Talk, parrot | 0 pass | 0 pass |
+| Talk, emptiness | 0 | 0 |
+| Idle, nearest crumb is the moon (of 11, birth excluded) | 5 mid | 2 pass |
+| Idle, paraphrase pairs (of 11) | 4 mid | 2 pass |
+| Idle, flashcard-tour beats (of 11) | 5 pass | 2 pass |
+| Idle, emptiness | 0 | 0 |
+| Idle, mean consecutive cosine | 0.758 | 0.806 |
+| Idle memories saved | 12 | 1 (11 refused as welds) |
+
+On the talk arm the weighted ticks after the probe were hot, and none of those prompts contained the moon sentence. The fifth post-probe thought was still about the gear; it missed the strict cosine test by 0.009 (0.660 vs a centroid of 0.669) and its moon cosine was 0.476. The baseline reply welded the clock onto the tidal bulge. The weighted reply stayed on the gear.
+
+Alone, far-fact promotion fired at ticks 4, 8, and 12 (cosines 0.61, 0.54, 0.56). Nearest-crumb left the moon. The opening image still shows up as connective tissue inside later thoughts. That is a thread, which is what cold asks for, not a lock in which every beat's nearest fact is the moon. It is also not a clean departure. One sample.
+
+Checkpoint resume on the weighted idle scratch restored step, field, values, and registry. The file also contains emotion; the existing loader did not list it. That loader was not changed here.
