@@ -124,6 +124,91 @@ DRIVES = [
 
 import urllib.request
 
+# Beat-lock (2026-09-22). The recorded groove was not the Hebbian field: each
+# beat is stateless, so a theme survives only by being pasted, and a miss has
+# no score floor so the least-far paragraph is pasted and then saved.
+# RECALL_FLOOR is applied to every hit (flooring only the top score and then
+# padding recontaminated the sim). The autonomous writer has its own cosine
+# refusal so a paraphrase ball cannot accumulate; RM's global 0.88 dedup is
+# not touched. Memory-as-tool (no pasted recall at all) is the follow-on.
+RECALL_FLOOR = 0.50
+AUTONOMOUS_SAVE_MAX_COS = 0.50
+AUTONOMOUS_SAVE_WINDOW = 128
+QWEN_QUERY_INSTRUCT = (
+    "Instruct: Given a web search query, retrieve relevant passages that answer the query\nQuery: "
+)
+
+
+def embed_family(model, config_embedder=None):
+    """Match resonance-memory embed-invoke.js: config embedder wins, else model id."""
+    s = str(config_embedder or model or "").lower()
+    if "jina" in s:
+        return "jina"
+    if "qwen" in s:
+        return "qwen"
+    return "nomic"
+
+
+def format_embed_input(text, role, family):
+    """Same role prefixes RM uses, so the floor cosine is RM's cosine."""
+    t = "" if text is None else str(text)
+    r = "query" if role == "query" else "document"
+    if family == "jina":
+        return ("Query: " if r == "query" else "Document: ") + t
+    if family == "qwen" and r == "query":
+        return QWEN_QUERY_INSTRUCT + t
+    return t
+
+
+def cosine(a, b):
+    va = np.asarray(a, dtype=np.float64)
+    vb = np.asarray(b, dtype=np.float64)
+    na = float(np.linalg.norm(va))
+    nb = float(np.linalg.norm(vb))
+    if na == 0.0 or nb == 0.0 or va.shape != vb.shape:
+        return 0.0
+    return float(np.dot(va, vb) / (na * nb))
+
+
+_PRIMARY_HIT_RE = re.compile(r"^\d+\.\s+\[id\s+\d+\]\s+(.*)$")
+
+
+def parse_primary_hits(text):
+    """Numbered cosine hits only. Stops at Related: — that readout is not pasted."""
+    if not text or text.lower().startswith("no "):
+        return []
+    out = []
+    for ln in text.splitlines():
+        raw = ln.strip()
+        if not raw:
+            continue
+        if raw.lower().startswith("related:"):
+            break
+        m = _PRIMARY_HIT_RE.match(raw)
+        if m:
+            out.append(m.group(1).strip())
+    return out
+
+
+def apply_recall_floor(scored, floor=RECALL_FLOOR):
+    """Keep every hit at or above the floor. Never pad back up with misses.
+
+    scored: sequence of (text, score). score None (scorer failed) is a miss.
+    Returns (kept_texts, rows) with rows carrying text/score/kept for the log.
+    """
+    kept = []
+    rows = []
+    for text, score in scored:
+        ok = score is not None and float(score) >= floor
+        rows.append({
+            "text": text,
+            "score": None if score is None else round(float(score), 4),
+            "kept": bool(ok),
+        })
+        if ok:
+            kept.append(text)
+    return kept, rows
+
 
 def ask_qwen(url, system, user, temperature, max_tokens=200):
     body = json.dumps({
@@ -256,6 +341,14 @@ def load_checkpoint(path, gen, cycle, ve):
 class RMClient:
     def __init__(self, rm_dir, scratch_home):
         os.makedirs(scratch_home, exist_ok=True)
+        self.scratch_home = scratch_home
+        # Same defaults as server.js. The floor re-embeds with this endpoint
+        # and this model id so the cosine is the one that ranked the hit.
+        self.embed_url = os.environ.get("EMBED_ENDPOINT", "http://localhost:1234/v1/embeddings")
+        self.embed_model = os.environ.get("EMBED_MODEL", "text-embedding-nomic-embed-text-v1.5")
+        self._embed_cache = {}
+        self._thought_vecs = deque(maxlen=AUTONOMOUS_SAVE_WINDOW)
+        self._pending_thought_vec = None
         env = dict(os.environ)
         env["HOME"] = scratch_home
         env.pop("USERPROFILE", None)
@@ -300,6 +393,8 @@ class RMClient:
             return ""
 
     def recall(self, query):
+        """Raw primary listing, no floor. Old harnesses still call this.
+        The live mouth uses recall_for_prompt."""
         text = self._call_text("recall_memory", {"query": query})
         if not text or text.lower().startswith("no "):
             return []
@@ -312,6 +407,89 @@ class RMClient:
                 ln = ln.split("]", 1)[1].strip()
             out.append(ln)
         return out
+
+    def _family(self):
+        config_embedder = None
+        cfg = os.path.join(self.scratch_home, ".resonance-memory", "resonance-memory.config.json")
+        try:
+            with open(cfg, encoding="utf-8") as f:
+                config_embedder = json.load(f).get("embedder")
+        except (OSError, json.JSONDecodeError, AttributeError):
+            config_embedder = None
+        return embed_family(self.embed_model, config_embedder)
+
+    def _embed(self, formatted):
+        """Embed already-prefixed strings. Returns a list of vectors or None."""
+        if not formatted:
+            return []
+        missing = [t for t in formatted if t not in self._embed_cache]
+        if missing:
+            body = json.dumps({"model": self.embed_model, "input": missing}).encode()
+            req = urllib.request.Request(
+                self.embed_url, data=body, headers={"Content-Type": "application/json"},
+            )
+            try:
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    data = json.load(r).get("data") or []
+            except Exception:
+                return None
+            if data and isinstance(data[0], dict) and "index" in data[0]:
+                data = sorted(data, key=lambda d: d.get("index", 0))
+            vecs = [d.get("embedding") for d in data]
+            if len(vecs) != len(missing) or any(v is None for v in vecs):
+                return None
+            for t, v in zip(missing, vecs):
+                self._embed_cache[t] = v
+        return [self._embed_cache[t] for t in formatted]
+
+    def _embed_one(self, text, role):
+        formatted = format_embed_input(text, role, self._family())
+        vecs = self._embed([formatted])
+        if not vecs:
+            return None
+        return vecs[0]
+
+    def recall_for_prompt(self, query):
+        """Primary hits that clear RECALL_FLOOR, in rank order. No padding.
+
+        A scorer failure drops the hit (a miss must not be pasted). Related:
+        is never returned. Returns (kept_texts, rows).
+        """
+        text = self._call_text("recall_memory", {"query": query})
+        hits = parse_primary_hits(text)
+        if not hits:
+            return [], []
+        family = self._family()
+        formatted = [format_embed_input(query, "query", family)]
+        formatted.extend(format_embed_input(h, "document", family) for h in hits)
+        vecs = self._embed(formatted)
+        if not vecs or len(vecs) != len(formatted):
+            scored = [(h, None) for h in hits]
+        else:
+            qv = vecs[0]
+            scored = [(h, cosine(qv, dv)) for h, dv in zip(hits, vecs[1:])]
+        return apply_recall_floor(scored, RECALL_FLOOR)
+
+    def autonomous_too_close(self, text):
+        """Writer-local paraphrase gate. True means do not save.
+
+        Embed failure refuses the save (fail closed). Does not consult RM's
+        0.88 band and does not look at human-turn records.
+        Returns (refuse, max_cosine or None).
+        """
+        vec = self._embed_one(text, "document")
+        self._pending_thought_vec = vec
+        if vec is None:
+            return True, None
+        if not self._thought_vecs:
+            return False, None
+        mx = max(cosine(vec, prev) for prev in self._thought_vecs)
+        return mx >= AUTONOMOUS_SAVE_MAX_COS, mx
+
+    def note_autonomous_saved(self):
+        if self._pending_thought_vec is not None:
+            self._thought_vecs.append(self._pending_thought_vec)
+        self._pending_thought_vec = None
 
     def save(self, content):
         import re
@@ -421,6 +599,10 @@ def main() -> int:
 
     log(f"RFE-Core2 continuing-mind transcript — {stamp}")
     log(f"born={born}  loop={'FREE' if args.free else 'LOCKED'}  memory={'off' if not rm else ('echo' if echo else 'recall')}  autonomous={autonomous}  perception={perc_label}  think={'flat' if args.flat else 'think'}")
+    log(
+        f"BEAT_LOCK floor={RECALL_FLOOR} autonomous_save_max_cos={AUTONOMOUS_SAVE_MAX_COS} "
+        f"field=1 warm_rank=off embed_model={os.environ.get('EMBED_MODEL', 'text-embedding-nomic-embed-text-v1.5')}"
+    )
     log("=" * 76)
 
     def emit(speech, card, turn, kind):
@@ -447,17 +629,41 @@ def main() -> int:
     speech_miss = 0                     # utterances that denied real history — kept off the floor
     recent_saved = deque(maxlen=8)      # near-dupe collapse so one stone can't become the self
 
-    def _remember(text):
-        """Save to RM unless it near-duplicates a recent save — a single repeated thought must not
-        promote as many separate world-facts. Returns True if stored, False if collapsed."""
+    def _lexical_duplicate(text):
         toks = re.sub(r"[^0-9a-z ]", " ", text.lower()).split()
         key, tset = " ".join(toks), set(toks)
         for prev, pset in recent_saved:
             if key == prev or (tset and pset and len(tset & pset) / len(tset | pset) >= 0.85):
-                return False
-        recent_saved.append((key, tset))
+                return True
+        return False
+
+    def _remember(text):
+        """Save to RM unless it near-duplicates a recent save — a single repeated thought must not
+        promote as many separate world-facts. Returns True if stored, False if collapsed.
+        Human turns and replies use this path. The 0.85 gate is lexical and local to the
+        bridge; RM's 0.88 dedup band is not changed."""
+        if _lexical_duplicate(text):
+            return False
+        toks = re.sub(r"[^0-9a-z ]", " ", text.lower()).split()
+        recent_saved.append((" ".join(toks), set(toks)))
         rm.save(text)
         return True
+
+    def _remember_thought(speech):
+        """Autonomous writer only. Lexical collapse, then a tighter cosine refusal
+        against recent autonomous speech (not against human turns). The stored
+        record stays 'On my own I thought: …'. The cosine is on the speech body,
+        which is what the 0.50 band was measured on. Returns (stored, reason)."""
+        text = f"On my own I thought: {speech}"
+        if _lexical_duplicate(text):
+            return False, "near-dup"
+        refuse, mx = rm.autonomous_too_close(speech)
+        if refuse:
+            return False, "unscored" if mx is None else f"weld:{mx:.3f}"
+        if not _remember(text):
+            return False, "near-dup"
+        rm.note_autonomous_saved()
+        return True, "stored"
 
     def do_reply(line):
         """Process one COMMITTED user line — only whole lines reach here, never a partial buffer.
@@ -470,7 +676,8 @@ def main() -> int:
             cycle.step(line.split(), source_id=args.source, origin_type="user")
             card = render_card(cycle)
             mem_count = rm.count if rm else 0
-            memories = rm.recall(line) if rm else []
+            memories, recall_rows = rm.recall_for_prompt(line) if rm else ([], [])
+            log(f"RECALL turn={my_turn} {json.dumps(recall_rows, ensure_ascii=False)}")
         if memories:
             print("  ┌─ remembers:")
             for m in memories[:5]:
@@ -526,7 +733,8 @@ def main() -> int:
                 drive = DRIVES[my_tick % len(DRIVES)]
                 if not args.flat:
                     cycle.step(crumb.split()[:32], source_id="world", origin_type="internal")  # perceive the world
-                shown = (rm.recall(crumb) if rm else []) or []
+                shown, recall_rows = rm.recall_for_prompt(crumb) if rm else ([], [])
+                log(f"RECALL tick={my_tick} {json.dumps(recall_rows, ensure_ascii=False)}")
                 seed = shown[0] if shown else None
                 if args.flat:
                     cycle.step((seed or "quiet self").split(), source_id="self", origin_type="internal")
@@ -565,8 +773,12 @@ def main() -> int:
                     if _contradicts_floor(speech, (rm.count if rm else 0) > 0):
                         speech_miss += 1                     # denial of real history — off the floor
                         log(f"SPEECH_MISS(unbidden): {speech}")
-                    elif not _remember(f"On my own I thought: {speech}"):
-                        log(f"NOT-STORED(near-dup thought): {speech!r}")
+                    else:
+                        stored, why = _remember_thought(speech)
+                        if stored:
+                            log(f"STORED(thought): {speech!r}")
+                        else:
+                            log(f"NOT-STORED({why} thought): {speech!r}")
                 last_spoke_tick = my_tick
                 save_checkpoint(ckpt_path, gen, cycle, ve)
             if args.max_ticks and my_tick >= args.max_ticks:
