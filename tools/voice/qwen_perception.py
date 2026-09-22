@@ -21,9 +21,9 @@ from collections import Counter, OrderedDict
 
 import numpy as np
 
-EMB_URL = os.environ.get("QWEN_EMB_URL", "http://172.20.240.1:8081/v1/embeddings")
+EMB_URL = os.environ.get("QWEN_EMB_URL", "http://localhost:8081/v1/embeddings")
 EMB_MODELS_URL = os.environ.get(
-    "QWEN_EMB_MODELS_URL", "http://172.20.240.1:8081/v1/models"
+    "QWEN_EMB_MODELS_URL", "http://localhost:8081/v1/models"
 )
 EMB_DIM = 1024
 PROJ_DIM = 128

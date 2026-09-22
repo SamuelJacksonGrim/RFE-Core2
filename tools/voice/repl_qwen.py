@@ -43,7 +43,7 @@ import logging
 import os
 import random
 import re
-import select
+import shutil
 import subprocess
 import sys
 import threading
@@ -59,8 +59,17 @@ from tests._common import build_full_stack                          # noqa: E402
 from tools.voice.state_card import render_card                      # noqa: E402
 from tools.voice.qwen_perception import try_install as try_install_perception  # noqa: E402
 
-QWEN_URL_DEFAULT = os.environ.get("QWEN_URL", "http://172.20.240.1:8080")
+QWEN_URL_DEFAULT = os.environ.get("QWEN_URL", "http://localhost:8080")
 QWEN_MODEL = os.environ.get("QWEN_MODEL", "qwen-local")
+_WIN = sys.platform == "win32"
+_RM_DIR_DEFAULT = (
+    r"C:\Users\spamw\Desktop\resonance-memory-workshop" if _WIN
+    else "/mnt/c/Users/spamw/Desktop/resonance-memory-workshop"
+)
+_LOGDIR_DEFAULT = (
+    r"C:\Users\spamw\rfe-speech-logs" if _WIN
+    else "/mnt/c/Users/spamw/rfe-speech-logs"
+)
 
 # No-frame system prompt (roundtable-designed 2026-09-20: Samuel, Ember, Grok, GPT).
 # The prompt supplies a QUESTION, not an answer — it never says what "you" is (not a mind, not a
@@ -258,14 +267,23 @@ class RMClient:
         os.makedirs(scratch_home, exist_ok=True)
         env = dict(os.environ)
         env["HOME"] = scratch_home
+        # Pin the store. On Windows Node prefers USERPROFILE over HOME, and
+        # C:\Users\spamw\.resonance-memory is a DIFFERENT db — without this
+        # pin Koneko would attach to the user-level store instead of her mind.
+        env["MEMORY_FILE_PATH"] = os.path.join(
+            scratch_home, ".resonance-memory", "resonance-memory.jsonl"
+        )
         env.pop("USERPROFILE", None)
         env["RESONANCE_MEMORY_FIELD"] = "1"
         env["RESONANCE_WARM_TRACE"] = "0"
+        node = shutil.which("node") or "node"
         self._id = 0
         self.count = 0
-        self.p = subprocess.Popen(["node", "--experimental-sqlite", "entry.js", "--mcp"],
-                                  cwd=rm_dir, env=env, text=True, bufsize=1,
-                                  stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        self.p = subprocess.Popen(
+            [node, "--experimental-sqlite", "entry.js", "--mcp"],
+            cwd=rm_dir, env=env, text=True, encoding="utf-8", bufsize=1,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+        )
         self._rpc("initialize", {"protocolVersion": "2024-11-05", "capabilities": {},
                                  "clientInfo": {"name": "rfe-speech-cortex", "version": "0"}})
         self._notify("notifications/initialized")
@@ -341,7 +359,7 @@ def main() -> int:
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--source", default="you")
     ap.add_argument("--qwen-url", default=QWEN_URL_DEFAULT)
-    ap.add_argument("--rm-dir", default="/mnt/c/Users/spamw/Desktop/resonance-memory-workshop")
+    ap.add_argument("--rm-dir", default=_RM_DIR_DEFAULT)
     ap.add_argument("--scratch-home", default=os.path.expanduser("~/.rfe-speech-cortex"))
     ap.add_argument("--temp", type=float, default=0.6)
     ap.add_argument("--log", default="")
@@ -355,10 +373,10 @@ def main() -> int:
         try: os.remove(ckpt_path)
         except OSError: pass
 
-    logdir = "/mnt/c/Users/spamw/rfe-speech-logs"
+    logdir = _LOGDIR_DEFAULT
     os.makedirs(logdir, exist_ok=True)
     stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    logpath = args.log or f"{logdir}/session-{stamp}.log"
+    logpath = args.log or os.path.join(logdir, f"session-{stamp}.log")
     logf = open(logpath, "w", encoding="utf-8", buffering=1)
 
     def log(s=""):
@@ -414,7 +432,7 @@ def main() -> int:
           f"{'OFF' if not rm else ('growing' if echo else 'recall-only')}   "
           f"mode: {'it also speaks on its own — above your line, never over it' if autonomous else 'it waits for you — take all the time you need'}")
     print(f"  perception: {perc_label}   think: {'FLAT (report-only)' if args.flat else 'THINK (default)'}")
-    print(f"  transcript -> {logpath.replace('/mnt/c/', 'C:/')}")
+    print(f"  transcript -> {logpath}")
     print("  your input line is yours — it can think aloud while you type and your text stays put.")
     print("  commands: /pause  /resume  /quit  — anything else you type goes to it. (Ctrl-D or Ctrl-C exits.)")
     print("=" * 76 + "\n")
