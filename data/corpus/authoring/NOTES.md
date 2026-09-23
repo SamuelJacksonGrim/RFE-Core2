@@ -180,3 +180,113 @@ tokens.
 Numbers and per-word margins: `witness_separability.json`.
 Probe: `tools/voice/probe_witness_basin.py`.
 Lint: `tools/voice/lint_corpus_authoring.py`.
+
+## Pull executed, and the spine grown (lane witness/lane-a)
+
+The live `rhythm_train.jsonl` and `rhythm_holdout.jsonl` were not modified.
+Nothing here was trained. Lint on `witness.md` passes: 485 sequences.
+
+### What moved
+
+The pull is a drop, not a relabel. Pasting the 373 into witness would carry
+analyze, inspect, record, and the rest of reflect's company, clone live bags,
+and break the hub cap (those eleven words already have about 35–46 reflect-train
+contexts each; 5% of a 485-line file is 24). The gold core is the replacement
+company. The line list is the `DROP` lines in `reflect.md`.
+
+| | count | digest (sha256/16 of sorted bags) |
+|---|---:|---|
+| reflect train, any pulled word | 373 | `cd693fa3aeeae9b4` |
+| stabilize train, `witness` | 18 | `8295cef1ddc33338` |
+| holdout reflect, any pulled word | 62 | not dropped |
+| holdout stabilize, `witness` | 2 | not dropped |
+
+Of the 373: 209 are one pulled word and no analytic verb, 83 are a pulled word
+plus an analytic verb plus other reflect company, 51 are a pulled word plus
+analytic verbs only, 22 are two or more pulled words with at most one other
+non-analytic token, and 8 are two or more pulled words with more than one
+other non-analytic token. Stripping the pulled word leaves a legal 2–4 token
+line for 168 of them, a single token for 194, and nothing for 11. Those 168
+were not re-authored into `reflect.md`. In a file that size `within` is already
+11/138, over the hub cap, and the residue is still reflect. Reflect's analytic
+spine stays where it is: the 1460 reflect-train sequences (1833 − 373) that
+never used a pulled word. Distill, synthesize, reconcile, measure, analyze are
+untouched.
+
+The 18 stabilize lines are almost all `witness` plus one hold-firm token
+(`identity`, `bunker`, `shelter`, …). Dropping the line removes the
+contradictory `witness` label. It does not become a witness sequence.
+`identity, continuity, witness` is the one line that would still have two
+tokens; it stays stabilize's identity line, not witness.
+
+The 43 lines that already contain two or more pulled words were not copied
+either. Fourteen of them clone a live bag once reduced to the pulled words,
+and a pull-list-only line is the shape the additive probe sent to reflect
+(`observe, attend`, `perceive, notice, observe`). Those two gold lines stay,
+marked. They were not imitated.
+
+Holdout still carries the words (62 + 2). The probe trains on train only, so
+those lines do not supervise the fit. A merge that trains on holdout too
+should drop them as well. They are listed under `HOLDOUT` in `reflect.md` and
+were not part of the signed-off 373 + 18.
+
+`reflect.md` has no `- ` sequences. A dash line would train the old company as
+reflect, which is the tangle.
+
+### Generator
+
+`tools/voice/gen_witness.py`, seed 1188, stdlib only. Rerun is byte-stable.
+
+| | |
+|---|---|
+| gold sequences | 184, unchanged |
+| generated | 301 (168 twos, 112 threes, 21 fours) |
+| witness total | 485 |
+| new spine words | 84, each in 9 contexts |
+| gold anchors | still 9 each, including the seven explore-leaning words |
+| hottest share | 9/485 = 1.856% |
+| dedup rejects | 0 |
+
+Dedup is on the unordered bag. The design emits each bag once, and the reverse
+of a line is the same bag, so it cannot be written again. Gold had no duplicate
+bags. This batch does not add to the 161 order-swapped pairs in the live corpus.
+No generated token is in the live vocabulary, so none of the new bags clone a
+live line. Eleven of the 112 threes are single-room; every new word also has
+cross-room neighbors (the fours take one word from each room), and no word's
+neighbors are all from its own room.
+
+### Words added
+
+Eighty-four, absent from the boundary map, paired only with each other. No
+fringe object in the batch.
+
+- Inward-abiding: repose, tarry, bide, indwell, inhere, unhurried, unbidden, unasked, wakeful, mindful, abidance, inwardness, equanimity, immanence, letting, wakefulness, mindfulness, kneel, exhale, numinous, uncalled.
+- Receiving-allowing: imbibe, embrace, enfold, cradle, permit, assent, acquiesce, accede, soften, unclench, relent, allowance, sufferance, tolerance, receptivity, hospitality, indrawn, pardon, brook, receptiveness, vouchsafe.
+- Perceptual-sensing, receiving rather than looking: savor, murmur, whisper, audible, palpable, sensation, hearing, feel, taste, smell, hear, touch, feeling, sentience, sensory, sensate, percipience, attunement, sonority, scent, inhale.
+- Relational-warmth: tenderness, cherish, grace, mercy, kindness, kinship, kindred, reverence, revere, compassion, empathy, nearness, closeness, togetherness, dearness, fondness, caring, amity, fellowship, companionship, affection.
+
+`brook` is the archaic verb, to allow, in the company of stance words rather than water. `scent` is the receiving verb, not an object-noun of the grief kind. `pardon` is in the allowing room. An earlier draft used `ingest`; that is consumption, not reception, and it is not in the file.
+
+### Words avoided
+
+Not given any new context, left at their gold 9: `present`, `gaze`, `awareness`, `testify`, `behold`, `marvel`, `linger`.
+
+Not used at all in the batch: the reflect operation (`analyze`, `inspect`, `examine`, `deliberate`, `reconcile`, `validate`, `verify`, `measure`, `synthesize`, `distill`, and the rest of the denylist), the banned near-stance words (`watch`, `hold`, `self`, `attention`, `quiet`, `silence`, `stillness`, `pause`, `rest`, `calm`, `see`, `look`, `glimpse`, `open`), and the object-nouns with no other home (`grief`, `sorrow`, `joy`, `fear`, `love`, `pain`).
+
+Also left out, on purpose: looking verbs that happen to be absent (`peer`, `stare`, `scan`, `survey`, `espy`, `descry`), analytic-inward verbs (`ponder`, `muse`, `ruminate`, `introspect`), the stabilize quiet-cluster (`quietude`, `serenity`, `composure`, `comfort`, `soothe`, `solace`, `gentleness`, `breath`, `poise`), and gerunds of words the gold file already has (`beholding`, `gazing`, `observing`, `listening`, `abiding`). No rupture-signature object was added. The eight fringe rupture objects in the gold file were not repeated.
+
+### Will the angle hold at 485
+
+I did not run the probe. This is the read for the gate.
+
+It should hold against explore and against rupture **if the drop is applied at merge**, and it will not hold against reflect if the drop is skipped.
+
+The new 301 lines are 62% of the file and share no token with the five rhythms. They cannot import analyze. They dilute the outward face: those seven words go from 9/184 (4.9%) to 9/485 (1.9%) without gaining a context. Nothing looking was added, and nothing kinetic. That is the explore lean and the rupture-object path, not fed. The rupture tilt in the pulled arm was global, not one spine word, so I would not promise witness⊥rupture falls to the rupture-bar. I would expect it not to climb, because the added mass is inward, allowing, and warm rather than outward or broken.
+
+The risk that is new, not the one the probe already measured, is stabilize. Tenderness, cherish, grace, mercy, kindness, embrace, soften are warmth. Stabilize sat at 0.310 after the pull, middle of the pack, not the failure. They are accompaniment, not hold-firm: no anchor, ground, calm, rest, silence. Worth reading off the probe. Not a reason to have used the outward set instead.
+
+`hear`, `feel`, `touch`, `taste`, `smell`, `scent` are the widest words in the batch. They are receiving, not `look` / `see` / `glimpse` / `watch`. They should not rebuild the gaze lean. They are the words I would check first if witness⊥explore moves the wrong way.
+
+Witness⊥reflect stays a property of the drop. The eleven pulled tokens still have their reflect majority in the live train until those 373 lines are removed. The new 84 words have no reflect life, so they should sit in witness even in an additive fit. The old gold, which is 184/485 of the file, still contains the pull-list lines that folded when the label was left on. Do not read an additive run of this file as the pull having failed. Do not merge without the drop.
+
+485 is inside the 400–600 ceiling. I would not add another batch until this one has been probed. Intra-cosine will look fine either way. The gate is still witness⊥reflect near the pulled 0.10, and witness⊥explore / witness⊥rupture not climbing. Stabilize is the extra number to look at.
