@@ -3,3 +3,273 @@
 # New sequences only. Do not paste the live corpus into this file.
 # Read AUTHORING_BRIEF.md and boundary_map.md before adding a line.
 # Lines that do not start with "- " are ignored.
+
+# vocab-growth batch. regions: apart | after | force | spoil.
+# New distinctions inside this rhythm. One existing signature stitch at most.
+# Pairs are unique; order-swapped bags are not repeated.
+- putrefy, shockwave, aftermath
+- debris, fissure
+- erode, creep
+- cavitation, sunder
+- deliquesce, crumble
+- desolation, topple, excoriate
+- breach, pulverize
+- excoriate, unspool, ruination
+- fester, shambles
+- shockwave, delaminate
+- cavitation, detonate, fester
+- corrode, sever
+- cavitation, unravel
+- cleave, molder
+- aftermath, cavitation
+- pulverize, char
+- aftermath, implode
+- shockwave, detritus, rive
+- detritus, deflagrate
+- wreckage, buckle
+- shambles, wrench
+- remnant, decay
+- cavitation, detritus
+- overload, oxidize, topple
+- rubble, rust
+- rive, abyss
+- sunder, abrade, wreckage
+- sunder, disintegrate
+- deflagrate, aftermath
+- sunder, tensile
+- tensile, pulverize
+- decrepitate, rust
+- avulse, ash
+- detonate, shockwave
+- buckle, void
+- excoriate, spall
+- fissure, rust
+- comminute, creep
+- embrittle, topple
+- rubble, shatter
+- cleave, decrepitate
+- rive, oxidize
+- leach, rive
+- gangrene, avulse
+- corrode, crumble, shambles
+- molder, corrode
+- disintegrate, shockwave
+- deflagrate, fester, crumble
+- excoriate, comminute, debris, shockwave
+- avulse, fester
+- torsion, rift
+- necrose, cinder
+- capsize, ruination, implode
+- leach, cleave
+- rust, cinder
+- torsion, molder
+- detritus, topple
+- sever, torsion
+- torsion, wrench, avulse
+- pulverize, implode
+- overload, cleave
+- spall, wrack
+- carnage, corrode
+- leach, wrench
+- topple, abrade
+- rubble, wrack
+- shear, shambles
+- desolation, buckle
+- excoriate, wreckage
+- shatter, deliquesce
+- embrittle, splinter
+- unravel, whiplash
+- rift, deflagrate
+- shear, disintegrate
+- shear, slag
+- ash, putrefy
+- fatigue, necrose
+- gangrene, unravel
+- shatter, ruination
+- corrode, rift
+- carnage, leach
+- sunder, molder
+- capsize, abyss
+- delaminate, abrade
+- delaminate, rive
+- wreckage, deliquesce
+- wrack, deliquesce, molder
+- abyss, buckle
+- creep, debris
+- necrose, char
+- detonate, wreckage
+- fester, decay
+- pulverize, carnage, concuss
+- fester, necrose
+- fatigue, carnage
+- fissure, wrench
+- embrittle, tensile
+- sever, wreckage
+- slag, sunder
+- oxidize, decrepitate
+- disintegrate, corrode
+- crumble, erode
+- splinter, concuss
+- slag, rive
+- deflagrate, slag
+- rift, decrepitate
+- embrittle, ruination
+- whiplash, wrack
+- debris, concuss
+- gangrene, comminute
+- decay, desolation
+- unspool, disintegrate, topple
+- crumble, excoriate
+- char, ruination
+- fatigue, avulse
+- deliquesce, necrose
+- comminute, concuss
+- buckle, leach
+- splinter, fissure
+- capsize, rubble
+- cinder, rive
+- overload, disintegrate
+- tensile, aftermath
+- carnage, whiplash
+- slag, char
+- putrefy, shatter
+- gangrene, leach, overload
+- embrittle, ash
+- capsize, shatter
+- rift, tensile
+- rive, putrefy, desolation, overload
+- unspool, remnant
+- oxidize, deliquesce
+- crumble, decay
+- wrench, carnage
+- putrefy, erode
+- spall, whiplash
+- shambles, sever
+- fatigue, leach
+- unravel, void
+- ash, unspool
+- debris, erode
+- creep, detonate
+- pulverize, corrode, torsion
+- oxidize, buckle, torsion
+- shear, wreckage
+- detritus, concuss
+- molder, wrench
+- splinter, rubble, decrepitate
+- ruination, disintegrate, desolation
+- debris, disintegrate
+- char, topple
+- pulverize, leach
+- desolation, implode
+- breach, splinter
+- concuss, creep
+- unravel, splinter
+- embrittle, rubble
+- comminute, rubble, erode
+- carnage, splinter
+- pulverize, rust, detonate
+- aftermath, wrench
+- wrack, delaminate
+- fester, whiplash
+- detonate, unravel, crumble
+- void, overload
+- decrepitate, ruination
+- shear, remnant
+- rust, unravel
+- deflagrate, gangrene, debris
+- gangrene, slag, torsion
+- tensile, sever
+- overload, concuss
+- deflagrate, void
+- detritus, slag, wreckage
+- unspool, cinder, oxidize
+- wreckage, pulverize, shockwave
+- debris, remnant
+- shockwave, creep
+- decay, deliquesce
+- overload, implode
+- abrade, avulse
+- cavitation, delaminate
+- decay, rust
+- remnant, torsion
+- avulse, remnant, molder
+- void, gangrene
+- rust, oxidize, embrittle
+- erode, spall
+- shambles, necrose, rubble
+- corrode, ruination, cavitation
+- debris, abrade
+- abrade, splinter
+- capsize, crumble
+- excoriate, slag
+- excoriate, gangrene
+- void, aftermath
+- shambles, deflagrate
+- shatter, cinder
+- sunder, putrefy, whiplash
+- cleave, unspool
+- detonate, unspool
+- oxidize, delaminate
+- deliquesce, whiplash, corrode
+- aftermath, sever
+- fissure, fester
+- abyss, whiplash
+- rift, excoriate
+- putrefy, comminute
+- desolation, cinder
+- carnage, breach
+- disintegrate, fissure
+- capsize, deflagrate
+- abrade, leach
+- implode, fester
+- cavitation, necrose
+- rive, comminute, tensile
+- cinder, cleave
+- buckle, necrose
+- spall, implode
+- shear, topple
+- fatigue, molder
+- creep, oxidize
+- cinder, detonate, erode
+- shockwave, deliquesce
+- putrefy, wrack
+- unravel, remnant
+- cinder, wrench
+- desolation, ash
+- wrack, splinter
+- detritus, ash
+- rust, avulse
+- erode, detritus, capsize
+- rubble, sever
+- abyss, embrittle
+- tensile, wrack, necrose
+- avulse, spall
+- embrittle, remnant
+- gangrene, abyss
+- molder, concuss
+- breach, concuss
+- torsion, erode
+- char, detritus
+- buckle, comminute
+- desolation, decrepitate
+- ash, wrench
+- shambles, ruination
+- abrade, char
+- spall, cavitation
+- implode, putrefy
+- remnant, abrade
+- breach, crumble
+- unspool, slag
+- detonate, delaminate
+- topple, whiplash
+- shear, implode
+- carnage, aftermath
+- sunder, fatigue
+- comminute, cleave
+- overload, shambles
+- capsize, tensile
+- decrepitate, unspool
+- fatigue, unravel
+- capsize, buckle
+- wrack, decrepitate
+- breach, sunder
