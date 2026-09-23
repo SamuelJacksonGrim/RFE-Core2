@@ -1,0 +1,75 @@
+{
+  "slice": "S2",
+  "self_check": {
+    "collator": true,
+    "residual_grad": true
+  },
+  "dims": [
+    {
+      "dim": 128,
+      "output_pr": 56.581,
+      "stack_pr": 0.612,
+      "embedding_pr": 57.275,
+      "holdout_recall@k": 0.6936,
+      "median_true_rank": 1.0,
+      "recipe": {
+        "epochs": 40,
+        "seed": 0,
+        "batch_size": 128,
+        "learning_rate": 0.01,
+        "weight_decay": 0.0,
+        "rhythm_weight": 0.0,
+        "cond_scale": 0.0,
+        "embedding_residual": true,
+        "embeddings_only": false,
+        "legibility": true,
+        "tag": "_phaseb"
+      },
+      "checkpoints": {
+        "weights": "data/checkpoints/generator_weights_completion_128_phaseb.pt",
+        "ecology": "data/checkpoints/generator_ecology_completion_128_phaseb.json",
+        "head": "data/checkpoints/completion_head_128_phaseb.pt"
+      },
+      "report": "docs/findings/logs/2026-09-23-completion/train_dim128_phaseb_s0.json",
+      "floors": {
+        "recall@8_gte_0.61": true,
+        "field_pr_gte_floor": true,
+        "field_pr_floor": 35.0,
+        "output_not_collapsed_to_4.8": true
+      }
+    },
+    {
+      "dim": 256,
+      "output_pr": 73.531,
+      "stack_pr": 0.729,
+      "embedding_pr": 74.123,
+      "holdout_recall@k": 0.6573,
+      "median_true_rank": 1.0,
+      "recipe": {
+        "epochs": 40,
+        "seed": 0,
+        "batch_size": 128,
+        "learning_rate": 0.01,
+        "weight_decay": 0.0,
+        "rhythm_weight": 0.0,
+        "cond_scale": 0.0,
+        "embedding_residual": true,
+        "embeddings_only": false,
+        "legibility": true,
+        "tag": "_phaseb"
+      },
+      "checkpoints": {
+        "weights": "data/checkpoints/generator_weights_completion_256_phaseb.pt",
+        "ecology": "data/checkpoints/generator_ecology_completion_256_phaseb.json",
+        "head": "data/checkpoints/completion_head_256_phaseb.pt"
+      },
+      "report": "docs/findings/logs/2026-09-23-completion/train_dim256_phaseb_s0.json",
+      "floors": {
+        "recall@8_gte_0.61": true,
+        "field_pr_gte_floor": true,
+        "field_pr_floor": 63.0,
+        "output_not_collapsed_to_4.8": true
+      }
+    }
+  ]
+}

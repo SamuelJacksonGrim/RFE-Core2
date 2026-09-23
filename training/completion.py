@@ -22,6 +22,11 @@ is ln(|V|) ~ 6.5 nats and the rhythm loss is ln(5) ~ 1.6, so the word term
 leads by more than an order of magnitude.
 
 Mean-pool is unchanged. Order is not a feature of this objective.
+
+The collator feeds the encoder the context only. One label slot, after the
+stem, holds the mode filler's content-vocab index; every stem position and
+every pad is IGNORE_INDEX. The training loss is still the soft distribution
+on that row, not a hard label and not one example per raw count.
 """
 
 from __future__ import annotations
@@ -42,6 +47,8 @@ logger = logging.getLogger(__name__)
 # shared stem and the context vector is free to collapse.
 COND_SCALE = 0.25
 RHYTHM_LOSS_WEIGHT = 0.15
+# Stem positions and pad. One post-stem slot holds the mode filler.
+IGNORE_INDEX = -100
 
 
 @dataclass
@@ -109,6 +116,158 @@ def pack_targets(
     return rows
 
 
+def mode_filler(row: dict) -> str:
+    """Highest-count target. Ties break lexicographically, not by expanding counts."""
+    counts = row.get("targets")
+    if counts:
+        best = max(counts.values())
+        words = [w for w, c in counts.items() if c == best and c > 0]
+    else:
+        dist = row["target_dist"]
+        best = max(dist.values())
+        words = [w for w, p in dist.items() if p == best and p > 0]
+    if not words:
+        raise ValueError("empty target distribution")
+    return sorted(words)[0]
+
+
+def support_ids(row: dict, index: Dict[str, int]) -> List[int]:
+    counts = row.get("targets")
+    if counts:
+        words = [w for w, c in counts.items() if c > 0]
+    else:
+        words = [w for w, p in row["target_dist"].items() if p > 0]
+    ids: List[int] = []
+    for word in words:
+        j = index.get(word)
+        if j is None:
+            raise KeyError(f"target {word!r} is not in the completion vocabulary")
+        ids.append(int(j))
+    if not ids:
+        raise ValueError("empty target support")
+    return ids
+
+
+@dataclass
+class CompletionBatch:
+    """One collated step. `contexts` is the encoder input; the filler is absent."""
+
+    contexts: List[List[str]]
+    labels: torch.Tensor
+    stem_lengths: torch.Tensor
+    target_p: torch.Tensor
+    rhythm_ids: torch.Tensor
+    support_ids: List[List[int]]
+
+
+class CompletionCollator:
+    """Context-only batches. Labels supervise one mode-filler slot, not the stem."""
+
+    def __init__(self, index: Dict[str, int], rhythm_index: Dict[str, int], device: str):
+        self.index = index
+        self.rhythm_index = rhythm_index
+        self.device = device
+
+    def __call__(self, rows: Sequence[dict]) -> CompletionBatch:
+        if not rows:
+            raise ValueError("empty completion batch")
+        contexts = [list(row["context"]) for row in rows]
+        if any(not ctx for ctx in contexts):
+            raise ValueError("empty completion context")
+        lengths = [len(ctx) for ctx in contexts]
+        # The extra column is the supervised slot. It is not an encoder input.
+        width = max(lengths) + 1
+        labels = torch.full(
+            (len(rows), width), IGNORE_INDEX, dtype=torch.long, device=self.device,
+        )
+        supports: List[List[int]] = []
+        for i, row in enumerate(rows):
+            word = mode_filler(row)
+            if word in contexts[i]:
+                raise ValueError(f"filler {word!r} is in the context")
+            j = self.index.get(word)
+            if j is None:
+                raise KeyError(f"target {word!r} is not in the completion vocabulary")
+            labels[i, lengths[i]] = int(j)
+            supports.append(support_ids(row, self.index))
+        target_p = pack_targets(
+            [row["target_dist"] for row in rows], self.index, self.device,
+        )
+        rhythm_ids = torch.tensor(
+            [self.rhythm_index[row["rhythm"]] for row in rows],
+            dtype=torch.long,
+            device=self.device,
+        )
+        return CompletionBatch(
+            contexts=contexts,
+            labels=labels,
+            stem_lengths=torch.tensor(lengths, dtype=torch.long, device=self.device),
+            target_p=target_p,
+            rhythm_ids=rhythm_ids,
+            support_ids=supports,
+        )
+
+
+def filler_ids_from_labels(labels: torch.Tensor) -> torch.Tensor:
+    """Class id at the only non-ignored position. Refuses any other pattern."""
+    if labels.ndim != 2:
+        raise ValueError(f"labels must be (N, L), got {tuple(labels.shape)}")
+    supervised = labels != IGNORE_INDEX
+    counts = supervised.sum(dim=1)
+    expected = torch.ones(labels.shape[0], dtype=counts.dtype, device=counts.device)
+    if not torch.equal(counts, expected):
+        bad = (counts != 1).nonzero(as_tuple=False).flatten().tolist()
+        raise ValueError(
+            "each completion row must have exactly one supervised position, "
+            f"got counts {counts[bad[:8]].tolist()} at rows {bad[:8]}"
+        )
+    position = supervised.to(torch.int64).argmax(dim=1)
+    return labels.gather(1, position.unsqueeze(1)).squeeze(1)
+
+
+def assert_completion_mask(
+    labels: torch.Tensor,
+    stem_lengths: torch.Tensor,
+    support: Sequence[Sequence[int]],
+    filler_ids: torch.Tensor,
+) -> None:
+    """Refuse a stem label, a pad label, or a filler outside that row's support.
+
+    The supervised slot is the position just after the stem. Pad and stem stay
+    IGNORE_INDEX. `filler_ids` is the gather from `filler_ids_from_labels`.
+    """
+    if labels.ndim != 2:
+        raise ValueError(f"labels must be (N, L), got {tuple(labels.shape)}")
+    n, length = labels.shape
+    if stem_lengths.shape != (n,) or filler_ids.shape != (n,):
+        raise ValueError("completion batch fields disagree on the row count")
+    if len(support) != n:
+        raise ValueError("completion batch fields disagree on the row count")
+    device = labels.device
+    stem_lengths = stem_lengths.to(device=device, dtype=torch.long)
+    filler_ids = filler_ids.to(device=device)
+    if bool((stem_lengths < 0).any()) or bool((stem_lengths >= length).any()):
+        raise ValueError("stem length does not leave exactly one supervised slot")
+    pos = torch.arange(length, device=device).unsqueeze(0)
+    stem = pos < stem_lengths.unsqueeze(1)
+    pad = pos > stem_lengths.unsqueeze(1)
+    if bool((stem & (labels != IGNORE_INDEX)).any()):
+        raise ValueError("stem position was given a supervised id")
+    if bool((pad & (labels != IGNORE_INDEX)).any()):
+        raise ValueError("pad position was given a supervised id")
+    at_slot = labels.gather(1, stem_lengths.unsqueeze(1)).squeeze(1)
+    if bool((at_slot == IGNORE_INDEX).any()):
+        raise ValueError("a row has no supervised position")
+    if not torch.equal(at_slot, filler_ids):
+        raise ValueError("gathered filler id is not the post-stem label")
+    for i in range(n):
+        fid = int(filler_ids[i])
+        if fid not in support[i]:
+            raise ValueError(
+                f"gathered filler id {fid} is not in row {i} target support"
+            )
+
+
 def completion_loss(
     logits: torch.Tensor,
     target_p: torch.Tensor,
@@ -169,6 +328,8 @@ class CompletionTrainer:
             len(rows), cfg.n_epochs, cfg.batch_size, self.head.vocab_size,
         )
 
+        collator = CompletionCollator(self.head.index, rhythm_index, device)
+
         for epoch in range(cfg.n_epochs):
             self.generator.train()
             self.head.train()
@@ -180,15 +341,16 @@ class CompletionTrainer:
 
             for start in range(0, len(rows), cfg.batch_size):
                 batch_ix = order[start:start + cfg.batch_size]
-                batch = [rows[i] for i in batch_ix]
-                token_lists = [r["context"] for r in batch]
-                rhythm_ids = torch.tensor(
-                    [rhythm_index[r["rhythm"]] for r in batch],
-                    dtype=torch.long,
-                    device=device,
+                packed = collator([rows[i] for i in batch_ix])
+                # Load-bearing mask. A stem label, a bad slot count, or a
+                # filler outside the support refuses the batch before the step.
+                filler_ids = filler_ids_from_labels(packed.labels)
+                assert_completion_mask(
+                    packed.labels, packed.stem_lengths, packed.support_ids, filler_ids,
                 )
-                dists = [r["target_dist"] for r in batch]
-                target_p = pack_targets(dists, self.head.index, device)
+                token_lists = packed.contexts
+                rhythm_ids = packed.rhythm_ids
+                target_p = packed.target_p
 
                 _h, logits, rhythm_logits = self._forward(token_lists, rhythm_ids)
                 loss, word, rhythm = completion_loss(
@@ -205,7 +367,7 @@ class CompletionTrainer:
                 )
                 self.optimizer.step()
 
-                n = len(batch)
+                n = len(token_lists)
                 total_loss += float(loss.detach()) * n
                 total_word += float(word.detach().mean()) * n
                 correct += int((rhythm_logits.argmax(-1) == rhythm_ids).sum().detach())
