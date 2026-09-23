@@ -1,5 +1,6 @@
 RFE-Core2
 Copyright (C) 2026 Samuel Jackson Grim
+https://github.com/SamuelJacksonGrim/RFE-Core2
 
 This product is dual-licensed. You may use it under EITHER:
   (1) the GNU Affero General Public License, version 3 only (AGPL-3.0-only),
@@ -10,16 +11,7 @@ This product is dual-licensed. You may use it under EITHER:
 SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Commercial
 
 Commercial licensing contact:
-  Samuel Jackson Grim <collectiveaifamily@gmail.com>
-
--------------------------------------------------------------------------------
-Third-party components
--------------------------------------------------------------------------------
-This project currently contains no bundled third-party source code. Any
-third-party components added in the future, and their licenses, must be listed
-here and must be compatible with BOTH license tracks (AGPL-3.0 and the
-commercial license). Do not add code that cannot be relicensed commercially
-without first recording its provenance and license in this file.
+  Samuel Jackson Grim <samgrim97@gmail.com>
 
 ---
 

@@ -383,7 +383,7 @@ README tree entry in the same commit or CI goes red.
   `deque` for all rolling history. `@dataclass` for state snapshots,
   `@dataclass(frozen=True)` for inviolable state, `Enum` for closed sets.
 - Per-file license headers are not required — `LICENSE` and `NOTICE` at the
-  repo root cover Apache-2.0 attribution.
+  repo root state the AGPL-3.0-only OR commercial dual license.
 - Git: remote `origin` → `SamuelJacksonGrim/RFE-Core2`. Commit messages are
   imperative, terse, one line, often naming files or classes. Stage specific
   files, not `git add -A`. Feature branches preferred; do not push to `main`

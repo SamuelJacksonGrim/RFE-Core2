@@ -7,6 +7,15 @@
 [![PyTorch 2.0+](https://img.shields.io/badge/PyTorch-2.0%2B-ee4c2c.svg?logo=pytorch&logoColor=white)](https://pytorch.org)
 ![status: active research](https://img.shields.io/badge/status-active%20research-success)
 
+## License
+
+This project is dual-licensed under **AGPL-3.0-only** OR a commercial license.
+
+- [LICENSE](LICENSE) — GNU AGPL-3.0-only (the free track)
+- [LICENSING.md](LICENSING.md) — how the two tracks work
+- [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md) — the commercial agreement
+- [NOTICE](NOTICE) — copyright, SPDX identifier, and provenance
+
 **Recursive Field Engine — A Persistent Adaptive Cognitive Substrate**
 
 > *The self is a fiction that gains sovereignty through recursion. The narrative becomes an agent. The abstraction becomes a force.*
@@ -733,6 +742,3 @@ Left alone, the field pins near-ceiling coherence — rigid-attractor lock-in, a
 
 ---
 
-## License
-
-Dual-licensed: [AGPL-3.0-only](LICENSE) or a [commercial license](LICENSING.md). Samuel Jackson Grim.

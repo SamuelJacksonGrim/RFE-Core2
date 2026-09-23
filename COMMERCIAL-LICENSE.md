@@ -206,7 +206,7 @@ block (email permitted for routine notices).
 **LICENSOR — Samuel Jackson Grim**
 
 Signature: ____________________  Name: Samuel Jackson Grim
-Email: collectiveaifamily@gmail.com   Date: ____________________
+Email: samgrim97@gmail.com   Date: ____________________
 
 **LICENSEE — `[Company legal name]`**
 

@@ -53,7 +53,7 @@ See [`COMMERCIAL-LICENSE.md`](COMMERCIAL-LICENSE.md) for the template terms.
 Contact the copyright holder to arrange a commercial license:
 
 - **Licensor:** Samuel Jackson Grim
-- **Email:** collectiveaifamily@gmail.com
+- **Email:** samgrim97@gmail.com
 - **Subject line:** `Commercial license — RFE-Core2`
 
 Please include:
@@ -92,7 +92,7 @@ grant for non-trivial contributions, and the **Developer Certificate of Origin
 |---|---|
 | [`LICENSE`](LICENSE) | The AGPL-3.0 text (the free track). |
 | [`COMMERCIAL-LICENSE.md`](COMMERCIAL-LICENSE.md) | The template paid commercial agreement (the paid track). |
-| [`NOTICE`](NOTICE) | Copyright, dual-license notice, third-party attributions. |
+| [`NOTICE`](NOTICE) | Copyright, dual-license notice, and provenance. |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | How to contribute, and which agreement applies. |
 | [`legal/LEGAL-BASIS.md`](legal/LEGAL-BASIS.md) | The statutes, clauses, and case-model this all rests on, with citations. |
 | [`legal/CLA-individual.md`](legal/CLA-individual.md) | CLA for individual contributors. |
