@@ -37,6 +37,38 @@ def encode_texts(gen: Generator, token_lists, batch: int = 256) -> np.ndarray:
     return np.concatenate(out, axis=0).astype(np.float64)
 
 
+def embedding_means(gen: Generator, token_lists, batch: int = 256) -> np.ndarray:
+    """Unit-norm masked means of token embeddings, before position and the stack.
+
+    Same reduction as Generator.token_embedding_mean. This is the point upstream
+    of the transformer, which encode_texts (the field vector) is not.
+    """
+    import torch
+    import torch.nn.functional as F
+
+    gen.eval()
+    out = []
+    with torch.no_grad():
+        for i in range(0, len(token_lists), batch):
+            chunk = token_lists[i:i + batch]
+            encoded = [gen._tokens_to_ids(tl or ["<BOS>"], None) for tl in chunk]
+            gen._ensure_embedding_capacity()
+            max_len = max(len(s) for s in encoded)
+            pad_id = gen.address_space.pad_id
+            padded = [s + [pad_id] * (max_len - len(s)) for s in encoded]
+            ids = torch.tensor(padded, dtype=torch.long, device=gen.device)
+            mean = F.normalize(gen.token_embedding_mean(ids), dim=-1)
+            out.append(mean.detach().cpu().numpy())
+    return np.concatenate(out, axis=0).astype(np.float64)
+
+
+def mean_cosine(a: np.ndarray, b: np.ndarray) -> float:
+    """Mean row-wise cosine. Both clouds are re-normalized."""
+    a = _unit_rows(np.asarray(a, dtype=np.float64))
+    b = _unit_rows(np.asarray(b, dtype=np.float64))
+    return float((a * b).sum(axis=1).mean())
+
+
 def _unit_rows(Z: np.ndarray) -> np.ndarray:
     n = np.linalg.norm(Z, axis=1, keepdims=True)
     return Z / np.maximum(n, 1e-12)

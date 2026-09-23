@@ -154,7 +154,7 @@ def unigram_baseline(train_rows, hold_rows, vocab: list[str]) -> dict:
     return scores
 
 
-def fit_soft_probe(Xtr, rows_tr, Xho, rows_ho, vocab, epochs=40, lr=1e-2, seed=42) -> dict:
+def fit_soft_probe(Xtr, rows_tr, Xho, rows_ho, vocab, epochs=40, lr=1e-2, seed=42, slices=None) -> dict:
     """Fresh linear softmax on frozen context vectors. Same probe every encoder."""
     _seed(seed)
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -183,7 +183,17 @@ def fit_soft_probe(Xtr, rows_tr, Xho, rows_ho, vocab, epochs=40, lr=1e-2, seed=4
     hold_scores = completion_scores(ho_logits, rows_ho, vocab)
     train_scores["ce"] = round(_word_ce(tr_logits, rows_tr, index, device), 4)
     hold_scores["ce"] = round(_word_ce(ho_logits, rows_ho, index, device), 4)
-    return {"train": train_scores, "holdout": hold_scores}
+    out = {"train": train_scores, "holdout": hold_scores}
+    if slices:
+        scored = {}
+        with torch.no_grad():
+            for name, (Xs, rs) in slices.items():
+                logits = layer(torch.tensor(np.asarray(Xs), dtype=torch.float32, device=device))
+                sc = completion_scores(logits, rs, vocab)
+                sc["ce"] = round(_word_ce(logits, rs, index, device), 4)
+                scored[name] = sc
+        out["slices"] = scored
+    return out
 
 
 def fit_rhythm_probe(Ztr, ytr, Zho, yho, epochs=40, lr=1e-2, seed=42) -> dict:

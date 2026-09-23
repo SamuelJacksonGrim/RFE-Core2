@@ -20,8 +20,15 @@ import torch.nn.functional as F
 
 from agents.generator import Generator
 from tools.completion.corpus import content_of, load_jsonl
-from tools.completion.geometry import dump_json, encode_texts, population
+from tools.completion.geometry import (
+    dump_json,
+    embedding_means,
+    encode_texts,
+    mean_cosine,
+    population,
+)
 from tools.completion.live_guard import REPO, assert_live_intact, refuse_protected
+from tools.completion.measure import completion_scores
 from training.completion import (
     COND_SCALE,
     CompletionConfig,
@@ -65,6 +72,22 @@ def main() -> int:
         "--embeddings-only",
         action="store_true",
         help="freeze the transformer and the projection; train token embeddings and the head",
+    )
+    ap.add_argument(
+        "--residual",
+        action="store_true",
+        help="field vector keeps an orthogonal residual of the embedding mean; "
+             "the transformer reads detached embeddings and cannot cancel that direction",
+    )
+    ap.add_argument(
+        "--legibility",
+        action="store_true",
+        help="at the end, train the phase-0 mouth on the live lines",
+    )
+    ap.add_argument(
+        "--final-probe",
+        action="store_true",
+        help="at the end, fit a fresh linear completion probe on frozen context vectors",
     )
     ap.add_argument("--train-rows", default=str(SCRATCH / "completion_train.jsonl"))
     ap.add_argument("--hold-rows", default=str(SCRATCH / "completion_holdout.jsonl"))
@@ -118,12 +141,20 @@ def main() -> int:
     surface = sorted({t for rec in live_train for t in rec["tokens"]})
     gen.eval()
     gen.encode_batch([[t] for t in surface])
+    if args.embeddings_only and args.residual:
+        raise SystemExit("pick one of --embeddings-only or --residual")
+    gen.embedding_residual = bool(args.residual)
     if args.embeddings_only:
         for name, param in gen.named_parameters():
             if not name.startswith("embedding."):
                 param.requires_grad = False
         frozen = sum(not p.requires_grad for p in gen.parameters())
         print(f"embeddings-only: froze {frozen} tensors", flush=True)
+    if args.residual:
+        print(
+            "residual: orthogonal embedding-mean mix, transformer input detached",
+            flush=True,
+        )
     print(
         f"registered {len(surface)} surface tokens; "
         f"embedding {tuple(gen.embedding.weight.shape)} device={gen.device}",
@@ -154,26 +185,50 @@ def main() -> int:
     def snapshot(epoch_done: int) -> None:
         gen.eval()
         head.eval()
-        Z = encode_texts(gen, [r["tokens"] for r in live_hold])
-        pop = population(Z)
+        points = _measure_points(gen, [r["tokens"] for r in live_hold])
+        pop = points["output"]
         Zctx = encode_texts(gen, [r["context"] for r in hold_rows])
         pop_ctx = population(Zctx)
-        word_ce = _holdout_word_ce(
+        hold_read = _completion_readout(
             gen, head, hold_rows, rhythm_index, trainer.config.cond_scale,
         )
+        train_read = _completion_readout(
+            gen, head, rows, rhythm_index, trainer.config.cond_scale,
+        )
+        word_ce = None if hold_read is None else hold_read["ce"]
         snap = {
             "epoch": epoch_done,
             "live_holdout_participation": pop["participation_ratio"],
             "live_holdout_eff_rank": pop["eff_rank_512cap"],
+            "live_holdout_embedding_participation": points["embedding_mean"]["participation_ratio"],
+            "live_holdout_embedding_eff_rank": points["embedding_mean"]["eff_rank_512cap"],
+            "live_holdout_stack_participation": points["stack"]["participation_ratio"],
+            "live_holdout_stack_eff_rank": points["stack"]["eff_rank_512cap"],
+            "live_holdout_cos_stack_emb": points["cos_stack_emb"],
+            "live_holdout_cos_output_emb": points["cos_output_emb"],
             "context_holdout_participation": pop_ctx["participation_ratio"],
             "context_holdout_eff_rank": pop_ctx["eff_rank_512cap"],
             "completion_holdout_word_ce": word_ce,
+            "completion_holdout_mode_top1": None if hold_read is None else hold_read["mode_top1"],
+            "completion_holdout_support_recall@8": (
+                None if hold_read is None else hold_read["support_recall@8"]
+            ),
+            "completion_holdout_by_split": None if hold_read is None else hold_read.get("by_split"),
+            "completion_train_mode_top1": None if train_read is None else train_read["mode_top1"],
+            "completion_train_word_ce": None if train_read is None else train_read["ce"],
         }
         history.append(snap)
+        similar = (snap["completion_holdout_by_split"] or {}).get("similar") or {}
         print(
-            f"snap epoch {epoch_done}  PR {pop['participation_ratio']}  "
-            f"eff {pop['eff_rank_512cap']}  ctx_PR {pop_ctx['participation_ratio']}  "
-            f"hold_word_ce {word_ce}",
+            f"snap epoch {epoch_done}  "
+            f"out_PR {pop['participation_ratio']}  "
+            f"emb_PR {points['embedding_mean']['participation_ratio']}  "
+            f"stack_PR {points['stack']['participation_ratio']}  "
+            f"cos_out_emb {points['cos_output_emb']}  "
+            f"ctx_PR {pop_ctx['participation_ratio']}  "
+            f"hold_ce {word_ce}  hold_top1 {snap['completion_holdout_mode_top1']}  "
+            f"similar_top1 {similar.get('mode_top1')}  "
+            f"train_top1 {snap['completion_train_mode_top1']}",
             flush=True,
         )
 
@@ -193,6 +248,7 @@ def main() -> int:
             "vocab": head.vocab,
             "rhythms": list(RHYTHMS),
             "dim": args.dim,
+            "embedding_residual": bool(args.residual),
             "cond_scale": trainer.config.cond_scale,
             "rhythm_weight": trainer.config.rhythm_weight,
         },
@@ -201,6 +257,8 @@ def main() -> int:
     print(f"SAVED {weights}", flush=True)
     print(f"SAVED {ecology}", flush=True)
     print(f"SAVED {head_path}", flush=True)
+
+    extras = _final_extras(args, gen, rows, hold_rows, vocab, live_train, live_hold)
 
     report = {
         "objective": "completion",
@@ -212,6 +270,7 @@ def main() -> int:
         "learning_rate": args.lr,
         "weight_decay": args.weight_decay,
         "embeddings_only": args.embeddings_only,
+        "embedding_residual": bool(args.residual),
         "cond_scale": trainer.config.cond_scale,
         "rhythm_weight": trainer.config.rhythm_weight,
         "content_vocab": len(vocab),
@@ -230,6 +289,7 @@ def main() -> int:
         "ecology": ecology,
         "head": head_path,
         "live_sha256": live,
+        "extras": extras,
     }
     suffix = tag if tag else ""
     out = (
@@ -242,14 +302,86 @@ def main() -> int:
     return 0
 
 
+def _measure_points(gen, token_lists) -> dict:
+    """Participation at the embedding mean, the stack output, and the field vector.
+
+    The field vector is encode_batch, which includes the residual when that
+    flag is on. The stack output is the same forward with the flag forced off,
+    so a rich residual cannot hide a collapsed transformer.
+    """
+    flag = bool(gen.embedding_residual)
+    z_out = encode_texts(gen, token_lists)
+    z_emb = embedding_means(gen, token_lists)
+    if flag:
+        gen.embedding_residual = False
+        try:
+            z_stack = encode_texts(gen, token_lists)
+        finally:
+            gen.embedding_residual = True
+    else:
+        z_stack = z_out
+    return {
+        "output": population(z_out),
+        "embedding_mean": population(z_emb),
+        "stack": population(z_stack),
+        "cos_stack_emb": round(mean_cosine(z_stack, z_emb), 4),
+        "cos_output_emb": round(mean_cosine(z_out, z_emb), 4),
+    }
+
+
+def _final_extras(args, gen, rows, hold_rows, vocab, live_train, live_hold) -> dict:
+    extras = {}
+    if args.final_probe:
+        from tools.completion.measure import fit_rhythm_probe, fit_soft_probe
+
+        print("final frozen completion probe ...", flush=True)
+        xtr = encode_texts(gen, [r["context"] for r in rows])
+        xho = encode_texts(gen, [r["context"] for r in hold_rows])
+        slices = None
+        if any("split" in r for r in hold_rows):
+            slices = {}
+            for split in sorted({r.get("split") for r in hold_rows}):
+                sub = [r for r in hold_rows if r.get("split") == split]
+                slices[split] = (encode_texts(gen, [r["context"] for r in sub]), sub)
+        probe = fit_soft_probe(xtr, rows, xho, hold_rows, vocab, slices=slices)
+        extras["frozen_completion_probe"] = probe
+        print(
+            f"frozen probe holdout mode_top1 {probe['holdout'].get('mode_top1')}  "
+            f"peaked_top1 {probe['holdout'].get('peaked_top1')}  "
+            f"ce {probe['holdout'].get('ce')}",
+            flush=True,
+        )
+        if probe.get("slices"):
+            for name, sc in probe["slices"].items():
+                print(
+                    f"frozen probe split {name}  n {sc.get('n')}  "
+                    f"mode_top1 {sc.get('mode_top1')}  "
+                    f"recall@8 {sc.get('support_recall@8')}  ce {sc.get('ce')}",
+                    flush=True,
+                )
+        ztr = encode_texts(gen, [r["tokens"] for r in live_train])
+        zho = encode_texts(gen, [r["tokens"] for r in live_hold])
+        extras["rhythm_linear_probe"] = fit_rhythm_probe(
+            ztr, [r["rhythm"] for r in live_train], zho, [r["rhythm"] for r in live_hold],
+        )
+        print(f"rhythm probe {extras['rhythm_linear_probe']}", flush=True)
+    if args.legibility:
+        from tools.completion.measure import legibility
+
+        print("training phase-0 mouth ...", flush=True)
+        mouth = legibility(gen, live_train, live_hold, args.dim)
+        extras["legibility"] = mouth
+        print(f"legibility holdout {mouth['holdout']}", flush=True)
+    return extras
+
+
 @torch.no_grad()
-def _holdout_word_ce(gen, head, rows, rhythm_index, cond_scale: float) -> float | None:
-    """Co-trained head, word term only, on the completion holdout."""
+def _completion_readout(gen, head, rows, rhythm_index, cond_scale: float) -> dict | None:
+    """Co-trained head on these rows. Splits are scored separately when present."""
     if not rows:
         return None
     device = gen.device
-    total = 0.0
-    seen = 0
+    logits = []
     for start in range(0, len(rows), 256):
         batch = rows[start:start + 256]
         rhythm_ids = torch.tensor(
@@ -262,12 +394,26 @@ def _holdout_word_ce(gen, head, rows, rhythm_index, cond_scale: float) -> float 
         )
         code = F.normalize(head.rhythm_embed(rhythm_ids), dim=-1)
         conditioned = F.normalize(h + cond_scale * code, dim=-1)
-        logits = head.head(conditioned)
-        target = pack_targets([r["target_dist"] for r in batch], head.index, device)
-        word = -(target * torch.log_softmax(logits, dim=-1)).sum(dim=-1)
-        total += float(word.sum())
-        seen += len(batch)
-    return round(total / max(seen, 1), 4)
+        logits.append(head.head(conditioned))
+    stacked = torch.cat(logits, dim=0)
+    scores = completion_scores(stacked, rows, head.vocab)
+    scores["ce"] = round(_word_ce(stacked, rows, head.index, device), 4)
+    if any("split" in r for r in rows):
+        by = {}
+        for split in sorted({r.get("split") for r in rows}):
+            idx = [i for i, r in enumerate(rows) if r.get("split") == split]
+            sub_rows = [rows[i] for i in idx]
+            sub_logits = stacked[idx]
+            sub = completion_scores(sub_logits, sub_rows, head.vocab)
+            sub["ce"] = round(_word_ce(sub_logits, sub_rows, head.index, device), 4)
+            by[split] = sub
+        scores["by_split"] = by
+    return scores
+
+
+def _word_ce(logits, rows, index, device: str) -> float:
+    target = pack_targets([r["target_dist"] for r in rows], index, device)
+    return float((-(target * torch.log_softmax(logits, dim=-1)).sum(-1)).mean())
 
 
 if __name__ == "__main__":
