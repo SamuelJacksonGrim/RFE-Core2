@@ -1,7 +1,8 @@
 # RFE-Core2
 
 [![tests](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml/badge.svg)](https://github.com/SamuelJacksonGrim/RFE-Core2/actions/workflows/tests.yml)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License: AGPL-3.0-only](https://img.shields.io/badge/license-AGPL--3.0--only-blue)](LICENSE)
+[![dual-license](https://img.shields.io/badge/dual--license-AGPL--3.0--only%20or%20commercial-blueviolet)](LICENSING.md)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-3776ab.svg?logo=python&logoColor=white)](https://www.python.org)
 [![PyTorch 2.0+](https://img.shields.io/badge/PyTorch-2.0%2B-ee4c2c.svg?logo=pytorch&logoColor=white)](https://pytorch.org)
 ![status: active research](https://img.shields.io/badge/status-active%20research-success)
@@ -734,4 +735,4 @@ Left alone, the field pins near-ceiling coherence — rigid-attractor lock-in, a
 
 ## License
 
-Apache-2.0 — Samuel Jackson Grim
+Dual-licensed: [AGPL-3.0-only](LICENSE) or a [commercial license](LICENSING.md). Samuel Jackson Grim.
