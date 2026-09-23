@@ -1,0 +1,1991 @@
+{
+  "corpus": "1.3.0",
+  "train_n": 8527,
+  "holdout_n": 1505,
+  "redundancy": {
+    "n": 8527,
+    "exact_ordered_duplicate_sequences": 0,
+    "exact_bag_duplicate_groups": 161,
+    "exact_bag_duplicate_sequences": 322,
+    "exact_bag_cross_rhythm_conflicts": [
+      {
+        "n": 2,
+        "rhythms": [
+          "dream",
+          "stabilize"
+        ],
+        "tokens": [
+          "a",
+          "memory"
+        ]
+      },
+      {
+        "n": 2,
+        "rhythms": [
+          "reflect",
+          "stabilize"
+        ],
+        "tokens": [
+          "in",
+          "nature"
+        ]
+      },
+      {
+        "n": 2,
+        "rhythms": [
+          "dream",
+          "stabilize"
+        ],
+        "tokens": [
+          "and",
+          "coherence"
+        ]
+      },
+      {
+        "n": 2,
+        "rhythms": [
+          "explore",
+          "reflect"
+        ],
+        "tokens": [
+          "between",
+          "track"
+        ]
+      }
+    ],
+    "within_rhythm_nn": {
+      "n": 8527,
+      "mean": 0.4048,
+      "p50": 0.3333,
+      "p90": 0.6667,
+      "p99": 1.0,
+      "max": 1.0,
+      "frac_ge_0.80": 0.0368,
+      "frac_ge_0.50": 0.2599,
+      "frac_eq_1": 0.0368,
+      "n_ge_0.80": 314,
+      "n_eq_1": 314
+    },
+    "cross_rhythm_nn": {
+      "n": 8527,
+      "mean": 0.1114,
+      "p50": 0.0,
+      "p90": 0.3333,
+      "p99": 0.3333,
+      "max": 1.0,
+      "frac_ge_0.80": 0.0009,
+      "frac_ge_0.50": 0.0049,
+      "frac_eq_1": 0.0009,
+      "n_ge_0.80": 8,
+      "n_eq_1": 8
+    },
+    "per_rhythm": {
+      "stabilize": {
+        "n": 1871,
+        "within_nn": {
+          "n": 1871,
+          "mean": 0.4154,
+          "p50": 0.3333,
+          "p90": 0.6667,
+          "p99": 1.0,
+          "max": 1.0,
+          "frac_ge_0.80": 0.0342,
+          "frac_ge_0.50": 0.2843,
+          "frac_eq_1": 0.0342,
+          "n_ge_0.80": 64,
+          "n_eq_1": 64
+        }
+      },
+      "dream": {
+        "n": 1892,
+        "within_nn": {
+          "n": 1892,
+          "mean": 0.4145,
+          "p50": 0.3333,
+          "p90": 0.6667,
+          "p99": 1.0,
+          "max": 1.0,
+          "frac_ge_0.80": 0.0402,
+          "frac_ge_0.50": 0.2775,
+          "frac_eq_1": 0.0402,
+          "n_ge_0.80": 76,
+          "n_eq_1": 76
+        }
+      },
+      "reflect": {
+        "n": 1833,
+        "within_nn": {
+          "n": 1833,
+          "mean": 0.4252,
+          "p50": 0.3333,
+          "p90": 0.6667,
+          "p99": 1.0,
+          "max": 1.0,
+          "frac_ge_0.80": 0.048,
+          "frac_ge_0.50": 0.2908,
+          "frac_eq_1": 0.048,
+          "n_ge_0.80": 88,
+          "n_eq_1": 88
+        }
+      },
+      "explore": {
+        "n": 1925,
+        "within_nn": {
+          "n": 1925,
+          "mean": 0.4173,
+          "p50": 0.3333,
+          "p90": 0.6667,
+          "p99": 1.0,
+          "max": 1.0,
+          "frac_ge_0.80": 0.0447,
+          "frac_ge_0.50": 0.2784,
+          "frac_eq_1": 0.0447,
+          "n_ge_0.80": 86,
+          "n_eq_1": 86
+        }
+      },
+      "rupture": {
+        "n": 1006,
+        "within_nn": {
+          "n": 1006,
+          "mean": 0.3056,
+          "p50": 0.25,
+          "p90": 0.4,
+          "p99": 0.5,
+          "max": 0.6667,
+          "frac_ge_0.80": 0.0,
+          "frac_ge_0.50": 0.0895,
+          "frac_eq_1": 0.0,
+          "n_ge_0.80": 0,
+          "n_eq_1": 0
+        }
+      }
+    },
+    "worst_within_pairs": [
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "sleeping",
+          "hidden"
+        ],
+        "b_tokens": [
+          "hidden",
+          "sleeping"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "explore",
+        "b_rhythm": "explore",
+        "a_tokens": [
+          "outside",
+          "noise"
+        ],
+        "b_tokens": [
+          "noise",
+          "outside"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "stabilize",
+        "b_rhythm": "stabilize",
+        "a_tokens": [
+          "steady",
+          "home"
+        ],
+        "b_tokens": [
+          "home",
+          "steady"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "immersion",
+          "weave"
+        ],
+        "b_tokens": [
+          "weave",
+          "immersion"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "absorption",
+          "flow"
+        ],
+        "b_tokens": [
+          "flow",
+          "absorption"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "engrossment",
+          "mesmerism"
+        ],
+        "b_tokens": [
+          "mesmerism",
+          "engrossment"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "engrossment",
+          "chimera"
+        ],
+        "b_tokens": [
+          "chimera",
+          "engrossment"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "captivation",
+          "ecstasy"
+        ],
+        "b_tokens": [
+          "ecstasy",
+          "captivation"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "ballad",
+          "phantom"
+        ],
+        "b_tokens": [
+          "phantom",
+          "ballad"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "ballad",
+          "carol"
+        ],
+        "b_tokens": [
+          "carol",
+          "ballad"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "nocturne",
+          "bewitchment"
+        ],
+        "b_tokens": [
+          "bewitchment",
+          "nocturne"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "shangrila",
+          "trance"
+        ],
+        "b_tokens": [
+          "trance",
+          "shangrila"
+        ]
+      }
+    ],
+    "worst_cross_pairs": [
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "stabilize",
+        "a_tokens": [
+          "coherence",
+          "and"
+        ],
+        "b_tokens": [
+          "and",
+          "coherence"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "dream",
+        "b_rhythm": "stabilize",
+        "a_tokens": [
+          "a",
+          "memory"
+        ],
+        "b_tokens": [
+          "memory",
+          "a"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "stabilize",
+        "b_rhythm": "reflect",
+        "a_tokens": [
+          "in",
+          "nature"
+        ],
+        "b_tokens": [
+          "nature",
+          "in"
+        ]
+      },
+      {
+        "jaccard": 1.0,
+        "a_rhythm": "reflect",
+        "b_rhythm": "explore",
+        "a_tokens": [
+          "track",
+          "between"
+        ],
+        "b_tokens": [
+          "between",
+          "track"
+        ]
+      },
+      {
+        "jaccard": 0.6667,
+        "a_rhythm": "reflect",
+        "b_rhythm": "stabilize",
+        "a_tokens": [
+          "essence",
+          "pattern"
+        ],
+        "b_tokens": [
+          "essence",
+          "pattern",
+          "sharpen"
+        ]
+      },
+      {
+        "jaccard": 0.6667,
+        "a_rhythm": "reflect",
+        "b_rhythm": "stabilize",
+        "a_tokens": [
+          "nature",
+          "hold"
+        ],
+        "b_tokens": [
+          "nature",
+          "wholeness",
+          "hold"
+        ]
+      },
+      {
+        "jaccard": 0.6667,
+        "a_rhythm": "stabilize",
+        "b_rhythm": "reflect",
+        "a_tokens": [
+          "stillness",
+          "nature",
+          "pause"
+        ],
+        "b_tokens": [
+          "pause",
+          "nature"
+        ]
+      },
+      {
+        "jaccard": 0.6667,
+        "a_rhythm": "explore",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "drift",
+          "diverge",
+          "expand"
+        ],
+        "b_tokens": [
+          "drift",
+          "expand"
+        ]
+      },
+      {
+        "jaccard": 0.5,
+        "a_rhythm": "reflect",
+        "b_rhythm": "dream",
+        "a_tokens": [
+          "weave",
+          "of"
+        ],
+        "b_tokens": [
+          "weave",
+          "thread",
+          "of",
+          "resonate"
+        ]
+      },
+      {
+        "jaccard": 0.5,
+        "a_rhythm": "dream",
+        "b_rhythm": "explore",
+        "a_tokens": [
+          "between",
+          "wander",
+          "surface",
+          "evolve"
+        ],
+        "b_tokens": [
+          "evolve",
+          "between"
+        ]
+      },
+      {
+        "jaccard": 0.5,
+        "a_rhythm": "reflect",
+        "b_rhythm": "explore",
+        "a_tokens": [
+          "against",
+          "test"
+        ],
+        "b_tokens": [
+          "change",
+          "search",
+          "test",
+          "against"
+        ]
+      },
+      {
+        "jaccard": 0.5,
+        "a_rhythm": "reflect",
+        "b_rhythm": "stabilize",
+        "a_tokens": [
+          "pause",
+          "self",
+          "weigh"
+        ],
+        "b_tokens": [
+          "focus",
+          "self",
+          "pause"
+        ]
+      }
+    ],
+    "repeated_unordered_pairs": [
+      {
+        "tokens": [
+          "conjure",
+          "crystallize"
+        ],
+        "count": 6,
+        "rhythms": {
+          "dream": 6
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "fix",
+          "quiet"
+        ],
+        "count": 5,
+        "rhythms": {
+          "stabilize": 5
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "conceive",
+          "potential"
+        ],
+        "count": 5,
+        "rhythms": {
+          "dream": 5
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "crystallize",
+          "imagine"
+        ],
+        "count": 5,
+        "rhythms": {
+          "dream": 5
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "connect",
+          "with"
+        ],
+        "count": 5,
+        "rhythms": {
+          "dream": 3,
+          "reflect": 2
+        },
+        "n_rhythms": 2
+      },
+      {
+        "tokens": [
+          "across",
+          "test"
+        ],
+        "count": 5,
+        "rhythms": {
+          "reflect": 4,
+          "explore": 1
+        },
+        "n_rhythms": 2
+      },
+      {
+        "tokens": [
+          "depth",
+          "thorough"
+        ],
+        "count": 5,
+        "rhythms": {
+          "reflect": 5
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "crystallize",
+          "hold"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 4
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "hold",
+          "toward"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 2,
+          "reflect": 2
+        },
+        "n_rhythms": 2
+      },
+      {
+        "tokens": [
+          "balance",
+          "distill"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 4
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "against",
+          "unity"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 4
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "clarity",
+          "to"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 4
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "bind",
+          "through"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 3,
+          "reflect": 1
+        },
+        "n_rhythms": 2
+      },
+      {
+        "tokens": [
+          "invariant",
+          "settle"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 4
+        },
+        "n_rhythms": 1
+      },
+      {
+        "tokens": [
+          "bedrock",
+          "soft"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 4
+        },
+        "n_rhythms": 1
+      }
+    ],
+    "repeated_cross_rhythm_pairs": [
+      {
+        "tokens": [
+          "connect",
+          "with"
+        ],
+        "count": 5,
+        "rhythms": {
+          "dream": 3,
+          "reflect": 2
+        }
+      },
+      {
+        "tokens": [
+          "across",
+          "test"
+        ],
+        "count": 5,
+        "rhythms": {
+          "reflect": 4,
+          "explore": 1
+        }
+      },
+      {
+        "tokens": [
+          "hold",
+          "toward"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 2,
+          "reflect": 2
+        }
+      },
+      {
+        "tokens": [
+          "bind",
+          "through"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 3,
+          "reflect": 1
+        }
+      },
+      {
+        "tokens": [
+          "crystallize",
+          "to"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 3,
+          "dream": 1
+        }
+      },
+      {
+        "tokens": [
+          "crystallize",
+          "from"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 3,
+          "dream": 1
+        }
+      },
+      {
+        "tokens": [
+          "is",
+          "self"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 3,
+          "reflect": 1
+        }
+      },
+      {
+        "tokens": [
+          "self",
+          "within"
+        ],
+        "count": 4,
+        "rhythms": {
+          "stabilize": 2,
+          "reflect": 2
+        }
+      },
+      {
+        "tokens": [
+          "follow",
+          "with"
+        ],
+        "count": 4,
+        "rhythms": {
+          "dream": 3,
+          "explore": 1
+        }
+      },
+      {
+        "tokens": [
+          "evolve",
+          "with"
+        ],
+        "count": 4,
+        "rhythms": {
+          "dream": 1,
+          "explore": 3
+        }
+      },
+      {
+        "tokens": [
+          "hold",
+          "with"
+        ],
+        "count": 3,
+        "rhythms": {
+          "stabilize": 1,
+          "reflect": 2
+        }
+      },
+      {
+        "tokens": [
+          "in",
+          "nature"
+        ],
+        "count": 3,
+        "rhythms": {
+          "stabilize": 2,
+          "reflect": 1
+        }
+      }
+    ],
+    "max_unordered_pair_count": 6,
+    "repeated_bigrams": [
+      {
+        "tokens": [
+          "soft",
+          "bedrock"
+        ],
+        "rhythm": "stabilize",
+        "count": 4
+      },
+      {
+        "tokens": [
+          "crystallize",
+          "hold"
+        ],
+        "rhythm": "stabilize",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "integrity",
+          "focus"
+        ],
+        "rhythm": "stabilize",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "into",
+          "secure"
+        ],
+        "rhythm": "stabilize",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "pattern",
+          "persistence"
+        ],
+        "rhythm": "stabilize",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "anchor",
+          "settle"
+        ],
+        "rhythm": "stabilize",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "focus",
+          "balance"
+        ],
+        "rhythm": "stabilize",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "continuity",
+          "clarity"
+        ],
+        "rhythm": "stabilize",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "settle",
+          "rest"
+        ],
+        "rhythm": "stabilize",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "blend",
+          "cast"
+        ],
+        "rhythm": "dream",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "conjure",
+          "crystallize"
+        ],
+        "rhythm": "dream",
+        "count": 3
+      },
+      {
+        "tokens": [
+          "bloom",
+          "float"
+        ],
+        "rhythm": "dream",
+        "count": 3
+      }
+    ],
+    "holdout_vs_train": {
+      "n": 1505,
+      "unknown_token_hits": 0,
+      "nearest_train_any_rhythm": {
+        "n": 1505,
+        "mean": 0.4109,
+        "p50": 0.3333,
+        "p90": 0.6667,
+        "p99": 1.0,
+        "max": 1.0,
+        "frac_ge_0.80": 0.0385,
+        "frac_ge_0.50": 0.2831,
+        "frac_eq_1": 0.0385,
+        "n_ge_0.80": 58,
+        "n_eq_1": 58
+      },
+      "nearest_train_same_rhythm": {
+        "n": 1505,
+        "mean": 0.4095,
+        "p50": 0.3333,
+        "p90": 0.6667,
+        "p99": 1.0,
+        "max": 1.0,
+        "frac_ge_0.80": 0.0379,
+        "frac_ge_0.50": 0.2784,
+        "frac_eq_1": 0.0379,
+        "n_ge_0.80": 57,
+        "n_eq_1": 57
+      }
+    }
+  },
+  "hub_cap": {
+    "n_tokens": 709,
+    "context_min": 10,
+    "context_p10": 15.0,
+    "context_median": 26.0,
+    "context_p90": 45.0,
+    "context_max": 114,
+    "max_over_median": 4.385,
+    "below_floor": 0,
+    "busiest_tokens": [
+      {
+        "token": "of",
+        "contexts": 114
+      },
+      {
+        "token": "against",
+        "contexts": 101
+      },
+      {
+        "token": "the",
+        "contexts": 100
+      },
+      {
+        "token": "between",
+        "contexts": 100
+      },
+      {
+        "token": "with",
+        "contexts": 99
+      },
+      {
+        "token": "across",
+        "contexts": 98
+      },
+      {
+        "token": "is",
+        "contexts": 95
+      },
+      {
+        "token": "and",
+        "contexts": 95
+      },
+      {
+        "token": "to",
+        "contexts": 94
+      },
+      {
+        "token": "a",
+        "contexts": 93
+      },
+      {
+        "token": "toward",
+        "contexts": 92
+      },
+      {
+        "token": "into",
+        "contexts": 92
+      }
+    ],
+    "rhythm_share_max": 0.0321,
+    "rhythm_share_top": [
+      {
+        "token": "settle",
+        "rhythm": "stabilize",
+        "share": 0.0321,
+        "count": 60,
+        "rhythm_n": 1871
+      },
+      {
+        "token": "generate",
+        "rhythm": "dream",
+        "share": 0.0285,
+        "count": 54,
+        "rhythm_n": 1892
+      },
+      {
+        "token": "carry",
+        "rhythm": "reflect",
+        "share": 0.0273,
+        "count": 50,
+        "rhythm_n": 1833
+      },
+      {
+        "token": "uncover",
+        "rhythm": "explore",
+        "share": 0.027,
+        "count": 52,
+        "rhythm_n": 1925
+      },
+      {
+        "token": "continuity",
+        "rhythm": "stabilize",
+        "share": 0.0262,
+        "count": 49,
+        "rhythm_n": 1871
+      },
+      {
+        "token": "unify",
+        "rhythm": "reflect",
+        "share": 0.0262,
+        "count": 48,
+        "rhythm_n": 1833
+      },
+      {
+        "token": "form",
+        "rhythm": "dream",
+        "share": 0.0259,
+        "count": 49,
+        "rhythm_n": 1892
+      },
+      {
+        "token": "focus",
+        "rhythm": "stabilize",
+        "share": 0.0257,
+        "count": 48,
+        "rhythm_n": 1871
+      },
+      {
+        "token": "confirm",
+        "rhythm": "reflect",
+        "share": 0.0256,
+        "count": 47,
+        "rhythm_n": 1833
+      },
+      {
+        "token": "project",
+        "rhythm": "dream",
+        "share": 0.0254,
+        "count": 48,
+        "rhythm_n": 1892
+      },
+      {
+        "token": "notice",
+        "rhythm": "reflect",
+        "share": 0.0251,
+        "count": 46,
+        "rhythm_n": 1833
+      },
+      {
+        "token": "split",
+        "rhythm": "explore",
+        "share": 0.0249,
+        "count": 48,
+        "rhythm_n": 1925
+      }
+    ],
+    "per_rhythm_n": {
+      "stabilize": 1871,
+      "dream": 1892,
+      "reflect": 1833,
+      "explore": 1925,
+      "rupture": 1006
+    }
+  },
+  "seeds": {
+    "n_seeds": 25,
+    "in_train_same_rhythm": 19,
+    "missing": [
+      {
+        "rhythm": "reflect",
+        "tokens": [
+          "analyze",
+          "pattern",
+          "recognize"
+        ],
+        "in_train": false
+      },
+      {
+        "rhythm": "rupture",
+        "tokens": [
+          "fracture",
+          "spall",
+          "delaminate"
+        ],
+        "in_train": false
+      },
+      {
+        "rhythm": "rupture",
+        "tokens": [
+          "fatigue",
+          "creep",
+          "yield"
+        ],
+        "in_train": false
+      },
+      {
+        "rhythm": "rupture",
+        "tokens": [
+          "fissure",
+          "crack",
+          "rift"
+        ],
+        "in_train": false
+      },
+      {
+        "rhythm": "rupture",
+        "tokens": [
+          "sever",
+          "cleave",
+          "split"
+        ],
+        "in_train": false
+      },
+      {
+        "rhythm": "rupture",
+        "tokens": [
+          "collapse",
+          "rupture",
+          "burst"
+        ],
+        "in_train": false
+      }
+    ]
+  },
+  "levelness_frozen": {
+    "n": 8527,
+    "spectrum": {
+      "participation_ratio": 3.4505,
+      "effective_rank": 3.9131,
+      "spectrum_entropy": 1.3643,
+      "variance": 0.49,
+      "n": 8527,
+      "rank_used": 127
+    },
+    "centroid_cosine_offdiag_mean": 0.5592,
+    "centroid_cos_mean": 0.8856,
+    "centroid_cos_p50": 0.968,
+    "centroid_cos_p95": 0.9965,
+    "depth_gap_p95_p50": 0.0285,
+    "nn_cos_p50": 0.9999,
+    "nn_cos_p95": 1.0,
+    "knn8_cos_p50": 0.9998,
+    "knn8_cos_p95": 1.0,
+    "density_entropy_nn_cos": {
+      "entropy": 0.0064,
+      "normalized": 0.002,
+      "bins": 25
+    },
+    "sequence_hub": {
+      "max": 6,
+      "p99": 3.0,
+      "mean": 1.0,
+      "top_1pct_share": 0.036
+    },
+    "sequence_hub_token_hint": [
+      "rest",
+      "and",
+      "continuity",
+      "stable"
+    ],
+    "sequence_hub_rhythm": "stabilize",
+    "unjustified_collapse_rate": 0.9855,
+    "unjustified_collapse_n": 8403,
+    "justified_tight_rate": 0.0056,
+    "justified_tight_n": 48,
+    "tight_neighbor_rate": 0.9993,
+    "per_rhythm": {
+      "stabilize": {
+        "n": 1871,
+        "within_mean": 0.7997,
+        "centroid_cos_mean": 0.8943,
+        "centroid_cos_p50": 0.9773,
+        "centroid_cos_p95": 0.9911,
+        "centroid_cos_std": 0.1844,
+        "depth_gap_p95_p50": 0.0139,
+        "knn_cos_p50": 1.0,
+        "knn_cos_p95": 1.0,
+        "nn_cos_p50": 1.0,
+        "nn_cos_p95": 1.0,
+        "spectrum_participation_ratio": 1.8029,
+        "spectrum_effective_rank": 2.5324,
+        "spectrum_spectrum_entropy": 0.9292,
+        "spectrum_variance": 0.2002,
+        "spectrum_rank_used": 127
+      },
+      "dream": {
+        "n": 1892,
+        "within_mean": 0.8385,
+        "centroid_cos_mean": 0.9157,
+        "centroid_cos_p50": 0.9788,
+        "centroid_cos_p95": 0.9923,
+        "centroid_cos_std": 0.129,
+        "depth_gap_p95_p50": 0.0135,
+        "knn_cos_p50": 0.9996,
+        "knn_cos_p95": 0.9999,
+        "nn_cos_p50": 0.9998,
+        "nn_cos_p95": 1.0,
+        "spectrum_participation_ratio": 2.9208,
+        "spectrum_effective_rank": 3.6341,
+        "spectrum_spectrum_entropy": 1.2904,
+        "spectrum_variance": 0.1614,
+        "spectrum_rank_used": 127
+      },
+      "reflect": {
+        "n": 1833,
+        "within_mean": 0.7574,
+        "centroid_cos_mean": 0.8703,
+        "centroid_cos_p50": 0.9651,
+        "centroid_cos_p95": 0.9775,
+        "centroid_cos_std": 0.1654,
+        "depth_gap_p95_p50": 0.0124,
+        "knn_cos_p50": 0.9999,
+        "knn_cos_p95": 1.0,
+        "nn_cos_p50": 0.9999,
+        "nn_cos_p95": 1.0,
+        "spectrum_participation_ratio": 2.1865,
+        "spectrum_effective_rank": 2.9482,
+        "spectrum_spectrum_entropy": 1.0812,
+        "spectrum_variance": 0.2425,
+        "spectrum_rank_used": 127
+      },
+      "explore": {
+        "n": 1925,
+        "within_mean": 0.6683,
+        "centroid_cos_mean": 0.8176,
+        "centroid_cos_p50": 0.9473,
+        "centroid_cos_p95": 0.9565,
+        "centroid_cos_std": 0.2119,
+        "depth_gap_p95_p50": 0.0092,
+        "knn_cos_p50": 0.9998,
+        "knn_cos_p95": 1.0,
+        "nn_cos_p50": 0.9999,
+        "nn_cos_p95": 1.0,
+        "spectrum_participation_ratio": 2.0388,
+        "spectrum_effective_rank": 2.8343,
+        "spectrum_spectrum_entropy": 1.0418,
+        "spectrum_variance": 0.3316,
+        "spectrum_rank_used": 127
+      },
+      "rupture": {
+        "n": 1006,
+        "within_mean": 0.9423,
+        "centroid_cos_mean": 0.9708,
+        "centroid_cos_p50": 0.9959,
+        "centroid_cos_p95": 0.999,
+        "centroid_cos_std": 0.0982,
+        "depth_gap_p95_p50": 0.0031,
+        "knn_cos_p50": 0.9999,
+        "knn_cos_p95": 1.0,
+        "nn_cos_p50": 0.9999,
+        "nn_cos_p95": 1.0,
+        "spectrum_participation_ratio": 1.7553,
+        "spectrum_effective_rank": 2.4466,
+        "spectrum_spectrum_entropy": 0.8947,
+        "spectrum_variance": 0.0576,
+        "spectrum_rank_used": 127
+      }
+    },
+    "token_hub": {
+      "n_tokens": 709,
+      "max_indegree": 7,
+      "median_indegree": 1.0,
+      "p99_indegree": 6.0,
+      "top": [
+        {
+          "token": "shift",
+          "indegree": 7,
+          "share": 0.0099,
+          "mean_cos_of_those_neighbors": 0.5409
+        },
+        {
+          "token": "rest",
+          "indegree": 7,
+          "share": 0.0099,
+          "mean_cos_of_those_neighbors": 0.44
+        },
+        {
+          "token": "homeostasis",
+          "indegree": 7,
+          "share": 0.0099,
+          "mean_cos_of_those_neighbors": 0.4719
+        },
+        {
+          "token": "center",
+          "indegree": 7,
+          "share": 0.0099,
+          "mean_cos_of_those_neighbors": 0.4781
+        },
+        {
+          "token": "perforate",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.4191
+        },
+        {
+          "token": "outside",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.4874
+        },
+        {
+          "token": "scatter",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.4961
+        },
+        {
+          "token": "break",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.5531
+        }
+      ]
+    },
+    "orphan_tokens_before_register": 239,
+    "token_rows_missing": [],
+    "clean_n": 4507,
+    "clean": {
+      "n": 4507,
+      "spectrum": {
+        "participation_ratio": 3.2607,
+        "effective_rank": 3.7023,
+        "spectrum_entropy": 1.309,
+        "variance": 0.5268,
+        "n": 4507,
+        "rank_used": 127
+      },
+      "centroid_cosine_offdiag_mean": 0.3807,
+      "centroid_cos_mean": 0.9703,
+      "centroid_cos_p50": 0.9973,
+      "centroid_cos_p95": 0.9993,
+      "depth_gap_p95_p50": 0.002,
+      "nn_cos_p50": 1.0,
+      "nn_cos_p95": 1.0,
+      "knn8_cos_p50": 0.9999,
+      "knn8_cos_p95": 1.0,
+      "density_entropy_nn_cos": {
+        "entropy": 0.011,
+        "normalized": 0.0034,
+        "bins": 25
+      },
+      "sequence_hub": {
+        "max": 5,
+        "p99": 3.0,
+        "mean": 1.0,
+        "top_1pct_share": 0.0386
+      },
+      "sequence_hub_token_hint": [
+        "shift",
+        "against"
+      ],
+      "sequence_hub_rhythm": "explore",
+      "unjustified_collapse_rate": 0.9774,
+      "unjustified_collapse_n": 4405,
+      "justified_tight_rate": 0.0062,
+      "justified_tight_n": 28,
+      "tight_neighbor_rate": 0.9987,
+      "per_rhythm": {
+        "stabilize": {
+          "n": 997,
+          "within_mean": 0.9499,
+          "centroid_cos_mean": 0.9747,
+          "centroid_cos_p50": 0.9984,
+          "centroid_cos_p95": 0.9995,
+          "centroid_cos_std": 0.1128,
+          "depth_gap_p95_p50": 0.0011,
+          "knn_cos_p50": 1.0,
+          "knn_cos_p95": 1.0,
+          "nn_cos_p50": 1.0,
+          "nn_cos_p95": 1.0,
+          "spectrum_participation_ratio": 2.2487,
+          "spectrum_effective_rank": 3.0341,
+          "spectrum_spectrum_entropy": 1.1099,
+          "spectrum_variance": 0.05,
+          "spectrum_rank_used": 127
+        },
+        "dream": {
+          "n": 978,
+          "within_mean": 0.9426,
+          "centroid_cos_mean": 0.9709,
+          "centroid_cos_p50": 0.9958,
+          "centroid_cos_p95": 0.9986,
+          "centroid_cos_std": 0.0855,
+          "depth_gap_p95_p50": 0.0029,
+          "knn_cos_p50": 0.9998,
+          "knn_cos_p95": 0.9999,
+          "nn_cos_p50": 0.9999,
+          "nn_cos_p95": 1.0,
+          "spectrum_participation_ratio": 3.5427,
+          "spectrum_effective_rank": 4.1396,
+          "spectrum_spectrum_entropy": 1.4206,
+          "spectrum_variance": 0.0574,
+          "spectrum_rank_used": 127
+        },
+        "reflect": {
+          "n": 958,
+          "within_mean": 0.9166,
+          "centroid_cos_mean": 0.9574,
+          "centroid_cos_p50": 0.9979,
+          "centroid_cos_p95": 0.9987,
+          "centroid_cos_std": 0.1457,
+          "depth_gap_p95_p50": 0.0009,
+          "knn_cos_p50": 1.0,
+          "knn_cos_p95": 1.0,
+          "nn_cos_p50": 1.0,
+          "nn_cos_p95": 1.0,
+          "spectrum_participation_ratio": 2.083,
+          "spectrum_effective_rank": 2.8723,
+          "spectrum_spectrum_entropy": 1.0551,
+          "spectrum_variance": 0.0834,
+          "spectrum_rank_used": 127
+        },
+        "explore": {
+          "n": 1061,
+          "within_mean": 0.9365,
+          "centroid_cos_mean": 0.9677,
+          "centroid_cos_p50": 0.9957,
+          "centroid_cos_p95": 0.9981,
+          "centroid_cos_std": 0.0999,
+          "depth_gap_p95_p50": 0.0024,
+          "knn_cos_p50": 0.9999,
+          "knn_cos_p95": 1.0,
+          "nn_cos_p50": 1.0,
+          "nn_cos_p95": 1.0,
+          "spectrum_participation_ratio": 2.4889,
+          "spectrum_effective_rank": 3.0105,
+          "spectrum_spectrum_entropy": 1.1021,
+          "spectrum_variance": 0.0635,
+          "spectrum_rank_used": 127
+        },
+        "rupture": {
+          "n": 513,
+          "within_mean": 0.98,
+          "centroid_cos_mean": 0.99,
+          "centroid_cos_p50": 0.9979,
+          "centroid_cos_p95": 0.9997,
+          "centroid_cos_std": 0.0382,
+          "depth_gap_p95_p50": 0.0017,
+          "knn_cos_p50": 0.9999,
+          "knn_cos_p95": 1.0,
+          "nn_cos_p50": 1.0,
+          "nn_cos_p95": 1.0,
+          "spectrum_participation_ratio": 1.507,
+          "spectrum_effective_rank": 1.9455,
+          "spectrum_spectrum_entropy": 0.6655,
+          "spectrum_variance": 0.02,
+          "spectrum_rank_used": 127
+        }
+      },
+      "token_hub": {
+        "n_tokens": 709,
+        "max_indegree": 7,
+        "median_indegree": 1.0,
+        "p99_indegree": 6.0,
+        "top": [
+          {
+            "token": "shift",
+            "indegree": 7,
+            "share": 0.0099,
+            "mean_cos_of_those_neighbors": 0.5409
+          },
+          {
+            "token": "rest",
+            "indegree": 7,
+            "share": 0.0099,
+            "mean_cos_of_those_neighbors": 0.44
+          },
+          {
+            "token": "homeostasis",
+            "indegree": 7,
+            "share": 0.0099,
+            "mean_cos_of_those_neighbors": 0.4719
+          },
+          {
+            "token": "center",
+            "indegree": 7,
+            "share": 0.0099,
+            "mean_cos_of_those_neighbors": 0.4781
+          },
+          {
+            "token": "perforate",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.4191
+          },
+          {
+            "token": "outside",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.4874
+          },
+          {
+            "token": "scatter",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.4961
+          },
+          {
+            "token": "break",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.5531
+          }
+        ]
+      }
+    },
+    "checkpoint_untouched": true,
+    "weights": "data/checkpoints/generator_weights_5rhythm.pt"
+  },
+  "levelness_legible": {
+    "n": 8527,
+    "spectrum": {
+      "participation_ratio": 11.3997,
+      "effective_rank": 15.0372,
+      "spectrum_entropy": 2.7105,
+      "variance": 0.7529,
+      "n": 8527,
+      "rank_used": 127
+    },
+    "centroid_cosine_offdiag_mean": 0.3206,
+    "centroid_cos_mean": 0.7302,
+    "centroid_cos_p50": 0.7324,
+    "centroid_cos_p95": 0.8366,
+    "depth_gap_p95_p50": 0.1042,
+    "nn_cos_p50": 0.9942,
+    "nn_cos_p95": 0.9994,
+    "knn8_cos_p50": 0.9841,
+    "knn8_cos_p95": 0.9963,
+    "density_entropy_nn_cos": {
+      "entropy": 0.0208,
+      "normalized": 0.0065,
+      "bins": 25
+    },
+    "sequence_hub": {
+      "max": 5,
+      "p99": 3.0,
+      "mean": 1.0,
+      "top_1pct_share": 0.0374
+    },
+    "sequence_hub_token_hint": [
+      "viewpoint",
+      "truth"
+    ],
+    "sequence_hub_rhythm": "reflect",
+    "unjustified_collapse_rate": 0.9387,
+    "unjustified_collapse_n": 8004,
+    "justified_tight_rate": 0.0347,
+    "justified_tight_n": 296,
+    "tight_neighbor_rate": 0.9971,
+    "per_rhythm": {
+      "stabilize": {
+        "n": 1871,
+        "within_mean": 0.5495,
+        "centroid_cos_mean": 0.7414,
+        "centroid_cos_p50": 0.7409,
+        "centroid_cos_p95": 0.8419,
+        "centroid_cos_std": 0.0621,
+        "depth_gap_p95_p50": 0.101,
+        "knn_cos_p50": 0.9843,
+        "knn_cos_p95": 0.9956,
+        "nn_cos_p50": 0.9943,
+        "nn_cos_p95": 0.9993,
+        "spectrum_participation_ratio": 7.3176,
+        "spectrum_effective_rank": 9.5005,
+        "spectrum_spectrum_entropy": 2.2513,
+        "spectrum_variance": 0.4503,
+        "spectrum_rank_used": 127
+      },
+      "dream": {
+        "n": 1892,
+        "within_mean": 0.5456,
+        "centroid_cos_mean": 0.7388,
+        "centroid_cos_p50": 0.7403,
+        "centroid_cos_p95": 0.8501,
+        "centroid_cos_std": 0.065,
+        "depth_gap_p95_p50": 0.1098,
+        "knn_cos_p50": 0.9869,
+        "knn_cos_p95": 0.9972,
+        "nn_cos_p50": 0.9955,
+        "nn_cos_p95": 0.9994,
+        "spectrum_participation_ratio": 6.1688,
+        "spectrum_effective_rank": 8.1435,
+        "spectrum_spectrum_entropy": 2.0972,
+        "spectrum_variance": 0.4542,
+        "spectrum_rank_used": 127
+      },
+      "reflect": {
+        "n": 1833,
+        "within_mean": 0.5361,
+        "centroid_cos_mean": 0.7324,
+        "centroid_cos_p50": 0.734,
+        "centroid_cos_p95": 0.8264,
+        "centroid_cos_std": 0.0612,
+        "depth_gap_p95_p50": 0.0923,
+        "knn_cos_p50": 0.9862,
+        "knn_cos_p95": 0.9971,
+        "nn_cos_p50": 0.9951,
+        "nn_cos_p95": 0.9994,
+        "spectrum_participation_ratio": 6.4948,
+        "spectrum_effective_rank": 8.3882,
+        "spectrum_spectrum_entropy": 2.1268,
+        "spectrum_variance": 0.4636,
+        "spectrum_rank_used": 127
+      },
+      "explore": {
+        "n": 1925,
+        "within_mean": 0.5596,
+        "centroid_cos_mean": 0.7482,
+        "centroid_cos_p50": 0.7457,
+        "centroid_cos_p95": 0.839,
+        "centroid_cos_std": 0.0531,
+        "depth_gap_p95_p50": 0.0933,
+        "knn_cos_p50": 0.9843,
+        "knn_cos_p95": 0.9959,
+        "nn_cos_p50": 0.9945,
+        "nn_cos_p95": 0.9993,
+        "spectrum_participation_ratio": 7.6468,
+        "spectrum_effective_rank": 9.9475,
+        "spectrum_spectrum_entropy": 2.2973,
+        "spectrum_variance": 0.4402,
+        "spectrum_rank_used": 127
+      },
+      "rupture": {
+        "n": 1006,
+        "within_mean": 0.4282,
+        "centroid_cos_mean": 0.6548,
+        "centroid_cos_p50": 0.6498,
+        "centroid_cos_p95": 0.7678,
+        "centroid_cos_std": 0.0633,
+        "depth_gap_p95_p50": 0.118,
+        "knn_cos_p50": 0.9636,
+        "knn_cos_p95": 0.9855,
+        "nn_cos_p50": 0.9854,
+        "nn_cos_p95": 0.9976,
+        "spectrum_participation_ratio": 7.6459,
+        "spectrum_effective_rank": 9.7032,
+        "spectrum_spectrum_entropy": 2.2725,
+        "spectrum_variance": 0.5713,
+        "spectrum_rank_used": 127
+      }
+    },
+    "token_hub": {
+      "n_tokens": 709,
+      "max_indegree": 8,
+      "median_indegree": 1.0,
+      "p99_indegree": 5.92,
+      "top": [
+        {
+          "token": "drip",
+          "indegree": 8,
+          "share": 0.0113,
+          "mean_cos_of_those_neighbors": 0.5463
+        },
+        {
+          "token": "balance",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.4224
+        },
+        {
+          "token": "bridge",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.4072
+        },
+        {
+          "token": "blend",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.481
+        },
+        {
+          "token": "liquid",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.3916
+        },
+        {
+          "token": "new",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.4009
+        },
+        {
+          "token": "deliberate",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.4599
+        },
+        {
+          "token": "mirror",
+          "indegree": 6,
+          "share": 0.0085,
+          "mean_cos_of_those_neighbors": 0.5186
+        }
+      ]
+    },
+    "orphan_tokens_before_register": 0,
+    "token_rows_missing": [],
+    "clean_n": 4507,
+    "clean": {
+      "n": 4507,
+      "spectrum": {
+        "participation_ratio": 10.1121,
+        "effective_rank": 13.7685,
+        "spectrum_entropy": 2.6224,
+        "variance": 0.7316,
+        "n": 4507,
+        "rank_used": 127
+      },
+      "centroid_cosine_offdiag_mean": 0.3291,
+      "centroid_cos_mean": 0.7542,
+      "centroid_cos_p50": 0.7627,
+      "centroid_cos_p95": 0.879,
+      "depth_gap_p95_p50": 0.1163,
+      "nn_cos_p50": 0.9937,
+      "nn_cos_p95": 0.9993,
+      "knn8_cos_p50": 0.9823,
+      "knn8_cos_p95": 0.9965,
+      "density_entropy_nn_cos": {
+        "entropy": 0.0856,
+        "normalized": 0.0266,
+        "bins": 25
+      },
+      "sequence_hub": {
+        "max": 5,
+        "p99": 3.0,
+        "mean": 1.0,
+        "top_1pct_share": 0.0391
+      },
+      "sequence_hub_token_hint": [
+        "cast",
+        "picture"
+      ],
+      "sequence_hub_rhythm": "dream",
+      "unjustified_collapse_rate": 0.9181,
+      "unjustified_collapse_n": 4138,
+      "justified_tight_rate": 0.0213,
+      "justified_tight_n": 96,
+      "tight_neighbor_rate": 0.9842,
+      "per_rhythm": {
+        "stabilize": {
+          "n": 997,
+          "within_mean": 0.591,
+          "centroid_cos_mean": 0.7691,
+          "centroid_cos_p50": 0.7761,
+          "centroid_cos_p95": 0.8758,
+          "centroid_cos_std": 0.0698,
+          "depth_gap_p95_p50": 0.0997,
+          "knn_cos_p50": 0.9832,
+          "knn_cos_p95": 0.9958,
+          "nn_cos_p50": 0.9939,
+          "nn_cos_p95": 0.9993,
+          "spectrum_participation_ratio": 5.9334,
+          "spectrum_effective_rank": 8.1078,
+          "spectrum_spectrum_entropy": 2.0928,
+          "spectrum_variance": 0.4086,
+          "spectrum_rank_used": 127
+        },
+        "dream": {
+          "n": 978,
+          "within_mean": 0.5964,
+          "centroid_cos_mean": 0.7726,
+          "centroid_cos_p50": 0.7724,
+          "centroid_cos_p95": 0.8962,
+          "centroid_cos_std": 0.0793,
+          "depth_gap_p95_p50": 0.1238,
+          "knn_cos_p50": 0.9852,
+          "knn_cos_p95": 0.9973,
+          "nn_cos_p50": 0.995,
+          "nn_cos_p95": 0.9994,
+          "spectrum_participation_ratio": 5.3755,
+          "spectrum_effective_rank": 7.4934,
+          "spectrum_spectrum_entropy": 2.014,
+          "spectrum_variance": 0.4031,
+          "spectrum_rank_used": 127
+        },
+        "reflect": {
+          "n": 958,
+          "within_mean": 0.578,
+          "centroid_cos_mean": 0.7605,
+          "centroid_cos_p50": 0.7675,
+          "centroid_cos_p95": 0.8888,
+          "centroid_cos_std": 0.0805,
+          "depth_gap_p95_p50": 0.1214,
+          "knn_cos_p50": 0.9856,
+          "knn_cos_p95": 0.9972,
+          "nn_cos_p50": 0.9947,
+          "nn_cos_p95": 0.9994,
+          "spectrum_participation_ratio": 4.7861,
+          "spectrum_effective_rank": 6.4979,
+          "spectrum_spectrum_entropy": 1.8715,
+          "spectrum_variance": 0.4216,
+          "spectrum_rank_used": 127
+        },
+        "explore": {
+          "n": 1061,
+          "within_mean": 0.589,
+          "centroid_cos_mean": 0.7677,
+          "centroid_cos_p50": 0.7771,
+          "centroid_cos_p95": 0.8721,
+          "centroid_cos_std": 0.0717,
+          "depth_gap_p95_p50": 0.095,
+          "knn_cos_p50": 0.9818,
+          "knn_cos_p95": 0.9952,
+          "nn_cos_p50": 0.994,
+          "nn_cos_p95": 0.9993,
+          "spectrum_participation_ratio": 6.5612,
+          "spectrum_effective_rank": 8.7591,
+          "spectrum_spectrum_entropy": 2.1701,
+          "spectrum_variance": 0.4106,
+          "spectrum_rank_used": 127
+        },
+        "rupture": {
+          "n": 513,
+          "within_mean": 0.4222,
+          "centroid_cos_mean": 0.6506,
+          "centroid_cos_p50": 0.6467,
+          "centroid_cos_p95": 0.7751,
+          "centroid_cos_std": 0.0691,
+          "depth_gap_p95_p50": 0.1285,
+          "knn_cos_p50": 0.9466,
+          "knn_cos_p95": 0.978,
+          "nn_cos_p50": 0.9795,
+          "nn_cos_p95": 0.9964,
+          "spectrum_participation_ratio": 7.1691,
+          "spectrum_effective_rank": 9.3387,
+          "spectrum_spectrum_entropy": 2.2342,
+          "spectrum_variance": 0.5767,
+          "spectrum_rank_used": 127
+        }
+      },
+      "token_hub": {
+        "n_tokens": 709,
+        "max_indegree": 8,
+        "median_indegree": 1.0,
+        "p99_indegree": 5.92,
+        "top": [
+          {
+            "token": "drip",
+            "indegree": 8,
+            "share": 0.0113,
+            "mean_cos_of_those_neighbors": 0.5463
+          },
+          {
+            "token": "balance",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.4224
+          },
+          {
+            "token": "bridge",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.4072
+          },
+          {
+            "token": "blend",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.481
+          },
+          {
+            "token": "liquid",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.3916
+          },
+          {
+            "token": "new",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.4009
+          },
+          {
+            "token": "deliberate",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.4599
+          },
+          {
+            "token": "mirror",
+            "indegree": 6,
+            "share": 0.0085,
+            "mean_cos_of_those_neighbors": 0.5186
+          }
+        ]
+      }
+    },
+    "checkpoint_untouched": true,
+    "weights": "data/checkpoints/generator_weights_5rhythm_legible.pt"
+  },
+  "proposal": {
+    "status": "proposal \u2014 not ratified",
+    "rules": {
+      "exact_sequence_overlap_with_train": 0,
+      "exact_bag_overlap_with_train": 0,
+      "exact_bag_cross_rhythm": 0,
+      "batch_within_near_dup_rate_max": 0.0,
+      "why_not_the_measured_rate": "the measured rate is order-swapped bags; it is a debt, not a budget",
+      "batch_cross_rhythm_jaccard_ge_0.80": 0,
+      "context_floor": 8,
+      "context_count_cap": "baseline max distinct-sequence count of any token",
+      "rhythm_share_cap": "baseline max fraction of one rhythm containing one token",
+      "unordered_pair_count_cap": "baseline max times any unordered pair co-occurs",
+      "participation_ratio_min": "0.98 * baseline cone (clean sequences)",
+      "effective_rank_min": "0.98 * baseline cone",
+      "depth_gap_p95_minus_p50_max_rise": 0.02,
+      "sequence_hub_indegree_max": "ceil(1.10 * baseline)",
+      "token_hub_indegree_max": "baseline (a token may not become a stronger magnet)",
+      "knn_cosine_and_density_entropy": "reported, not binding, while the frozen neighborhood is a spike at cosine 1"
+    },
+    "baseline_headline_cone": {
+      "participation_ratio": 3.2607,
+      "effective_rank": 3.7023,
+      "density_entropy": 0.0034,
+      "knn8_cos_p50": 0.9999,
+      "knn8_cos_p95": 1.0,
+      "depth_gap_p95_p50": 0.002,
+      "centroid_cos_mean": 0.9703,
+      "sequence_hub_max_indegree": 5,
+      "token_hub_max_indegree": 7,
+      "unjustified_collapse_rate": 0.9774,
+      "justified_tight_rate": 0.0062
+    },
+    "baseline_near_dup_rate_not_a_budget": 0.0368,
+    "absolute": {
+      "exact_sequence_overlap_with_train": 0,
+      "exact_bag_overlap_with_train": 0,
+      "batch_within_near_dup_rate_max": 0.0,
+      "batch_cross_rhythm_ge_0.80": 0,
+      "context_floor": 8,
+      "context_count_cap": 114,
+      "rhythm_share_cap": 0.0321,
+      "unordered_pair_count_cap": 6,
+      "participation_ratio_min": 3.1955,
+      "effective_rank_min": 3.6283,
+      "depth_gap_p95_p50_max": 0.022,
+      "sequence_hub_indegree_max": 6,
+      "token_hub_indegree_max": 7
+    },
+    "not_binding_on_frozen_encoder": {
+      "why": "Frozen nearest-neighbor cosine is already ~1 and the density entropy of that spike is ~0. A cap at baseline+epsilon cannot fail. Do not gate admission on these until the encoder being measured has local room (the legible column does, barely).",
+      "knn8_cos_p50": 0.9999,
+      "density_entropy": 0.0034,
+      "unjustified_collapse_rate": 0.9774
+    },
+    "post_fit_watch": {
+      "against": "legible encoder, clean sequences, after a growth fit \u2014 not the admission gate",
+      "participation_ratio_min": 9.9099,
+      "effective_rank_min": 13.4931,
+      "depth_gap_p95_p50_max": 0.1363,
+      "knn8_cos_p50_max": 0.9923,
+      "sequence_hub_indegree_max": 6,
+      "token_hub_indegree_max": 8,
+      "unjustified_collapse_rate_max": 0.9181,
+      "baseline": {
+        "participation_ratio": 10.1121,
+        "effective_rank": 13.7685,
+        "density_entropy": 0.0266,
+        "knn8_cos_p50": 0.9823,
+        "knn8_cos_p95": 0.9965,
+        "depth_gap_p95_p50": 0.1163,
+        "centroid_cos_mean": 0.7542,
+        "sequence_hub_max_indegree": 5,
+        "token_hub_max_indegree": 8,
+        "unjustified_collapse_rate": 0.9181,
+        "justified_tight_rate": 0.0213
+      }
+    }
+  },
+  "batch_score": null,
+  "gate_reference_encoder": "frozen 5-rhythm checkpoint, not the legible one",
+  "field": "not stepped"
+}

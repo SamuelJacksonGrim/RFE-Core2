@@ -329,6 +329,7 @@ def fit_encoder(
     token_index: Dict[str, int],
     cfg: Optional[LegibilityConfig] = None,
     log=print,
+    on_epoch=None,
 ) -> dict:
     """
     Grow `generator` in place from its current weights.
@@ -337,6 +338,13 @@ def fit_encoder(
     centroids: (5, dim) frozen unit centroids on the same device as generator.
     The linear head created here is a scaffold. Callers that report a mouth
     must train a fresh TokenDecoder afterwards.
+
+    on_epoch, when passed, is called as on_epoch(epoch, row, generator) after
+    that epoch's log line, with the generator still in eval. Return "stop" to
+    end the fit early. The default None is the probe path: same optimizer,
+    same shuffle seed, same losses. A caller that touches torch's RNG inside
+    the hook must put it back, or later epochs will not match an uninterrupted
+    fit.
     """
     cfg = cfg or LegibilityConfig()
     device = generator.device
@@ -417,9 +425,19 @@ def fit_encoder(
             f"rank={row['rank']:.4f}  gap_mean={row.get('gap_mean', float('nan')):.3f}  "
             f"gap_p10={row.get('gap_p10', float('nan')):.3f}"
         )
+        if on_epoch is not None:
+            decision = on_epoch(epoch + 1, row, generator)
+            generator.eval()
+            if decision == "stop":
+                break
 
     generator.train(was_training)
-    return {"history": history, "head": head, "max_p": max_p}
+    return {
+        "history": history,
+        "head": head,
+        "max_p": max_p,
+        "epochs_ran": len(history),
+    }
 
 
 def fit_points(
