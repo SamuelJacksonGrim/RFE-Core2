@@ -1,0 +1,160 @@
+{
+  "dim": 256,
+  "weights": "data/checkpoints/generator_weights_5rhythm_256.pt",
+  "ecology": "data/checkpoints/generator_ecology_5rhythm_256.json",
+  "tag": "ddm_mixed",
+  "traffic": "mixed",
+  "field_blend": null,
+  "ablate": null,
+  "rupture_on_lock": false,
+  "steps_after_warmup": 400,
+  "warmup": 150,
+  "overall": "DRIFT",
+  "runs": [
+    {
+      "seed": 11,
+      "steps": 400,
+      "traffic": "mixed",
+      "field_blend": 0.1,
+      "rupture_on_lock": false,
+      "reflect_calls": 269,
+      "ablate": "none",
+      "verdict": "DRIFT",
+      "final_disp": 0.09278061868291299,
+      "max_disp": 0.09278061868291299,
+      "rows": [
+        {
+          "step": 0,
+          "disp": 0.0,
+          "energy": 106.0807,
+          "band": "dream",
+          "gen_meta": 0.2989,
+          "gen_state": "structureless",
+          "exp_meta": 0.2989,
+          "exp_state": "structureless",
+          "attractors": 2,
+          "crystals": 0
+        },
+        {
+          "step": 50,
+          "disp": 0.0001778776671556015,
+          "energy": 126.0717,
+          "band": "dream",
+          "gen_meta": 0.3032,
+          "gen_state": "structureless",
+          "exp_meta": 0.3032,
+          "exp_state": "structureless",
+          "attractors": 2,
+          "crystals": 0
+        },
+        {
+          "step": 100,
+          "disp": 0.00029383529603144165,
+          "energy": 142.1336,
+          "band": "dream",
+          "gen_meta": 0.3126,
+          "gen_state": "structureless",
+          "exp_meta": 0.3126,
+          "exp_state": "structureless",
+          "attractors": 2,
+          "crystals": 0
+        },
+        {
+          "step": 150,
+          "disp": 0.0028006740619316295,
+          "energy": 159.4733,
+          "band": "reflect",
+          "gen_meta": 0.3102,
+          "gen_state": "structureless",
+          "exp_meta": 0.3102,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 200,
+          "disp": 0.027220694604033202,
+          "energy": 202.9532,
+          "band": "reflect",
+          "gen_meta": 0.3078,
+          "gen_state": "structureless",
+          "exp_meta": 0.3078,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 250,
+          "disp": 0.051716659341568105,
+          "energy": 238.3916,
+          "band": "reflect",
+          "gen_meta": 0.3084,
+          "gen_state": "structureless",
+          "exp_meta": 0.3084,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 300,
+          "disp": 0.06997528574738165,
+          "energy": 265.3181,
+          "band": "reflect",
+          "gen_meta": 0.2999,
+          "gen_state": "structureless",
+          "exp_meta": 0.2999,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 350,
+          "disp": 0.08320649809733616,
+          "energy": 285.5186,
+          "band": "reflect",
+          "gen_meta": 0.3003,
+          "gen_state": "structureless",
+          "exp_meta": 0.3003,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 400,
+          "disp": 0.09278061868291299,
+          "energy": 300.6365,
+          "band": "explore",
+          "gen_meta": 0.3092,
+          "gen_state": "structureless",
+          "exp_meta": 0.3092,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        }
+      ],
+      "expressed_norm_mean": 0.9999999852613969,
+      "alignment": {
+        "n": 550,
+        "p10": 0.785,
+        "p50": 0.8711,
+        "p90": 0.9825,
+        "mean": 0.8757
+      },
+      "decisions": {
+        "ALLOW": 277,
+        "ALLOW_WEAKENED": 273
+      },
+      "ddm_at_measured_p50": {
+        "g_plus": 0.05,
+        "weak_factor": 0.2,
+        "leak": 0.02,
+        "sigma": 0.02,
+        "b_accept": 1.0,
+        "trickle_eq": 0.4355,
+        "noise_sd": 0.1,
+        "accept_gap_sd": 5.645,
+        "trickle_below_accept": true
+      }
+    }
+  ]
+}
