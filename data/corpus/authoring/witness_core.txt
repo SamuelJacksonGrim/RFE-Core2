@@ -1,0 +1,61 @@
+# Witness core. One receptive word per line. Comments are ignored.
+# A witness sequence carries at least two of these. See AUTHORING_BRIEF.md.
+# Region tags are for authors. They are not rhythms.
+
+# inward-meditative
+dwell
+abide
+vigil
+linger
+attune
+hush
+sojourn
+await
+patience
+unsought
+unmoved
+sit
+meditate
+contemplate
+ken
+
+# outward-bearing
+behold
+bear
+regard
+testify
+attest
+gaze
+witness
+marvel
+overhear
+
+# perceptual-sensing
+receive
+listen
+hearken
+heed
+intake
+reception
+receptive
+perceive
+notice
+observe
+sense
+register
+awareness
+
+# relational-attending
+presence
+space
+accompany
+welcome
+allow
+accept
+company
+beside
+present
+humble
+attend
+mirror
+awe
