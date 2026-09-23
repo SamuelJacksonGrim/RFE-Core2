@@ -3,3 +3,270 @@
 # New sequences only. Do not paste the live corpus into this file.
 # Read AUTHORING_BRIEF.md and boundary_map.md before adding a line.
 # Lines that do not start with "- " are ignored.
+
+# vocab-growth batch. regions: support | equilibrium | tenure | recovery.
+# New distinctions inside this rhythm. One existing signature stitch at most.
+# Pairs are unique; order-swapped bags are not repeated.
+- congruity, plinth
+- reknit, underlay
+- underlay, integrity
+- husbandry, rehabilitate
+- trust, perpetuity
+- reestablish, tenure, ballast
+- perennial, secure
+- regain, subsistence
+- constancy, trust
+- longevity, linchpin
+- footing, buffer
+- constancy, righting
+- underlay, persistence
+- anchor, righting
+- tenure, restore
+- reestablish, symmetry
+- stewardship, steady
+- linchpin, buttress
+- righting, integrity
+- stalwart, composure
+- firm, buttress
+- preserve, safekeeping
+- perennial, constancy
+- righting, tenure
+- custody, root
+- custody, steadiness
+- stanchion, balance
+- redress, mooring
+- restore, aplomb
+- tenure, anchor
+- constancy, perpetuity
+- imperturbability, mend
+- repair, equanimity
+- firm, imperturbability
+- cement, subsistence
+- upkeep, balance
+- stewardship, guardianship, safeguard
+- trestle, buffer
+- integrity, symmetry
+- steady, equipoise
+- reestablish, safekeeping
+- keystone, resettle, evenness
+- girder, mooring
+- rehabilitate, underlay
+- poise, strut
+- clarity, strut
+- evenness, balance
+- redress, stanchion, mend, perennial
+- keystone, balance
+- foundation, proportion
+- guardianship, rehabilitate, girder
+- plinth, rehabilitate
+- cohere, upkeep, linchpin
+- plinth, invariant
+- proportion, undergird
+- composure, safeguard
+- custody, stalwart
+- husbandry, ballast, stanchion
+- structure, regain
+- cohere, stalwart
+- stalwart, regain
+- equipoise, girder
+- husbandry, upkeep, trestle
+- longevity, imperturbability
+- invariant, girder
+- ballast, subsistence, reknit, equilibrium
+- reknit, proportion, mooring
+- husbandry, foundation
+- steady, ballast
+- perpetuity, stanchion, congruity
+- poise, imperturbability
+- buttress, custody, evenness
+- equanimity, subsistence
+- reknit, plinth
+- safeguard, mooring
+- proportion, symmetry
+- constancy, buttress
+- righting, strut
+- clarity, safekeeping
+- girder, symmetry
+- underlay, dampen
+- linchpin, composure, trestle
+- cohere, equanimity, husbandry
+- guardianship, steadiness
+- resettle, stewardship
+- buffer, reknit
+- preserve, upkeep
+- root, mend
+- resolve, restore
+- dampen, redress
+- strut, redress, equanimity
+- keystone, upkeep, mend
+- equilibrium, preserve
+- undergird, stewardship
+- imperturbability, underlay, regain
+- root, reestablish
+- trestle, aplomb
+- proportion, resettle, custody
+- resettle, righting
+- regain, proportion
+- safeguard, integrity
+- ballast, mend
+- mend, reknit
+- anchor, buffer
+- clarity, guardianship
+- stalwart, steadiness, stanchion
+- structure, husbandry
+- repair, cohere, regain
+- strut, resettle
+- aplomb, evenness
+- trust, cohere
+- safekeeping, upkeep
+- dampen, safekeeping
+- firm, equanimity
+- underlay, resettle, longevity
+- custody, symmetry, mend
+- girder, preserve
+- anchor, footing
+- integrity, evenness
+- restore, stalwart, mooring
+- guardianship, evenness
+- congruity, girder, upkeep
+- equilibrium, perennial
+- trestle, firm
+- poise, persistence
+- safeguard, cohere
+- secure, symmetry
+- resolve, longevity
+- keystone, poise
+- imperturbability, undergird
+- reestablish, evenness
+- ballast, equanimity, footing
+- repair, stewardship
+- proportion, poise
+- congruity, restore, undergird
+- safeguard, dampen
+- regain, safeguard
+- repair, stalwart
+- secure, stanchion
+- linchpin, poise, buffer
+- perpetuity, footing
+- custody, girder
+- tenure, secure
+- trestle, equanimity
+- reknit, anchor
+- composure, steady
+- persistence, mooring
+- redress, root
+- linchpin, clarity
+- equanimity, anchor
+- redress, congruity, subsistence
+- stalwart, steady
+- trust, restore
+- steadiness, longevity
+- repair, root
+- perpetuity, invariant
+- safekeeping, evenness
+- footing, husbandry, equipoise
+- buffer, stanchion
+- mooring, upkeep
+- plinth, tenure
+- mooring, invariant
+- plinth, steadiness, safekeeping
+- linchpin, symmetry, guardianship
+- persistence, resettle
+- balance, regain
+- aplomb, upkeep
+- equilibrium, buttress
+- steady, equilibrium
+- undergird, trust
+- poise, firm
+- footing, cement
+- guardianship, constancy
+- resolve, imperturbability
+- perennial, longevity
+- rehabilitate, stewardship
+- buffer, keystone
+- undergird, repair
+- aplomb, integrity
+- steadiness, clarity
+- foundation, keystone
+- stalwart, invariant
+- subsistence, balance
+- equilibrium, regain
+- longevity, cement
+- secure, equipoise
+- custody, cement
+- secure, undergird
+- invariant, dampen
+- restore, buttress, longevity
+- guardianship, righting
+- constancy, dampen
+- steadiness, structure
+- underlay, footing
+- plinth, root
+- mooring, subsistence
+- strut, foundation
+- restore, keystone, husbandry
+- equipoise, equanimity
+- redress, ballast
+- mend, buttress, safekeeping
+- structure, rehabilitate
+- stanchion, poise
+- preserve, dampen
+- longevity, equilibrium
+- cement, aplomb
+- reestablish, restore, rehabilitate
+- safeguard, strut
+- composure, righting
+- perennial, resolve
+- reestablish, keystone, imperturbability
+- poise, righting
+- composure, trust
+- perennial, symmetry
+- perennial, reestablish
+- persistence, stewardship
+- resolve, ballast
+- underlay, repair, composure
+- reknit, perpetuity
+- redress, plinth, equipoise
+- girder, cohere, safekeeping
+- perpetuity, tenure, subsistence
+- steady, buffer
+- trestle, strut
+- resolve, mend
+- strut, tenure
+- equipoise, custody
+- footing, aplomb
+- invariant, redress
+- stanchion, aplomb
+- firm, resettle
+- linchpin, preserve
+- buffer, perpetuity, imperturbability
+- composure, undergird
+- perennial, equipoise
+- structure, congruity
+- safeguard, cement
+- repair, structure
+- persistence, guardianship
+- preserve, constancy
+- rehabilitate, subsistence
+- steadiness, buttress
+- stewardship, equipoise
+- symmetry, resettle
+- linchpin, stewardship
+- husbandry, equilibrium
+- congruity, clarity
+- trestle, dampen
+- repair, proportion, footing
+- reknit, foundation
+- steadiness, constancy
+- cohere, clarity
+- evenness, tenure
+- aplomb, perpetuity
+- resolve, buttress
+- congruity, cohere
+- trestle, root
+- dampen, ballast
+- reestablish, anchor
+- foundation, rehabilitate
+- undergird, plinth, keystone
+- congruity, composure, equilibrium
+- proportion, integrity
