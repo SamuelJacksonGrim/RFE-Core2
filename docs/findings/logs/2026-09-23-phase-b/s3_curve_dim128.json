@@ -1,0 +1,105 @@
+{
+  "dim": 128,
+  "epochs": 20,
+  "seed": 0,
+  "gate": {
+    "novel_top1": ">= 3x recur-stem rhythm unigram (the higher of the mixed and recur-only marginals)",
+    "recall@8": ">= 0.60 on the live holdout mouth"
+  },
+  "points": [
+    {
+      "recur_fraction": 1.0,
+      "broad_to_recur": 0.0,
+      "broad_rows": 0,
+      "recur_rows": 3384,
+      "mixed_rows": 3384,
+      "dim": 128,
+      "epochs": 20,
+      "seed": 0,
+      "tag": "_s3r100s0",
+      "report": "docs/findings/logs/2026-09-23-completion/train_dim128_s3r100s0_s0.json",
+      "live_sha256": {
+        "data/corpus/rhythm_train.jsonl": "f5d608597c195719f2b3634bbfcedbbe10f9aefac5b0bae4c4546741be221e61",
+        "data/corpus/rhythm_holdout.jsonl": "61c93de1089c6b515675698fe63e8e29123c93001aae44b665f247254c148888",
+        "data/checkpoints/generator_weights_5rhythm.pt": "71c646fb36d40e3b20cb03d1aa02f51c7a139ab4250aa701694fad8ef2482361",
+        "data/checkpoints/generator_ecology_5rhythm.json": "d74c829c078e22b76423cdf1b5b02a2032e02b1b8ae142b85f51d19e7d27d600"
+      },
+      "unigram": {
+        "novel": {
+          "mixed_unigram": 0.1841,
+          "recur_unigram": 0.1841,
+          "bar_3x": 0.5523,
+          "n": 929
+        },
+        "novel_tuple": {
+          "mixed_unigram": 0.1852,
+          "recur_unigram": 0.1852,
+          "bar_3x": 0.5556,
+          "n": 540
+        },
+        "unseen_kernel": {
+          "mixed_unigram": 0.1437,
+          "recur_unigram": 0.1437,
+          "bar_3x": 0.4311,
+          "n": 160
+        },
+        "seen": {
+          "mixed_unigram": 0.2057,
+          "recur_unigram": 0.2057,
+          "bar_3x": 0.6171,
+          "n": 282
+        }
+      },
+      "novel_top1": 0.2788,
+      "novel_tuple_top1": 0.3852,
+      "unseen_kernel_top1": 0.0437,
+      "seen_top1": 0.4752,
+      "train_top1": 0.4054,
+      "recall@8": 0.3427,
+      "median_true_rank": 8.0,
+      "output_pr": 22.807,
+      "bar_3x_novel": 0.5523,
+      "novel_clears": false,
+      "mouth_clears": false,
+      "curve": [
+        {
+          "epoch": 0,
+          "novel_top1": 0.0,
+          "novel_tuple_top1": 0.0,
+          "unseen_kernel_top1": 0.0,
+          "output_pr": 82.176
+        },
+        {
+          "epoch": 5,
+          "novel_top1": 0.1647,
+          "novel_tuple_top1": 0.1778,
+          "unseen_kernel_top1": 0.0312,
+          "output_pr": 19.722
+        },
+        {
+          "epoch": 10,
+          "novel_top1": 0.2734,
+          "novel_tuple_top1": 0.2944,
+          "unseen_kernel_top1": 0.0437,
+          "output_pr": 22.416
+        },
+        {
+          "epoch": 15,
+          "novel_top1": 0.2928,
+          "novel_tuple_top1": 0.3778,
+          "unseen_kernel_top1": 0.05,
+          "output_pr": 22.663
+        },
+        {
+          "epoch": 20,
+          "novel_top1": 0.2788,
+          "novel_tuple_top1": 0.3852,
+          "unseen_kernel_top1": 0.0437,
+          "output_pr": 22.807
+        }
+      ],
+      "both_clear": false
+    }
+  ],
+  "any_both_clear": false
+}

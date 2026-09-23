@@ -218,7 +218,12 @@ def main() -> int:
             "completion_train_word_ce": None if train_read is None else train_read["ce"],
         }
         history.append(snap)
-        similar = (snap["completion_holdout_by_split"] or {}).get("similar") or {}
+        by = snap["completion_holdout_by_split"] or {}
+        split_bits = "  ".join(
+            f"{name}_top1 {(by.get(name) or {}).get('mode_top1')}"
+            for name in ("novel", "novel_tuple", "unseen_kernel", "similar", "seen")
+            if name in by
+        )
         print(
             f"snap epoch {epoch_done}  "
             f"out_PR {pop['participation_ratio']}  "
@@ -227,7 +232,7 @@ def main() -> int:
             f"cos_out_emb {points['cos_output_emb']}  "
             f"ctx_PR {pop_ctx['participation_ratio']}  "
             f"hold_ce {word_ce}  hold_top1 {snap['completion_holdout_mode_top1']}  "
-            f"similar_top1 {similar.get('mode_top1')}  "
+            f"{split_bits}  "
             f"train_top1 {snap['completion_train_mode_top1']}",
             flush=True,
         )

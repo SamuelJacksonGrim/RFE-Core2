@@ -1,0 +1,30 @@
+{
+  "dim": 128,
+  "epochs": 80,
+  "recipe": "lr 0.01, weight decay 0, rhythm weight 0, cond scale 0, batch 128, residual, full stack, legibility mouth",
+  "gate": {
+    "novel_tuple_top1": ">= 3x rhythm-unigram (0.1852 on the recur train, bar 0.5556)",
+    "recall@8": ">= 0.60 live holdout",
+    "result": "no ratio clears both"
+  },
+  "unigram_novel_tuple": 0.1852,
+  "bar_3x": 0.5556,
+  "single_token_ceiling_novel_tuple": 0.3741,
+  "points": [
+    {"recur_fraction": 0.0, "broad_to_recur": null, "broad_rows": 8290, "recur_rows": 0, "seed": 0, "novel_tuple_top1": 0.0037, "novel_oov_top1": 0.0032, "unseen_kernel_top1": 0.0125, "recall@8": 0.7009, "output_pr": 65.537},
+    {"recur_fraction": 0.2, "broad_to_recur": 4.001, "broad_rows": 8290, "recur_rows": 2072, "seed": 0, "novel_tuple_top1": 0.1778, "novel_oov_top1": 0.1044, "unseen_kernel_top1": 0.0437, "recall@8": 0.706, "output_pr": 68.841},
+    {"recur_fraction": 0.4, "broad_to_recur": 1.5, "broad_rows": 5076, "recur_rows": 3384, "seed": 0, "novel_tuple_top1": 0.2778, "novel_oov_top1": 0.1055, "unseen_kernel_top1": 0.025, "recall@8": 0.6588, "output_pr": 76.594},
+    {"recur_fraction": 0.6, "broad_to_recur": 0.6667, "broad_rows": 2256, "recur_rows": 3384, "seed": 0, "novel_tuple_top1": 0.3685, "novel_oov_top1": 0.1668, "unseen_kernel_top1": 0.0563, "recall@8": 0.6136, "output_pr": 73.94},
+    {"recur_fraction": 0.7, "broad_to_recur": 0.4285, "broad_rows": 1450, "recur_rows": 3384, "seed": 0, "novel_tuple_top1": 0.4426, "novel_oov_top1": 0.2045, "unseen_kernel_top1": 0.0375, "recall@8": 0.571, "output_pr": 67.877},
+    {"recur_fraction": 0.8, "broad_to_recur": 0.25, "broad_rows": 846, "recur_rows": 3384, "seed": 0, "novel_tuple_top1": 0.5, "novel_oov_top1": 0.2078, "unseen_kernel_top1": 0.0375, "recall@8": 0.5352, "output_pr": 59.476},
+    {"recur_fraction": 0.8, "broad_to_recur": 0.25, "broad_rows": 846, "recur_rows": 3384, "seed": 1, "novel_tuple_top1": 0.4722, "novel_oov_top1": 0.183, "unseen_kernel_top1": 0.0312, "recall@8": 0.5297, "output_pr": 61.457},
+    {"recur_fraction": 1.0, "broad_to_recur": 0.0, "broad_rows": 0, "recur_rows": 3384, "seed": 0, "novel_tuple_top1": 0.6111, "novel_oov_top1": 0.2982, "unseen_kernel_top1": 0.025, "recall@8": 0.2934, "output_pr": 23.084}
+  ],
+  "best_joint": {
+    "recur_fraction": 0.8,
+    "broad_to_recur": 0.25,
+    "why": "maximin of (tuple/bar, recall/0.60). Neither axis clears."
+  },
+  "recur_only_100epoch_tuple_top1_at_epoch_95": 0.65,
+  "note": "100-epoch recur-only run had no mouth; tuple top-1 was 0.583 at epoch 80 and 0.650 at epoch 95, unseen-kernel stayed near 0.03. The 80-epoch sweep is the matched curve."
+}
