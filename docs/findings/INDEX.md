@@ -71,6 +71,7 @@ rule). Every finding file must appear here (CI-enforced by `verify_docs`).
 | `2026-09-23-completion-objective` | Context→completion fills the dimensions the contrastive loss left empty (participation 3.4→35 @128, →63 @256; mouth recall@8 0.09→0.61) and does not generalize a blank whose context occurred once. Training the transformer returns the field to ~4.8 | **standing** (mechanism and the blank refined by the production follow-up) |
 | `2026-09-23-completion-production` | The ~4.8 collapse is the transformer dragging the embedding table down, not recursive attention and not a measurement point. Residual-on at the generator output keeps the rich vector (mouth 0.66/0.69). Recurring stems generalize (similar top-1 1.0 by epoch 5) and spend the mouth (0.61→0.32) | **standing** |
 | `2026-09-23-fullsend-feedback` | Governed LAE+PLE feedback under the residual-on completion encoder (PR 47.8) still settles to one field groove on 3/3 seeds. Stream regimes and substrate attractors rise (about 5→17, 3→15). Identity holds. Not metastable. Does not reopen the field-lock ruling | **standing** |
+| `2026-09-23-fullsend-feedback-256` | Same seam at the dim-256 embeddings checkpoint, residual on (PR 81.9, not the stack-trained `*_resid` file at 73.5). Still one field groove on 3/3 seeds. Displacement, coherence, and identity match the PR-48 arm. Width does not break the token door | **standing** |
 
 ## Raw-data convention (adopted 2026-07-06)
 
