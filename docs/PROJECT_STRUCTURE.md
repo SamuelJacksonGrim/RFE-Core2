@@ -149,7 +149,8 @@ RFE-Core2/
 │   │   ├── full_stack_minimal.py         All 4 tiers attach without error
 │   │   ├── single_source_100step.py      Basic "does it run" test
 │   │   ├── multi_source_500step.py       Resonance Family canonical workload
-│   │   └── stream_recorder_smoke.py      Observe-only stream census: bounded ring, status, dump
+│   │   ├── stream_recorder_smoke.py      Observe-only stream census: bounded ring, status, dump
+│   │   └── test_attention_weight.py      Speech-cortex idle attention: regimes, per-embedder floors (no model/RM/torch)
 │   │
 │   ├── integration/
 │   │   ├── tier1_revision_baseline.py    Fresh run vs baseline JSON ranges
