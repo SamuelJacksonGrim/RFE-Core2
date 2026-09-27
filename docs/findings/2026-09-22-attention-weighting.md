@@ -2,7 +2,7 @@
 
 - **Date:** 2026-09-22
 - **Branch:** `experiment/attention-weighting` (off `experiment/qwen-speech-cortex` @ `fcaa831`)
-- **Status:** experiment, not on main
+- **Status:** merged to main 2026-09-27 (runtime catch-up); the live checkout has not been switched onto it
 - **Code:** `tools/voice/attention.py`, wired in `tools/voice/repl_qwen.py`
 
 ## What changed from the earlier proposal
