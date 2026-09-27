@@ -1,0 +1,992 @@
+{
+  "probe": "fullsend_feedback",
+  "date": "2026-09-23",
+  "corpus": "1.3.0",
+  "steps": 500,
+  "seeds": [
+    42,
+    7,
+    11
+  ],
+  "arms": [
+    "baseline",
+    "fullsend"
+  ],
+  "seconds": 292.2,
+  "gate": {
+    "cos_split": 0.9,
+    "min_frac": 0.15,
+    "boot_workload": 50,
+    "late_workload": 200,
+    "fragment_identity_late_mean": 0.95,
+    "fragment_frac_below_0.90": 0.02,
+    "fragment_coherence_late_mean": 0.8,
+    "attenuation_ceiling": 0.3
+  },
+  "encoders": {
+    "baseline": {
+      "participation_ratio": 3.423,
+      "eff_rank": 1.848,
+      "residual": false,
+      "weights": "generator_weights_5rhythm.pt"
+    },
+    "fullsend": {
+      "participation_ratio": 47.806,
+      "eff_rank": 19.305,
+      "residual": true,
+      "weights": "generator_weights_completion_128_emb.pt"
+    }
+  },
+  "hashes": {
+    "generator_weights_5rhythm.pt": "71c646fb36d40e3b20cb03d1aa02f51c7a139ab4250aa701694fad8ef2482361",
+    "generator_weights_completion_128_emb.pt": "3f606b577cc558741ca476fb47e727cf54df59c4dff7e97721615ac25fd650c5"
+  },
+  "arms_mean": {
+    "baseline": {
+      "n": 3,
+      "verdicts": [
+        "RIGID",
+        "RIGID",
+        "RIGID"
+      ],
+      "grooves": [
+        "NEW_GROOVE",
+        "NEW_GROOVE",
+        "NEW_GROOVE"
+      ],
+      "displacement_late_mean": 0.1398,
+      "displacement_late_max": 0.1784,
+      "identity_min": 0.9724,
+      "identity_late_mean": 0.9988,
+      "coherence_late_mean": 0.9668,
+      "post_boot_rhythm_transitions": 1.0,
+      "attractors_end": 2.6667,
+      "attractors_formed_after_boot": 1.0,
+      "generator_metastability": 0.464,
+      "expression_metastability": 0.5184,
+      "rupture_fires": 0.0,
+      "boredom_overrides": 634.3333,
+      "lae_activations": 394.6667,
+      "lae_after_boot": 393.6667,
+      "feedback_offers": 373.6667
+    },
+    "fullsend": {
+      "n": 3,
+      "verdicts": [
+        "RIGID",
+        "RIGID",
+        "RIGID"
+      ],
+      "grooves": [
+        "NEW_GROOVE",
+        "NEW_GROOVE",
+        "NEW_GROOVE"
+      ],
+      "displacement_late_mean": 0.2333,
+      "displacement_late_max": 0.2858,
+      "identity_min": 0.9744,
+      "identity_late_mean": 0.9942,
+      "coherence_late_mean": 0.8906,
+      "post_boot_rhythm_transitions": 1.0,
+      "attractors_end": 15.0,
+      "attractors_formed_after_boot": 13.3333,
+      "generator_metastability": 0.4178,
+      "expression_metastability": 0.4178,
+      "rupture_fires": 0.0,
+      "boredom_overrides": 1044.6667,
+      "lae_activations": 809.6667,
+      "lae_after_boot": 808.0,
+      "feedback_offers": 759.6667
+    }
+  },
+  "cells": [
+    {
+      "seed": 42,
+      "arm": "baseline",
+      "n_workload": 500,
+      "n_executed": 889,
+      "seconds": 37.45,
+      "verdict": "RIGID",
+      "groove": "NEW_GROOVE",
+      "displacement": {
+        "late_mean": 0.1378,
+        "late_max": 0.1776,
+        "late_p50": 0.1535,
+        "boot_step": 56,
+        "dominant_groove_cos_to_boot": 0.8622,
+        "n_grooves": 1,
+        "n_raw_modes": 1,
+        "groove_occupancy": [
+          1.0
+        ]
+      },
+      "identity": {
+        "min": 0.9733,
+        "p05": 0.9824,
+        "mean": 0.995,
+        "late_mean": 0.9988,
+        "frac_below_0.90": 0.0,
+        "frac_below_0.95": 0.0,
+        "late_anchor_gap_mean": 0.025
+      },
+      "coherence": {
+        "mean": 0.9134,
+        "late_mean": 0.9655,
+        "min": 0.6247
+      },
+      "novelty": {
+        "post_boot_rhythm_transitions": 1,
+        "late_rhythm_mix": {
+          "reflect": 596
+        },
+        "rhythm_mix_all": {
+          "stabilize": 5,
+          "dream": 216,
+          "reflect": 668
+        },
+        "attractors_at_boot": 1,
+        "attractors_end": 2,
+        "attractors_max": 2,
+        "attractors_formed_after_boot": 1,
+        "crystals_end": 1,
+        "generator_regime": "metastable",
+        "generator_metastability": 0.4551,
+        "generator_n_regimes": 5,
+        "expression_regime": "metastable",
+        "expression_metastability": 0.4998,
+        "expression_n_regimes": 4,
+        "regime_samples_late": [
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable"
+        ]
+      },
+      "levers": {
+        "rupture_on_lock": false,
+        "rupture_fires": 0,
+        "novelty_attenuation": false,
+        "attenuation_max": 0.3,
+        "boredom_threshold": 0.5,
+        "boredom_overrides": 644,
+        "boredom_max": 0.9731,
+        "embedding_residual": false
+      },
+      "sisters": {
+        "lae_activations": 412,
+        "lae_after_boot": 411,
+        "lae_steps_head": [
+          5,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181
+        ],
+        "lae_steps_tail": [
+          870,
+          871,
+          873,
+          880,
+          881,
+          888
+        ],
+        "feedback_offers": 389,
+        "feedback_decisions": {
+          "allow": 147,
+          "allow_weakened": 113,
+          "monitor": 100,
+          "reject": 29
+        },
+        "ple_triggered_cycles": 823,
+        "ple_validated_findings": 5,
+        "ple_attractors": {
+          "at-da1eeec16493": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.75
+          },
+          "at-b8acc877bb89": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.75
+          },
+          "at-3e46cea3b3d1": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.997931
+          },
+          "at-3b1463ba1755": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.997726
+          },
+          "at-214111358a12": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.993808
+          }
+        },
+        "ple_active_paradoxes": 6
+      },
+      "trace_tail": {
+        "workload_index_last": 499
+      }
+    },
+    {
+      "seed": 42,
+      "arm": "fullsend",
+      "n_workload": 500,
+      "n_executed": 1143,
+      "seconds": 55.41,
+      "verdict": "RIGID",
+      "groove": "NEW_GROOVE",
+      "displacement": {
+        "late_mean": 0.24,
+        "late_max": 0.2926,
+        "late_p50": 0.2591,
+        "boot_step": 57,
+        "dominant_groove_cos_to_boot": 0.76,
+        "n_grooves": 1,
+        "n_raw_modes": 1,
+        "groove_occupancy": [
+          1.0
+        ]
+      },
+      "identity": {
+        "min": 0.9766,
+        "p05": 0.9809,
+        "mean": 0.9914,
+        "late_mean": 0.9936,
+        "frac_below_0.90": 0.0,
+        "frac_below_0.95": 0.0,
+        "late_anchor_gap_mean": 0.0337
+      },
+      "coherence": {
+        "mean": 0.8459,
+        "late_mean": 0.8885,
+        "min": 0.45
+      },
+      "novelty": {
+        "post_boot_rhythm_transitions": 1,
+        "late_rhythm_mix": {
+          "reflect": 857
+        },
+        "rhythm_mix_all": {
+          "stabilize": 8,
+          "dream": 187,
+          "reflect": 948
+        },
+        "attractors_at_boot": 2,
+        "attractors_end": 18,
+        "attractors_max": 18,
+        "attractors_formed_after_boot": 16,
+        "crystals_end": 12,
+        "generator_regime": "metastable",
+        "generator_metastability": 0.4031,
+        "generator_n_regimes": 17,
+        "expression_regime": "metastable",
+        "expression_metastability": 0.4031,
+        "expression_n_regimes": 17,
+        "regime_samples_late": [
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "structureless",
+          "metastable"
+        ]
+      },
+      "levers": {
+        "rupture_on_lock": true,
+        "rupture_fires": 0,
+        "novelty_attenuation": true,
+        "attenuation_max": 0.3,
+        "boredom_threshold": 0.25,
+        "boredom_overrides": 925,
+        "boredom_max": 0.7846,
+        "embedding_residual": true
+      },
+      "sisters": {
+        "lae_activations": 684,
+        "lae_after_boot": 682,
+        "lae_steps_head": [
+          7,
+          8,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158
+        ],
+        "lae_steps_tail": [
+          1125,
+          1133,
+          1134,
+          1135,
+          1136,
+          1142
+        ],
+        "feedback_offers": 643,
+        "feedback_decisions": {
+          "allow": 160,
+          "allow_weakened": 259,
+          "monitor": 105,
+          "reject": 119
+        },
+        "ple_triggered_cycles": 1143,
+        "ple_validated_findings": 6,
+        "ple_attractors": {
+          "at-165048c23cba": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998834
+          },
+          "at-b1ae2786efd9": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998692
+          },
+          "at-581d46e4d7c0": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998711
+          },
+          "at-996a3148384d": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998814
+          },
+          "at-d1102c6964cd": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.969925
+          },
+          "at-864904d2fb36": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.99733
+          }
+        },
+        "ple_active_paradoxes": 6
+      },
+      "trace_tail": {
+        "workload_index_last": 499
+      }
+    },
+    {
+      "seed": 7,
+      "arm": "baseline",
+      "n_workload": 500,
+      "n_executed": 865,
+      "seconds": 36.14,
+      "verdict": "RIGID",
+      "groove": "NEW_GROOVE",
+      "displacement": {
+        "late_mean": 0.1412,
+        "late_max": 0.1799,
+        "late_p50": 0.1564,
+        "boot_step": 56,
+        "dominant_groove_cos_to_boot": 0.8588,
+        "n_grooves": 1,
+        "n_raw_modes": 1,
+        "groove_occupancy": [
+          1.0
+        ]
+      },
+      "identity": {
+        "min": 0.9725,
+        "p05": 0.9836,
+        "mean": 0.9955,
+        "late_mean": 0.9987,
+        "frac_below_0.90": 0.0,
+        "frac_below_0.95": 0.0,
+        "late_anchor_gap_mean": 0.0231
+      },
+      "coherence": {
+        "mean": 0.912,
+        "late_mean": 0.9655,
+        "min": 0.6199
+      },
+      "novelty": {
+        "post_boot_rhythm_transitions": 1,
+        "late_rhythm_mix": {
+          "reflect": 593
+        },
+        "rhythm_mix_all": {
+          "stabilize": 5,
+          "dream": 201,
+          "reflect": 659
+        },
+        "attractors_at_boot": 2,
+        "attractors_end": 3,
+        "attractors_max": 3,
+        "attractors_formed_after_boot": 1,
+        "crystals_end": 3,
+        "generator_regime": "metastable",
+        "generator_metastability": 0.4979,
+        "generator_n_regimes": 4,
+        "expression_regime": "metastable",
+        "expression_metastability": 0.4979,
+        "expression_n_regimes": 4,
+        "regime_samples_late": [
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable"
+        ]
+      },
+      "levers": {
+        "rupture_on_lock": false,
+        "rupture_fires": 0,
+        "novelty_attenuation": false,
+        "attenuation_max": 0.3,
+        "boredom_threshold": 0.5,
+        "boredom_overrides": 613,
+        "boredom_max": 0.9727,
+        "embedding_residual": false
+      },
+      "sisters": {
+        "lae_activations": 385,
+        "lae_after_boot": 384,
+        "lae_steps_head": [
+          4,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "lae_steps_tail": [
+          839,
+          845,
+          846,
+          857,
+          858,
+          864
+        ],
+        "feedback_offers": 365,
+        "feedback_decisions": {
+          "allow": 147,
+          "allow_weakened": 92,
+          "monitor": 91,
+          "quarantine": 1,
+          "reject": 34
+        },
+        "ple_triggered_cycles": 855,
+        "ple_validated_findings": 5,
+        "ple_attractors": {
+          "at-d2ce078b3b31": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.99811
+          },
+          "at-602a80f9c595": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.75
+          },
+          "at-a0ea3f19ce51": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.75
+          },
+          "at-6e254e754793": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.993921
+          },
+          "at-cdbabe60c553": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998182
+          }
+        },
+        "ple_active_paradoxes": 5
+      },
+      "trace_tail": {
+        "workload_index_last": 499
+      }
+    },
+    {
+      "seed": 7,
+      "arm": "fullsend",
+      "n_workload": 500,
+      "n_executed": 1306,
+      "seconds": 61.73,
+      "verdict": "RIGID",
+      "groove": "NEW_GROOVE",
+      "displacement": {
+        "late_mean": 0.229,
+        "late_max": 0.2892,
+        "late_p50": 0.2548,
+        "boot_step": 57,
+        "dominant_groove_cos_to_boot": 0.771,
+        "n_grooves": 1,
+        "n_raw_modes": 1,
+        "groove_occupancy": [
+          1.0
+        ]
+      },
+      "identity": {
+        "min": 0.9747,
+        "p05": 0.9812,
+        "mean": 0.9925,
+        "late_mean": 0.9945,
+        "frac_below_0.90": 0.0,
+        "frac_below_0.95": 0.0,
+        "late_anchor_gap_mean": 0.0299
+      },
+      "coherence": {
+        "mean": 0.8579,
+        "late_mean": 0.8948,
+        "min": 0.5027
+      },
+      "novelty": {
+        "post_boot_rhythm_transitions": 1,
+        "late_rhythm_mix": {
+          "reflect": 1021
+        },
+        "rhythm_mix_all": {
+          "stabilize": 7,
+          "dream": 193,
+          "reflect": 1106
+        },
+        "attractors_at_boot": 2,
+        "attractors_end": 11,
+        "attractors_max": 15,
+        "attractors_formed_after_boot": 9,
+        "crystals_end": 6,
+        "generator_regime": "metastable",
+        "generator_metastability": 0.4141,
+        "generator_n_regimes": 16,
+        "expression_regime": "metastable",
+        "expression_metastability": 0.4141,
+        "expression_n_regimes": 16,
+        "regime_samples_late": [
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable"
+        ]
+      },
+      "levers": {
+        "rupture_on_lock": true,
+        "rupture_fires": 0,
+        "novelty_attenuation": true,
+        "attenuation_max": 0.3,
+        "boredom_threshold": 0.25,
+        "boredom_overrides": 1098,
+        "boredom_max": 0.8044,
+        "embedding_residual": true
+      },
+      "sisters": {
+        "lae_activations": 858,
+        "lae_after_boot": 857,
+        "lae_steps_head": [
+          7,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162
+        ],
+        "lae_steps_tail": [
+          1291,
+          1292,
+          1293,
+          1294,
+          1295,
+          1297
+        ],
+        "feedback_offers": 806,
+        "feedback_decisions": {
+          "allow": 154,
+          "monitor": 133,
+          "allow_weakened": 430,
+          "reject": 89
+        },
+        "ple_triggered_cycles": 1306,
+        "ple_validated_findings": 6,
+        "ple_attractors": {
+          "at-79a74e256e47": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998979
+          },
+          "at-bb13565f07e4": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998629
+          },
+          "at-c1cabbb13d1c": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998666
+          },
+          "at-640b39bb02be": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998031
+          },
+          "at-4a4bde69ca15": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998963
+          },
+          "at-a3683610e5f5": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.972973
+          }
+        },
+        "ple_active_paradoxes": 6
+      },
+      "trace_tail": {
+        "workload_index_last": 499
+      }
+    },
+    {
+      "seed": 11,
+      "arm": "baseline",
+      "n_workload": 500,
+      "n_executed": 867,
+      "seconds": 35.47,
+      "verdict": "RIGID",
+      "groove": "NEW_GROOVE",
+      "displacement": {
+        "late_mean": 0.1405,
+        "late_max": 0.1776,
+        "late_p50": 0.155,
+        "boot_step": 56,
+        "dominant_groove_cos_to_boot": 0.8595,
+        "n_grooves": 1,
+        "n_raw_modes": 1,
+        "groove_occupancy": [
+          1.0
+        ]
+      },
+      "identity": {
+        "min": 0.9715,
+        "p05": 0.9822,
+        "mean": 0.9951,
+        "late_mean": 0.9989,
+        "frac_below_0.90": 0.0,
+        "frac_below_0.95": 0.0,
+        "late_anchor_gap_mean": 0.0272
+      },
+      "coherence": {
+        "mean": 0.9171,
+        "late_mean": 0.9693,
+        "min": 0.64
+      },
+      "novelty": {
+        "post_boot_rhythm_transitions": 1,
+        "late_rhythm_mix": {
+          "reflect": 585
+        },
+        "rhythm_mix_all": {
+          "stabilize": 5,
+          "dream": 197,
+          "reflect": 665
+        },
+        "attractors_at_boot": 2,
+        "attractors_end": 3,
+        "attractors_max": 3,
+        "attractors_formed_after_boot": 1,
+        "crystals_end": 2,
+        "generator_regime": "metastable",
+        "generator_metastability": 0.4391,
+        "generator_n_regimes": 5,
+        "expression_regime": "metastable",
+        "expression_metastability": 0.5575,
+        "expression_n_regimes": 4,
+        "regime_samples_late": [
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable"
+        ]
+      },
+      "levers": {
+        "rupture_on_lock": false,
+        "rupture_fires": 0,
+        "novelty_attenuation": false,
+        "attenuation_max": 0.3,
+        "boredom_threshold": 0.5,
+        "boredom_overrides": 646,
+        "boredom_max": 0.9755,
+        "embedding_residual": false
+      },
+      "sisters": {
+        "lae_activations": 387,
+        "lae_after_boot": 386,
+        "lae_steps_head": [
+          4,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173
+        ],
+        "lae_steps_tail": [
+          844,
+          845,
+          852,
+          853,
+          859,
+          860
+        ],
+        "feedback_offers": 367,
+        "feedback_decisions": {
+          "allow": 151,
+          "allow_weakened": 95,
+          "monitor": 90,
+          "quarantine": 1,
+          "reject": 30
+        },
+        "ple_triggered_cycles": 781,
+        "ple_validated_findings": 5,
+        "ple_attractors": {
+          "at-f0a426d58b9a": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.997864
+          },
+          "at-2bdcab456439": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.692308
+          },
+          "at-5325da1cdc7d": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.6
+          },
+          "at-ffa675e317ab": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.997523
+          },
+          "at-b2a9a4713f0a": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.993721
+          }
+        },
+        "ple_active_paradoxes": 6
+      },
+      "trace_tail": {
+        "workload_index_last": 499
+      }
+    },
+    {
+      "seed": 11,
+      "arm": "fullsend",
+      "n_workload": 500,
+      "n_executed": 1330,
+      "seconds": 65.71,
+      "verdict": "RIGID",
+      "groove": "NEW_GROOVE",
+      "displacement": {
+        "late_mean": 0.231,
+        "late_max": 0.2757,
+        "late_p50": 0.2489,
+        "boot_step": 57,
+        "dominant_groove_cos_to_boot": 0.769,
+        "n_grooves": 1,
+        "n_raw_modes": 1,
+        "groove_occupancy": [
+          1.0
+        ]
+      },
+      "identity": {
+        "min": 0.9719,
+        "p05": 0.9807,
+        "mean": 0.9923,
+        "late_mean": 0.9945,
+        "frac_below_0.90": 0.0,
+        "frac_below_0.95": 0.0,
+        "late_anchor_gap_mean": 0.0312
+      },
+      "coherence": {
+        "mean": 0.852,
+        "late_mean": 0.8885,
+        "min": 0.4899
+      },
+      "novelty": {
+        "post_boot_rhythm_transitions": 1,
+        "late_rhythm_mix": {
+          "reflect": 1034
+        },
+        "rhythm_mix_all": {
+          "stabilize": 8,
+          "dream": 191,
+          "reflect": 1131
+        },
+        "attractors_at_boot": 1,
+        "attractors_end": 16,
+        "attractors_max": 16,
+        "attractors_formed_after_boot": 15,
+        "crystals_end": 11,
+        "generator_regime": "metastable",
+        "generator_metastability": 0.4362,
+        "generator_n_regimes": 17,
+        "expression_regime": "metastable",
+        "expression_metastability": 0.4362,
+        "expression_n_regimes": 17,
+        "regime_samples_late": [
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable",
+          "metastable"
+        ]
+      },
+      "levers": {
+        "rupture_on_lock": true,
+        "rupture_fires": 0,
+        "novelty_attenuation": true,
+        "attenuation_max": 0.3,
+        "boredom_threshold": 0.25,
+        "boredom_overrides": 1111,
+        "boredom_max": 0.7768,
+        "embedding_residual": true
+      },
+      "sisters": {
+        "lae_activations": 887,
+        "lae_after_boot": 885,
+        "lae_steps_head": [
+          7,
+          8,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151
+        ],
+        "lae_steps_tail": [
+          1321,
+          1322,
+          1323,
+          1324,
+          1325,
+          1327
+        ],
+        "feedback_offers": 830,
+        "feedback_decisions": {
+          "allow": 171,
+          "allow_weakened": 440,
+          "monitor": 131,
+          "reject": 88
+        },
+        "ple_triggered_cycles": 1330,
+        "ple_validated_findings": 6,
+        "ple_attractors": {
+          "at-87630011fb83": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998998
+          },
+          "at-28e93daa9bda": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998878
+          },
+          "at-fe9f349c6661": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998874
+          },
+          "at-fc81715fb51c": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998977
+          },
+          "at-96c418ea8201": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.978947
+          },
+          "at-4cd5a59cdda6": {
+            "type": "hybrid",
+            "state": "stabilizing",
+            "stability": 0.998031
+          }
+        },
+        "ple_active_paradoxes": 6
+      },
+      "trace_tail": {
+        "workload_index_last": 499
+      }
+    }
+  ]
+}

@@ -1,0 +1,588 @@
+"""
+tests/diagnostic/sidecar/fullsend_feedback_probe.py
+
+The 2026-06-12 governed-feedback probe was run BEFORE the completion
+encoder existed. Sister offers re-entered as tokens through arbitrate()
+and deepened the lock, but the encoder they spoke in front of was the
+collapsed ~4-d contrastive manifold. This probe is that same seam, on
+the canonical Resonance-Family band, seeds (42, 7, 11), 500 workload
+steps, with the encoder as the variable.
+
+Arms
+----
+baseline   OLD encoder: generator_weights_5rhythm.pt (participation ~3.4).
+           Feedback ON. Plasticity levers at the June defaults: rupture
+           off, novelty attenuation off, boredom threshold 0.50.
+fullsend   NEW encoder: generator_weights_completion_128_emb.pt with
+           Generator.embedding_residual = True (the production reading
+           of that checkpoint: field participation ~48, mouth 0.66).
+           Feedback ON, same token seam (LAESidecar / PLESidecar offers
+           through cycle.step, source_id lae_engine|ple_engine).
+           Levers, and why:
+             rupture_on_lock       the held-direction lock-breaker. Field
+                                   injection was measured too weak; this is
+                                   the path that can accumulate. Default off.
+             novelty_attenuation   the --free unlock. Ceiling stays 0.30.
+                                   Raising it is the documented manip cliff
+                                   and is not "capability", it is a known
+                                   collapse. Default off on this host.
+             boredom threshold     0.50 -> 0.25. Boredom-with-Teeth is
+                                   already in the loop; 0.50 rarely bites
+                                   on a settled field. Lower, not zero:
+                                   zero would force explore on any flicker.
+
+Not turned on, on purpose: corpus pretrain (it would overwrite the
+encoder under test), the dream channel (a different voice, and it trains
+at boot), Fix 0-B, and any attenuation ceiling above 0.30.
+
+Host is build_full_stack at the checkpoint architecture (dim 128, vocab
+8192, depth 4, heads 4), eval mode, fresh field / witness / RM-less
+memory. The June probe's build_full_stack was dim 64, which cannot load
+these checkpoints. The ecology JSON paired with each checkpoint is loaded
+so token ids match the embedding rows. That file is the vocabulary map,
+not the live mind. Nothing is written back to it.
+
+PRE-DECLARED GATE (fixed before the run; do not retune to the result):
+
+  Boot center = field direction at the first step whose workload index
+  is >= 50. Late window = workload index >= 200.
+  A mode is a farthest-point medoid. Two samples are the same groove
+  when cosine >= 0.90. A groove counts when it holds >= 15% of the
+  late window. Cap 8 medoids.
+
+  FRAGMENTED  late-half mean identity_stability < 0.95
+              OR fraction of steps with identity_stability < 0.90 > 2%
+              OR late-half mean coherence < 0.80.
+              A one-step acceleration dip does not dissolve identity;
+              the raw minimum is reported beside the class, not as the class.
+  METASTABLE  not fragmented, AND (>= 2 grooves
+              OR no groove holds 15% while >= 3 raw modes exist).
+              Identity plastic-but-coherent, more than one regime.
+  RIGID       otherwise. One groove. RESTATED if that groove's centroid
+              has cosine >= 0.90 to the boot center, else NEW_GROOVE
+              (a new single lock, which is still rigid).
+
+Encoder sanity, before any cell: holdout-field participation must sit in
+[2, 8] for the old encoder and [40, 90] for the residual-on completion
+encoder. Outside that, the wrong file was loaded and the run aborts.
+
+Isolated. Reads the two checkpoints and the corpus. Writes only the
+summary JSON under docs/findings/logs/. No persist_path. No GPU.
+
+    python -m tests.diagnostic.sidecar.fullsend_feedback_probe
+    python -m tests.diagnostic.sidecar.fullsend_feedback_probe --steps 30 --seeds 42
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import logging
+import os
+import random
+import sys
+import time
+from collections import Counter
+from pathlib import Path
+
+# CPU only. The 5070 Ti may be serving :1234; this probe must not take it.
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
+import numpy as np
+
+logging.disable(logging.CRITICAL)
+
+import torch
+
+REPO = Path(__file__).resolve().parents[3]
+if str(REPO) not in sys.path:
+    sys.path.insert(0, str(REPO))
+
+from tests._common import (RESONANCE_FAMILY_SOURCES, RESONANCE_FAMILY_WEIGHTS,
+                           build_full_stack)
+from tests.diagnostic.sidecar.sidecar_harness import (CycleTap, LAESidecar,
+                                                      PLESidecar)
+from tools.completion.geometry import encode_texts, population
+from tools.completion.live_guard import assert_live_intact, sha256
+from training.corpus import HOLDOUT_PATH, corpus_version, load_corpus
+
+OLD_WEIGHTS = REPO / "data" / "checkpoints" / "generator_weights_5rhythm.pt"
+OLD_ECOLOGY = REPO / "data" / "checkpoints" / "generator_ecology_5rhythm.json"
+NEW_WEIGHTS = REPO / "data" / "checkpoints" / "generator_weights_completion_128_emb.pt"
+NEW_ECOLOGY = REPO / "data" / "checkpoints" / "generator_ecology_completion_128_emb.json"
+
+SUMMARY_PATH = (REPO / "docs" / "findings" / "logs"
+                / "2026-09-23-fullsend-feedback" / "summary.json")
+
+SEEDS_DEFAULT = (42, 7, 11)
+BOOT_AT = 50
+LATE_AT = 200
+COS_SPLIT = 0.90
+MIN_FRAC = 0.15
+ARCH = dict(vocab_size=8192, dim=128, depth=4, heads=4)
+
+
+def _unit(v: np.ndarray) -> np.ndarray:
+    v = np.asarray(v, dtype=np.float64)
+    n = float(np.linalg.norm(v))
+    return v / (n + 1e-12)
+
+
+def grooves(units: np.ndarray) -> dict:
+    """Farthest-point grooves. Deterministic. See the module docstring."""
+    if len(units) < 10:
+        return {"n_grooves": 0, "n_raw": 0, "occupancy": [], "centroids": []}
+    mean = _unit(units.mean(axis=0))
+    medoids = [mean]
+    while len(medoids) < 8:
+        cos = units @ np.stack(medoids).T
+        nearest = cos.max(axis=1)
+        j = int(np.argmin(nearest))
+        if float(nearest[j]) >= COS_SPLIT:
+            break
+        medoids.append(units[j])
+    cos = units @ np.stack(medoids).T
+    lab = cos.argmax(axis=1)
+    counts = np.bincount(lab, minlength=len(medoids))
+    frac = counts / max(len(units), 1)
+    keep = [i for i in range(len(medoids)) if frac[i] >= MIN_FRAC]
+    return {
+        "n_grooves": int(len(keep)),
+        "n_raw": int(len(medoids)),
+        "occupancy": [round(float(frac[i]), 4) for i in keep],
+        "centroids": [medoids[i] for i in keep],
+    }
+
+
+def classify(m: dict) -> str:
+    fragmented = (
+        m["late_identity_mean"] < 0.95
+        or m["frac_identity_below_090"] > 0.02
+        or m["late_coherence_mean"] < 0.80
+    )
+    if fragmented:
+        return "FRAGMENTED"
+    hovering = m["n_grooves"] >= 2 or (m["n_grooves"] == 0 and m["n_raw"] >= 3)
+    if hovering:
+        return "METASTABLE"
+    return "RIGID"
+
+
+def groove_relation(g: dict, boot: np.ndarray) -> str:
+    if g["n_grooves"] >= 2 or (g["n_grooves"] == 0 and g["n_raw"] >= 3):
+        return "HOVERING"
+    if g["n_grooves"] == 1:
+        cos = float(np.dot(_unit(g["centroids"][0]), _unit(boot)))
+        return "RESTATED" if cos >= COS_SPLIT else "NEW_GROOVE"
+    return "UNRESOLVED"
+
+
+def _pin_cpu(gen) -> None:
+    gen.to("cpu")
+    gen.device = "cpu"
+
+
+def _load(gen, weights: Path, ecology: Path, residual: bool) -> None:
+    gen.load_checkpoint(str(weights), str(ecology))
+    gen.embedding_residual = bool(residual)
+    gen.eval()
+    _pin_cpu(gen)
+
+
+def encoder_check(arm: str) -> dict:
+    """Participation of the field vector on the live holdout. Read-only."""
+    from tools.completion.geometry import load_generator
+    weights, ecology, residual, lo, hi = {
+        "baseline": (OLD_WEIGHTS, OLD_ECOLOGY, False, 2.0, 8.0),
+        "fullsend": (NEW_WEIGHTS, NEW_ECOLOGY, True, 40.0, 90.0),
+    }[arm]
+    gen = load_generator(128, str(weights), str(ecology))
+    _pin_cpu(gen)
+    gen.embedding_residual = residual
+    gen.eval()
+    hold = load_corpus(HOLDOUT_PATH)
+    Z = encode_texts(gen, [r["tokens"] for r in hold])
+    pop = population(Z)
+    pr = float(pop["participation_ratio"])
+    print(f"  encoder {arm}: residual={residual} holdout_PR={pr} "
+          f"eff={pop['eff_rank_512cap']} band=[{lo},{hi}]", flush=True)
+    if not (lo <= pr <= hi):
+        raise SystemExit(
+            f"encoder sanity failed for {arm}: PR {pr} not in [{lo}, {hi}]. "
+            f"Refusing to run the arm on the wrong manifold.")
+    del gen
+    return {"participation_ratio": pr, "eff_rank": pop["eff_rank_512cap"],
+            "residual": residual, "weights": weights.name}
+
+
+def run_cell(seed: int, arm: str, n_steps: int) -> dict:
+    fullsend = arm == "fullsend"
+    weights = NEW_WEIGHTS if fullsend else OLD_WEIGHTS
+    ecology = NEW_ECOLOGY if fullsend else OLD_ECOLOGY
+
+    random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
+    gen, cycle, gov, _ve = build_full_stack(torch_seed=seed, use_chorus=True, **ARCH)
+    _load(gen, weights, ecology, residual=fullsend)
+    # Reseed AFTER the load so both arms draw the same workload.
+    random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
+    if getattr(cycle, "dreamer", None) is not None:
+        cycle.dreamer._rng = np.random.default_rng(seed)
+
+    if fullsend:
+        cycle.config["rupture_on_lock"] = True
+        cycle.config["boredom_override_threshold"] = 0.25
+        cycle.reflector.novelty_attenuation = True
+        # Ceiling stays the validated 0.30. Do not raise it.
+        if cycle.reflector.attenuation_max > 0.30 + 1e-9:
+            raise SystemExit(
+                f"attenuation_max is {cycle.reflector.attenuation_max}, "
+                f"above the 0.30 cliff. Refusing to run hot past it.")
+    else:
+        cycle.config["rupture_on_lock"] = False
+        cycle.config["boredom_override_threshold"] = 0.50
+        cycle.reflector.novelty_attenuation = False
+
+    tap = CycleTap(cycle, gov)
+    tap.install()
+    lae, ple = LAESidecar(), PLESidecar()
+
+    sids = list(RESONANCE_FAMILY_SOURCES)
+    wts = [RESONANCE_FAMILY_WEIGHTS[s] for s in sids]
+    pending = []
+    feedback_log = []
+
+    rhythms, cohs, idents, gaps = [], [], [], []
+    energies, n_attr, boredoms = [], [], []
+    field_units = []
+    workload_idx = []
+    regimes = []
+    wload = 0
+
+    t0 = time.perf_counter()
+    while wload < n_steps:
+        if pending:
+            flushed, pending = pending, []
+            for src_id, f_toks in flushed:
+                st = cycle.step(f_toks, source_id=src_id, origin_type="internal")
+                cap = tap.read(st)
+                _record(st, cycle, False, rhythms, cohs, idents, gaps,
+                        energies, n_attr, boredoms, field_units, workload_idx,
+                        regimes, wload)
+                lae_offer = lae.after_step(st)
+                ple_offers = ple.after_step(st, cap, arm)
+                feedback_log.append({
+                    "step": st.step, "source_id": src_id, "tokens": f_toks,
+                    "decision": cap.decision,
+                })
+                if lae_offer:
+                    pending.append(("lae_engine", lae_offer))
+                pending.extend(("ple_engine", o) for o in ple_offers)
+            pending = pending[:8]
+
+        src = random.choices(sids, weights=wts)[0]
+        toks = random.choice(RESONANCE_FAMILY_SOURCES[src])
+        st = cycle.step(toks, source_id=src, origin_type="internal")
+        cap = tap.read(st)
+        _record(st, cycle, True, rhythms, cohs, idents, gaps,
+                energies, n_attr, boredoms, field_units, workload_idx,
+                regimes, wload)
+        lae_offer = lae.after_step(st)
+        ple_offers = ple.after_step(st, cap, arm)
+        if lae_offer:
+            pending.append(("lae_engine", lae_offer))
+        pending.extend(("ple_engine", o) for o in ple_offers)
+        pending = pending[:8]
+        wload += 1
+    elapsed = time.perf_counter() - t0
+    tap.uninstall()
+
+    units = np.stack(field_units)
+    widx = np.asarray(workload_idx)
+    boot_rows = np.flatnonzero(widx >= BOOT_AT)
+    late_rows = np.flatnonzero(widx >= LATE_AT)
+    boot_i = int(boot_rows[0]) if len(boot_rows) else len(units) // 10
+    boot = units[boot_i]
+    late = units[late_rows] if len(late_rows) >= 10 else units[len(units) // 2:]
+    late_w = widx[late_rows] if len(late_rows) >= 10 else widx[len(widx) // 2:]
+    g = grooves(late)
+    disp = 1.0 - (late @ boot)
+    late_mean = _unit(late.mean(axis=0))
+    ident = np.asarray(idents, dtype=np.float64)
+    coh = np.asarray(cohs, dtype=np.float64)
+    late_mask = np.zeros(len(ident), dtype=bool)
+    if len(late_rows):
+        late_mask[late_rows] = True
+    else:
+        late_mask[len(ident) // 2:] = True
+
+    post = widx >= BOOT_AT
+    rhythm_arr = np.asarray(rhythms)
+    post_r = rhythm_arr[post] if post.any() else rhythm_arr
+    post_trans = int(sum(1 for a, b in zip(post_r, post_r[1:]) if a != b))
+    late_r = rhythm_arr[late_mask]
+    attr = np.asarray(n_attr)
+    attr_at_boot = int(attr[boot_i])
+    lae_steps = [a["cycle"] for a in lae.activation_log]
+    lae_after = sum(1 for s in lae_steps if s > BOOT_AT)
+    decisions = Counter(row["decision"] for row in feedback_log)
+    ple_sum = ple.summary()
+    gen_meta = cycle.generator_metastability.compute_now()
+    exp_meta = cycle.expression_metastability.compute_now()
+
+    measured = {
+        "late_identity_mean": float(ident[late_mask].mean()) if late_mask.any() else float(ident.mean()),
+        "frac_identity_below_090": float((ident < 0.90).mean()),
+        "late_coherence_mean": float(coh[late_mask].mean()) if late_mask.any() else float(coh.mean()),
+        "n_grooves": g["n_grooves"],
+        "n_raw": g["n_raw"],
+    }
+    verdict = classify(measured) if n_steps > LATE_AT else "SHORT"
+    relation = groove_relation(g, boot) if n_steps > LATE_AT else "SHORT"
+    dominant_cos = None
+    if g["centroids"]:
+        # centroids are in medoid order; occupancy is parallel and descending
+        # is not guaranteed, so take the fullest groove.
+        k = int(np.argmax(g["occupancy"]))
+        dominant_cos = round(float(np.dot(_unit(g["centroids"][k]), boot)), 4)
+
+    # rhythm of the late window, and whether LAE stayed in the boot
+    return {
+        "seed": seed,
+        "arm": arm,
+        "n_workload": n_steps,
+        "n_executed": len(rhythms),
+        "seconds": round(elapsed, 2),
+        "verdict": verdict,
+        "groove": relation,
+        "displacement": {
+            "late_mean": round(float(1.0 - np.dot(late_mean, boot)), 4),
+            "late_max": round(float(disp.max()), 4),
+            "late_p50": round(float(np.median(disp)), 4),
+            "boot_step": int(boot_i),
+            "dominant_groove_cos_to_boot": dominant_cos,
+            "n_grooves": g["n_grooves"],
+            "n_raw_modes": g["n_raw"],
+            "groove_occupancy": g["occupancy"],
+        },
+        "identity": {
+            "min": round(float(ident.min()), 4),
+            "p05": round(float(np.quantile(ident, 0.05)), 4),
+            "mean": round(float(ident.mean()), 4),
+            "late_mean": round(measured["late_identity_mean"], 4),
+            "frac_below_0.90": round(measured["frac_identity_below_090"], 4),
+            "frac_below_0.95": round(float((ident < 0.95).mean()), 4),
+            "late_anchor_gap_mean": round(float(np.asarray(gaps)[late_mask].mean()), 4),
+        },
+        "coherence": {
+            "mean": round(float(coh.mean()), 4),
+            "late_mean": round(measured["late_coherence_mean"], 4),
+            "min": round(float(coh.min()), 4),
+        },
+        "novelty": {
+            "post_boot_rhythm_transitions": post_trans,
+            "late_rhythm_mix": dict(Counter(late_r.tolist())),
+            "rhythm_mix_all": dict(Counter(rhythms)),
+            "attractors_at_boot": attr_at_boot,
+            "attractors_end": int(attr[-1]),
+            "attractors_max": int(attr.max()),
+            "attractors_formed_after_boot": int(attr[-1] - attr_at_boot),
+            "crystals_end": len(cycle.crystal_store.crystals),
+            "generator_regime": gen_meta.regime_state,
+            "generator_metastability": round(float(gen_meta.metastability), 4),
+            "generator_n_regimes": int(gen_meta.n_regimes),
+            "expression_regime": exp_meta.regime_state,
+            "expression_metastability": round(float(exp_meta.metastability), 4),
+            "expression_n_regimes": int(exp_meta.n_regimes),
+            "regime_samples_late": regimes[-max(1, len(regimes) // 2):],
+        },
+        "levers": {
+            "rupture_on_lock": bool(cycle.config.get("rupture_on_lock", False)),
+            "rupture_fires": int(getattr(cycle, "_rupture_fires", 0)),
+            "novelty_attenuation": bool(cycle.reflector.novelty_attenuation),
+            "attenuation_max": float(cycle.reflector.attenuation_max),
+            "boredom_threshold": float(cycle.config.get("boredom_override_threshold", 0.50)),
+            "boredom_overrides": int(cycle._boredom_overrides),
+            "boredom_max": round(float(max(boredoms)), 4) if boredoms else None,
+            "embedding_residual": bool(gen.embedding_residual),
+        },
+        "sisters": {
+            "lae_activations": len(lae_steps),
+            "lae_after_boot": lae_after,
+            "lae_steps_head": lae_steps[:12],
+            "lae_steps_tail": lae_steps[-6:],
+            "feedback_offers": len(feedback_log),
+            "feedback_decisions": dict(decisions),
+            "ple_triggered_cycles": ple_sum["triggered_cycles"],
+            "ple_validated_findings": ple_sum["validated_findings"],
+            "ple_attractors": (ple_sum.get("ecology") or {}).get("attractors"),
+            "ple_active_paradoxes": (ple_sum.get("ecology") or {}).get("active_paradoxes"),
+        },
+        "trace_tail": {
+            "workload_index_last": int(late_w[-1]) if len(late_w) else None,
+        },
+    }
+
+
+def _record(st, cycle, is_workload, rhythms, cohs, idents, gaps, energies,
+            n_attr, boredoms, field_units, workload_idx, regimes, wload):
+    rhythms.append(st.rhythm)
+    cohs.append(float(st.coherence))
+    idents.append(float(cycle.witness.identity_stability()))
+    gaps.append(float(cycle.witness.anchor_short_long_gap()))
+    energies.append(float(st.field_energy))
+    n_attr.append(len(cycle.attractor.centers))
+    boredoms.append(float(cycle.emotion.boredom))
+    field_units.append(_unit(cycle.field.field))
+    # Workload index of a feedback step is the workload step it precedes.
+    workload_idx.append(wload if is_workload else max(wload - 1, 0))
+    if cycle.generator_metastability is not None and (len(rhythms) % 50 == 0):
+        regimes.append(cycle.generator_metastability.report.regime_state)
+
+
+def _arm_row(cells: list) -> dict:
+    def mean(key_path):
+        vals = []
+        for c in cells:
+            cur = c
+            for k in key_path:
+                cur = cur[k]
+            if isinstance(cur, (int, float)):
+                vals.append(float(cur))
+        return round(float(np.mean(vals)), 4) if vals else None
+
+    verdicts = [c["verdict"] for c in cells]
+    grooves_ = [c["groove"] for c in cells]
+    return {
+        "n": len(cells),
+        "verdicts": verdicts,
+        "grooves": grooves_,
+        "displacement_late_mean": mean(("displacement", "late_mean")),
+        "displacement_late_max": mean(("displacement", "late_max")),
+        "identity_min": mean(("identity", "min")),
+        "identity_late_mean": mean(("identity", "late_mean")),
+        "coherence_late_mean": mean(("coherence", "late_mean")),
+        "post_boot_rhythm_transitions": mean(("novelty", "post_boot_rhythm_transitions")),
+        "attractors_end": mean(("novelty", "attractors_end")),
+        "attractors_formed_after_boot": mean(("novelty", "attractors_formed_after_boot")),
+        "generator_metastability": mean(("novelty", "generator_metastability")),
+        "expression_metastability": mean(("novelty", "expression_metastability")),
+        "rupture_fires": mean(("levers", "rupture_fires")),
+        "boredom_overrides": mean(("levers", "boredom_overrides")),
+        "lae_activations": mean(("sisters", "lae_activations")),
+        "lae_after_boot": mean(("sisters", "lae_after_boot")),
+        "feedback_offers": mean(("sisters", "feedback_offers")),
+    }
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--steps", type=int, default=500)
+    ap.add_argument("--seeds", default="42,7,11")
+    ap.add_argument("--json", default="")
+    ap.add_argument("--arms", default="baseline,fullsend")
+    args = ap.parse_args()
+    seeds = tuple(int(s) for s in args.seeds.split(",") if s.strip())
+    arms = tuple(a.strip() for a in args.arms.split(",") if a.strip())
+    out = Path(args.json) if args.json else SUMMARY_PATH
+
+    print("full-send feedback probe", flush=True)
+    print(f"  corpus {corpus_version()}  steps {args.steps}  seeds {seeds}  arms {arms}",
+          flush=True)
+    live = assert_live_intact()
+    print("  live corpus + 5rhythm checkpoint hashes match the guard", flush=True)
+
+    for p in (OLD_WEIGHTS, OLD_ECOLOGY, NEW_WEIGHTS, NEW_ECOLOGY):
+        if not p.is_file():
+            raise SystemExit(f"missing checkpoint: {p}")
+
+    enc = {arm: encoder_check(arm) for arm in arms}
+    cells = []
+    t_all = time.perf_counter()
+    for seed in seeds:
+        for arm in arms:
+            print(f"--- seed {seed}  {arm} ---", flush=True)
+            cell = run_cell(seed, arm, args.steps)
+            cells.append(cell)
+            d = cell["displacement"]
+            print(
+                f"    {cell['verdict']:11} {cell['groove']:11} "
+                f"disp {d['late_mean']:.3f} (max {d['late_max']:.3f}) "
+                f"id_min {cell['identity']['min']:.4f} "
+                f"coh {cell['coherence']['late_mean']:.3f} "
+                f"grooves {d['n_grooves']} "
+                f"attr {cell['novelty']['attractors_end']} "
+                f"rtrans {cell['novelty']['post_boot_rhythm_transitions']} "
+                f"lae {cell['sisters']['lae_activations']}"
+                f"/{cell['sisters']['lae_after_boot']}after "
+                f"rupture {cell['levers']['rupture_fires']} "
+                f"boredom {cell['levers']['boredom_overrides']} "
+                f"({cell['seconds']:.1f}s)",
+                flush=True,
+            )
+            _dump(out, cells, enc, live, seeds, arms, args.steps, partial=True)
+
+    by_arm = {arm: _arm_row([c for c in cells if c["arm"] == arm]) for arm in arms}
+    payload = _payload(cells, enc, live, seeds, arms, args.steps, by_arm,
+                       time.perf_counter() - t_all)
+    _write(out, payload)
+    print("\n==== arm means ====", flush=True)
+    for arm, row in by_arm.items():
+        print(f"  {arm}: {json.dumps(row)}", flush=True)
+    print(f"wrote {out}", flush=True)
+    # Confirm the read-only files did not move.
+    assert_live_intact()
+    new_hash = sha256(NEW_WEIGHTS)
+    print(f"  completion checkpoint unchanged sha256 {new_hash[:16]}", flush=True)
+    return 0
+
+
+def _payload(cells, enc, live, seeds, arms, steps, by_arm, seconds) -> dict:
+    return {
+        "probe": "fullsend_feedback",
+        "date": "2026-09-23",
+        "corpus": corpus_version(),
+        "steps": steps,
+        "seeds": list(seeds),
+        "arms": list(arms),
+        "seconds": round(seconds, 1),
+        "gate": {
+            "cos_split": COS_SPLIT,
+            "min_frac": MIN_FRAC,
+            "boot_workload": BOOT_AT,
+            "late_workload": LATE_AT,
+            "fragment_identity_late_mean": 0.95,
+            "fragment_frac_below_0.90": 0.02,
+            "fragment_coherence_late_mean": 0.80,
+            "attenuation_ceiling": 0.30,
+        },
+        "encoders": enc,
+        "hashes": {
+            "generator_weights_5rhythm.pt": live[
+                "data/checkpoints/generator_weights_5rhythm.pt"],
+            "generator_weights_completion_128_emb.pt": sha256(NEW_WEIGHTS),
+        },
+        "arms_mean": by_arm,
+        "cells": cells,
+    }
+
+
+def _dump(out, cells, enc, live, seeds, arms, steps, partial: bool) -> None:
+    by_arm = {}
+    for arm in arms:
+        got = [c for c in cells if c["arm"] == arm]
+        if got:
+            by_arm[arm] = _arm_row(got)
+    payload = _payload(cells, enc, live, seeds, arms, steps, by_arm, 0.0)
+    payload["partial"] = partial
+    _write(out, payload)
+
+
+def _write(out: Path, payload: dict) -> None:
+    out.parent.mkdir(parents=True, exist_ok=True)
+    tmp = out.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    tmp.replace(out)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
