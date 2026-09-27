@@ -89,7 +89,7 @@ condition, for a fee.
 
 ### 2.5 AI-assisted code — who owns it, and the limit to know
 
-Parts of this project were produced with AI tools (Claude, Koneko, Gemini) used
+Parts of this project were produced with AI tools (Claude, GPT, Grok, Gemini (at times as its Koneko persona), and at times Copilot) used
 under the author's direction. Two consequences:
 
 - **No rival owner.** U.S. copyright requires a **human** author. An AI cannot be
@@ -111,9 +111,13 @@ under the author's direction. Two consequences:
      model's output, directs another model to change it, and arbitrates the
      result is human expression layered onto the work.
   The author's workflow here is an **iterative, multi-model chain under human
-  direction**: code is taken from one model, sent to another with specific
-  instructions to improve it, then to another, with the human selecting,
-  rejecting, editing, and integrating at each step. That is meaningful human
+  direction**, and the author is the only link in it. No router, API, or
+  automated "council" connects the models. The author carries context, code,
+  and critique from one platform to another by hand (copying, pasting, and
+  paraphrasing), decides what each model is asked and what it sees, and
+  selects, rejects, edits, and integrates the results at every step. Because
+  every exchange passes through the author, no single model's contribution
+  stands apart from the author's selection and arrangement. That is meaningful human
   creative control, not one-shot prompting — the fact pattern courts have
   *denied* (Thaler) was a machine generating a work with *no* human involvement,
   the opposite of this.
