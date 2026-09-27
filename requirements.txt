@@ -27,3 +27,8 @@ pyyaml>=6.0
 # Optional LLM encoder backend deps (transformers / accelerate / bitsandbytes /
 # llama-cpp-python) are deliberately NOT listed — see
 # docs/local_model_integration/IMPLEMENTATION_GUIDE.md §1.
+
+# Speech-cortex voice bridge (tools/voice/repl_qwen.py) — the interactive REPL uses
+# prompt_toolkit so unbidden thoughts print ABOVE a sacred input line without clobbering
+# what you are typing. Only needed to *talk* to it interactively; the core does not import it.
+prompt_toolkit>=3.0
