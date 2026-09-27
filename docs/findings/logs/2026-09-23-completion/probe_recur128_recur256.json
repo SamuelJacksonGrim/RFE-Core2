@@ -1,0 +1,157 @@
+{
+  "live_holdout_lines": 1505,
+  "measurement": {
+    "embedding_mean": "masked mean of sqrt(dim)-scaled token embeddings, pre-position",
+    "stack": "Generator.forward, residual off. This is the previous run's participation.",
+    "residual_at_inference": "orthogonal mix of embedding mean and stack, flag on, no retrain",
+    "recursive_attention": "untrained RecursiveAttention.refine, eval, history 16, depth 3, diversity_blend as named. Streaming uses live-holdout order. Attractor pull is not applied."
+  },
+  "live_sha256": {
+    "data/corpus/rhythm_train.jsonl": "f5d608597c195719f2b3634bbfcedbbe10f9aefac5b0bae4c4546741be221e61",
+    "data/corpus/rhythm_holdout.jsonl": "61c93de1089c6b515675698fe63e8e29123c93001aae44b665f247254c148888",
+    "data/checkpoints/generator_weights_5rhythm.pt": "71c646fb36d40e3b20cb03d1aa02f51c7a139ab4250aa701694fad8ef2482361",
+    "data/checkpoints/generator_ecology_5rhythm.json": "d74c829c078e22b76423cdf1b5b02a2032e02b1b8ae142b85f51d19e7d27d600"
+  },
+  "runs": [
+    {
+      "name": "recur128",
+      "dim": 128,
+      "points": {
+        "embedding_mean": {
+          "participation_ratio": 27.587,
+          "eff_rank_512cap": 7.874,
+          "quiet_dims": 0,
+          "dead_dims": 0
+        },
+        "stack": {
+          "participation_ratio": 16.621,
+          "eff_rank_512cap": 8.402,
+          "quiet_dims": 0,
+          "dead_dims": 0
+        },
+        "residual_at_inference": {
+          "participation_ratio": 21.017,
+          "eff_rank_512cap": 8.595,
+          "quiet_dims": 0,
+          "dead_dims": 0
+        },
+        "cos_stack_emb": -0.0015,
+        "cos_residual_emb": 0.7086,
+        "ra_on_stack": {
+          "stream_blend0": {
+            "participation_ratio": 5.207,
+            "eff_rank_512cap": 2.48,
+            "cos_to_input": 0.1057
+          },
+          "stream_blend0.6": {
+            "participation_ratio": 14.488,
+            "eff_rank_512cap": 6.593,
+            "cos_to_input": 0.8502
+          },
+          "isolated_blend0.6": {
+            "participation_ratio": 15.988,
+            "eff_rank_512cap": 8.069,
+            "cos_to_input": 0.8411
+          },
+          "stream_blend1": {
+            "participation_ratio": 16.621,
+            "eff_rank_512cap": 8.402,
+            "cos_to_input": 1.0
+          }
+        },
+        "ra_on_residual": {
+          "stream_blend0": {
+            "participation_ratio": 6.262,
+            "eff_rank_512cap": 2.647,
+            "cos_to_input": 0.1452
+          },
+          "stream_blend0.6": {
+            "participation_ratio": 17.87,
+            "eff_rank_512cap": 6.978,
+            "cos_to_input": 0.857
+          },
+          "isolated_blend0.6": {
+            "participation_ratio": 20.125,
+            "eff_rank_512cap": 8.763,
+            "cos_to_input": 0.8461
+          },
+          "stream_blend1": {
+            "participation_ratio": 21.017,
+            "eff_rank_512cap": 8.595,
+            "cos_to_input": 1.0
+          }
+        }
+      }
+    },
+    {
+      "name": "recur256",
+      "dim": 256,
+      "points": {
+        "embedding_mean": {
+          "participation_ratio": 35.909,
+          "eff_rank_512cap": 8.569,
+          "quiet_dims": 0,
+          "dead_dims": 0
+        },
+        "stack": {
+          "participation_ratio": 20.03,
+          "eff_rank_512cap": 8.943,
+          "quiet_dims": 0,
+          "dead_dims": 0
+        },
+        "residual_at_inference": {
+          "participation_ratio": 26.637,
+          "eff_rank_512cap": 9.235,
+          "quiet_dims": 0,
+          "dead_dims": 0
+        },
+        "cos_stack_emb": 0.0079,
+        "cos_residual_emb": 0.7078,
+        "ra_on_stack": {
+          "stream_blend0": {
+            "participation_ratio": 5.045,
+            "eff_rank_512cap": 2.39,
+            "cos_to_input": 0.1182
+          },
+          "stream_blend0.6": {
+            "participation_ratio": 15.58,
+            "eff_rank_512cap": 6.075,
+            "cos_to_input": 0.8523
+          },
+          "isolated_blend0.6": {
+            "participation_ratio": 19.356,
+            "eff_rank_512cap": 8.437,
+            "cos_to_input": 0.842
+          },
+          "stream_blend1": {
+            "participation_ratio": 20.03,
+            "eff_rank_512cap": 8.943,
+            "cos_to_input": 1.0
+          }
+        },
+        "ra_on_residual": {
+          "stream_blend0": {
+            "participation_ratio": 5.55,
+            "eff_rank_512cap": 2.399,
+            "cos_to_input": 0.1041
+          },
+          "stream_blend0.6": {
+            "participation_ratio": 19.898,
+            "eff_rank_512cap": 6.417,
+            "cos_to_input": 0.8499
+          },
+          "isolated_blend0.6": {
+            "participation_ratio": 24.847,
+            "eff_rank_512cap": 8.859,
+            "cos_to_input": 0.8411
+          },
+          "stream_blend1": {
+            "participation_ratio": 26.637,
+            "eff_rank_512cap": 9.235,
+            "cos_to_input": 1.0
+          }
+        }
+      }
+    }
+  ]
+}

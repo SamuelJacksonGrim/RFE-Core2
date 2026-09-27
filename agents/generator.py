@@ -185,6 +185,10 @@ class Generator(nn.Module):
 
         self.dim                       = dim
         self.normalize_output          = normalize_output
+        # Opt-in. Off leaves forward identical to the production encoder, so
+        # existing checkpoints load and encode unchanged. On, the field vector
+        # keeps a residual of the token-embedding mean (see forward).
+        self.embedding_residual        = False
         self.deferred_resize_threshold = deferred_resize_threshold
         self.auto_decay_interval       = auto_decay_interval
         self.decay_interval            = decay_interval
@@ -281,21 +285,42 @@ class Generator(nn.Module):
     # Forward
     # ==========================================================================
 
+    def token_embedding_mean(self, ids: torch.Tensor) -> torch.Tensor:
+        """Masked mean of sqrt(dim)-scaled token embeddings, before position.
+
+        This is the completion geometry, upstream of the transformer. It is
+        the same reduction the residual path mixes back into the field vector.
+        """
+        _emb, mean, _pad = self._scaled_token_embeddings(ids)
+        return mean
+
+    def _scaled_token_embeddings(self, ids: torch.Tensor):
+        pad_mask = ids == self.address_space.pad_id
+        # Scale embeddings by sqrt(d_model) before adding positional encoding
+        # (Attention Is All You Need, sec 3.4). Without this, the fixed sinusoidal
+        # positional signal (norm ~sqrt(dim)) dominates the small-init token
+        # embeddings by ~36x, collapsing all outputs to one direction.
+        emb = self.embedding(ids) * math.sqrt(self.dim)
+        non_pad = (~pad_mask).float().unsqueeze(-1)
+        mean = (emb * non_pad).sum(dim=1) / (non_pad.sum(dim=1) + 1e-8)
+        return emb, mean, pad_mask
+
     def forward(self, ids: torch.Tensor) -> torch.Tensor:
         """
         ids : LongTensor (batch, seq)
         returns : FloatTensor (batch, dim), optionally L2-normalized
         """
-        pad_mask = ids == self.address_space.pad_id
-
-        emb    = self.embedding(ids)
-        # Scale embeddings by sqrt(d_model) before adding positional encoding
-        # (Attention Is All You Need, sec 3.4). Without this, the fixed sinusoidal
-        # positional signal (norm ~sqrt(dim)) dominates the small-init token
-        # embeddings by ~36x, collapsing all outputs to one direction.
-        emb    = emb * math.sqrt(self.dim)
-        emb    = self.position(emb)
-        latent = self.encoder(emb, src_key_padding_mask=pad_mask)
+        emb, emb_mean, pad_mask = self._scaled_token_embeddings(ids)
+        if self.embedding_residual:
+            # The table is trained only through emb_mean. The transformer reads
+            # a detached copy, and its output is projected off emb_mean before
+            # the mix, so it can add an orthogonal component but cannot cancel
+            # the completion geometry or drag the table into its basin.
+            emb_in = emb.detach()
+        else:
+            emb_in = emb
+        emb_in = self.position(emb_in)
+        latent = self.encoder(emb_in, src_key_padding_mask=pad_mask)
 
         non_pad = (~pad_mask).float().unsqueeze(-1)
         pooled  = (latent * non_pad).sum(dim=1) / (non_pad.sum(dim=1) + 1e-8)
@@ -303,6 +328,12 @@ class Generator(nn.Module):
         pooled    = self.pre_proj_norm(pooled)
         projected = self.projection(pooled)
         projected = self.post_proj_norm(projected)
+
+        if self.embedding_residual:
+            u = F.normalize(emb_mean, dim=-1)
+            s = F.normalize(projected, dim=-1)
+            s_orth = s - (s * u).sum(dim=-1, keepdim=True) * u
+            projected = u + s_orth
 
         if self.normalize_output:
             return F.normalize(projected, dim=-1)

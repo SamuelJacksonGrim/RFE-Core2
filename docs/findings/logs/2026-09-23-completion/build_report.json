@@ -1,0 +1,104 @@
+{
+  "corpus_version": "1.3.0",
+  "context": "content words only, sorted, no glue pad",
+  "live_sha256": {
+    "data/corpus/rhythm_train.jsonl": "f5d608597c195719f2b3634bbfcedbbe10f9aefac5b0bae4c4546741be221e61",
+    "data/corpus/rhythm_holdout.jsonl": "61c93de1089c6b515675698fe63e8e29123c93001aae44b665f247254c148888",
+    "data/checkpoints/generator_weights_5rhythm.pt": "71c646fb36d40e3b20cb03d1aa02f51c7a139ab4250aa701694fad8ef2482361",
+    "data/checkpoints/generator_ecology_5rhythm.json": "d74c829c078e22b76423cdf1b5b02a2032e02b1b8ae142b85f51d19e7d27d600"
+  },
+  "source_train": {
+    "records": 8527,
+    "fewer_than_2_content": 695,
+    "content_bags": 7832,
+    "unique_content_bags": 7668,
+    "order_invariant_dupes_dropped": 164
+  },
+  "source_holdout": {
+    "records": 1505,
+    "fewer_than_2_content": 121,
+    "content_bags": 1384,
+    "unique_content_bags": 1377,
+    "order_invariant_dupes_dropped": 7
+  },
+  "train": {
+    "rows": 8290,
+    "by_kind": {
+      "stem": 599,
+      "cbow": 7691
+    },
+    "by_rhythm": {
+      "stabilize": 1417,
+      "dream": 1350,
+      "reflect": 1217,
+      "explore": 1466,
+      "rupture": 2840
+    },
+    "by_n_content": {
+      "1": 679,
+      "2": 6371,
+      "3": 1240
+    },
+    "support_mean": 2.227,
+    "support_max": 30,
+    "peaked_rows": 6684,
+    "stem_rows": 599,
+    "distinct_peaked_targets": 567,
+    "words_in_any_support": 690,
+    "cross_rhythm_rows": 99,
+    "by_context_len": {
+      "1": 679,
+      "2": 6371,
+      "3": 1240
+    },
+    "mean_entropy_nats": 0.2847
+  },
+  "holdout": {
+    "rows": 2064,
+    "by_kind": {
+      "stem": 302,
+      "cbow": 1762
+    },
+    "by_rhythm": {
+      "stabilize": 387,
+      "dream": 433,
+      "reflect": 349,
+      "explore": 378,
+      "rupture": 517
+    },
+    "by_n_content": {
+      "1": 565,
+      "2": 1355,
+      "3": 144
+    },
+    "support_mean": 1.534,
+    "support_max": 11,
+    "peaked_rows": 1587,
+    "stem_rows": 302,
+    "distinct_peaked_targets": 501,
+    "words_in_any_support": 672,
+    "cross_rhythm_rows": 69,
+    "by_context_len": {
+      "1": 565,
+      "2": 1355,
+      "3": 144
+    },
+    "mean_entropy_nats": 0.2584
+  },
+  "holdout_filter": {
+    "holdout_content_bags_dropped": 62,
+    "holdout_rows": 2064
+  },
+  "train_distribution_rank": {
+    "rows": 8290,
+    "support_vocab": 690,
+    "participation_ratio": 466.64,
+    "numerical_rank": 689
+  },
+  "files": {
+    "train": "/mnt/c/Users/spamw/rfe/scratch/completion/completion_train.jsonl",
+    "holdout": "/mnt/c/Users/spamw/rfe/scratch/completion/completion_holdout.jsonl",
+    "train_sha256": "dd4c3a7252e677077f315c3fda2aeb3d1a1d74119f920f241935da2f3369c2f2",
+    "holdout_sha256": "221fabc8c68adefbc22b409b32bceb50fd9cb532098d57a3651e6b19dc2a6d02"
+  }
+}
