@@ -1,0 +1,108 @@
+{
+  "live_sha256": {
+    "data/corpus/rhythm_train.jsonl": "f5d608597c195719f2b3634bbfcedbbe10f9aefac5b0bae4c4546741be221e61",
+    "data/corpus/rhythm_holdout.jsonl": "61c93de1089c6b515675698fe63e8e29123c93001aae44b665f247254c148888",
+    "data/checkpoints/generator_weights_5rhythm.pt": "71c646fb36d40e3b20cb03d1aa02f51c7a139ab4250aa701694fad8ef2482361",
+    "data/checkpoints/generator_ecology_5rhythm.json": "d74c829c078e22b76423cdf1b5b02a2032e02b1b8ae142b85f51d19e7d27d600"
+  },
+  "train_lines": {
+    "lines": 8527,
+    "by_len": {
+      "2": 5626,
+      "3": 1747,
+      "4": 1154
+    },
+    "lines_skipped_lt2_content": 695,
+    "bags_with_several_orders": 149
+  },
+  "hold_lines": {
+    "lines": 1505,
+    "by_len": {
+      "2": 977,
+      "3": 338,
+      "4": 190
+    },
+    "lines_skipped_lt2_content": 121,
+    "bags_with_several_orders": 5
+  },
+  "train": {
+    "rows": 10158,
+    "by_kind": {
+      "cbow": 9078,
+      "stem": 1080
+    },
+    "by_rhythm": {
+      "stabilize": 1847,
+      "dream": 1794,
+      "reflect": 1676,
+      "explore": 1892,
+      "rupture": 2949
+    },
+    "by_line_len": {
+      "2": 1288,
+      "3": 5134,
+      "4": 3736
+    },
+    "by_blank_pos": {
+      "0": 3276,
+      "1": 3305,
+      "2": 2658,
+      "3": 919
+    },
+    "peaked_rows": 8935,
+    "stem_rows": 1080,
+    "cross_rhythm_rows": 164,
+    "mean_entropy_nats": 0.2315,
+    "order": {
+      "rows": 10158,
+      "multisets_with_several_orders": 945,
+      "orders_whose_targets_disagree": 945,
+      "rows_in_disagreeing_orders": 1906,
+      "rows_in_agreed_orders": 0
+    }
+  },
+  "holdout": {
+    "rows": 1585,
+    "by_kind": {
+      "cbow": 1585
+    },
+    "by_rhythm": {
+      "stabilize": 266,
+      "dream": 321,
+      "reflect": 247,
+      "explore": 266,
+      "rupture": 485
+    },
+    "by_line_len": {
+      "2": 21,
+      "3": 967,
+      "4": 597
+    },
+    "by_blank_pos": {
+      "0": 489,
+      "1": 487,
+      "2": 467,
+      "3": 142
+    },
+    "peaked_rows": 1582,
+    "stem_rows": 0,
+    "cross_rhythm_rows": 0,
+    "mean_entropy_nats": 0.0013,
+    "order": {
+      "rows": 1585,
+      "multisets_with_several_orders": 15,
+      "orders_whose_targets_disagree": 15,
+      "rows_in_disagreeing_orders": 30,
+      "rows_in_agreed_orders": 0
+    }
+  },
+  "holdout_filter": {
+    "holdout_exact_contexts_dropped": 1719,
+    "holdout_examples_kept": 1588,
+    "holdout_rows": 1585
+  },
+  "holdout_conflict_tags": {
+    "holdout_rows_whose_multiset_has_several_train_orders": 9,
+    "holdout_rows_in_a_train_target_conflict": 9
+  }
+}

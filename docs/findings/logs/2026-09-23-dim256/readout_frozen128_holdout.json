@@ -1,0 +1,139 @@
+{
+  "dim": 128,
+  "weights": "data/checkpoints/generator_weights_5rhythm.pt",
+  "ecology": "data/checkpoints/generator_ecology_5rhythm.json",
+  "split": "C:\\Users\\spamw\\rfe\\RFE-Core2\\data\\corpus\\rhythm_holdout.jsonl",
+  "n": 1505,
+  "encode_matches_generate_cos": 1.0,
+  "population": {
+    "n": 1505,
+    "dim": 128,
+    "row_norm_mean": 1.0,
+    "per_dim_std_min": 0.009732080036188678,
+    "per_dim_std_p05": 0.026829243956573115,
+    "per_dim_std_median": 0.055744645599637765,
+    "quiet_dims_lt_1pct_median": 0,
+    "dead_dims_std_lt_1e-3": 0,
+    "participation_ratio": 3.423,
+    "eff_rank_512cap": 1.848
+  },
+  "separability": {
+    "rhythms": [
+      "stabilize",
+      "dream",
+      "reflect",
+      "explore",
+      "rupture"
+    ],
+    "n": 1505,
+    "within_centroid_cos": {
+      "stabilize": 0.8813,
+      "dream": 0.9313,
+      "reflect": 0.8677,
+      "explore": 0.8443,
+      "rupture": 0.9657
+    },
+    "pairs_tangled_first": [
+      {
+        "a": "reflect",
+        "b": "rupture",
+        "centroid_cos": 0.6908
+      },
+      {
+        "a": "stabilize",
+        "b": "dream",
+        "centroid_cos": 0.6818
+      },
+      {
+        "a": "reflect",
+        "b": "explore",
+        "centroid_cos": 0.6232
+      },
+      {
+        "a": "dream",
+        "b": "rupture",
+        "centroid_cos": 0.6113
+      },
+      {
+        "a": "dream",
+        "b": "reflect",
+        "centroid_cos": 0.5917
+      },
+      {
+        "a": "stabilize",
+        "b": "rupture",
+        "centroid_cos": 0.5317
+      },
+      {
+        "a": "stabilize",
+        "b": "reflect",
+        "centroid_cos": 0.5105
+      },
+      {
+        "a": "dream",
+        "b": "explore",
+        "centroid_cos": 0.4555
+      },
+      {
+        "a": "explore",
+        "b": "rupture",
+        "centroid_cos": 0.4045
+      },
+      {
+        "a": "stabilize",
+        "b": "explore",
+        "centroid_cos": 0.3344
+      }
+    ],
+    "worst_pair": {
+      "a": "reflect",
+      "b": "rupture",
+      "centroid_cos": 0.6908
+    },
+    "best_separated_pair": {
+      "a": "stabilize",
+      "b": "explore",
+      "centroid_cos": 0.3344
+    },
+    "offdiag_mean": 0.5435,
+    "offdiag_max": 0.6908,
+    "offdiag_min": 0.3344,
+    "matrix": [
+      [
+        1.0,
+        0.6818,
+        0.5105,
+        0.3344,
+        0.5317
+      ],
+      [
+        0.6818,
+        1.0,
+        0.5917,
+        0.4555,
+        0.6113
+      ],
+      [
+        0.5105,
+        0.5917,
+        1.0,
+        0.6232,
+        0.6908
+      ],
+      [
+        0.3344,
+        0.4555,
+        0.6232,
+        1.0,
+        0.4045
+      ],
+      [
+        0.5317,
+        0.6113,
+        0.6908,
+        0.4045,
+        1.0
+      ]
+    ]
+  }
+}

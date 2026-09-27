@@ -1,0 +1,273 @@
+## dream
+
+# New sequences only. Do not paste the live corpus into this file.
+# Read AUTHORING_BRIEF.md and boundary_map.md before adding a line.
+# Lines that do not start with "- " are ignored.
+
+# vocab-growth batch. regions: making | image | place | joining.
+# New distinctions inside this rhythm. One existing signature stitch at most.
+# Pairs are unique; order-swapped bags are not repeated.
+- palimpsest, hybridize
+- imagine, entwine
+- engender, tessellate
+- interleave, dreamworld, vignette
+- vignette, idyll
+- manifest, fantasia
+- fantasia, collage, transmute
+- alloy, tableau
+- interleave, montage, collage
+- bloom, interpolate
+- mindscape, germinate
+- dormant, afterimage
+- collage, submerged
+- extrapolate, cameo
+- entwine, tessellate
+- transfigure, tableau
+- collage, mirage
+- improvise, daydream
+- dreamscape, entwine
+- mindscape, mingle
+- cloudland, vignette
+- apparition, fabulate, idyll, hybridize
+- germinate, submerged
+- improvise, otherworld
+- interlace, phantom
+- afterimage, dreamscape
+- tableau, contrive
+- germinate, implicit
+- otherworld, montage
+- tessellate, apparition, transfigure
+- inlay, cloudland
+- juxtapose, vignette
+- engender, cameo
+- panorama, oasis
+- cloudland, tableau
+- dreamtime, reimagine, inlay
+- manifest, transmute
+- braid, fantasia
+- mingle, illusion
+- transfigure, manifest
+- transfigure, implicit
+- dreamworld, cloudland
+- reverie, interpolate
+- implicit, hybridize
+- panorama, phantom
+- juxtapose, reimagine
+- overlay, idyll
+- conjure, reverie
+- entwine, illusion, extrapolate, dreamworld
+- overlay, elsewhere
+- vignette, otherworld
+- juxtapose, inlay
+- braid, apparition, inlay
+- cameo, dreamland
+- fantasia, imagine
+- mingle, fabled
+- simulacrum, improvise
+- figment, cameo, tableau
+- envision, palimpsest
+- elsewhere, conjure
+- entwine, fabled
+- nowhere, fantasia, interleave
+- envision, illusion
+- dreamtime, bloom
+- improvise, panorama
+- recombine, extrapolate
+- engender, imagine
+- apparition, mindscape
+- oasis, vignette
+- dreamscape, vignette
+- recombine, inlay
+- tableau, hybridize
+- faerie, daydream
+- manifest, montage
+- tessellate, dormant
+- extrapolate, cloudland
+- braid, submerged
+- interpolate, hallucinate
+- chimera, confabulate
+- improvise, envision
+- dreamland, contrive
+- inscape, collage, extrapolate
+- vignette, chimera
+- cameo, dreamworld
+- illusion, overlay
+- tableau, implicit
+- chimera, elsewhere
+- dreamland, inscape
+- contrive, figment, oasis, palimpsest
+- interleave, contrive
+- imagine, oasis
+- juxtapose, simulacrum
+- extemporize, improvise, interpolate
+- conjure, illusion
+- figment, transmute, tessellate, mindscape
+- conjure, inscape
+- otherworld, extemporize
+- oasis, afterimage
+- summon, tableau
+- chimera, contrive
+- palimpsest, latent
+- idyll, dreamscape
+- hallucinate, interleave
+- fabled, bloom
+- envision, tessellate
+- panorama, germinate
+- interpolate, dreamland
+- latent, fabulate
+- fantasia, apparition, elsewhere
+- simulacrum, braid
+- dreamscape, otherworld
+- transmute, germinate
+- latent, collage
+- tessellate, extemporize
+- confabulate, recombine
+- tessellate, mirage
+- oasis, idyll
+- juxtapose, fantasia
+- figment, germinate, fabled
+- montage, inscape
+- extemporize, dormant
+- juxtapose, implicit
+- latent, faerie
+- reverie, montage, engender
+- inscape, imagine
+- hybridize, dreamtime, extrapolate, alloy
+- daydream, extrapolate
+- transmute, otherworld
+- interpolate, montage
+- fabulate, mirage
+- daydream, simulacrum
+- interlace, otherworld
+- hallucinate, overlay
+- mirage, reimagine, palimpsest
+- chimera, improvise
+- braid, idyll
+- nowhere, montage, transfigure, panorama
+- nowhere, faerie
+- dreamtime, extemporize, daydream
+- interlace, elsewhere
+- panorama, illusion
+- dreamworld, latent
+- confabulate, dreamworld, inscape
+- confabulate, transfigure
+- interpolate, fantasia
+- latent, cameo
+- figment, interpolate
+- interleave, illusion, germinate
+- fabled, trance
+- hybridize, overlay
+- dormant, simulacrum
+- engender, implicit
+- envision, montage
+- faerie, inlay, illusion
+- extrapolate, phantom
+- summon, cloudland
+- engender, reimagine
+- fabled, fabulate
+- overlay, entwine
+- mindscape, inlay
+- contrive, simulacrum
+- mingle, summon
+- fabled, dreamtime
+- inlay, conjure
+- montage, afterimage, elsewhere
+- extemporize, phantom
+- hallucinate, braid
+- daydream, summon
+- afterimage, apparition
+- interlace, mingle
+- apparition, hallucinate
+- juxtapose, inscape
+- mingle, figment, elsewhere
+- reimagine, contrive
+- fabled, confabulate
+- interlace, afterimage
+- dormant, interpolate
+- dreamland, collage, simulacrum
+- extemporize, simulacrum
+- reverie, braid
+- trance, cameo
+- illusion, nowhere
+- figment, summon
+- oasis, transfigure
+- reverie, vignette, mirage
+- nowhere, cameo
+- dreamland, latent
+- transfigure, fabled, collage
+- panorama, tessellate
+- phantom, simulacrum
+- fantasia, alloy
+- dreamland, engender
+- implicit, mirage
+- manifest, hybridize
+- dreamtime, improvise, reverie
+- conjure, faerie
+- panorama, dreamscape
+- faerie, entwine
+- chimera, mindscape
+- cloudland, palimpsest
+- germinate, alloy
+- alloy, dreamworld
+- afterimage, fabulate
+- confabulate, inlay
+- bloom, idyll
+- submerged, daydream
+- trance, overlay
+- alloy, imagine
+- extemporize, reverie
+- elsewhere, interleave
+- afterimage, entwine
+- alloy, braid
+- manifest, interleave
+- afterimage, braid, inscape
+- extemporize, nowhere
+- juxtapose, submerged
+- faerie, overlay, mirage
+- mingle, trance
+- cloudland, phantom
+- submerged, reimagine
+- mirage, dormant
+- improvise, faerie, hybridize
+- daydream, fabulate
+- dreamtime, envision
+- trance, mindscape
+- recombine, dreamland
+- oasis, confabulate, alloy, cloudland
+- dreamworld, engender
+- dreamworld, bloom
+- contrive, conjure
+- dreamtime, transmute
+- engender, mingle
+- panorama, confabulate
+- recombine, nowhere
+- bloom, nowhere
+- alloy, hallucinate
+- apparition, transmute
+- interlace, trance
+- tableau, germinate
+- palimpsest, confabulate
+- interlace, contrive
+- mindscape, entwine, interlace
+- collage, cameo
+- dreamtime, dreamland, juxtapose
+- hallucinate, figment
+- reimagine, daydream
+- dormant, transmute
+- oasis, envision
+- reverie, imagine
+- hybridize, inscape
+- summon, reimagine
+- fabulate, reverie
+- mingle, transmute
+- fabulate, summon
+- idyll, interlace
+- mirage, interleave
+- mindscape, otherworld
+- palimpsest, transfigure
+- palimpsest, idyll
+- submerged, otherworld
+- extrapolate, overlay, fabulate
+- figment, faerie, reimagine
+- recombine, apparition
+- elsewhere, nowhere

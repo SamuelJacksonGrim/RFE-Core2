@@ -1,0 +1,271 @@
+## explore
+
+# New sequences only. Do not paste the live corpus into this file.
+# Read AUTHORING_BRIEF.md and boundary_map.md before adding a line.
+# Lines that do not start with "- " are ignored.
+
+# vocab-growth batch. regions: venture | grades | bearing | tentative.
+# New distinctions inside this rhythm. One existing signature stitch at most.
+# Pairs are unique; order-swapped bags are not repeated.
+- query, remote, gambit
+- branch, canvass
+- meridian, remote
+- excursion, yonder
+- untried, odyssey
+- conjecture, heading, jaunt
+- reconnoiter, meridian
+- sortie, unfamiliar
+- vicinity, heading, sortie, reconnoiter
+- itinerary, leeway
+- traversal, branch
+- outlying, sextant, speculation
+- canvass, sightline, unnamed
+- wayfaring, compass
+- gambit, jaunt, excursion
+- speculation, azimuth
+- remote, fathom
+- hunch, unnamed, odyssey
+- leeway, postulate
+- sightline, curiosity
+- sightline, waypoint, itinerary
+- jaunt, flux
+- yonder, vicinity, horizon
+- yonder, orienteer, foray
+- strange, compass
+- compass, unfamiliar
+- reconnoiter, expedition
+- orienteer, sortie
+- widen, postulate
+- locus, branch
+- landmark, unnamed
+- expedition, orienteer
+- vicinity, waypoint
+- unplumbed, trackless
+- strange, inkling
+- beeline, tangent
+- reach, landmark
+- fathom, afar
+- conjecture, strange
+- inkling, beeline, sextant
+- conjecture, reconnoiter
+- gauge, locus
+- trackless, grope
+- pursue, sightline
+- reach, azimuth
+- supposition, unexpected
+- branch, leeway
+- supposition, gauge
+- conjecture, outside
+- uncharted, hunch
+- vicinity, excursion
+- hinterland, detour
+- far, detour
+- orienteer, flux
+- quadrant, foray, uncharted
+- widen, trek
+- horizon, wayfaring, canvass, itinerary
+- curiosity, beeline
+- traversal, outlying, inkling
+- locus, jaunt, surmise
+- gauge, landmark
+- novel, unasked
+- unfamiliar, afar
+- frontier, itinerary
+- untried, speculation, waypoint, jaunt
+- traversal, leeway
+- fathom, heading
+- beeline, supposition
+- hinterland, wayfaring
+- postulate, horizon
+- prospect, gauge
+- pursue, meridian
+- canvass, grope
+- tangent, grope
+- hinterland, quadrant
+- odyssey, novel
+- widen, outlying
+- speculation, outside
+- flux, beeline
+- widen, surmise
+- gambit, compass
+- gambit, strange
+- meridian, branch
+- pursue, foray
+- sortie, remote
+- curiosity, orienteer
+- query, itinerary
+- pursue, hinterland
+- jaunt, grope
+- orienteer, meridian
+- sextant, hunch
+- landmark, trackless
+- unasked, meridian
+- quadrant, canvass, unasked
+- novel, reconnoiter
+- vicinity, sextant, hypothesis
+- expedition, afar
+- odyssey, yonder
+- waypoint, fathom
+- trek, speculation
+- traversal, afar, query
+- unplumbed, conjecture, gambit
+- strange, yonder
+- quadrant, delve
+- jaunt, sightline
+- postulate, reach
+- supposition, expedition, outlying
+- pursue, tangent
+- remote, hinterland
+- itinerary, hunch
+- frontier, hypothesis
+- gauge, odyssey
+- speculation, surmise
+- unnamed, outside
+- frontier, reconnoiter
+- reach, horizon
+- canvass, untried
+- foray, frontier
+- grope, quadrant
+- sextant, outside
+- azimuth, sextant, unplumbed, locus
+- unasked, sextant
+- reconnoiter, compass
+- surmise, uncharted
+- conjecture, azimuth
+- uncharted, orienteer, conjecture
+- afar, unnamed
+- azimuth, horizon
+- remote, delve, landmark
+- wayfaring, odyssey
+- far, excursion
+- itinerary, beeline
+- expedition, unplumbed
+- widen, delve
+- supposition, delve, prospect
+- traversal, unasked
+- landmark, hinterland
+- hypothesis, canvass
+- unasked, outlying, untried
+- hunch, strange
+- compass, sightline, vicinity
+- horizon, prospect
+- sightline, afar, hypothesis
+- grope, detour
+- waypoint, detour
+- trackless, uncharted
+- traversal, hypothesis, orienteer
+- hunch, tangent, jaunt
+- wayfaring, remote
+- surmise, foray
+- wayfaring, novel
+- far, expedition
+- untried, widen
+- remote, outside
+- surmise, itinerary
+- untried, expedition
+- beeline, unplumbed
+- far, itinerary
+- branch, sextant
+- excursion, delve
+- afar, trek
+- prospect, detour
+- delve, odyssey
+- inkling, query
+- trackless, gauge
+- heading, unnamed
+- heading, gambit
+- vicinity, curiosity
+- waypoint, trackless
+- outside, expedition
+- inkling, outside
+- sortie, fathom
+- trek, prospect
+- foray, tangent
+- supposition, vicinity, meridian
+- yonder, unexpected
+- frontier, waypoint
+- heading, hypothesis
+- tangent, horizon
+- frontier, prospect
+- unfamiliar, traversal
+- supposition, excursion
+- unplumbed, surmise
+- untried, frontier
+- outlying, jaunt
+- unplumbed, flux
+- afar, excursion
+- leeway, uncharted, canvass
+- speculation, unasked, sortie
+- supposition, azimuth
+- foray, locus, remote
+- odyssey, tangent
+- untried, delve
+- quadrant, trackless
+- waypoint, heading
+- trackless, prospect
+- leeway, unexpected
+- untried, inkling
+- hinterland, tangent
+- hypothesis, far
+- trek, landmark
+- sortie, expedition, foray
+- foray, azimuth
+- gambit, speculation, yonder
+- uncharted, unfamiliar
+- curiosity, unnamed
+- beeline, leeway
+- leeway, landmark, quadrant
+- far, outlying
+- inkling, gambit
+- sightline, yonder, surmise
+- inkling, detour, conjecture
+- azimuth, branch
+- reconnoiter, unplumbed
+- wayfaring, locus
+- compass, prospect
+- horizon, sextant
+- far, gambit
+- detour, trek
+- reach, query
+- unexpected, excursion
+- query, unfamiliar
+- conjecture, sortie
+- query, locus
+- postulate, hunch
+- leeway, unasked, prospect
+- pursue, unasked
+- compass, traversal
+- postulate, afar
+- surmise, flux
+- reach, hunch
+- hinterland, grope
+- hinterland, orienteer
+- quadrant, unexpected
+- canvass, trackless, hunch
+- speculation, novel
+- quadrant, wayfaring
+- tangent, compass
+- wayfaring, unexpected
+- postulate, curiosity
+- fathom, inkling
+- gauge, uncharted
+- pursue, delve
+- supposition, trek
+- outlying, reconnoiter
+- locus, hypothesis, unnamed
+- unnamed, azimuth
+- postulate, waypoint
+- curiosity, heading
+- hypothesis, beeline
+- detour, locus, yonder
+- trek, reach
+- flux, vicinity
+- query, excursion
+- meridian, query
+- odyssey, traversal
+- heading, uncharted, postulate
+- unplumbed, novel
+- sortie, landmark
+- sightline, detour, delve
+- unfamiliar, horizon
+- outlying, trek, meridian

@@ -1,0 +1,524 @@
+## witness
+
+# Gold core. The receptive stance is the anchor. Fringe objects, one per
+# sequence and only in the fringe section, already belong to another rhythm.
+# Format and rules: AUTHORING_BRIEF.md. Do not merge until Samuel signs off.
+
+# inward-meditative
+- sit, dwell, abide
+- meditate, hush, unsought
+- linger, await, patience
+- sojourn, attune, ken
+- unmoved, vigil, contemplate
+- dwell, vigil, ken
+- abide, await, unmoved
+- linger, attune, meditate
+- contemplate, patience, sit
+
+# outward-bearing
+- bear, witness
+- gaze, behold, regard
+- testify, attest, marvel
+- gaze, marvel, overhear
+- bear, attest, regard
+- testify, behold, witness
+
+# perceptual-sensing
+- listen, hearken, heed
+# Pull-list only. In the additive probe this line's nearest centroid was reflect.
+# Put a spine word beside the pull list. Do not imitate this shape.
+- perceive, notice, observe
+- sense, register, awareness
+- receive, intake, reception
+- hearken, receive, notice
+- sense, heed, perceive
+- intake, receptive, observe
+
+# relational-attending
+- presence, space
+- accompany, beside, welcome
+- allow, accept, awe
+- mirror, company, present
+- welcome, humble, presence
+- allow, company, attend
+- mirror, awe, beside
+- accept, space, accompany
+
+# cross
+- dwell, listen, presence
+- sit, behold, space
+- abide, gaze, patience
+- meditate, receive, awe
+- notice, marvel, patience
+- observe, linger, welcome
+- regard, await, company
+- ken, heed, behold
+- sojourn, listen, beside
+- unsought, gaze, presence
+- unmoved, receive, accompany
+- contemplate, mirror, hush
+- overhear, sit, awareness
+- testify, dwell, allow
+- patience, presence, heed
+- linger, regard, receptive
+- await, witness, register
+- humble, attend, hush
+- present, abide, listen
+- company, dwell, perceive
+- welcome, notice, sojourn
+- beside, bear, sense
+- intake, sit, regard
+- receptive, unmoved, listen
+- marvel, heed, space
+- overhear, patience, mirror
+- attest, ken, await
+- allow, observe, hush
+- accept, dwell, gaze
+- present, attend, sojourn
+- ken, marvel, abide
+- unsought, listen, space
+- unmoved, gaze, register
+- vigil, witness, receive
+- dwell, awe, hearken
+- sit, marvel, allow
+- contemplate, welcome, sense
+- sojourn, mirror, behold
+- attune, humble, testify
+- linger, present, heed
+- hush, accompany, awareness
+- abide, receptive, attest
+
+# extending
+# Further company so every anchor reaches 9 contexts. Real pairs, not a slot.
+# Do not repeat one. To grow the rhythm, add a new receptive word.
+- reception, heed, humble
+- intake, marvel, sojourn
+- hearken, company, overhear
+- present, receptive, welcome
+- accompany, ken, notice
+- contemplate, space, bear
+- behold, hush, patience
+- beside, reception, await
+- mirror, unsought, welcome
+- perceive, humble, space
+- awe, linger, attest
+- bear, reception
+- accept, sojourn
+- awareness, await
+- witness, intake
+- accept, meditate
+- marvel, reception
+- register, humble
+- unsought, hearken
+- heed, attend
+- awareness, attune
+- sojourn, awe
+- sense, company
+- humble, intake
+- overhear, meditate
+- accept, perceive
+- attest, present
+- sojourn, reception
+- notice, receptive
+- hearken, register
+- unsought, overhear
+- vigil, awareness
+- register, accompany
+- allow, awareness
+- receptive, attend
+- attune, present
+- ken, awe
+- company, unmoved
+- awareness, contemplate
+- intake, vigil
+- attest, meditate
+- humble, observe
+- attest, perceive
+- witness, reception
+- receptive, testify
+- regard, unsought
+- mirror, accept
+- accompany, mirror
+- allow, regard
+# Pull-list only. Same failure as perceive, notice, observe. Nearest centroid was reflect
+# until those words were removed from reflect.
+- observe, attend
+- attune, sense
+- register, awe
+- meditate, bear
+- beside, meditate
+- company, ken
+- overhear, contemplate
+- hearken, accept
+- sense, intake
+- reception, linger
+- perceive, accompany
+- observe, present
+- company, receive
+- testify, notice
+- reception, unmoved
+- receive, unsought
+- vigil, present
+- witness, abide
+- register, allow
+- bear, attend
+- attune, overhear
+- vigil, awe
+- linger, unsought, beside
+- unmoved, sit
+- contemplate, testify
+- hearken, intake
+- receptive, perceive
+
+# fringe
+- accept, vigil, cement
+- accompany, sense, consolidate
+- allow, behold, solidify
+- attend, abide, rot
+- attend, presence, rupture
+- attest, listen, hallucinate
+- attune, beside, underneath
+- awareness, beside, envision
+- bear, gaze, crush
+- bear, testify, search
+- behold, abide, seek
+- behold, unmoved, fatigue
+- contemplate, listen, subtle
+- dwell, mirror, abyss
+- gaze, hush, discover
+- hearken, vigil, diverge
+- humble, await, lock
+- listen, patience, uncover
+- marvel, await, dream
+- meditate, gaze, layer
+- notice, hush, interior
+- notice, space, pursue
+- observe, dwell, wonder
+- observe, presence, depth
+- overhear, hush, bloom
+- perceive, welcome, imagine
+- receive, patience, shock
+- regard, presence, invent
+- register, attune, summon
+- sense, linger, conjure
+- sit, heed, decay
+- sit, receive, reach
+- testify, presence, chase
+- welcome, ken, foundation
+- witness, regard, hunt
+- witness, space, shear
+
+
+# generated batch — gen_witness.py
+# Seed 1188. 301 sequences, 84 new spine words, each in 9.
+# Rooms crossed: inward-abiding, receiving-allowing, perceptual-sensing, relational-warmth.
+# No fringe object. No explore-leaning anchor. No analytic verb. No order-swapped bag.
+# Dedup rejects while emitting the design: 0.
+# Lengths: 168 twos, 112 threes, 21 fours.
+
+# fours — one word from each room
+- feel, closeness, exhale, enfold
+- inhale, kindness, abidance, hospitality
+- repose, assent, hear, fondness
+- tarry, acquiesce, touch, caring
+- hearing, nearness, kneel, embrace
+- percipience, tenderness, unbidden, allowance
+- attunement, cherish, unasked, sufferance
+- immanence, brook, whisper, reverence
+- unhurried, relent, sensate, affection
+- sonority, grace, wakeful, tolerance
+- taste, togetherness, numinous, cradle
+- equanimity, pardon, murmur, kindred
+- bide, accede, feeling, amity
+- smell, dearness, uncalled, permit
+- sensation, empathy, mindfulness, imbibe
+- letting, receptiveness, audible, revere
+- indwell, soften, sentience, fellowship
+- scent, mercy, mindful, receptivity
+- inwardness, indrawn, savor, kinship
+- inhere, unclench, sensory, companionship
+- wakefulness, vouchsafe, palpable, compassion
+
+# threes
+- kindred, mindful, cradle
+- permit, hospitality, imbibe
+- sensation, savor, dearness
+- unhurried, tarry, permit
+- nearness, taste, sensate
+- kinship, equanimity, mercy
+- togetherness, touch, smell
+- inwardness, nearness, sentience
+- assent, imbibe, vouchsafe
+- receptivity, sonority, kindness
+- tenderness, kindness, companionship
+- inhale, sonority, caring
+- relent, exhale, nearness
+- repose, pardon, mindful
+- companionship, assent, immanence
+- pardon, empathy, sensate
+- bide, tolerance, sensory
+- indwell, tolerance, kinship
+- audible, whisper, hearing
+- compassion, mercy, repose
+- fondness, murmur, abidance
+- hospitality, grace, kindred
+- soften, receptiveness, relent
+- cherish, sentience, reverence
+- acquiesce, wakeful, tenderness
+- inwardness, imbibe, mindful
+- embrace, feel, revere
+- touch, abidance, attunement
+- savor, unbidden, embrace
+- mindfulness, palpable, indwell
+- wakeful, brook, unclench
+- exhale, audible, feeling
+- enfold, empathy, soften
+- cherish, wakeful, kneel
+- murmur, attunement, sensate
+- scent, wakefulness, indwell
+- uncalled, embrace, immanence
+- audible, touch, pardon
+- permit, numinous, brook
+- unasked, kneel, equanimity
+- companionship, hospitality, percipience
+- closeness, sensory, permit
+- hear, feeling, brook
+- sensation, inhere, hear
+- equanimity, hear, letting
+- kinship, kneel, feeling
+- mindfulness, tarry, cradle
+- whisper, unbidden, revere
+- percipience, affection, letting
+- dearness, taste, scent
+- savor, closeness, revere
+- tenderness, affection, unasked
+- amity, dearness, compassion
+- closeness, inhere, indrawn
+- allowance, relent, mercy
+- reverence, inhale, scent
+- letting, smell, inhere
+- percipience, uncalled, attunement
+- allowance, assent, fellowship
+- fondness, wakeful, unbidden
+- unhurried, kindred, fondness
+- tarry, accede, vouchsafe
+- soften, accede, unhurried
+- hearing, soften, inwardness
+- unclench, indwell, kneel
+- pardon, sonority, receptiveness
+- hear, acquiesce, whisper
+- immanence, unclench, acquiesce
+- sufferance, bide, imbibe
+- uncalled, togetherness, feel
+- receptivity, bide, compassion
+- mindfulness, repose, sentience
+- hearing, hospitality, receptivity
+- equanimity, indrawn, cherish
+- receptiveness, inhale, tenderness
+- affection, fondness, numinous
+- sensory, taste, grace
+- grace, palpable, dearness
+- enfold, assent, accede
+- empathy, numinous, touch
+- inwardness, vouchsafe, receptiveness
+- mindful, savor, enfold
+- brook, palpable, unbidden
+- amity, indrawn, unasked
+- allowance, attunement, reverence
+- enfold, unhurried, immanence
+- sensation, vouchsafe, caring
+- exhale, wakefulness, sensation
+- reverence, palpable, letting
+- wakefulness, mindfulness, smell
+- togetherness, fellowship, kindred
+- caring, cradle, exhale
+- revere, fellowship, murmur
+- affection, sensory, feeling
+- murmur, hearing, companionship
+- unasked, whisper, smell
+- sufferance, sentience, sonority
+- mercy, sufferance, caring
+- numinous, tolerance, kindness
+- receptivity, abidance, empathy
+- amity, wakefulness, unclench
+- cradle, scent, acquiesce
+- kinship, uncalled, inhere
+- relent, inhale, feel
+- percipience, embrace, abidance
+- accede, fellowship, sufferance
+- bide, taste, repose
+- cherish, tarry, amity
+- nearness, grace, feel
+- tolerance, audible, allowance
+- togetherness, closeness, kindness
+- sensate, compassion, indrawn
+
+# pairs
+- accede, unasked
+- embrace, cherish
+- unhurried, palpable
+- letting, sentience
+- attunement, kneel
+- cherish, murmur
+- receptiveness, companionship
+- repose, inhale
+- abidance, smell
+- enfold, whisper
+- enfold, bide
+- mercy, inhere
+- allowance, inwardness
+- feel, unasked
+- mindful, taste
+- grace, whisper
+- closeness, immanence
+- savor, repose
+- acquiesce, unbidden
+- fellowship, receptiveness
+- sensory, letting
+- imbibe, savor
+- tolerance, immanence
+- enfold, grace
+- tarry, savor
+- sufferance, closeness
+- percipience, mindfulness
+- unclench, smell
+- dearness, wakefulness
+- companionship, vouchsafe
+- acquiesce, kindred
+- fondness, mindfulness
+- immanence, feeling
+- nearness, sufferance
+- togetherness, sentience
+- embrace, murmur
+- grace, cradle
+- compassion, relent
+- unbidden, sensation
+- wakefulness, sensory
+- kinship, acquiesce
+- numinous, sonority
+- taste, wakeful
+- assent, kinship
+- palpable, inhere
+- permit, palpable
+- inhere, audible
+- uncalled, scent
+- sentience, immanence
+- vouchsafe, affection
+- fondness, indrawn
+- touch, inwardness
+- receptivity, dearness
+- affection, imbibe
+- amity, attunement
+- mercy, audible
+- caring, percipience
+- vouchsafe, inhale
+- imbibe, tenderness
+- indwell, whisper
+- whisper, bide
+- empathy, hear
+- grace, indwell
+- pardon, amity
+- feeling, equanimity
+- closeness, feeling
+- soften, revere
+- dearness, sensory
+- hospitality, sensate
+- soften, wakeful
+- amity, brook
+- indrawn, mindfulness
+- amity, exhale
+- dearness, hospitality
+- cradle, audible
+- sensation, unhurried
+- scent, numinous
+- soften, taste
+- unclench, compassion
+- equanimity, touch
+- hospitality, fondness
+- companionship, uncalled
+- relent, hear
+- allowance, nearness
+- murmur, tarry
+- cherish, bide
+- togetherness, receptivity
+- kinship, unbidden
+- tolerance, sentience
+- fellowship, numinous
+- inwardness, hear
+- fellowship, sonority
+- pardon, attunement
+- sufferance, feeling
+- brook, sonority
+- accede, reverence
+- compassion, abidance
+- caring, kneel
+- closeness, tolerance
+- kindred, unasked
+- brook, fellowship
+- hospitality, wakefulness
+- tenderness, tarry
+- sensate, wakefulness
+- receptiveness, numinous
+- affection, inhale
+- acquiesce, hearing
+- receptivity, letting
+- kinship, sensation
+- kindred, hearing
+- kindness, assent
+- sonority, exhale
+- imbibe, repose
+- vouchsafe, uncalled
+- fondness, sensate
+- assent, sensation
+- embrace, tarry
+- reverence, wakeful
+- togetherness, letting
+- wakeful, feel
+- caring, pardon
+- nearness, equanimity
+- empathy, allowance
+- kindness, unhurried
+- inhale, uncalled
+- mindfulness, sensate
+- compassion, smell
+- bide, murmur
+- revere, unclench
+- indrawn, caring
+- tenderness, savor
+- affection, repose
+- mercy, permit
+- companionship, scent
+- relent, abidance
+- exhale, attunement
+- permit, inhere
+- reverence, feel
+- permit, kindness
+- kneel, percipience
+- pardon, kneel
+- assent, unhurried
+- smell, mindful
+- cradle, indwell
+- tolerance, togetherness
+- receptiveness, scent
+- nearness, touch
+- cherish, enfold
+- revere, mindful
+- receptivity, sensory
+- hearing, unbidden
+- indrawn, percipience
+- allowance, touch
+- hear, abidance
+- accede, feel
+- reverence, soften
+- tenderness, embrace
+- relent, empathy
+- kindred, accede
+- audible, indwell
+- kindness, palpable
+- revere, taste
+- unclench, mindful
+- sufferance, equanimity
+- unasked, hearing
+- empathy, inwardness
+- brook, exhale
+- cradle, mercy

@@ -1,0 +1,1671 @@
+{
+  "corpus": "1.3.0",
+  "train_n": 8527,
+  "holdout_n": 1505,
+  "vocab": 709,
+  "ecology_symbols": 476,
+  "train_clean_n": 4507,
+  "holdout_clean_n": 833,
+  "top_k": 8,
+  "epochs": 20,
+  "hidden": 256,
+  "dim": 128,
+  "encoder": "data/checkpoints/generator_weights_5rhythm.pt",
+  "stub_train": {
+    "n": 8527,
+    "top_k": 8,
+    "recall@k": 0.1262,
+    "precision@k": 0.0391,
+    "exact_bag@k": 0.0075,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 11.19
+  },
+  "stub_holdout": {
+    "n": 1505,
+    "top_k": 8,
+    "recall@k": 0.1106,
+    "precision@k": 0.0338,
+    "exact_bag@k": 0.0053,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 9.8
+  },
+  "stub_holdout_clean": {
+    "n": 833,
+    "top_k": 8,
+    "recall@k": 0.1384,
+    "precision@k": 0.0449,
+    "exact_bag@k": 0.0096,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 12.26
+  },
+  "stub_holdout_dirty": {
+    "n": 672,
+    "top_k": 8,
+    "recall@k": 0.0761,
+    "precision@k": 0.0201,
+    "exact_bag@k": 0.0,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 6.75
+  },
+  "stub_train_clean": {
+    "n": 4507,
+    "top_k": 8,
+    "recall@k": 0.1606,
+    "precision@k": 0.0532,
+    "exact_bag@k": 0.0135,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 14.23
+  },
+  "stub_token_hits_holdout": {
+    "in_ecology_n": 2849,
+    "in_ecology_recall@k": 0.139,
+    "orphan_n": 879,
+    "orphan_recall@k": 0.0125
+  },
+  "ecology_only_train": {
+    "n": 4507,
+    "top_k": 8,
+    "recall@k": 0.1349,
+    "precision@k": 0.045,
+    "exact_bag@k": 0.0104,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 11.96
+  },
+  "ecology_only_holdout": {
+    "n": 833,
+    "top_k": 8,
+    "recall@k": 0.1104,
+    "precision@k": 0.0366,
+    "exact_bag@k": 0.0072,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 9.79
+  },
+  "ecology_only_token_hits": {
+    "in_ecology_n": 2257,
+    "in_ecology_recall@k": 0.1081,
+    "orphan_n": 0,
+    "orphan_recall@k": null
+  },
+  "samples_head": [
+    {
+      "true": [
+        "gentle",
+        "distill"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.052
+        ],
+        [
+          "clarity",
+          0.044
+        ],
+        [
+          "home",
+          0.04
+        ],
+        [
+          "settle",
+          0.037
+        ],
+        [
+          "nature",
+          0.034
+        ],
+        [
+          "secure",
+          0.034
+        ]
+      ]
+    },
+    {
+      "true": [
+        "consolidate",
+        "harmony"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.048
+        ],
+        [
+          "clarity",
+          0.041
+        ],
+        [
+          "home",
+          0.038
+        ],
+        [
+          "settle",
+          0.035
+        ],
+        [
+          "pattern",
+          0.033
+        ],
+        [
+          "secure",
+          0.032
+        ]
+      ]
+    },
+    {
+      "true": [
+        "stop",
+        "calm"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.054
+        ],
+        [
+          "clarity",
+          0.05
+        ],
+        [
+          "home",
+          0.045
+        ],
+        [
+          "settle",
+          0.045
+        ],
+        [
+          "nature",
+          0.04
+        ],
+        [
+          "secure",
+          0.038
+        ]
+      ]
+    },
+    {
+      "true": [
+        "design",
+        "gentle",
+        "firm"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.049
+        ],
+        [
+          "clarity",
+          0.037
+        ],
+        [
+          "home",
+          0.034
+        ],
+        [
+          "bedrock",
+          0.03
+        ],
+        [
+          "settle",
+          0.029
+        ],
+        [
+          "nature",
+          0.029
+        ]
+      ]
+    },
+    {
+      "true": [
+        "citadel",
+        "closure"
+      ],
+      "top6": [
+        [
+          "drift",
+          0.046
+        ],
+        [
+          "evolve",
+          0.043
+        ],
+        [
+          "wander",
+          0.029
+        ],
+        [
+          "expand",
+          0.029
+        ],
+        [
+          "associate",
+          0.028
+        ],
+        [
+          "to",
+          0.023
+        ]
+      ]
+    },
+    {
+      "true": [
+        "shutdown",
+        "identity"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.049
+        ],
+        [
+          "clarity",
+          0.042
+        ],
+        [
+          "home",
+          0.038
+        ],
+        [
+          "settle",
+          0.036
+        ],
+        [
+          "nature",
+          0.033
+        ],
+        [
+          "secure",
+          0.033
+        ]
+      ]
+    }
+  ],
+  "samples_clean": [
+    {
+      "true": [
+        "gentle",
+        "distill"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.052
+        ],
+        [
+          "clarity",
+          0.044
+        ],
+        [
+          "home",
+          0.04
+        ],
+        [
+          "settle",
+          0.037
+        ],
+        [
+          "nature",
+          0.034
+        ],
+        [
+          "secure",
+          0.034
+        ]
+      ]
+    },
+    {
+      "true": [
+        "consolidate",
+        "harmony"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.048
+        ],
+        [
+          "clarity",
+          0.041
+        ],
+        [
+          "home",
+          0.038
+        ],
+        [
+          "settle",
+          0.035
+        ],
+        [
+          "pattern",
+          0.033
+        ],
+        [
+          "secure",
+          0.032
+        ]
+      ]
+    },
+    {
+      "true": [
+        "design",
+        "gentle",
+        "firm"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.049
+        ],
+        [
+          "clarity",
+          0.037
+        ],
+        [
+          "home",
+          0.034
+        ],
+        [
+          "bedrock",
+          0.03
+        ],
+        [
+          "settle",
+          0.029
+        ],
+        [
+          "nature",
+          0.029
+        ]
+      ]
+    },
+    {
+      "true": [
+        "focus",
+        "define",
+        "lock"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.054
+        ],
+        [
+          "clarity",
+          0.049
+        ],
+        [
+          "home",
+          0.045
+        ],
+        [
+          "settle",
+          0.044
+        ],
+        [
+          "nature",
+          0.039
+        ],
+        [
+          "secure",
+          0.038
+        ]
+      ]
+    },
+    {
+      "true": [
+        "peace",
+        "identity",
+        "a",
+        "soft"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.054
+        ],
+        [
+          "clarity",
+          0.047
+        ],
+        [
+          "home",
+          0.042
+        ],
+        [
+          "settle",
+          0.04
+        ],
+        [
+          "nature",
+          0.037
+        ],
+        [
+          "secure",
+          0.035
+        ]
+      ]
+    },
+    {
+      "true": [
+        "refine",
+        "settle",
+        "compress"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.058
+        ],
+        [
+          "clarity",
+          0.056
+        ],
+        [
+          "settle",
+          0.053
+        ],
+        [
+          "home",
+          0.051
+        ],
+        [
+          "nature",
+          0.046
+        ],
+        [
+          "resolve",
+          0.043
+        ]
+      ]
+    },
+    {
+      "true": [
+        "complete",
+        "home"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.058
+        ],
+        [
+          "clarity",
+          0.056
+        ],
+        [
+          "settle",
+          0.052
+        ],
+        [
+          "home",
+          0.051
+        ],
+        [
+          "nature",
+          0.045
+        ],
+        [
+          "secure",
+          0.042
+        ]
+      ]
+    },
+    {
+      "true": [
+        "integrity",
+        "settle",
+        "anchor"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.057
+        ],
+        [
+          "clarity",
+          0.055
+        ],
+        [
+          "settle",
+          0.052
+        ],
+        [
+          "home",
+          0.05
+        ],
+        [
+          "nature",
+          0.046
+        ],
+        [
+          "resolve",
+          0.042
+        ]
+      ]
+    }
+  ],
+  "samples_dirty": [
+    {
+      "true": [
+        "stop",
+        "calm"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.054
+        ],
+        [
+          "clarity",
+          0.05
+        ],
+        [
+          "home",
+          0.045
+        ],
+        [
+          "settle",
+          0.045
+        ],
+        [
+          "nature",
+          0.04
+        ],
+        [
+          "secure",
+          0.038
+        ]
+      ]
+    },
+    {
+      "true": [
+        "citadel",
+        "closure"
+      ],
+      "top6": [
+        [
+          "drift",
+          0.046
+        ],
+        [
+          "evolve",
+          0.043
+        ],
+        [
+          "wander",
+          0.029
+        ],
+        [
+          "expand",
+          0.029
+        ],
+        [
+          "associate",
+          0.028
+        ],
+        [
+          "to",
+          0.023
+        ]
+      ]
+    },
+    {
+      "true": [
+        "shutdown",
+        "identity"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.049
+        ],
+        [
+          "clarity",
+          0.042
+        ],
+        [
+          "home",
+          0.038
+        ],
+        [
+          "settle",
+          0.036
+        ],
+        [
+          "nature",
+          0.033
+        ],
+        [
+          "secure",
+          0.033
+        ]
+      ]
+    },
+    {
+      "true": [
+        "rest",
+        "stop"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.057
+        ],
+        [
+          "clarity",
+          0.054
+        ],
+        [
+          "settle",
+          0.05
+        ],
+        [
+          "home",
+          0.049
+        ],
+        [
+          "nature",
+          0.044
+        ],
+        [
+          "secure",
+          0.041
+        ]
+      ]
+    }
+  ],
+  "samples_ecology_only": [
+    {
+      "true": [
+        "gentle",
+        "distill"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.047
+        ],
+        [
+          "essence",
+          0.044
+        ],
+        [
+          "settle",
+          0.044
+        ],
+        [
+          "harmony",
+          0.041
+        ],
+        [
+          "center",
+          0.04
+        ],
+        [
+          "distill",
+          0.039
+        ]
+      ]
+    },
+    {
+      "true": [
+        "consolidate",
+        "harmony"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.044
+        ],
+        [
+          "essence",
+          0.042
+        ],
+        [
+          "settle",
+          0.041
+        ],
+        [
+          "harmony",
+          0.039
+        ],
+        [
+          "distill",
+          0.038
+        ],
+        [
+          "center",
+          0.037
+        ]
+      ]
+    },
+    {
+      "true": [
+        "design",
+        "gentle",
+        "firm"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.042
+        ],
+        [
+          "essence",
+          0.038
+        ],
+        [
+          "settle",
+          0.037
+        ],
+        [
+          "harmony",
+          0.036
+        ],
+        [
+          "crystallize",
+          0.035
+        ],
+        [
+          "distill",
+          0.035
+        ]
+      ]
+    },
+    {
+      "true": [
+        "focus",
+        "define",
+        "lock"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.05
+        ],
+        [
+          "settle",
+          0.05
+        ],
+        [
+          "essence",
+          0.05
+        ],
+        [
+          "harmony",
+          0.045
+        ],
+        [
+          "center",
+          0.045
+        ],
+        [
+          "distill",
+          0.044
+        ]
+      ]
+    },
+    {
+      "true": [
+        "peace",
+        "identity",
+        "a",
+        "soft"
+      ],
+      "top6": [
+        [
+          "continuity",
+          0.048
+        ],
+        [
+          "essence",
+          0.047
+        ],
+        [
+          "settle",
+          0.046
+        ],
+        [
+          "harmony",
+          0.042
+        ],
+        [
+          "center",
+          0.042
+        ],
+        [
+          "distill",
+          0.041
+        ]
+      ]
+    },
+    {
+      "true": [
+        "refine",
+        "settle",
+        "compress"
+      ],
+      "top6": [
+        [
+          "settle",
+          0.058
+        ],
+        [
+          "essence",
+          0.057
+        ],
+        [
+          "continuity",
+          0.055
+        ],
+        [
+          "center",
+          0.051
+        ],
+        [
+          "harmony",
+          0.051
+        ],
+        [
+          "nature",
+          0.05
+        ]
+      ]
+    },
+    {
+      "true": [
+        "complete",
+        "home"
+      ],
+      "top6": [
+        [
+          "settle",
+          0.057
+        ],
+        [
+          "essence",
+          0.056
+        ],
+        [
+          "continuity",
+          0.055
+        ],
+        [
+          "center",
+          0.051
+        ],
+        [
+          "harmony",
+          0.05
+        ],
+        [
+          "nature",
+          0.049
+        ]
+      ]
+    },
+    {
+      "true": [
+        "integrity",
+        "settle",
+        "anchor"
+      ],
+      "top6": [
+        [
+          "settle",
+          0.058
+        ],
+        [
+          "essence",
+          0.057
+        ],
+        [
+          "continuity",
+          0.055
+        ],
+        [
+          "center",
+          0.051
+        ],
+        [
+          "harmony",
+          0.051
+        ],
+        [
+          "nature",
+          0.05
+        ]
+      ]
+    }
+  ],
+  "diagnostics": {
+    "per_rhythm": {
+      "stabilize": {
+        "n": 173,
+        "eval": {
+          "n": 173,
+          "top_k": 8,
+          "recall@k": 0.1031,
+          "precision@k": 0.0325,
+          "exact_bag@k": 0.0058,
+          "random_recall@k": 0.0113,
+          "lift_over_random": 9.14
+        },
+        "rank": {
+          "n_seq": 173,
+          "n_tokens": 471,
+          "median_rank": 38.0,
+          "mean_rank": 47.0,
+          "recall@8": 0.0955,
+          "recall@16": 0.1975,
+          "recall@32": 0.414,
+          "frac_seq_any_hit@8": 0.2486
+        },
+        "samples": [
+          {
+            "true": [
+              "gentle",
+              "distill"
+            ],
+            "top6": [
+              [
+                "continuity",
+                0.052
+              ],
+              [
+                "clarity",
+                0.044
+              ],
+              [
+                "home",
+                0.04
+              ],
+              [
+                "settle",
+                0.037
+              ],
+              [
+                "nature",
+                0.034
+              ],
+              [
+                "secure",
+                0.034
+              ]
+            ]
+          },
+          {
+            "true": [
+              "self",
+              "ease",
+              "within",
+              "focus"
+            ],
+            "top6": [
+              [
+                "continuity",
+                0.056
+              ],
+              [
+                "clarity",
+                0.053
+              ],
+              [
+                "settle",
+                0.049
+              ],
+              [
+                "home",
+                0.048
+              ],
+              [
+                "nature",
+                0.043
+              ],
+              [
+                "secure",
+                0.04
+              ]
+            ]
+          }
+        ]
+      },
+      "dream": {
+        "n": 195,
+        "eval": {
+          "n": 195,
+          "top_k": 8,
+          "recall@k": 0.1816,
+          "precision@k": 0.0609,
+          "exact_bag@k": 0.0103,
+          "random_recall@k": 0.0113,
+          "lift_over_random": 16.1
+        },
+        "rank": {
+          "n_seq": 195,
+          "n_tokens": 551,
+          "median_rank": 33.0,
+          "mean_rank": 48.6,
+          "recall@8": 0.1724,
+          "recall@16": 0.2849,
+          "recall@32": 0.4918,
+          "frac_seq_any_hit@8": 0.4462
+        },
+        "samples": [
+          {
+            "true": [
+              "arise",
+              "free"
+            ],
+            "top6": [
+              [
+                "associate",
+                0.066
+              ],
+              [
+                "implicit",
+                0.049
+              ],
+              [
+                "imagine",
+                0.046
+              ],
+              [
+                "drift",
+                0.044
+              ],
+              [
+                "form",
+                0.043
+              ],
+              [
+                "materialize",
+                0.043
+              ]
+            ]
+          },
+          {
+            "true": [
+              "create",
+              "construct"
+            ],
+            "top6": [
+              [
+                "associate",
+                0.07
+              ],
+              [
+                "implicit",
+                0.051
+              ],
+              [
+                "imagine",
+                0.047
+              ],
+              [
+                "drift",
+                0.045
+              ],
+              [
+                "materialize",
+                0.045
+              ],
+              [
+                "ripple",
+                0.045
+              ]
+            ]
+          }
+        ]
+      },
+      "reflect": {
+        "n": 184,
+        "eval": {
+          "n": 184,
+          "top_k": 8,
+          "recall@k": 0.1291,
+          "precision@k": 0.0408,
+          "exact_bag@k": 0.0054,
+          "random_recall@k": 0.0113,
+          "lift_over_random": 11.44
+        },
+        "rank": {
+          "n_seq": 184,
+          "n_tokens": 486,
+          "median_rank": 43.0,
+          "mean_rank": 57.3,
+          "recall@8": 0.1235,
+          "recall@16": 0.2263,
+          "recall@32": 0.3786,
+          "frac_seq_any_hit@8": 0.3098
+        },
+        "samples": [
+          {
+            "true": [
+              "cognition",
+              "connection",
+              "register",
+              "witness"
+            ],
+            "top6": [
+              [
+                "sense",
+                0.051
+              ],
+              [
+                "watch",
+                0.044
+              ],
+              [
+                "witness",
+                0.043
+              ],
+              [
+                "carry",
+                0.038
+              ],
+              [
+                "test",
+                0.037
+              ],
+              [
+                "analyze",
+                0.037
+              ]
+            ]
+          },
+          {
+            "true": [
+              "inspect",
+              "verify",
+              "register"
+            ],
+            "top6": [
+              [
+                "sense",
+                0.052
+              ],
+              [
+                "watch",
+                0.045
+              ],
+              [
+                "witness",
+                0.044
+              ],
+              [
+                "carry",
+                0.039
+              ],
+              [
+                "analyze",
+                0.038
+              ],
+              [
+                "test",
+                0.038
+              ]
+            ]
+          }
+        ]
+      },
+      "explore": {
+        "n": 198,
+        "eval": {
+          "n": 198,
+          "top_k": 8,
+          "recall@k": 0.17,
+          "precision@k": 0.0549,
+          "exact_bag@k": 0.0202,
+          "random_recall@k": 0.0113,
+          "lift_over_random": 15.07
+        },
+        "rank": {
+          "n_seq": 198,
+          "n_tokens": 520,
+          "median_rank": 34.0,
+          "mean_rank": 40.3,
+          "recall@8": 0.1673,
+          "recall@16": 0.2827,
+          "recall@32": 0.4769,
+          "frac_seq_any_hit@8": 0.3586
+        },
+        "samples": [
+          {
+            "true": [
+              "counter",
+              "split",
+              "why"
+            ],
+            "top6": [
+              [
+                "other",
+                0.061
+              ],
+              [
+                "uncover",
+                0.055
+              ],
+              [
+                "vary",
+                0.052
+              ],
+              [
+                "curious",
+                0.051
+              ],
+              [
+                "fan",
+                0.046
+              ],
+              [
+                "counter",
+                0.045
+              ]
+            ]
+          },
+          {
+            "true": [
+              "far",
+              "flux"
+            ],
+            "top6": [
+              [
+                "other",
+                0.066
+              ],
+              [
+                "uncover",
+                0.054
+              ],
+              [
+                "vary",
+                0.051
+              ],
+              [
+                "counter",
+                0.047
+              ],
+              [
+                "fan",
+                0.046
+              ],
+              [
+                "curious",
+                0.045
+              ]
+            ]
+          }
+        ]
+      },
+      "rupture": {
+        "n": 83,
+        "eval": {
+          "n": 83,
+          "top_k": 8,
+          "recall@k": 0.0552,
+          "precision@k": 0.0181,
+          "exact_bag@k": 0.0,
+          "random_recall@k": 0.0113,
+          "lift_over_random": 4.89
+        },
+        "rank": {
+          "n_seq": 83,
+          "n_tokens": 229,
+          "median_rank": 102.0,
+          "mean_rank": 105.0,
+          "recall@8": 0.0524,
+          "recall@16": 0.0873,
+          "recall@32": 0.1878,
+          "frac_seq_any_hit@8": 0.1446
+        },
+        "samples": [
+          {
+            "true": [
+              "blast",
+              "thermal",
+              "friction"
+            ],
+            "top6": [
+              [
+                "split",
+                0.029
+              ],
+              [
+                "halt",
+                0.028
+              ],
+              [
+                "piece",
+                0.028
+              ],
+              [
+                "fault",
+                0.026
+              ],
+              [
+                "wave",
+                0.025
+              ],
+              [
+                "sack",
+                0.025
+              ]
+            ]
+          },
+          {
+            "true": [
+              "burn",
+              "spall"
+            ],
+            "top6": [
+              [
+                "wave",
+                0.025
+              ],
+              [
+                "halt",
+                0.025
+              ],
+              [
+                "piece",
+                0.023
+              ],
+              [
+                "split",
+                0.023
+              ],
+              [
+                "fault",
+                0.022
+              ],
+              [
+                "sack",
+                0.022
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "rank": {
+      "holdout_all": {
+        "n_seq": 1505,
+        "n_tokens": 3728,
+        "median_rank": 56.0,
+        "mean_rank": 90.3,
+        "recall@8": 0.1078,
+        "recall@16": 0.1845,
+        "recall@32": 0.3289,
+        "frac_seq_any_hit@8": 0.2465
+      },
+      "holdout_clean": {
+        "n_seq": 833,
+        "n_tokens": 2257,
+        "median_rank": 40.0,
+        "mean_rank": 54.0,
+        "recall@8": 0.1325,
+        "recall@16": 0.2335,
+        "recall@32": 0.4169,
+        "frac_seq_any_hit@8": 0.3241
+      }
+    },
+    "top1": {
+      "clean_n": 833,
+      "unique": 25,
+      "head": [
+        [
+          "continuity",
+          166
+        ],
+        [
+          "sense",
+          159
+        ],
+        [
+          "associate",
+          140
+        ],
+        [
+          "curious",
+          137
+        ],
+        [
+          "other",
+          51
+        ],
+        [
+          "split",
+          39
+        ],
+        [
+          "halt",
+          32
+        ],
+        [
+          "ripple",
+          26
+        ]
+      ]
+    },
+    "encoder_cosine": {
+      "within_rhythm": {
+        "stabilize": 0.9647,
+        "dream": 0.9435,
+        "reflect": 0.9515,
+        "explore": 0.9498,
+        "rupture": 0.9731
+      },
+      "across_mean": 0.3383,
+      "across_pairs": [
+        0.4575,
+        0.2166,
+        0.1159,
+        0.3535,
+        0.3736,
+        0.2321,
+        0.4872,
+        0.456,
+        0.489,
+        0.2019
+      ]
+    },
+    "field_probe": [
+      {
+        "rhythm": "stabilize",
+        "true": [
+          "order",
+          "breathe",
+          "cement",
+          "beyond"
+        ],
+        "cos_raw_expressed": 0.8532,
+        "cos_raw_field": 0.8535,
+        "expressed_norm": 1.0,
+        "field_norm": 1.2027,
+        "decode_raw": [
+          "continuity",
+          "clarity",
+          "settle",
+          "home",
+          "nature",
+          "secure"
+        ],
+        "decode_expressed": [
+          "continuity",
+          "clarity",
+          "home",
+          "steady",
+          "settle",
+          "secure"
+        ],
+        "decode_field": [
+          "continuity",
+          "clarity",
+          "home",
+          "steady",
+          "settle",
+          "secure"
+        ]
+      },
+      {
+        "rhythm": "dream",
+        "true": [
+          "cast",
+          "follow",
+          "hidden"
+        ],
+        "cos_raw_expressed": 0.8547,
+        "cos_raw_field": 0.6092,
+        "expressed_norm": 1.0,
+        "field_norm": 1.6148,
+        "decode_raw": [
+          "associate",
+          "implicit",
+          "imagine",
+          "materialize",
+          "ripple",
+          "form"
+        ],
+        "decode_expressed": [
+          "evolve",
+          "associate",
+          "drift",
+          "to",
+          "expand",
+          "link"
+        ],
+        "decode_field": [
+          "continuity",
+          "echo",
+          "between",
+          "crystallize",
+          "memory",
+          "quiet"
+        ]
+      },
+      {
+        "rhythm": "reflect",
+        "true": [
+          "beyond",
+          "meditate",
+          "perceive",
+          "integration"
+        ],
+        "cos_raw_expressed": 0.8443,
+        "cos_raw_field": 0.4562,
+        "expressed_norm": 1.0,
+        "field_norm": 1.9573,
+        "decode_raw": [
+          "sense",
+          "watch",
+          "witness",
+          "carry",
+          "analyze",
+          "audit"
+        ],
+        "decode_expressed": [
+          "with",
+          "test",
+          "watch",
+          "within",
+          "witness",
+          "of"
+        ],
+        "decode_field": [
+          "between",
+          "with",
+          "of",
+          "from",
+          "toward",
+          "in"
+        ]
+      },
+      {
+        "rhythm": "explore",
+        "true": [
+          "watch",
+          "fork"
+        ],
+        "cos_raw_expressed": 0.8851,
+        "cos_raw_field": 0.5455,
+        "expressed_norm": 1.0,
+        "field_norm": 2.3426,
+        "decode_raw": [
+          "curious",
+          "shift",
+          "oppose",
+          "pursue",
+          "turbulence",
+          "uncover"
+        ],
+        "decode_expressed": [
+          "curious",
+          "vary",
+          "uncover",
+          "unfamiliar",
+          "turbulence",
+          "break"
+        ],
+        "decode_field": [
+          "between",
+          "of",
+          "with",
+          "from",
+          "toward",
+          "in"
+        ]
+      },
+      {
+        "rhythm": "rupture",
+        "true": [
+          "wall",
+          "melt",
+          "ice"
+        ],
+        "cos_raw_expressed": 0.8473,
+        "cos_raw_field": 0.5156,
+        "expressed_norm": 1.0,
+        "field_norm": 2.7597,
+        "decode_raw": [
+          "split",
+          "wave",
+          "piece",
+          "halt",
+          "fault",
+          "sack"
+        ],
+        "decode_expressed": [
+          "split",
+          "stress",
+          "rock",
+          "noise",
+          "depository",
+          "of"
+        ],
+        "decode_field": [
+          "of",
+          "between",
+          "is",
+          "with",
+          "from",
+          "across"
+        ]
+      }
+    ],
+    "perception": {
+      "reachable": true,
+      "cosine_encoder_vs_qwenproj": [
+        0.0259,
+        0.0035,
+        0.0468,
+        0.0167,
+        0.0089,
+        -0.0333
+      ],
+      "cosine_mean": 0.0114,
+      "note": "ephemeral W seed 1234, not the live scratch projection"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "corpus_version": "1.3.0",
+  "dim": 128,
+  "weights": "data/checkpoints/generator_weights_5rhythm.pt",
+  "epochs": 20,
+  "hidden": 256,
+  "topk": 8,
+  "seed": 42,
+  "train": {
+    "n": 8527,
+    "top_k": 8,
+    "recall@k": 0.1251,
+    "precision@k": 0.0384,
+    "exact_bag@k": 0.007,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 11.08,
+    "median_true_rank": 31.0
+  },
+  "holdout": {
+    "n": 1505,
+    "top_k": 8,
+    "recall@k": 0.109,
+    "precision@k": 0.0338,
+    "exact_bag@k": 0.0047,
+    "random_recall@k": 0.0113,
+    "lift_over_random": 9.66,
+    "median_true_rank": 33.0
+  },
+  "saved_decoder": null
+}

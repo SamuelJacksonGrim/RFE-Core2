@@ -1,0 +1,107 @@
+{
+  "seed": 0,
+  "skipped_ambiguous_content_words": 41,
+  "per_rhythm": {
+    "stabilize": {
+      "pure_words": 117,
+      "pivots": 32,
+      "novel_pivots": 4,
+      "fillers": 16,
+      "partners": 65
+    },
+    "dream": {
+      "pure_words": 118,
+      "pivots": 32,
+      "novel_pivots": 4,
+      "fillers": 16,
+      "partners": 66
+    },
+    "reflect": {
+      "pure_words": 110,
+      "pivots": 30,
+      "novel_pivots": 4,
+      "fillers": 16,
+      "partners": 60
+    },
+    "explore": {
+      "pure_words": 123,
+      "pivots": 32,
+      "novel_pivots": 4,
+      "fillers": 16,
+      "partners": 71
+    },
+    "rupture": {
+      "pure_words": 181,
+      "pivots": 32,
+      "novel_pivots": 4,
+      "fillers": 16,
+      "partners": 129
+    }
+  },
+  "train_rows": 38078,
+  "holdout_rows": 9192,
+  "holdout_by_split": {
+    "novel": 240,
+    "similar": 6952,
+    "seen": 2000
+  },
+  "stems": 158,
+  "contexts_per_stem_min": 241,
+  "contexts_per_stem_mean": 241.0,
+  "contexts_per_stem_max": 241,
+  "fillers_per_stem": 6,
+  "mode_count": 11,
+  "other_count": 2,
+  "glue": "scaffold field only (the ... of a); not in the context and not a target",
+  "by_context_len_train": {
+    "3": 34760,
+    "2": 3160,
+    "1": 158
+  },
+  "unigram_similar": {
+    "n": 6952,
+    "mode_top1": 0.0633,
+    "peaked_n": 0,
+    "peaked_top1": null,
+    "cross_peaked_n": 0,
+    "cross_peaked_top1": null,
+    "support_recall@8": 0.5063,
+    "ce": 2.7758,
+    "entropy_floor": 1.4584
+  },
+  "unigram_novel": {
+    "n": 240,
+    "mode_top1": 0.1,
+    "peaked_n": 0,
+    "peaked_top1": null,
+    "cross_peaked_n": 0,
+    "cross_peaked_top1": null,
+    "support_recall@8": 0.4417,
+    "ce": 2.7954,
+    "entropy_floor": 1.4584
+  },
+  "unigram_seen": {
+    "n": 2000,
+    "mode_top1": 0.0725,
+    "peaked_n": 0,
+    "peaked_top1": null,
+    "cross_peaked_n": 0,
+    "cross_peaked_top1": null,
+    "support_recall@8": 0.5132,
+    "ce": 2.775,
+    "entropy_floor": 1.4584
+  },
+  "corpus_version": "1.3.0",
+  "live_sha256": {
+    "data/corpus/rhythm_train.jsonl": "f5d608597c195719f2b3634bbfcedbbe10f9aefac5b0bae4c4546741be221e61",
+    "data/corpus/rhythm_holdout.jsonl": "61c93de1089c6b515675698fe63e8e29123c93001aae44b665f247254c148888",
+    "data/checkpoints/generator_weights_5rhythm.pt": "71c646fb36d40e3b20cb03d1aa02f51c7a139ab4250aa701694fad8ef2482361",
+    "data/checkpoints/generator_ecology_5rhythm.json": "d74c829c078e22b76423cdf1b5b02a2032e02b1b8ae142b85f51d19e7d27d600"
+  },
+  "files": {
+    "train": "/mnt/c/Users/spamw/rfe/scratch/completion/completion_recur_train.jsonl",
+    "holdout": "/mnt/c/Users/spamw/rfe/scratch/completion/completion_recur_holdout.jsonl",
+    "train_sha256": "655eea3c981d2ec11bafb1f799275ec815bb18e1a8e5ccf23f54df287d6f1631",
+    "holdout_sha256": "511410e66c2a056f01386f6e228fe1df5641f5ec19f7dbb1d801493d44353189"
+  }
+}

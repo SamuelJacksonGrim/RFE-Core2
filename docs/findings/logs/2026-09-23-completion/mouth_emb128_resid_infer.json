@@ -1,0 +1,75 @@
+{
+  "tag": "emb128_resid_infer",
+  "dim": 128,
+  "weights": "data/checkpoints/generator_weights_completion_128_emb.pt",
+  "embedding_residual": true,
+  "corpus_version": "1.3.0",
+  "points_live_holdout": {
+    "output": {
+      "n": 1505,
+      "dim": 128,
+      "row_norm_mean": 1.0,
+      "per_dim_std_min": 0.06891016505303338,
+      "per_dim_std_p05": 0.07371230321864147,
+      "per_dim_std_median": 0.0842015447075159,
+      "quiet_dims_lt_1pct_median": 0,
+      "dead_dims_std_lt_1e-3": 0,
+      "participation_ratio": 47.806,
+      "eff_rank_512cap": 19.305
+    },
+    "embedding_mean": {
+      "n": 1505,
+      "dim": 128,
+      "row_norm_mean": 1.0,
+      "per_dim_std_min": 0.07016707103918642,
+      "per_dim_std_p05": 0.07528694157997484,
+      "per_dim_std_median": 0.08316279635331426,
+      "quiet_dims_lt_1pct_median": 0,
+      "dead_dims_std_lt_1e-3": 0,
+      "participation_ratio": 66.888,
+      "eff_rank_512cap": 22.333
+    },
+    "stack": {
+      "n": 1505,
+      "dim": 128,
+      "row_norm_mean": 1.0,
+      "per_dim_std_min": 0.07110579063563033,
+      "per_dim_std_p05": 0.07421004464383761,
+      "per_dim_std_median": 0.08449941653611452,
+      "quiet_dims_lt_1pct_median": 0,
+      "dead_dims_std_lt_1e-3": 0,
+      "participation_ratio": 35.151,
+      "eff_rank_512cap": 15.027
+    },
+    "cos_stack_emb": -0.0139,
+    "cos_output_emb": 0.7085
+  },
+  "legibility": {
+    "train": {
+      "n": 8527,
+      "top_k": 8,
+      "recall@k": 0.737,
+      "precision@k": 0.22,
+      "exact_bag@k": 0.4665,
+      "random_recall@k": 0.0113,
+      "lift_over_random": 65.31,
+      "median_true_rank": 1.0
+    },
+    "holdout": {
+      "n": 1505,
+      "top_k": 8,
+      "recall@k": 0.6623,
+      "precision@k": 0.1972,
+      "exact_bag@k": 0.3761,
+      "random_recall@k": 0.0113,
+      "lift_over_random": 58.7,
+      "median_true_rank": 2.0
+    }
+  },
+  "live_sha256": {
+    "data/corpus/rhythm_train.jsonl": "f5d608597c195719f2b3634bbfcedbbe10f9aefac5b0bae4c4546741be221e61",
+    "data/corpus/rhythm_holdout.jsonl": "61c93de1089c6b515675698fe63e8e29123c93001aae44b665f247254c148888",
+    "data/checkpoints/generator_weights_5rhythm.pt": "71c646fb36d40e3b20cb03d1aa02f51c7a139ab4250aa701694fad8ef2482361",
+    "data/checkpoints/generator_ecology_5rhythm.json": "d74c829c078e22b76423cdf1b5b02a2032e02b1b8ae142b85f51d19e7d27d600"
+  }
+}
