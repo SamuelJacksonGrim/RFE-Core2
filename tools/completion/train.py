@@ -20,6 +20,7 @@ import torch.nn.functional as F
 
 from agents.generator import Generator
 from tools.completion.corpus import content_of, load_jsonl
+from tools.order.sequence import SequenceEncoder
 from tools.completion.geometry import (
     dump_json,
     embedding_means,
@@ -69,6 +70,12 @@ def main() -> int:
     ap.add_argument("--weight-decay", type=float, default=1e-5)
     ap.add_argument("--tag", default="", help="filename suffix, e.g. _cbow")
     ap.add_argument(
+        "--encoder",
+        choices=("generator", "rope"),
+        default="generator",
+        help="generator is the mean-pool stack. rope is the phase-C causal readout.",
+    )
+    ap.add_argument(
         "--embeddings-only",
         action="store_true",
         help="freeze the transformer and the projection; train token embeddings and the head",
@@ -95,13 +102,19 @@ def main() -> int:
 
     live = assert_live_intact()
     tag = args.tag
-    weights = f"data/checkpoints/generator_weights_completion_{args.dim}{tag}.pt"
-    ecology = f"data/checkpoints/generator_ecology_completion_{args.dim}{tag}.json"
+    if args.encoder == "rope":
+        weights = f"data/checkpoints/sequence_encoder_phasec_{args.dim}{tag}.pt"
+        ecology = f"data/checkpoints/sequence_encoder_phasec_{args.dim}{tag}.json"
+    else:
+        weights = f"data/checkpoints/generator_weights_completion_{args.dim}{tag}.pt"
+        ecology = f"data/checkpoints/generator_ecology_completion_{args.dim}{tag}.json"
     head_path = f"data/checkpoints/completion_head_{args.dim}{tag}.pt"
     rhythm_weight = RHYTHM_LOSS_WEIGHT if args.rhythm_weight is None else args.rhythm_weight
     cond_scale = COND_SCALE if args.cond_scale is None else args.cond_scale
     for path in (weights, ecology, head_path):
         refuse_protected(path)
+        if args.encoder == "rope" and (REPO / path).exists():
+            raise SystemExit(f"refusing to overwrite existing checkpoint: {path}")
 
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -124,26 +137,60 @@ def main() -> int:
         f"dim={args.dim} epochs={args.epochs} seed={args.seed} "
         f"rhythm_weight={rhythm_weight} cond_scale={cond_scale} "
         f"lr={args.lr} wd={args.weight_decay} "
+        f"encoder={args.encoder} "
         f"device={'cuda' if torch.cuda.is_available() else 'cpu'}",
         flush=True,
     )
 
-    gen = Generator(
-        vocab_size=8192,
-        dim=args.dim,
-        depth=4,
-        heads=4,
-        ff_mult=4,
-        dropout=0.1,
-        auto_decay_interval=None,
-    )
-    # Register before AdamW binds, including glue the context still embeds.
-    surface = sorted({t for rec in live_train for t in rec["tokens"]})
-    gen.eval()
-    gen.encode_batch([[t] for t in surface])
+    if args.encoder == "rope" and (args.residual or args.embeddings_only):
+        raise SystemExit(
+            "the rope encoder is the readout itself; it does not take "
+            "--residual or --embeddings-only"
+        )
+    if args.encoder == "rope":
+        surface = sorted(
+            {t for rec in list(live_train) + list(live_hold) for t in rec["tokens"]}
+            | {t for rec in list(rows) + list(hold_rows) for t in rec["context"]}
+        )
+        longest = max(
+            [len(rec["tokens"]) for rec in list(live_train) + list(live_hold)]
+            + [len(rec["context"]) for rec in list(rows) + list(hold_rows)]
+        )
+        if longest > 32:
+            raise SystemExit(f"sequence length {longest} exceeds the rope window of 32")
+        gen = SequenceEncoder(
+            surface,
+            dim=args.dim,
+            depth=4,
+            heads=4,
+            ff_mult=4,
+            dropout=0.1,
+            max_content=32,
+            device="cuda" if torch.cuda.is_available() else "cpu",
+        )
+        print(
+            f"rope: causal readout orthogonal to the prefix anchor, depth 4, "
+            f"dropout 0.1, surface {len(surface)}, longest {longest}",
+            flush=True,
+        )
+    else:
+        gen = Generator(
+            vocab_size=8192,
+            dim=args.dim,
+            depth=4,
+            heads=4,
+            ff_mult=4,
+            dropout=0.1,
+            auto_decay_interval=None,
+        )
+        # Register before AdamW binds, including glue the context still embeds.
+        surface = sorted({t for rec in live_train for t in rec["tokens"]})
+        gen.eval()
+        gen.encode_batch([[t] for t in surface])
     if args.embeddings_only and args.residual:
         raise SystemExit("pick one of --embeddings-only or --residual")
-    gen.embedding_residual = bool(args.residual)
+    if args.encoder != "rope":
+        gen.embedding_residual = bool(args.residual)
     if args.embeddings_only:
         for name, param in gen.named_parameters():
             if not name.startswith("embedding."):
@@ -274,6 +321,7 @@ def main() -> int:
         "batch_size": args.batch_size,
         "learning_rate": args.lr,
         "weight_decay": args.weight_decay,
+        "encoder": args.encoder,
         "embeddings_only": args.embeddings_only,
         "embedding_residual": bool(args.residual),
         "cond_scale": trainer.config.cond_scale,
@@ -377,7 +425,59 @@ def _final_extras(args, gen, rows, hold_rows, vocab, live_train, live_hold) -> d
         mouth = legibility(gen, live_train, live_hold, args.dim)
         extras["legibility"] = mouth
         print(f"legibility holdout {mouth['holdout']}", flush=True)
+        if args.encoder == "rope":
+            # Not the gate. Glue stays at init under the completion collator,
+            # and the live line still contains it. This says whether the miss
+            # is the full line or the content bag.
+            stripped_train = _content_lines(live_train)
+            stripped_hold = _content_lines(live_hold)
+            content_mouth = legibility(gen, stripped_train, stripped_hold, args.dim)
+            extras["legibility_content_only"] = content_mouth
+            print(f"content-only mouth holdout {content_mouth['holdout']}", flush=True)
+    if args.encoder == "rope":
+        extras["order"] = _order_probe(gen, hold_rows)
+        print(f"order probe {extras['order']}", flush=True)
     return extras
+
+
+def _content_lines(records):
+    out = []
+    for rec in records:
+        tokens = content_of(rec["tokens"])
+        if not tokens:
+            continue
+        item = dict(rec)
+        item["tokens"] = tokens
+        out.append(item)
+    return out
+
+
+def _order_probe(gen, hold_rows) -> dict:
+    """Cosine of a role-ordered stem against a permutation. A bag scores 1."""
+    recur = [
+        r for r in hold_rows
+        if r.get("source") == "recur" and len(r.get("context") or []) >= 2
+    ][:512]
+    if len(recur) < 8:
+        return {"n": len(recur)}
+    fwd = [list(r["context"]) for r in recur]
+    rev = [list(reversed(ctx)) for ctx in fwd]
+    swap = []
+    for ctx in fwd:
+        item = list(ctx)
+        item[0], item[1] = item[1], item[0]
+        swap.append(item)
+    a = encode_texts(gen, fwd)
+    b = encode_texts(gen, rev)
+    c = encode_texts(gen, swap)
+    norms = np.linalg.norm(a, axis=1)
+    return {
+        "n": len(recur),
+        "reverse_cosine": round(mean_cosine(a, b), 4),
+        "swap01_cosine": round(mean_cosine(a, c), 4),
+        "output_norm_min": round(float(norms.min()), 6),
+        "output_norm_max": round(float(norms.max()), 6),
+    }
 
 
 @torch.no_grad()

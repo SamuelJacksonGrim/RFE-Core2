@@ -58,6 +58,19 @@ PROTECTED_NAMES = {
     "generator_weights_completion_128_rhythmce.pt",
     "generator_ecology_completion_128_rhythmce.json",
     "completion_head_128_rhythmce.pt",
+    # S2 mouth. Phase C trains new files. These names stay refused.
+    "generator_weights_completion_128_phaseb.pt",
+    "generator_ecology_completion_128_phaseb.json",
+    "completion_head_128_phaseb.pt",
+    "generator_weights_completion_256_phaseb.pt",
+    "generator_ecology_completion_256_phaseb.json",
+    "completion_head_256_phaseb.pt",
+    "banked_mouth_completion_128.pt",
+    "banked_mouth_ecology_128.json",
+    "banked_mouth_head_128.pt",
+    "banked_mouth_completion_256.pt",
+    "banked_mouth_ecology_256.json",
+    "banked_mouth_head_256.pt",
 }
 
 
