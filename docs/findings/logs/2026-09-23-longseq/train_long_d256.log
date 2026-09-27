@@ -1,0 +1,13 @@
+arm=long train=8527 holdout=1505 dim=256 epochs=20 seed=0 device=cuda
+registered 969 train tokens; embedding (8192, 256) device=cuda
+2026-09-23 03:15:20,734 [INFO] training.rhythm_pretraining: Starting rhythm pretraining for 20 epochs...
+2026-09-23 03:16:33,661 [INFO] training.rhythm_pretraining: Epoch 5/20 | loss=0.6339 | rhythm_acc=0.992
+2026-09-23 03:17:44,200 [INFO] training.rhythm_pretraining: Epoch 10/20 | loss=0.6380 | rhythm_acc=0.991
+2026-09-23 03:18:54,931 [INFO] training.rhythm_pretraining: Epoch 15/20 | loss=0.5656 | rhythm_acc=0.997
+2026-09-23 03:20:04,228 [INFO] training.rhythm_pretraining: Epoch 20/20 | loss=0.5303 | rhythm_acc=0.995
+2026-09-23 03:20:04,230 [INFO] training.rhythm_pretraining: Rhythm pretraining complete. Final loss=0.5303 acc=0.995
+2026-09-23 03:20:04,487 [INFO] agents.generator: Ecology saved → data/checkpoints/longseq_long_d256.ecology.json
+SAVED data/checkpoints/longseq_long_d256.pt
+SAVED data/checkpoints/longseq_long_d256.ecology.json
+REPORT /mnt/c/Users/spamw/rfe/RFE-Core2-longseq/docs/findings/logs/2026-09-23-longseq/train_long_d256.json
+worst_pair {'a': 'stabilize', 'b': 'explore', 'centroid_cos': 0.5546}  offdiag_mean 0.3751  participation 3.457  eff_rank 1.794

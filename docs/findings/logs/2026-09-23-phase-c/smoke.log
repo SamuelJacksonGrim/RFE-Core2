@@ -1,0 +1,29 @@
+RUN /home/spamw/rfe/RFE-Core2/.venv/bin/python -m tools.completion.train --dim 128 --epochs 1 --seed 0 --batch-size 128 --lr 0.01 --weight-decay 0 --rhythm-weight 0 --cond-scale 0 --encoder rope --legibility --tag _phasec_smoke_r100s0 --train-rows /mnt/c/Users/spamw/rfe/scratch/completion/s3/phasec_mix__phasec_smoke_r100s0_train.jsonl --hold-rows /mnt/c/Users/spamw/rfe/scratch/completion/s3/phasec_recur_holdout.jsonl
+corpus v1.3.0 completion-train=3384 completion-hold=1911 content_vocab=690 dim=128 epochs=1 seed=0 rhythm_weight=0.0 cond_scale=0.0 lr=0.01 wd=0.0 encoder=rope device=cuda
+rope: causal readout, depth 4, dropout 0.1, no embedding-mean residual, surface 709, longest 4
+registered 709 surface tokens; embedding (710, 128) device=cuda:0
+snap epoch 0  out_PR 24.983  emb_PR 98.037  stack_PR 24.983  cos_out_emb -0.0028  ctx_PR 22.301  hold_ce 6.5346  hold_top1 0.0021  novel_top1 0.0022  novel_tuple_top1 0.0019  unseen_kernel_top1 0.0063  seen_top1 0.0  train_top1 0.0024
+2026-09-23 17:35:30,868 [INFO] training.completion: completion pretrain: 3384 rows, 1 epochs, batch 128, |V|=690
+2026-09-23 17:35:33,449 [INFO] training.completion: epoch 1/1  loss=5.5332  word_ce=5.5332  rhythm_acc=0.162
+snap epoch 1  out_PR 2.788  emb_PR 46.162  stack_PR 2.788  cos_out_emb 0.002  ctx_PR 2.803  hold_ce 4.8103  hold_top1 0.0382  novel_top1 0.0377  novel_tuple_top1 0.037  unseen_kernel_top1 0.0375  seen_top1 0.0426  train_top1 0.039
+SAVED data/checkpoints/sequence_encoder_phasec_128_phasec_smoke_r100s0.pt
+SAVED data/checkpoints/sequence_encoder_phasec_128_phasec_smoke_r100s0.json
+SAVED data/checkpoints/completion_head_128_phasec_smoke_r100s0.pt
+training phase-0 mouth ...
+  epoch  1/20  loss=0.1654
+  epoch  5/20  loss=0.0232
+  epoch 10/20  loss=0.0214
+  epoch 15/20  loss=0.0205
+  epoch 20/20  loss=0.0199
+legibility holdout {'n': 1505, 'top_k': 8, 'recall@k': 0.1138, 'precision@k': 0.035, 'exact_bag@k': 0.0093, 'random_recall@k': 0.0113, 'lift_over_random': 10.08, 'median_true_rank': 31.0}
+  epoch  1/20  loss=0.1656
+  epoch  5/20  loss=0.0223
+  epoch 10/20  loss=0.0205
+  epoch 15/20  loss=0.0194
+  epoch 20/20  loss=0.0189
+content-only mouth holdout {'n': 1500, 'top_k': 8, 'recall@k': 0.1371, 'precision@k': 0.0379, 'exact_bag@k': 0.022, 'random_recall@k': 0.0116, 'lift_over_random': 11.83, 'median_true_rank': 32.0}
+order probe {'n': 512, 'reverse_cosine': 0.9606, 'swap01_cosine': 0.9928, 'output_norm_min': 1.0, 'output_norm_max': 1.0}
+REPORT docs/findings/logs/2026-09-23-completion/train_dim128_phasec_smoke_r100s0_s0.json
+POINT frac 1.0  tuple 0.037 (0.2x)  oov 0.0377  recall 0.1138  content_recall 0.1371  rev_cos 0.9606  both False
+CURVE /mnt/c/Users/spamw/rfe/RFE-Core2-phasec/docs/findings/logs/2026-09-23-phase-c/frontier_dim128_e1.json
+PHASEC_DONE

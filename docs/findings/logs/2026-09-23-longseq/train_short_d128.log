@@ -1,0 +1,4 @@
+arm=short train=8527 holdout=1505 dim=128 epochs=20 seed=0 device=cuda
+registered 709 train tokens; embedding (8192, 128) device=cuda
+2026-09-23 03:24:48,534 [INFO] training.rhythm_pretraining: Starting rhythm pretraining for 20 epochs...
+2026-09-23 03:25:56,465 [INFO] training.rhythm_pretraining: Epoch 5/20 | loss=0.7179 | rhythm_acc=0.982
