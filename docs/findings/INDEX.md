@@ -77,6 +77,7 @@ rule). Every finding file must appear here (CI-enforced by `verify_docs`).
 | `2026-09-23-completion-production` | The ~4.8 collapse is the transformer dragging the embedding table down, not recursive attention and not a measurement point. Residual-on at the generator output keeps the rich vector (mouth 0.66/0.69). Recurring stems generalize (similar top-1 1.0 by epoch 5) and spend the mouth (0.61→0.32) | **standing** |
 | `2026-09-23-fullsend-feedback` | Governed LAE+PLE feedback under the residual-on completion encoder (PR 47.8) still settles to one field groove on 3/3 seeds. Stream regimes and substrate attractors rise (about 5→17, 3→15). Identity holds. Not metastable. Does not reopen the field-lock ruling | **standing** |
 | `2026-09-23-fullsend-feedback-256` | Same seam at the dim-256 embeddings checkpoint, residual on (PR 81.9, not the stack-trained `*_resid` file at 73.5). Still one field groove on 3/3 seeds. Displacement, coherence, and identity match the PR-48 arm. Width does not break the token door | **standing** |
+| `2026-09-23-dim256-substrate` | Dim 256 keeps the 5000-step identity lock (max disp 0.000129 vs 0.000109 at 128) without scaling loop gain; same-recipe separability and legibility do not improve. Do not promote. Production dim stays 128 | **standing** |
 
 ## Raw-data convention (adopted 2026-07-06)
 

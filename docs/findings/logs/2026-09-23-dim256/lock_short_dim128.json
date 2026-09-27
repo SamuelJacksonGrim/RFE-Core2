@@ -1,0 +1,350 @@
+{
+  "dim": 128,
+  "weights": "data/checkpoints/generator_weights_5rhythm.pt",
+  "ecology": "data/checkpoints/generator_ecology_5rhythm.json",
+  "tag": "lock_short",
+  "traffic": "convergent",
+  "field_blend": null,
+  "ablate": null,
+  "steps_after_warmup": 250,
+  "warmup": 150,
+  "overall": "HOLDS",
+  "runs": [
+    {
+      "seed": 11,
+      "steps": 250,
+      "traffic": "convergent",
+      "field_blend": 0.1,
+      "ablate": "none",
+      "verdict": "HOLDS",
+      "final_disp": 5.0155308132016074e-05,
+      "max_disp": 5.0155308132016074e-05,
+      "rows": [
+        {
+          "step": 0,
+          "disp": 0.0,
+          "energy": 85.8634,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 25,
+          "disp": 1.0704001644268324e-05,
+          "energy": 92.5485,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 50,
+          "disp": 1.7734829609095115e-05,
+          "energy": 98.3617,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 75,
+          "disp": 2.265214555252637e-05,
+          "energy": 103.5389,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 100,
+          "disp": 2.4500328965726403e-05,
+          "energy": 108.0251,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 125,
+          "disp": 3.19720398499479e-05,
+          "energy": 111.6292,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 150,
+          "disp": 3.8648383847594836e-05,
+          "energy": 114.7696,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 175,
+          "disp": 4.6991923401074054e-05,
+          "energy": 117.4972,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 200,
+          "disp": 4.7798949684985104e-05,
+          "energy": 119.5914,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 225,
+          "disp": 4.873731662080605e-05,
+          "energy": 121.5717,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 250,
+          "disp": 5.0155308132016074e-05,
+          "energy": 123.2811,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        }
+      ],
+      "expressed_norm_mean": 0.9999999853968621,
+      "alignment": {
+        "n": 400,
+        "p10": 0.9968,
+        "p50": 0.9975,
+        "p90": 0.9981,
+        "mean": 0.9949
+      },
+      "decisions": {
+        "ALLOW": 1,
+        "ALLOW_WEAKENED": 15,
+        "QUARANTINE": 384
+      },
+      "ddm_at_measured_p50": {
+        "g_plus": 0.05,
+        "weak_factor": 0.2,
+        "leak": 0.02,
+        "sigma": 0.02,
+        "b_accept": 1.0,
+        "trickle_eq": 0.4987,
+        "noise_sd": 0.1,
+        "accept_gap_sd": 5.013,
+        "trickle_below_accept": true
+      }
+    },
+    {
+      "seed": 23,
+      "steps": 250,
+      "traffic": "convergent",
+      "field_blend": 0.1,
+      "ablate": "none",
+      "verdict": "HOLDS",
+      "final_disp": 6.900951207045036e-05,
+      "max_disp": 6.900951207045036e-05,
+      "rows": [
+        {
+          "step": 0,
+          "disp": 0.0,
+          "energy": 87.5709,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 25,
+          "disp": 1.1773015403448994e-05,
+          "energy": 94.563,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 50,
+          "disp": 2.0218507393310325e-05,
+          "energy": 100.4556,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 75,
+          "disp": 2.6536008604471917e-05,
+          "energy": 105.3757,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 100,
+          "disp": 3.515734680814564e-05,
+          "energy": 109.5992,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 125,
+          "disp": 4.974842047444916e-05,
+          "energy": 113.173,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 150,
+          "disp": 5.4217160262992614e-05,
+          "energy": 116.2071,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 175,
+          "disp": 5.68420616454679e-05,
+          "energy": 118.7401,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 200,
+          "disp": 5.254887453887136e-05,
+          "energy": 120.8434,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 225,
+          "disp": 6.372149343059075e-05,
+          "energy": 122.68,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        },
+        {
+          "step": 250,
+          "disp": 6.900951207045036e-05,
+          "energy": 124.2329,
+          "band": "dream",
+          "gen_meta": 0.0,
+          "gen_state": "locked",
+          "exp_meta": 0.0,
+          "exp_state": "locked",
+          "attractors": 1,
+          "crystals": 1
+        }
+      ],
+      "expressed_norm_mean": 0.9999999837577342,
+      "alignment": {
+        "n": 400,
+        "p10": 0.9965,
+        "p50": 0.9973,
+        "p90": 0.998,
+        "mean": 0.9947
+      },
+      "decisions": {
+        "ALLOW": 1,
+        "ALLOW_WEAKENED": 15,
+        "QUARANTINE": 384
+      },
+      "ddm_at_measured_p50": {
+        "g_plus": 0.05,
+        "weak_factor": 0.2,
+        "leak": 0.02,
+        "sigma": 0.02,
+        "b_accept": 1.0,
+        "trickle_eq": 0.4987,
+        "noise_sd": 0.1,
+        "accept_gap_sd": 5.013,
+        "trickle_below_accept": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "dim": 128,
+  "weights": "data/checkpoints/generator_weights_5rhythm.pt",
+  "ecology": "data/checkpoints/generator_ecology_5rhythm.json",
+  "tag": "ddm_mixed",
+  "traffic": "mixed",
+  "field_blend": null,
+  "ablate": null,
+  "rupture_on_lock": false,
+  "steps_after_warmup": 400,
+  "warmup": 150,
+  "overall": "DRIFT",
+  "runs": [
+    {
+      "seed": 11,
+      "steps": 400,
+      "traffic": "mixed",
+      "field_blend": 0.1,
+      "rupture_on_lock": false,
+      "reflect_calls": 272,
+      "ablate": "none",
+      "verdict": "DRIFT",
+      "final_disp": 0.08576846404489702,
+      "max_disp": 0.08576846404489702,
+      "rows": [
+        {
+          "step": 0,
+          "disp": 0.0,
+          "energy": 106.3099,
+          "band": "dream",
+          "gen_meta": 0.3728,
+          "gen_state": "structureless",
+          "exp_meta": 0.3728,
+          "exp_state": "structureless",
+          "attractors": 2,
+          "crystals": 0
+        },
+        {
+          "step": 50,
+          "disp": 0.00019711303712499628,
+          "energy": 127.2658,
+          "band": "dream",
+          "gen_meta": 0.3781,
+          "gen_state": "structureless",
+          "exp_meta": 0.3781,
+          "exp_state": "structureless",
+          "attractors": 2,
+          "crystals": 0
+        },
+        {
+          "step": 100,
+          "disp": 0.0003964297519171156,
+          "energy": 143.1235,
+          "band": "dream",
+          "gen_meta": 0.377,
+          "gen_state": "structureless",
+          "exp_meta": 0.377,
+          "exp_state": "structureless",
+          "attractors": 2,
+          "crystals": 0
+        },
+        {
+          "step": 150,
+          "disp": 0.003482140424648672,
+          "energy": 163.0393,
+          "band": "reflect",
+          "gen_meta": 0.374,
+          "gen_state": "structureless",
+          "exp_meta": 0.374,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 200,
+          "disp": 0.02625460923669143,
+          "energy": 205.0054,
+          "band": "reflect",
+          "gen_meta": 0.3788,
+          "gen_state": "structureless",
+          "exp_meta": 0.3788,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 250,
+          "disp": 0.04832863805724741,
+          "energy": 238.289,
+          "band": "reflect",
+          "gen_meta": 0.3776,
+          "gen_state": "structureless",
+          "exp_meta": 0.3776,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 300,
+          "disp": 0.06498567538472388,
+          "energy": 263.912,
+          "band": "reflect",
+          "gen_meta": 0.3728,
+          "gen_state": "structureless",
+          "exp_meta": 0.3728,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 350,
+          "disp": 0.0770292370191441,
+          "energy": 284.047,
+          "band": "reflect",
+          "gen_meta": 0.3728,
+          "gen_state": "structureless",
+          "exp_meta": 0.3728,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        },
+        {
+          "step": 400,
+          "disp": 0.08576846404489702,
+          "energy": 298.906,
+          "band": "reflect",
+          "gen_meta": 0.3739,
+          "gen_state": "structureless",
+          "exp_meta": 0.3739,
+          "exp_state": "structureless",
+          "attractors": 3,
+          "crystals": 1
+        }
+      ],
+      "expressed_norm_mean": 0.9999999832023274,
+      "alignment": {
+        "n": 550,
+        "p10": 0.7563,
+        "p50": 0.8287,
+        "p90": 0.9776,
+        "mean": 0.8695
+      },
+      "decisions": {
+        "ALLOW": 280,
+        "ALLOW_WEAKENED": 270
+      },
+      "ddm_at_measured_p50": {
+        "g_plus": 0.05,
+        "weak_factor": 0.2,
+        "leak": 0.02,
+        "sigma": 0.02,
+        "b_accept": 1.0,
+        "trickle_eq": 0.4143,
+        "noise_sd": 0.1,
+        "accept_gap_sd": 5.857,
+        "trickle_below_accept": true
+      }
+    }
+  ]
+}

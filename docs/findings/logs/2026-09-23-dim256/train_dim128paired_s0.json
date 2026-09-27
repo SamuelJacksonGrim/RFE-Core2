@@ -1,0 +1,168 @@
+{
+  "corpus_version": "1.3.0",
+  "train_n": 8527,
+  "holdout_n": 1505,
+  "dim": 128,
+  "epochs": 20,
+  "seed": 0,
+  "batch_size": 8,
+  "device": "cuda",
+  "torch": "2.13.0+cu130",
+  "final_loss": 0.556473,
+  "final_rhythm_acc": 0.9947,
+  "loss_history": [
+    1.969199,
+    1.545669,
+    0.869337,
+    0.742626,
+    0.7179,
+    0.687678,
+    0.6321,
+    0.638207,
+    0.654981,
+    0.676446,
+    0.646496,
+    0.638103,
+    0.597761,
+    0.582864,
+    0.577716,
+    0.57364,
+    0.585925,
+    0.569053,
+    0.564097,
+    0.556473
+  ],
+  "weights": "data/checkpoints/generator_weights_5rhythm_128paired.pt",
+  "ecology": "data/checkpoints/generator_ecology_5rhythm_128paired.json",
+  "holdout_population": {
+    "n": 1505,
+    "dim": 128,
+    "row_norm_mean": 1.0,
+    "per_dim_std_min": 0.01325398260806753,
+    "per_dim_std_p05": 0.027155963657071045,
+    "per_dim_std_median": 0.059178653959812935,
+    "quiet_dims_lt_1pct_median": 0,
+    "dead_dims_std_lt_1e-3": 0,
+    "participation_ratio": 3.902,
+    "eff_rank_512cap": 1.676
+  },
+  "holdout_separability": {
+    "rhythms": [
+      "stabilize",
+      "dream",
+      "reflect",
+      "explore",
+      "rupture"
+    ],
+    "n": 1505,
+    "within_centroid_cos": {
+      "stabilize": 0.9931,
+      "dream": 0.9871,
+      "reflect": 0.9965,
+      "explore": 0.9854,
+      "rupture": 0.992
+    },
+    "pairs_tangled_first": [
+      {
+        "a": "stabilize",
+        "b": "dream",
+        "centroid_cos": 0.3956
+      },
+      {
+        "a": "stabilize",
+        "b": "reflect",
+        "centroid_cos": 0.3881
+      },
+      {
+        "a": "reflect",
+        "b": "explore",
+        "centroid_cos": 0.3835
+      },
+      {
+        "a": "stabilize",
+        "b": "explore",
+        "centroid_cos": 0.3708
+      },
+      {
+        "a": "dream",
+        "b": "explore",
+        "centroid_cos": 0.3585
+      },
+      {
+        "a": "explore",
+        "b": "rupture",
+        "centroid_cos": 0.3401
+      },
+      {
+        "a": "dream",
+        "b": "rupture",
+        "centroid_cos": 0.3266
+      },
+      {
+        "a": "dream",
+        "b": "reflect",
+        "centroid_cos": 0.3077
+      },
+      {
+        "a": "stabilize",
+        "b": "rupture",
+        "centroid_cos": 0.2316
+      },
+      {
+        "a": "reflect",
+        "b": "rupture",
+        "centroid_cos": 0.2234
+      }
+    ],
+    "worst_pair": {
+      "a": "stabilize",
+      "b": "dream",
+      "centroid_cos": 0.3956
+    },
+    "best_separated_pair": {
+      "a": "reflect",
+      "b": "rupture",
+      "centroid_cos": 0.2234
+    },
+    "offdiag_mean": 0.3326,
+    "offdiag_max": 0.3956,
+    "offdiag_min": 0.2234,
+    "matrix": [
+      [
+        1.0,
+        0.3956,
+        0.3881,
+        0.3708,
+        0.2316
+      ],
+      [
+        0.3956,
+        1.0,
+        0.3077,
+        0.3585,
+        0.3266
+      ],
+      [
+        0.3881,
+        0.3077,
+        1.0,
+        0.3835,
+        0.2234
+      ],
+      [
+        0.3708,
+        0.3585,
+        0.3835,
+        1.0,
+        0.3401
+      ],
+      [
+        0.2316,
+        0.3266,
+        0.2234,
+        0.3401,
+        1.0
+      ]
+    ]
+  }
+}
