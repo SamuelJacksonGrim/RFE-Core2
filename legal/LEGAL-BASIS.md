@@ -89,7 +89,7 @@ condition, for a fee.
 
 ### 2.5 AI-assisted code — who owns it, and the limit to know
 
-Parts of this project were produced with AI tools (Claude, GPT, Grok, Gemini, Koneko, and at times Copilot) used
+Parts of this project were produced with AI tools (Claude, GPT, Grok, Gemini (at times as its Koneko persona), and at times Copilot) used
 under the author's direction. Two consequences:
 
 - **No rival owner.** U.S. copyright requires a **human** author. An AI cannot be
