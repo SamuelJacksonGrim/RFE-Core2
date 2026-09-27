@@ -1,0 +1,1972 @@
+{
+  "seed": 0,
+  "epochs": 40,
+  "architecture": "Generator vocab 8192 dim 128 depth 4 heads 4, fresh, cpu",
+  "batch_size": 256,
+  "why_batch_256": "Default batch 8 would rarely hold two witness sequences inside the 8527-line train, so witness would get no positive pair. Batch 256 is about 32x fewer steps per epoch, so the epoch count is raised to keep the gradient-step budget near the live boot (8 epochs at batch 8).",
+  "arms": {
+    "additive": {
+      "data": {
+        "pulled": false,
+        "dropped": {},
+        "train_kept": 8527,
+        "witness": 184
+      },
+      "train": {
+        "epochs": 40,
+        "final_loss": 3.823314,
+        "loss_history": [
+          5.562328,
+          5.473443,
+          5.454503,
+          5.446748,
+          5.435351,
+          5.425734,
+          5.42975,
+          5.0617,
+          4.755598,
+          4.451457,
+          4.228747,
+          4.261706,
+          4.109678,
+          4.045261,
+          4.017617,
+          4.019936,
+          3.944607,
+          3.906083,
+          3.971857,
+          3.927546,
+          3.996727,
+          3.90128,
+          3.879366,
+          3.868665,
+          3.962502,
+          3.852352,
+          3.898663,
+          3.952448,
+          3.859116,
+          3.923383,
+          3.843359,
+          3.876046,
+          3.951045,
+          3.865254,
+          3.903206,
+          3.799123,
+          3.849504,
+          3.860755,
+          3.819025,
+          3.823314
+        ],
+        "train_nn_acc": 0.9952
+      },
+      "metrics": {
+        "intra_pairwise": {
+          "stabilize": 0.9892,
+          "dream": 0.9848,
+          "reflect": 0.9874,
+          "explore": 0.9944,
+          "rupture": 0.9941,
+          "witness": 0.9841
+        },
+        "mean_cos_to_own_centroid": {
+          "stabilize": 0.9946,
+          "dream": 0.9924,
+          "reflect": 0.9937,
+          "explore": 0.9972,
+          "rupture": 0.997,
+          "witness": 0.9921
+        },
+        "centroid_cosine": {
+          "stabilize": {
+            "witness": 0.105
+          },
+          "dream": {
+            "stabilize": 0.4317,
+            "reflect": 0.306,
+            "explore": 0.3953,
+            "rupture": 0.1152,
+            "witness": 0.2723
+          },
+          "reflect": {
+            "stabilize": 0.4717,
+            "rupture": 0.3434,
+            "witness": 0.4973
+          },
+          "explore": {
+            "stabilize": -0.0666,
+            "reflect": -0.2989,
+            "rupture": 0.2757,
+            "witness": 0.5417
+          },
+          "rupture": {
+            "stabilize": 0.4746,
+            "witness": 0.3883
+          }
+        },
+        "nearest_centroid_acc": {
+          "stabilize": 0.9957,
+          "dream": 0.99,
+          "reflect": 0.9956,
+          "explore": 0.9984,
+          "rupture": 1.0,
+          "witness": 0.9891
+        },
+        "witness_misses": [
+          {
+            "tokens": [
+              "observe",
+              "attend"
+            ],
+            "nearest": "reflect",
+            "cos": {
+              "stabilize": 0.3595,
+              "dream": 0.3026,
+              "reflect": 0.9866,
+              "explore": -0.2309,
+              "rupture": 0.3045,
+              "witness": 0.589
+            }
+          },
+          {
+            "tokens": [
+              "perceive",
+              "notice",
+              "observe"
+            ],
+            "nearest": "reflect",
+            "cos": {
+              "stabilize": 0.3409,
+              "dream": 0.3106,
+              "reflect": 0.9789,
+              "explore": -0.196,
+              "rupture": 0.3038,
+              "witness": 0.6223
+            }
+          }
+        ],
+        "witness_miss_count": 2,
+        "word_margin": [
+          {
+            "word": "observe",
+            "n": 9,
+            "nearest_centroid_frac": 0.7778,
+            "mean_cos_witness": 0.9085,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.6059,
+            "margin": 0.3026
+          },
+          {
+            "word": "abide",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9853,
+            "closest_other": "explore",
+            "mean_cos_other": 0.6619,
+            "margin": 0.3234
+          },
+          {
+            "word": "perceive",
+            "n": 9,
+            "nearest_centroid_frac": 0.8889,
+            "mean_cos_witness": 0.9531,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5684,
+            "margin": 0.3848
+          },
+          {
+            "word": "accept",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9949,
+            "closest_other": "explore",
+            "mean_cos_other": 0.6061,
+            "margin": 0.3888
+          },
+          {
+            "word": "welcome",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9953,
+            "closest_other": "explore",
+            "mean_cos_other": 0.6058,
+            "margin": 0.3895
+          },
+          {
+            "word": "attend",
+            "n": 9,
+            "nearest_centroid_frac": 0.8889,
+            "mean_cos_witness": 0.949,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5511,
+            "margin": 0.3979
+          },
+          {
+            "word": "overhear",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9962,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5954,
+            "margin": 0.4008
+          },
+          {
+            "word": "notice",
+            "n": 9,
+            "nearest_centroid_frac": 0.8889,
+            "mean_cos_witness": 0.9556,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5516,
+            "margin": 0.404
+          },
+          {
+            "word": "allow",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9968,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5862,
+            "margin": 0.4106
+          },
+          {
+            "word": "regard",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9972,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5865,
+            "margin": 0.4107
+          },
+          {
+            "word": "await",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9963,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5814,
+            "margin": 0.4149
+          },
+          {
+            "word": "dwell",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9924,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5719,
+            "margin": 0.4205
+          },
+          {
+            "word": "awareness",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9982,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5775,
+            "margin": 0.4207
+          },
+          {
+            "word": "receptive",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9972,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5739,
+            "margin": 0.4233
+          },
+          {
+            "word": "ken",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9975,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5701,
+            "margin": 0.4274
+          },
+          {
+            "word": "humble",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9935,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5659,
+            "margin": 0.4276
+          },
+          {
+            "word": "company",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9984,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5693,
+            "margin": 0.429
+          },
+          {
+            "word": "listen",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9983,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5689,
+            "margin": 0.4294
+          },
+          {
+            "word": "linger",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9984,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5682,
+            "margin": 0.4302
+          },
+          {
+            "word": "reception",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9977,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5675,
+            "margin": 0.4302
+          },
+          {
+            "word": "unmoved",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9983,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5667,
+            "margin": 0.4315
+          },
+          {
+            "word": "unsought",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9981,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5641,
+            "margin": 0.434
+          },
+          {
+            "word": "witness",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9946,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5588,
+            "margin": 0.4358
+          },
+          {
+            "word": "sojourn",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.997,
+            "closest_other": "explore",
+            "mean_cos_other": 0.561,
+            "margin": 0.4361
+          },
+          {
+            "word": "marvel",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9975,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5605,
+            "margin": 0.4369
+          },
+          {
+            "word": "presence",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9989,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5564,
+            "margin": 0.4425
+          },
+          {
+            "word": "sit",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.996,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5476,
+            "margin": 0.4484
+          },
+          {
+            "word": "behold",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9953,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5455,
+            "margin": 0.4498
+          },
+          {
+            "word": "contemplate",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9972,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5467,
+            "margin": 0.4505
+          },
+          {
+            "word": "accompany",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9922,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5415,
+            "margin": 0.4507
+          },
+          {
+            "word": "meditate",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.995,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5426,
+            "margin": 0.4524
+          },
+          {
+            "word": "sense",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9913,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5345,
+            "margin": 0.4567
+          },
+          {
+            "word": "gaze",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9988,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5391,
+            "margin": 0.4598
+          },
+          {
+            "word": "receive",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9998,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5378,
+            "margin": 0.4619
+          },
+          {
+            "word": "patience",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9989,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5364,
+            "margin": 0.4625
+          },
+          {
+            "word": "hearken",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9996,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5366,
+            "margin": 0.463
+          },
+          {
+            "word": "awe",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9978,
+            "closest_other": "explore",
+            "mean_cos_other": 0.534,
+            "margin": 0.4638
+          },
+          {
+            "word": "vigil",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9995,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5352,
+            "margin": 0.4643
+          },
+          {
+            "word": "attune",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9977,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5332,
+            "margin": 0.4645
+          },
+          {
+            "word": "attest",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9975,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5327,
+            "margin": 0.4648
+          },
+          {
+            "word": "heed",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.998,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5325,
+            "margin": 0.4656
+          },
+          {
+            "word": "beside",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9972,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5297,
+            "margin": 0.4675
+          },
+          {
+            "word": "mirror",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.993,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5213,
+            "margin": 0.4717
+          },
+          {
+            "word": "intake",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.998,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5237,
+            "margin": 0.4742
+          },
+          {
+            "word": "register",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9963,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5206,
+            "margin": 0.4757
+          },
+          {
+            "word": "space",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9988,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5207,
+            "margin": 0.4781
+          },
+          {
+            "word": "hush",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9976,
+            "closest_other": "reflect",
+            "mean_cos_other": 0.5191,
+            "margin": 0.4785
+          },
+          {
+            "word": "present",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9962,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5174,
+            "margin": 0.4787
+          },
+          {
+            "word": "testify",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9989,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5179,
+            "margin": 0.4809
+          },
+          {
+            "word": "bear",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9988,
+            "closest_other": "explore",
+            "mean_cos_other": 0.5162,
+            "margin": 0.4826
+          }
+        ],
+        "single_token": [
+          {
+            "word": "witness",
+            "nearest": "reflect",
+            "cos_witness": 0.4522,
+            "cos_reflect": 0.995,
+            "cos_explore": -0.3179,
+            "cos_stabilize": 0.5484
+          },
+          {
+            "word": "mirror",
+            "nearest": "reflect",
+            "cos_witness": 0.5103,
+            "cos_reflect": 0.9986,
+            "cos_explore": -0.28,
+            "cos_stabilize": 0.4487
+          },
+          {
+            "word": "sit",
+            "nearest": "reflect",
+            "cos_witness": 0.5212,
+            "cos_reflect": 0.9976,
+            "cos_explore": -0.2892,
+            "cos_stabilize": 0.4167
+          },
+          {
+            "word": "sense",
+            "nearest": "reflect",
+            "cos_witness": 0.5269,
+            "cos_reflect": 0.9978,
+            "cos_explore": -0.2859,
+            "cos_stabilize": 0.4212
+          },
+          {
+            "word": "attend",
+            "nearest": "reflect",
+            "cos_witness": 0.5383,
+            "cos_reflect": 0.9953,
+            "cos_explore": -0.2735,
+            "cos_stabilize": 0.398
+          },
+          {
+            "word": "contemplate",
+            "nearest": "reflect",
+            "cos_witness": 0.5638,
+            "cos_reflect": 0.991,
+            "cos_explore": -0.2477,
+            "cos_stabilize": 0.3781
+          },
+          {
+            "word": "register",
+            "nearest": "reflect",
+            "cos_witness": 0.6001,
+            "cos_reflect": 0.9849,
+            "cos_explore": -0.208,
+            "cos_stabilize": 0.3641
+          },
+          {
+            "word": "meditate",
+            "nearest": "reflect",
+            "cos_witness": 0.6078,
+            "cos_reflect": 0.9828,
+            "cos_explore": -0.1891,
+            "cos_stabilize": 0.3678
+          },
+          {
+            "word": "perceive",
+            "nearest": "reflect",
+            "cos_witness": 0.6209,
+            "cos_reflect": 0.9786,
+            "cos_explore": -0.1978,
+            "cos_stabilize": 0.3383
+          },
+          {
+            "word": "observe",
+            "nearest": "reflect",
+            "cos_witness": 0.6584,
+            "cos_reflect": 0.9705,
+            "cos_explore": -0.1627,
+            "cos_stabilize": 0.3299
+          },
+          {
+            "word": "notice",
+            "nearest": "reflect",
+            "cos_witness": 0.6722,
+            "cos_reflect": 0.9641,
+            "cos_explore": -0.123,
+            "cos_stabilize": 0.3299
+          },
+          {
+            "word": "humble",
+            "nearest": "witness",
+            "cos_witness": 0.99,
+            "cos_reflect": 0.5999,
+            "cos_explore": 0.4212,
+            "cos_stabilize": 0.1352
+          },
+          {
+            "word": "beside",
+            "nearest": "witness",
+            "cos_witness": 0.9941,
+            "cos_reflect": 0.5755,
+            "cos_explore": 0.4491,
+            "cos_stabilize": 0.1284
+          },
+          {
+            "word": "behold",
+            "nearest": "witness",
+            "cos_witness": 0.9954,
+            "cos_reflect": 0.5713,
+            "cos_explore": 0.4651,
+            "cos_stabilize": 0.1238
+          },
+          {
+            "word": "present",
+            "nearest": "witness",
+            "cos_witness": 0.9967,
+            "cos_reflect": 0.5573,
+            "cos_explore": 0.4748,
+            "cos_stabilize": 0.1199
+          },
+          {
+            "word": "gaze",
+            "nearest": "witness",
+            "cos_witness": 0.997,
+            "cos_reflect": 0.5549,
+            "cos_explore": 0.488,
+            "cos_stabilize": 0.1169
+          },
+          {
+            "word": "attune",
+            "nearest": "witness",
+            "cos_witness": 0.9977,
+            "cos_reflect": 0.5459,
+            "cos_explore": 0.4846,
+            "cos_stabilize": 0.119
+          },
+          {
+            "word": "attest",
+            "nearest": "witness",
+            "cos_witness": 0.9978,
+            "cos_reflect": 0.5458,
+            "cos_explore": 0.4977,
+            "cos_stabilize": 0.114
+          },
+          {
+            "word": "accompany",
+            "nearest": "witness",
+            "cos_witness": 0.9989,
+            "cos_reflect": 0.533,
+            "cos_explore": 0.5065,
+            "cos_stabilize": 0.1139
+          },
+          {
+            "word": "sojourn",
+            "nearest": "witness",
+            "cos_witness": 0.9984,
+            "cos_reflect": 0.5281,
+            "cos_explore": 0.5254,
+            "cos_stabilize": 0.1087
+          },
+          {
+            "word": "intake",
+            "nearest": "witness",
+            "cos_witness": 0.9985,
+            "cos_reflect": 0.5223,
+            "cos_explore": 0.4998,
+            "cos_stabilize": 0.1152
+          },
+          {
+            "word": "vigil",
+            "nearest": "witness",
+            "cos_witness": 0.9994,
+            "cos_reflect": 0.5193,
+            "cos_explore": 0.5138,
+            "cos_stabilize": 0.1104
+          },
+          {
+            "word": "hearken",
+            "nearest": "witness",
+            "cos_witness": 0.9996,
+            "cos_reflect": 0.5179,
+            "cos_explore": 0.5183,
+            "cos_stabilize": 0.1076
+          },
+          {
+            "word": "testify",
+            "nearest": "witness",
+            "cos_witness": 0.9996,
+            "cos_reflect": 0.5111,
+            "cos_explore": 0.5188,
+            "cos_stabilize": 0.1065
+          },
+          {
+            "word": "patience",
+            "nearest": "witness",
+            "cos_witness": 0.9997,
+            "cos_reflect": 0.5088,
+            "cos_explore": 0.5234,
+            "cos_stabilize": 0.1075
+          },
+          {
+            "word": "bear",
+            "nearest": "witness",
+            "cos_witness": 0.9998,
+            "cos_reflect": 0.5081,
+            "cos_explore": 0.5244,
+            "cos_stabilize": 0.1068
+          },
+          {
+            "word": "awe",
+            "nearest": "witness",
+            "cos_witness": 0.9993,
+            "cos_reflect": 0.5039,
+            "cos_explore": 0.5473,
+            "cos_stabilize": 0.1021
+          },
+          {
+            "word": "heed",
+            "nearest": "witness",
+            "cos_witness": 0.9999,
+            "cos_reflect": 0.5029,
+            "cos_explore": 0.5378,
+            "cos_stabilize": 0.1024
+          },
+          {
+            "word": "marvel",
+            "nearest": "witness",
+            "cos_witness": 1.0,
+            "cos_reflect": 0.5006,
+            "cos_explore": 0.5388,
+            "cos_stabilize": 0.1037
+          },
+          {
+            "word": "receive",
+            "nearest": "witness",
+            "cos_witness": 1.0,
+            "cos_reflect": 0.4966,
+            "cos_explore": 0.5393,
+            "cos_stabilize": 0.1019
+          },
+          {
+            "word": "space",
+            "nearest": "witness",
+            "cos_witness": 0.9999,
+            "cos_reflect": 0.4924,
+            "cos_explore": 0.5423,
+            "cos_stabilize": 0.1005
+          },
+          {
+            "word": "hush",
+            "nearest": "witness",
+            "cos_witness": 0.9998,
+            "cos_reflect": 0.4909,
+            "cos_explore": 0.5496,
+            "cos_stabilize": 0.0979
+          },
+          {
+            "word": "unsought",
+            "nearest": "witness",
+            "cos_witness": 0.9981,
+            "cos_reflect": 0.4689,
+            "cos_explore": 0.5834,
+            "cos_stabilize": 0.0902
+          },
+          {
+            "word": "linger",
+            "nearest": "witness",
+            "cos_witness": 0.9994,
+            "cos_reflect": 0.4684,
+            "cos_explore": 0.568,
+            "cos_stabilize": 0.0942
+          },
+          {
+            "word": "unmoved",
+            "nearest": "witness",
+            "cos_witness": 0.9993,
+            "cos_reflect": 0.4673,
+            "cos_explore": 0.5714,
+            "cos_stabilize": 0.0928
+          },
+          {
+            "word": "ken",
+            "nearest": "witness",
+            "cos_witness": 0.9993,
+            "cos_reflect": 0.4665,
+            "cos_explore": 0.5683,
+            "cos_stabilize": 0.0942
+          },
+          {
+            "word": "presence",
+            "nearest": "witness",
+            "cos_witness": 0.9979,
+            "cos_reflect": 0.4456,
+            "cos_explore": 0.5916,
+            "cos_stabilize": 0.0842
+          },
+          {
+            "word": "company",
+            "nearest": "witness",
+            "cos_witness": 0.9959,
+            "cos_reflect": 0.434,
+            "cos_explore": 0.6136,
+            "cos_stabilize": 0.0816
+          },
+          {
+            "word": "awareness",
+            "nearest": "witness",
+            "cos_witness": 0.995,
+            "cos_reflect": 0.4159,
+            "cos_explore": 0.619,
+            "cos_stabilize": 0.0788
+          },
+          {
+            "word": "regard",
+            "nearest": "witness",
+            "cos_witness": 0.9949,
+            "cos_reflect": 0.4136,
+            "cos_explore": 0.6144,
+            "cos_stabilize": 0.0823
+          },
+          {
+            "word": "allow",
+            "nearest": "witness",
+            "cos_witness": 0.9938,
+            "cos_reflect": 0.4053,
+            "cos_explore": 0.6276,
+            "cos_stabilize": 0.074
+          },
+          {
+            "word": "receptive",
+            "nearest": "witness",
+            "cos_witness": 0.9918,
+            "cos_reflect": 0.3985,
+            "cos_explore": 0.6431,
+            "cos_stabilize": 0.0722
+          },
+          {
+            "word": "listen",
+            "nearest": "witness",
+            "cos_witness": 0.9927,
+            "cos_reflect": 0.3974,
+            "cos_explore": 0.6326,
+            "cos_stabilize": 0.0767
+          },
+          {
+            "word": "await",
+            "nearest": "witness",
+            "cos_witness": 0.9919,
+            "cos_reflect": 0.3943,
+            "cos_explore": 0.6403,
+            "cos_stabilize": 0.0727
+          },
+          {
+            "word": "welcome",
+            "nearest": "witness",
+            "cos_witness": 0.9897,
+            "cos_reflect": 0.378,
+            "cos_explore": 0.6496,
+            "cos_stabilize": 0.0689
+          },
+          {
+            "word": "reception",
+            "nearest": "witness",
+            "cos_witness": 0.9881,
+            "cos_reflect": 0.3702,
+            "cos_explore": 0.6594,
+            "cos_stabilize": 0.0674
+          },
+          {
+            "word": "overhear",
+            "nearest": "witness",
+            "cos_witness": 0.9861,
+            "cos_reflect": 0.363,
+            "cos_explore": 0.6706,
+            "cos_stabilize": 0.064
+          },
+          {
+            "word": "dwell",
+            "nearest": "witness",
+            "cos_witness": 0.9852,
+            "cos_reflect": 0.3611,
+            "cos_explore": 0.6745,
+            "cos_stabilize": 0.0593
+          },
+          {
+            "word": "accept",
+            "nearest": "witness",
+            "cos_witness": 0.9846,
+            "cos_reflect": 0.3536,
+            "cos_explore": 0.6758,
+            "cos_stabilize": 0.0613
+          },
+          {
+            "word": "abide",
+            "nearest": "witness",
+            "cos_witness": 0.9652,
+            "cos_reflect": 0.2752,
+            "cos_explore": 0.7331,
+            "cos_stabilize": 0.0434
+          }
+        ]
+      }
+    },
+    "pulled": {
+      "data": {
+        "pulled": true,
+        "dropped": {
+          "stabilize": 18,
+          "reflect": 373
+        },
+        "train_kept": 8136,
+        "witness": 184
+      },
+      "train": {
+        "epochs": 40,
+        "final_loss": 3.940368,
+        "loss_history": [
+          5.668074,
+          5.542801,
+          5.553457,
+          5.54354,
+          5.46771,
+          5.250437,
+          4.787092,
+          4.438123,
+          4.193822,
+          4.114606,
+          4.102239,
+          4.108999,
+          3.999037,
+          4.165125,
+          4.031253,
+          3.978353,
+          3.993191,
+          3.969363,
+          4.038094,
+          4.042454,
+          4.027582,
+          3.957346,
+          4.037248,
+          3.9021,
+          3.968761,
+          3.929665,
+          3.896549,
+          3.947613,
+          3.979575,
+          3.95735,
+          3.930694,
+          3.893515,
+          3.957149,
+          3.924778,
+          3.873288,
+          3.895364,
+          3.904547,
+          3.890833,
+          3.881831,
+          3.940368
+        ],
+        "train_nn_acc": 0.9965
+      },
+      "metrics": {
+        "intra_pairwise": {
+          "stabilize": 0.9796,
+          "dream": 0.98,
+          "reflect": 0.9956,
+          "explore": 0.9918,
+          "rupture": 0.9882,
+          "witness": 0.99
+        },
+        "mean_cos_to_own_centroid": {
+          "stabilize": 0.9897,
+          "dream": 0.9899,
+          "reflect": 0.9978,
+          "explore": 0.9959,
+          "rupture": 0.9941,
+          "witness": 0.995
+        },
+        "centroid_cosine": {
+          "stabilize": {
+            "witness": 0.3103
+          },
+          "dream": {
+            "stabilize": 0.494,
+            "reflect": 0.5079,
+            "explore": 0.3669,
+            "rupture": 0.4191,
+            "witness": 0.1948
+          },
+          "reflect": {
+            "stabilize": 0.487,
+            "rupture": 0.4555,
+            "witness": 0.1035
+          },
+          "explore": {
+            "stabilize": 0.3351,
+            "reflect": 0.4174,
+            "rupture": -0.1712,
+            "witness": 0.3729
+          },
+          "rupture": {
+            "stabilize": 0.4509,
+            "witness": 0.4706
+          }
+        },
+        "nearest_centroid_acc": {
+          "stabilize": 0.9924,
+          "dream": 0.9836,
+          "reflect": 0.9979,
+          "explore": 0.9974,
+          "rupture": 0.998,
+          "witness": 1.0
+        },
+        "witness_misses": [],
+        "witness_miss_count": 0,
+        "word_margin": [
+          {
+            "word": "perceive",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9834,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.5855,
+            "margin": 0.3979
+          },
+          {
+            "word": "notice",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9857,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.5692,
+            "margin": 0.4165
+          },
+          {
+            "word": "accept",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9903,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.5288,
+            "margin": 0.4615
+          },
+          {
+            "word": "accompany",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9916,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.5277,
+            "margin": 0.4639
+          },
+          {
+            "word": "mirror",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.995,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.5259,
+            "margin": 0.4691
+          },
+          {
+            "word": "space",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.994,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.5215,
+            "margin": 0.4725
+          },
+          {
+            "word": "company",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9957,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.5136,
+            "margin": 0.4821
+          },
+          {
+            "word": "hearken",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9974,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.507,
+            "margin": 0.4903
+          },
+          {
+            "word": "awe",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9964,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4959,
+            "margin": 0.5005
+          },
+          {
+            "word": "ken",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.995,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4934,
+            "margin": 0.5016
+          },
+          {
+            "word": "attend",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9973,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4951,
+            "margin": 0.5022
+          },
+          {
+            "word": "receptive",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9927,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4904,
+            "margin": 0.5023
+          },
+          {
+            "word": "bear",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9968,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.491,
+            "margin": 0.5058
+          },
+          {
+            "word": "sit",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9976,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4913,
+            "margin": 0.5063
+          },
+          {
+            "word": "heed",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9952,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4886,
+            "margin": 0.5067
+          },
+          {
+            "word": "observe",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9923,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4855,
+            "margin": 0.5068
+          },
+          {
+            "word": "contemplate",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9971,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4897,
+            "margin": 0.5074
+          },
+          {
+            "word": "regard",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9961,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4868,
+            "margin": 0.5093
+          },
+          {
+            "word": "allow",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9954,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4829,
+            "margin": 0.5125
+          },
+          {
+            "word": "patience",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.997,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4798,
+            "margin": 0.5172
+          },
+          {
+            "word": "sojourn",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9978,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4801,
+            "margin": 0.5177
+          },
+          {
+            "word": "unsought",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9958,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.478,
+            "margin": 0.5178
+          },
+          {
+            "word": "intake",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.998,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4785,
+            "margin": 0.5195
+          },
+          {
+            "word": "presence",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9958,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4733,
+            "margin": 0.5225
+          },
+          {
+            "word": "sense",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.997,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4744,
+            "margin": 0.5226
+          },
+          {
+            "word": "testify",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9913,
+            "closest_other": "explore",
+            "mean_cos_other": 0.4663,
+            "margin": 0.525
+          },
+          {
+            "word": "listen",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9984,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4695,
+            "margin": 0.5289
+          },
+          {
+            "word": "vigil",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9985,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4695,
+            "margin": 0.529
+          },
+          {
+            "word": "attest",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9905,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4611,
+            "margin": 0.5294
+          },
+          {
+            "word": "gaze",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.991,
+            "closest_other": "explore",
+            "mean_cos_other": 0.4614,
+            "margin": 0.5296
+          },
+          {
+            "word": "welcome",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9967,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4624,
+            "margin": 0.5344
+          },
+          {
+            "word": "receive",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9959,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4604,
+            "margin": 0.5355
+          },
+          {
+            "word": "meditate",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9923,
+            "closest_other": "explore",
+            "mean_cos_other": 0.4562,
+            "margin": 0.5361
+          },
+          {
+            "word": "hush",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.994,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4567,
+            "margin": 0.5373
+          },
+          {
+            "word": "overhear",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9969,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4584,
+            "margin": 0.5386
+          },
+          {
+            "word": "present",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9921,
+            "closest_other": "explore",
+            "mean_cos_other": 0.4508,
+            "margin": 0.5413
+          },
+          {
+            "word": "dwell",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.997,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4509,
+            "margin": 0.5462
+          },
+          {
+            "word": "witness",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9968,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4497,
+            "margin": 0.5471
+          },
+          {
+            "word": "beside",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9981,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4499,
+            "margin": 0.5482
+          },
+          {
+            "word": "attune",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9985,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4493,
+            "margin": 0.5492
+          },
+          {
+            "word": "marvel",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9924,
+            "closest_other": "explore",
+            "mean_cos_other": 0.4429,
+            "margin": 0.5495
+          },
+          {
+            "word": "register",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9971,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4417,
+            "margin": 0.5553
+          },
+          {
+            "word": "reception",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.997,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4409,
+            "margin": 0.5561
+          },
+          {
+            "word": "behold",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9943,
+            "closest_other": "explore",
+            "mean_cos_other": 0.438,
+            "margin": 0.5563
+          },
+          {
+            "word": "unmoved",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9962,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.438,
+            "margin": 0.5582
+          },
+          {
+            "word": "humble",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9973,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4391,
+            "margin": 0.5582
+          },
+          {
+            "word": "linger",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9976,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4323,
+            "margin": 0.5652
+          },
+          {
+            "word": "await",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9931,
+            "closest_other": "explore",
+            "mean_cos_other": 0.427,
+            "margin": 0.5662
+          },
+          {
+            "word": "awareness",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.9963,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4301,
+            "margin": 0.5663
+          },
+          {
+            "word": "abide",
+            "n": 9,
+            "nearest_centroid_frac": 1.0,
+            "mean_cos_witness": 0.997,
+            "closest_other": "rupture",
+            "mean_cos_other": 0.4226,
+            "margin": 0.5744
+          }
+        ],
+        "single_token": [
+          {
+            "word": "present",
+            "nearest": "witness",
+            "cos_witness": 0.9386,
+            "cos_reflect": 0.1945,
+            "cos_explore": 0.6437,
+            "cos_stabilize": 0.4246
+          },
+          {
+            "word": "gaze",
+            "nearest": "witness",
+            "cos_witness": 0.9464,
+            "cos_reflect": 0.1726,
+            "cos_explore": 0.6381,
+            "cos_stabilize": 0.3503
+          },
+          {
+            "word": "awareness",
+            "nearest": "witness",
+            "cos_witness": 0.9499,
+            "cos_reflect": 0.1695,
+            "cos_explore": 0.6309,
+            "cos_stabilize": 0.3351
+          },
+          {
+            "word": "receive",
+            "nearest": "witness",
+            "cos_witness": 0.9648,
+            "cos_reflect": 0.171,
+            "cos_explore": 0.5542,
+            "cos_stabilize": 0.4499
+          },
+          {
+            "word": "testify",
+            "nearest": "witness",
+            "cos_witness": 0.9492,
+            "cos_reflect": 0.155,
+            "cos_explore": 0.6287,
+            "cos_stabilize": 0.3104
+          },
+          {
+            "word": "meditate",
+            "nearest": "witness",
+            "cos_witness": 0.9683,
+            "cos_reflect": 0.157,
+            "cos_explore": 0.571,
+            "cos_stabilize": 0.3833
+          },
+          {
+            "word": "mirror",
+            "nearest": "witness",
+            "cos_witness": 0.9722,
+            "cos_reflect": 0.1468,
+            "cos_explore": 0.2487,
+            "cos_stabilize": 0.4445
+          },
+          {
+            "word": "await",
+            "nearest": "witness",
+            "cos_witness": 0.978,
+            "cos_reflect": 0.1505,
+            "cos_explore": 0.5452,
+            "cos_stabilize": 0.3511
+          },
+          {
+            "word": "behold",
+            "nearest": "witness",
+            "cos_witness": 0.9712,
+            "cos_reflect": 0.1371,
+            "cos_explore": 0.5668,
+            "cos_stabilize": 0.3199
+          },
+          {
+            "word": "linger",
+            "nearest": "witness",
+            "cos_witness": 0.9745,
+            "cos_reflect": 0.1351,
+            "cos_explore": 0.5556,
+            "cos_stabilize": 0.3045
+          },
+          {
+            "word": "marvel",
+            "nearest": "witness",
+            "cos_witness": 0.9725,
+            "cos_reflect": 0.1303,
+            "cos_explore": 0.5588,
+            "cos_stabilize": 0.2932
+          },
+          {
+            "word": "unmoved",
+            "nearest": "witness",
+            "cos_witness": 0.9781,
+            "cos_reflect": 0.1308,
+            "cos_explore": 0.5379,
+            "cos_stabilize": 0.2836
+          },
+          {
+            "word": "perceive",
+            "nearest": "witness",
+            "cos_witness": 0.9801,
+            "cos_reflect": 0.13,
+            "cos_explore": 0.2265,
+            "cos_stabilize": 0.3313
+          },
+          {
+            "word": "unsought",
+            "nearest": "witness",
+            "cos_witness": 0.9943,
+            "cos_reflect": 0.1292,
+            "cos_explore": 0.3648,
+            "cos_stabilize": 0.3971
+          },
+          {
+            "word": "notice",
+            "nearest": "witness",
+            "cos_witness": 0.9796,
+            "cos_reflect": 0.1124,
+            "cos_explore": 0.2189,
+            "cos_stabilize": 0.2943
+          },
+          {
+            "word": "register",
+            "nearest": "witness",
+            "cos_witness": 0.9902,
+            "cos_reflect": 0.1229,
+            "cos_explore": 0.485,
+            "cos_stabilize": 0.2987
+          },
+          {
+            "word": "welcome",
+            "nearest": "witness",
+            "cos_witness": 0.9846,
+            "cos_reflect": 0.1156,
+            "cos_explore": 0.5074,
+            "cos_stabilize": 0.2806
+          },
+          {
+            "word": "abide",
+            "nearest": "witness",
+            "cos_witness": 0.9877,
+            "cos_reflect": 0.1179,
+            "cos_explore": 0.4983,
+            "cos_stabilize": 0.3032
+          },
+          {
+            "word": "patience",
+            "nearest": "witness",
+            "cos_witness": 0.9974,
+            "cos_reflect": 0.1264,
+            "cos_explore": 0.3461,
+            "cos_stabilize": 0.285
+          },
+          {
+            "word": "observe",
+            "nearest": "witness",
+            "cos_witness": 0.9996,
+            "cos_reflect": 0.1255,
+            "cos_explore": 0.3816,
+            "cos_stabilize": 0.3164
+          },
+          {
+            "word": "ken",
+            "nearest": "witness",
+            "cos_witness": 0.9994,
+            "cos_reflect": 0.1227,
+            "cos_explore": 0.3899,
+            "cos_stabilize": 0.3046
+          },
+          {
+            "word": "allow",
+            "nearest": "witness",
+            "cos_witness": 0.9963,
+            "cos_reflect": 0.1165,
+            "cos_explore": 0.3163,
+            "cos_stabilize": 0.2919
+          },
+          {
+            "word": "hush",
+            "nearest": "witness",
+            "cos_witness": 0.9926,
+            "cos_reflect": 0.1116,
+            "cos_explore": 0.4637,
+            "cos_stabilize": 0.3382
+          },
+          {
+            "word": "receptive",
+            "nearest": "witness",
+            "cos_witness": 0.9986,
+            "cos_reflect": 0.1175,
+            "cos_explore": 0.3698,
+            "cos_stabilize": 0.3513
+          },
+          {
+            "word": "sojourn",
+            "nearest": "witness",
+            "cos_witness": 0.999,
+            "cos_reflect": 0.1165,
+            "cos_explore": 0.4054,
+            "cos_stabilize": 0.3218
+          },
+          {
+            "word": "attest",
+            "nearest": "witness",
+            "cos_witness": 0.9985,
+            "cos_reflect": 0.115,
+            "cos_explore": 0.4173,
+            "cos_stabilize": 0.3075
+          },
+          {
+            "word": "heed",
+            "nearest": "witness",
+            "cos_witness": 0.9986,
+            "cos_reflect": 0.1146,
+            "cos_explore": 0.3565,
+            "cos_stabilize": 0.3477
+          },
+          {
+            "word": "witness",
+            "nearest": "witness",
+            "cos_witness": 0.9956,
+            "cos_reflect": 0.1113,
+            "cos_explore": 0.4431,
+            "cos_stabilize": 0.3351
+          },
+          {
+            "word": "humble",
+            "nearest": "witness",
+            "cos_witness": 0.9924,
+            "cos_reflect": 0.1055,
+            "cos_explore": 0.4663,
+            "cos_stabilize": 0.3078
+          },
+          {
+            "word": "company",
+            "nearest": "witness",
+            "cos_witness": 0.9978,
+            "cos_reflect": 0.1092,
+            "cos_explore": 0.3436,
+            "cos_stabilize": 0.3518
+          },
+          {
+            "word": "regard",
+            "nearest": "witness",
+            "cos_witness": 0.9987,
+            "cos_reflect": 0.11,
+            "cos_explore": 0.3879,
+            "cos_stabilize": 0.3458
+          },
+          {
+            "word": "sense",
+            "nearest": "witness",
+            "cos_witness": 0.9943,
+            "cos_reflect": 0.105,
+            "cos_explore": 0.4477,
+            "cos_stabilize": 0.2775
+          },
+          {
+            "word": "dwell",
+            "nearest": "witness",
+            "cos_witness": 0.9905,
+            "cos_reflect": 0.1011,
+            "cos_explore": 0.4751,
+            "cos_stabilize": 0.2883
+          },
+          {
+            "word": "accept",
+            "nearest": "witness",
+            "cos_witness": 0.9995,
+            "cos_reflect": 0.1095,
+            "cos_explore": 0.3608,
+            "cos_stabilize": 0.2943
+          },
+          {
+            "word": "reception",
+            "nearest": "witness",
+            "cos_witness": 0.9963,
+            "cos_reflect": 0.1055,
+            "cos_explore": 0.4197,
+            "cos_stabilize": 0.2672
+          },
+          {
+            "word": "space",
+            "nearest": "witness",
+            "cos_witness": 0.9975,
+            "cos_reflect": 0.1063,
+            "cos_explore": 0.3223,
+            "cos_stabilize": 0.2913
+          },
+          {
+            "word": "beside",
+            "nearest": "witness",
+            "cos_witness": 0.9929,
+            "cos_reflect": 0.0982,
+            "cos_explore": 0.4598,
+            "cos_stabilize": 0.2907
+          },
+          {
+            "word": "accompany",
+            "nearest": "witness",
+            "cos_witness": 0.9994,
+            "cos_reflect": 0.1043,
+            "cos_explore": 0.3469,
+            "cos_stabilize": 0.3097
+          },
+          {
+            "word": "attune",
+            "nearest": "witness",
+            "cos_witness": 0.9989,
+            "cos_reflect": 0.1031,
+            "cos_explore": 0.4025,
+            "cos_stabilize": 0.3246
+          },
+          {
+            "word": "presence",
+            "nearest": "witness",
+            "cos_witness": 0.9991,
+            "cos_reflect": 0.1021,
+            "cos_explore": 0.3979,
+            "cos_stabilize": 0.3211
+          },
+          {
+            "word": "overhear",
+            "nearest": "witness",
+            "cos_witness": 0.9966,
+            "cos_reflect": 0.0992,
+            "cos_explore": 0.4317,
+            "cos_stabilize": 0.3009
+          },
+          {
+            "word": "awe",
+            "nearest": "witness",
+            "cos_witness": 0.9999,
+            "cos_reflect": 0.1011,
+            "cos_explore": 0.3593,
+            "cos_stabilize": 0.306
+          },
+          {
+            "word": "sit",
+            "nearest": "witness",
+            "cos_witness": 0.9984,
+            "cos_reflect": 0.0986,
+            "cos_explore": 0.3256,
+            "cos_stabilize": 0.3131
+          },
+          {
+            "word": "contemplate",
+            "nearest": "witness",
+            "cos_witness": 0.9997,
+            "cos_reflect": 0.098,
+            "cos_explore": 0.3783,
+            "cos_stabilize": 0.3165
+          },
+          {
+            "word": "intake",
+            "nearest": "witness",
+            "cos_witness": 0.9995,
+            "cos_reflect": 0.0976,
+            "cos_explore": 0.3713,
+            "cos_stabilize": 0.2859
+          },
+          {
+            "word": "hearken",
+            "nearest": "witness",
+            "cos_witness": 0.9991,
+            "cos_reflect": 0.0967,
+            "cos_explore": 0.3414,
+            "cos_stabilize": 0.2904
+          },
+          {
+            "word": "vigil",
+            "nearest": "witness",
+            "cos_witness": 0.9994,
+            "cos_reflect": 0.0929,
+            "cos_explore": 0.3643,
+            "cos_stabilize": 0.28
+          },
+          {
+            "word": "listen",
+            "nearest": "witness",
+            "cos_witness": 0.9977,
+            "cos_reflect": 0.0899,
+            "cos_explore": 0.4065,
+            "cos_stabilize": 0.2723
+          },
+          {
+            "word": "attend",
+            "nearest": "witness",
+            "cos_witness": 0.9993,
+            "cos_reflect": 0.0914,
+            "cos_explore": 0.3846,
+            "cos_stabilize": 0.2853
+          },
+          {
+            "word": "bear",
+            "nearest": "witness",
+            "cos_witness": 0.9973,
+            "cos_reflect": 0.0853,
+            "cos_explore": 0.31,
+            "cos_stabilize": 0.2876
+          }
+        ]
+      }
+    }
+  }
+}
