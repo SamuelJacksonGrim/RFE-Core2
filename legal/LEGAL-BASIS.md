@@ -117,13 +117,6 @@ under the author's direction. Two consequences:
   creative control, not one-shot prompting — the fact pattern courts have
   *denied* (Thaler) was a machine generating a work with *no* human involvement,
   the opposite of this.
-- **The thin spot (know it, don't overclaim).** A block a model produced that
-  survives **verbatim and unedited**, contributed with no human creative choice,
-  is the weakest link — that exact string may not be independently
-  copyrightable. In an active refinement chain little tends to remain untouched,
-  but the honest rule is: enforcement rests on the human-authored and
-  human-arranged expression, so keep exercising (and being able to describe)
-  that control. See `legal/AUTHORSHIP.md`.
 
 ### 2.6 The commercial contract layer — state contract law & the UCC
 
