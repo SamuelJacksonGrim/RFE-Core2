@@ -226,7 +226,8 @@ RFE-Core2/
 │   │   ├── sidecar/                      External measurement engines (LAE + PLE, observe-only)
 │   │   │   ├── sidecar_harness.py            CycleTap + LAE/PLE sidecar adapters (terminal sinks)
 │   │   │   ├── engine_sidecar_probe.py       Control vs pretrained sidecar measurement (twin + latency controls)
-│   │   │   └── fullsend_feedback_probe.py    Completion-encoder governed feedback vs the June lock (isolated)
+│   │   │   ├── fullsend_feedback_probe.py    Completion-encoder governed feedback vs the June lock (isolated)
+│   │   │   └── fullsend_feedback_256_probe.py  Same governed-feedback A/B, full-send arm on the dim-256 completion field
 │   │   ├── integrity/                    Two-Operator program (spec v0.3) — ⊘ integrity-read (C), λ ignition (A), solvent gate (B)
 │   │   │   ├── witness_reaper_probe.py       ⊘ unit: thinness vector, non-binding advisory, firewall + sacred-flag
 │   │   │   ├── ignition_isolation_probe.py   λ channel (A): import-graph isolation audit + ignite() function
