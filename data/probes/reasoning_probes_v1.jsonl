@@ -1,0 +1,398 @@
+{"type":"analogy","relation":"antonym_truth","a":"true","b":"false","c":"right","d":"wrong"}
+{"type":"analogy","relation":"antonym_truth","a":"true","b":"false","c":"yes","d":"no"}
+{"type":"analogy","relation":"antonym_truth","a":"true","b":"false","c":"real","d":"fake"}
+{"type":"analogy","relation":"antonym_truth","a":"right","b":"wrong","c":"true","d":"false"}
+{"type":"analogy","relation":"antonym_truth","a":"right","b":"wrong","c":"yes","d":"no"}
+{"type":"analogy","relation":"antonym_truth","a":"right","b":"wrong","c":"real","d":"fake"}
+{"type":"analogy","relation":"antonym_truth","a":"yes","b":"no","c":"true","d":"false"}
+{"type":"analogy","relation":"antonym_truth","a":"yes","b":"no","c":"right","d":"wrong"}
+{"type":"analogy","relation":"antonym_truth","a":"yes","b":"no","c":"real","d":"fake"}
+{"type":"analogy","relation":"antonym_truth","a":"real","b":"fake","c":"true","d":"false"}
+{"type":"analogy","relation":"antonym_truth","a":"real","b":"fake","c":"right","d":"wrong"}
+{"type":"analogy","relation":"antonym_truth","a":"real","b":"fake","c":"yes","d":"no"}
+{"type":"analogy","relation":"antonym_morph","a":"valid","b":"invalid","c":"correct","d":"incorrect"}
+{"type":"analogy","relation":"antonym_morph","a":"valid","b":"invalid","c":"possible","d":"impossible"}
+{"type":"analogy","relation":"antonym_morph","a":"valid","b":"invalid","c":"known","d":"unknown"}
+{"type":"analogy","relation":"antonym_morph","a":"correct","b":"incorrect","c":"valid","d":"invalid"}
+{"type":"analogy","relation":"antonym_morph","a":"correct","b":"incorrect","c":"possible","d":"impossible"}
+{"type":"analogy","relation":"antonym_morph","a":"correct","b":"incorrect","c":"known","d":"unknown"}
+{"type":"analogy","relation":"antonym_morph","a":"possible","b":"impossible","c":"valid","d":"invalid"}
+{"type":"analogy","relation":"antonym_morph","a":"possible","b":"impossible","c":"correct","d":"incorrect"}
+{"type":"analogy","relation":"antonym_morph","a":"possible","b":"impossible","c":"known","d":"unknown"}
+{"type":"analogy","relation":"antonym_morph","a":"known","b":"unknown","c":"valid","d":"invalid"}
+{"type":"analogy","relation":"antonym_morph","a":"known","b":"unknown","c":"correct","d":"incorrect"}
+{"type":"analogy","relation":"antonym_morph","a":"known","b":"unknown","c":"possible","d":"impossible"}
+{"type":"analogy","relation":"cause_effect","a":"cause","b":"effect","c":"reason","d":"result"}
+{"type":"analogy","relation":"cause_effect","a":"cause","b":"effect","c":"action","d":"consequence"}
+{"type":"analogy","relation":"cause_effect","a":"cause","b":"effect","c":"intent","d":"outcome"}
+{"type":"analogy","relation":"cause_effect","a":"reason","b":"result","c":"cause","d":"effect"}
+{"type":"analogy","relation":"cause_effect","a":"reason","b":"result","c":"action","d":"consequence"}
+{"type":"analogy","relation":"cause_effect","a":"reason","b":"result","c":"intent","d":"outcome"}
+{"type":"analogy","relation":"cause_effect","a":"action","b":"consequence","c":"cause","d":"effect"}
+{"type":"analogy","relation":"cause_effect","a":"action","b":"consequence","c":"reason","d":"result"}
+{"type":"analogy","relation":"cause_effect","a":"action","b":"consequence","c":"intent","d":"outcome"}
+{"type":"analogy","relation":"cause_effect","a":"intent","b":"outcome","c":"cause","d":"effect"}
+{"type":"analogy","relation":"cause_effect","a":"intent","b":"outcome","c":"reason","d":"result"}
+{"type":"analogy","relation":"cause_effect","a":"intent","b":"outcome","c":"action","d":"consequence"}
+{"type":"analogy","relation":"mental_state","a":"believe","b":"doubt","c":"know","d":"guess"}
+{"type":"analogy","relation":"mental_state","a":"believe","b":"doubt","c":"remember","d":"forget"}
+{"type":"analogy","relation":"mental_state","a":"believe","b":"doubt","c":"hope","d":"fear"}
+{"type":"analogy","relation":"mental_state","a":"know","b":"guess","c":"believe","d":"doubt"}
+{"type":"analogy","relation":"mental_state","a":"know","b":"guess","c":"remember","d":"forget"}
+{"type":"analogy","relation":"mental_state","a":"know","b":"guess","c":"hope","d":"fear"}
+{"type":"analogy","relation":"mental_state","a":"remember","b":"forget","c":"believe","d":"doubt"}
+{"type":"analogy","relation":"mental_state","a":"remember","b":"forget","c":"know","d":"guess"}
+{"type":"analogy","relation":"mental_state","a":"remember","b":"forget","c":"hope","d":"fear"}
+{"type":"analogy","relation":"mental_state","a":"hope","b":"fear","c":"believe","d":"doubt"}
+{"type":"analogy","relation":"mental_state","a":"hope","b":"fear","c":"know","d":"guess"}
+{"type":"analogy","relation":"mental_state","a":"hope","b":"fear","c":"remember","d":"forget"}
+{"type":"analogy","relation":"modal","a":"must","b":"may","c":"necessary","d":"optional"}
+{"type":"analogy","relation":"modal","a":"must","b":"may","c":"always","d":"sometimes"}
+{"type":"analogy","relation":"modal","a":"must","b":"may","c":"all","d":"some"}
+{"type":"analogy","relation":"modal","a":"necessary","b":"optional","c":"must","d":"may"}
+{"type":"analogy","relation":"modal","a":"necessary","b":"optional","c":"always","d":"sometimes"}
+{"type":"analogy","relation":"modal","a":"necessary","b":"optional","c":"all","d":"some"}
+{"type":"analogy","relation":"modal","a":"always","b":"sometimes","c":"must","d":"may"}
+{"type":"analogy","relation":"modal","a":"always","b":"sometimes","c":"necessary","d":"optional"}
+{"type":"analogy","relation":"modal","a":"always","b":"sometimes","c":"all","d":"some"}
+{"type":"analogy","relation":"modal","a":"all","b":"some","c":"must","d":"may"}
+{"type":"analogy","relation":"modal","a":"all","b":"some","c":"necessary","d":"optional"}
+{"type":"analogy","relation":"modal","a":"all","b":"some","c":"always","d":"sometimes"}
+{"type":"analogy","relation":"question_answer","a":"ask","b":"answer","c":"question","d":"reply"}
+{"type":"analogy","relation":"question_answer","a":"ask","b":"answer","c":"request","d":"response"}
+{"type":"analogy","relation":"question_answer","a":"ask","b":"answer","c":"problem","d":"solution"}
+{"type":"analogy","relation":"question_answer","a":"question","b":"reply","c":"ask","d":"answer"}
+{"type":"analogy","relation":"question_answer","a":"question","b":"reply","c":"request","d":"response"}
+{"type":"analogy","relation":"question_answer","a":"question","b":"reply","c":"problem","d":"solution"}
+{"type":"analogy","relation":"question_answer","a":"request","b":"response","c":"ask","d":"answer"}
+{"type":"analogy","relation":"question_answer","a":"request","b":"response","c":"question","d":"reply"}
+{"type":"analogy","relation":"question_answer","a":"request","b":"response","c":"problem","d":"solution"}
+{"type":"analogy","relation":"question_answer","a":"problem","b":"solution","c":"ask","d":"answer"}
+{"type":"analogy","relation":"question_answer","a":"problem","b":"solution","c":"question","d":"reply"}
+{"type":"analogy","relation":"question_answer","a":"problem","b":"solution","c":"request","d":"response"}
+{"type":"analogy","relation":"epistemic","a":"fact","b":"opinion","c":"proof","d":"claim"}
+{"type":"analogy","relation":"epistemic","a":"fact","b":"opinion","c":"evidence","d":"assertion"}
+{"type":"analogy","relation":"epistemic","a":"proof","b":"claim","c":"fact","d":"opinion"}
+{"type":"analogy","relation":"epistemic","a":"proof","b":"claim","c":"evidence","d":"assertion"}
+{"type":"analogy","relation":"epistemic","a":"evidence","b":"assertion","c":"fact","d":"opinion"}
+{"type":"analogy","relation":"epistemic","a":"evidence","b":"assertion","c":"proof","d":"claim"}
+{"type":"analogy","relation":"degree","a":"warm","b":"hot","c":"cool","d":"cold"}
+{"type":"analogy","relation":"degree","a":"warm","b":"hot","c":"large","d":"huge"}
+{"type":"analogy","relation":"degree","a":"cool","b":"cold","c":"warm","d":"hot"}
+{"type":"analogy","relation":"degree","a":"cool","b":"cold","c":"large","d":"huge"}
+{"type":"analogy","relation":"degree","a":"large","b":"huge","c":"warm","d":"hot"}
+{"type":"analogy","relation":"degree","a":"large","b":"huge","c":"cool","d":"cold"}
+{"type":"analogy","relation":"degree_quant","a":"some","b":"all","c":"few","d":"none"}
+{"type":"analogy","relation":"degree_quant","a":"some","b":"all","c":"often","d":"always"}
+{"type":"analogy","relation":"degree_quant","a":"few","b":"none","c":"some","d":"all"}
+{"type":"analogy","relation":"degree_quant","a":"few","b":"none","c":"often","d":"always"}
+{"type":"analogy","relation":"degree_quant","a":"often","b":"always","c":"some","d":"all"}
+{"type":"analogy","relation":"degree_quant","a":"often","b":"always","c":"few","d":"none"}
+{"type":"analogy","relation":"converse","a":"give","b":"take","c":"send","d":"receive"}
+{"type":"analogy","relation":"converse","a":"give","b":"take","c":"input","d":"output"}
+{"type":"analogy","relation":"converse","a":"send","b":"receive","c":"give","d":"take"}
+{"type":"analogy","relation":"converse","a":"send","b":"receive","c":"input","d":"output"}
+{"type":"analogy","relation":"converse","a":"input","b":"output","c":"give","d":"take"}
+{"type":"analogy","relation":"converse","a":"input","b":"output","c":"send","d":"receive"}
+{"type":"analogy","relation":"temporal","a":"before","b":"after","c":"past","d":"future"}
+{"type":"analogy","relation":"temporal","a":"before","b":"after","c":"earlier","d":"later"}
+{"type":"analogy","relation":"temporal","a":"past","b":"future","c":"before","d":"after"}
+{"type":"analogy","relation":"temporal","a":"past","b":"future","c":"earlier","d":"later"}
+{"type":"analogy","relation":"temporal","a":"earlier","b":"later","c":"before","d":"after"}
+{"type":"analogy","relation":"temporal","a":"earlier","b":"later","c":"past","d":"future"}
+{"type":"analogy","relation":"action_result","a":"search","b":"find","c":"look","d":"see"}
+{"type":"analogy","relation":"action_result","a":"search","b":"find","c":"try","d":"succeed"}
+{"type":"analogy","relation":"action_result","a":"look","b":"see","c":"search","d":"find"}
+{"type":"analogy","relation":"action_result","a":"look","b":"see","c":"try","d":"succeed"}
+{"type":"analogy","relation":"action_result","a":"try","b":"succeed","c":"search","d":"find"}
+{"type":"analogy","relation":"action_result","a":"try","b":"succeed","c":"look","d":"see"}
+{"type":"analogy","relation":"agent_action","a":"teacher","b":"teach","c":"student","d":"learn"}
+{"type":"analogy","relation":"agent_action","a":"teacher","b":"teach","c":"writer","d":"write"}
+{"type":"analogy","relation":"agent_action","a":"student","b":"learn","c":"teacher","d":"teach"}
+{"type":"analogy","relation":"agent_action","a":"student","b":"learn","c":"writer","d":"write"}
+{"type":"analogy","relation":"agent_action","a":"writer","b":"write","c":"teacher","d":"teach"}
+{"type":"analogy","relation":"agent_action","a":"writer","b":"write","c":"student","d":"learn"}
+{"type":"analogy","relation":"part_whole","a":"part","b":"whole","c":"member","d":"group"}
+{"type":"analogy","relation":"part_whole","a":"part","b":"whole","c":"item","d":"set"}
+{"type":"analogy","relation":"part_whole","a":"member","b":"group","c":"part","d":"whole"}
+{"type":"analogy","relation":"part_whole","a":"member","b":"group","c":"item","d":"set"}
+{"type":"analogy","relation":"part_whole","a":"item","b":"set","c":"part","d":"whole"}
+{"type":"analogy","relation":"part_whole","a":"item","b":"set","c":"member","d":"group"}
+{"type":"analogy","relation":"antonym_force","a":"accept","b":"reject","c":"allow","d":"prevent"}
+{"type":"analogy","relation":"antonym_force","a":"accept","b":"reject","c":"include","d":"exclude"}
+{"type":"analogy","relation":"antonym_force","a":"allow","b":"prevent","c":"accept","d":"reject"}
+{"type":"analogy","relation":"antonym_force","a":"allow","b":"prevent","c":"include","d":"exclude"}
+{"type":"analogy","relation":"antonym_force","a":"include","b":"exclude","c":"accept","d":"reject"}
+{"type":"analogy","relation":"antonym_force","a":"include","b":"exclude","c":"allow","d":"prevent"}
+{"type":"analogy","relation":"degree_comparative","a":"good","b":"better","c":"bad","d":"worse"}
+{"type":"analogy","relation":"degree_comparative","a":"good","b":"best","c":"bad","d":"worst"}
+{"type":"analogy","relation":"degree_comparative","a":"more","b":"most","c":"less","d":"least"}
+{"type":"analogy","relation":"degree_comparative","a":"many","b":"more","c":"few","d":"less"}
+{"type":"analogy","relation":"converse","a":"parent","b":"child","c":"source","d":"target"}
+{"type":"analogy","relation":"converse","a":"teacher","b":"student","c":"parent","d":"child"}
+{"type":"analogy","relation":"cause_effect","a":"cause","b":"effect","c":"premise","d":"conclusion"}
+{"type":"analogy","relation":"action_result","a":"break","b":"repair","c":"fail","d":"recover"}
+{"type":"analogy","relation":"action_result","a":"error","b":"fix","c":"problem","d":"solution"}
+{"type":"analogy","relation":"antonym","a":"success","b":"failure","c":"win","d":"lose"}
+{"type":"analogy","relation":"antonym","a":"present","b":"absent","c":"found","d":"missing"}
+{"type":"analogy","relation":"antonym","a":"start","b":"stop","c":"begin","d":"end"}
+{"type":"analogy","relation":"antonym","a":"first","b":"last","c":"begin","d":"end"}
+{"type":"analogy","relation":"antonym","a":"high","b":"low","c":"up","d":"down"}
+{"type":"analogy","relation":"antonym","a":"large","b":"small","c":"big","d":"little"}
+{"type":"analogy","relation":"antonym","a":"near","b":"far","c":"close","d":"distant"}
+{"type":"analogy","relation":"antonym","a":"inner","b":"outer","c":"inside","d":"outside"}
+{"type":"analogy","relation":"antonym","a":"simple","b":"complex","c":"easy","d":"hard"}
+{"type":"analogy","relation":"antonym","a":"new","b":"old","c":"early","d":"late"}
+{"type":"analogy","relation":"antonym","a":"fast","b":"slow","c":"early","d":"late"}
+{"type":"analogy","relation":"antonym","a":"strong","b":"weak","c":"hard","d":"soft"}
+{"type":"analogy","relation":"antonym","a":"alive","b":"dead","c":"present","d":"absent"}
+{"type":"analogy","relation":"mental_state","a":"know","b":"believe","c":"fact","d":"opinion"}
+{"type":"analogy","relation":"mental_state","a":"think","b":"know","c":"guess","d":"prove"}
+{"type":"analogy","relation":"agent_action","a":"author","b":"write","c":"reader","d":"read"}
+{"type":"analogy","relation":"agent_action","a":"builder","b":"build","c":"teacher","d":"teach"}
+{"type":"analogy","relation":"agent_action","a":"reader","b":"read","c":"writer","d":"write"}
+{"type":"analogy","relation":"part_whole","a":"component","b":"system","c":"member","d":"group"}
+{"type":"analogy","relation":"part_whole","a":"edge","b":"center","c":"surface","d":"core"}
+{"type":"analogy","relation":"temporal","a":"previous","b":"next","c":"first","d":"last"}
+{"type":"analogy","relation":"converse","a":"source","b":"destination","c":"input","d":"output"}
+{"type":"analogy","relation":"degree","a":"small","b":"tiny","c":"large","d":"huge"}
+{"type":"analogy","relation":"degree_quant","a":"rarely","b":"never","c":"often","d":"always"}
+{"type":"analogy","relation":"modal","a":"can","b":"cannot","c":"possible","d":"impossible"}
+{"type":"analogy","relation":"antonym_morph","a":"certain","b":"uncertain","c":"sure","d":"unsure"}
+{"type":"analogy","relation":"antonym_morph","a":"complete","b":"incomplete","c":"able","d":"unable"}
+{"type":"analogy","relation":"antonym_force","a":"keep","b":"discard","c":"add","d":"remove"}
+{"type":"analogy","relation":"antonym","a":"win","b":"lose","c":"gain","d":"loss"}
+{"type":"analogy","relation":"epistemic","a":"know","b":"believe","c":"evidence","d":"assertion"}
+{"type":"negation","relation":"predicate","pos":"memory is true","neg":"memory is not true","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the claim holds","neg":"the claim does not hold","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"it is valid","neg":"it is not valid","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"it is possible","neg":"it is not possible","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"it is required","neg":"it is not required","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"it is certain","neg":"it is not certain","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the output is correct","neg":"the output is not correct","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the proof is complete","neg":"the proof is not complete","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the signal is clear","neg":"the signal is not clear","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"they are the same","neg":"they are not the same","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the items match","neg":"the items do not match","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the claim exists","neg":"the claim does not exist","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the rule applies","neg":"the rule does not apply","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the claim follows","neg":"the claim does not follow","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the path is open","neg":"the path is not open","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"it is known","neg":"it is not known","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"it is safe","neg":"it is not safe","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the result is true","neg":"the result is not true","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"the seal is strong","neg":"the seal is not strong","expect":"far"}
+{"type":"negation","relation":"predicate","pos":"they add tone","neg":"they do not add tone","expect":"far"}
+{"type":"negation","relation":"mental","pos":"i know it holds","neg":"i do not know it holds","expect":"far"}
+{"type":"negation","relation":"mental","pos":"i believe it","neg":"i do not believe it","expect":"far"}
+{"type":"negation","relation":"mental","pos":"i remember it","neg":"i do not remember it","expect":"far"}
+{"type":"negation","relation":"mental","pos":"the claims agree","neg":"the claims do not agree","expect":"far"}
+{"type":"negation","relation":"deontic","pos":"we should keep them","neg":"we should not keep them","expect":"far"}
+{"type":"negation","relation":"deontic","pos":"we need this","neg":"we do not need this","expect":"far"}
+{"type":"negation","relation":"deontic","pos":"keep this change","neg":"do not keep this change","expect":"far"}
+{"type":"negation","relation":"deontic","pos":"it should exist","neg":"it should not exist","expect":"far"}
+{"type":"negation","relation":"modal","pos":"it will work","neg":"it will not work","expect":"far"}
+{"type":"negation","relation":"modal","pos":"it can hold","neg":"it cannot hold","expect":"far"}
+{"type":"negation","relation":"modal","pos":"this must hold","neg":"this must not hold","expect":"far"}
+{"type":"negation","relation":"modal","pos":"the model can learn","neg":"the model cannot learn","expect":"far"}
+{"type":"negation","relation":"never","pos":"it always holds","neg":"it never holds","expect":"far"}
+{"type":"negation","relation":"never","pos":"the test failed","neg":"the test never failed","expect":"far"}
+{"type":"negation","relation":"never","pos":"it still holds","neg":"it no longer holds","expect":"far"}
+{"type":"negation","relation":"no_det","pos":"it has an effect","neg":"it has no effect","expect":"far"}
+{"type":"negation","relation":"no_det","pos":"it means something","neg":"it means nothing","expect":"far"}
+{"type":"negation","relation":"no_det","pos":"there is a cause","neg":"there is no cause","expect":"far"}
+{"type":"negation","relation":"no_det","pos":"it has meaning","neg":"it has no meaning","expect":"far"}
+{"type":"negation","relation":"without","pos":"it works with the seal","neg":"it works without the seal","expect":"far"}
+{"type":"negation","relation":"quantifier","pos":"all of them hold","neg":"none of them hold","expect":"far"}
+{"type":"negation","relation":"quantifier","pos":"every case holds","neg":"no case holds","expect":"far"}
+{"type":"negation","relation":"quantifier","pos":"both of them work","neg":"neither of them work","expect":"far"}
+{"type":"connective","relation":"because_although","base":"it holds because the seal is strong","swap":"it holds although the seal is strong","expect":"shift"}
+{"type":"connective","relation":"because_although","base":"we keep them because they add tone","swap":"we keep them although they add tone","expect":"shift"}
+{"type":"connective","relation":"because_although","base":"it failed because the input was wrong","swap":"it failed although the input was wrong","expect":"shift"}
+{"type":"connective","relation":"because_although","base":"the claim holds because the proof is complete","swap":"the claim holds although the proof is complete","expect":"shift"}
+{"type":"connective","relation":"because_although","base":"we stay because the path is clear","swap":"we stay although the path is clear","expect":"shift"}
+{"type":"connective","relation":"because_although","base":"it fails because the gate is closed","swap":"it fails although the gate is closed","expect":"shift"}
+{"type":"connective","relation":"because_despite","base":"it holds because of the strong seal","swap":"it holds despite the strong seal","expect":"shift"}
+{"type":"connective","relation":"because_despite","base":"we keep it because of the tone","swap":"we keep it despite the tone","expect":"shift"}
+{"type":"connective","relation":"if_unless","base":"it fails if the seal leaks","swap":"it fails unless the seal leaks","expect":"shift"}
+{"type":"connective","relation":"if_unless","base":"keep them if they add tone","swap":"keep them unless they add tone","expect":"shift"}
+{"type":"connective","relation":"if_unless","base":"it holds if the proof is complete","swap":"it holds unless the proof is complete","expect":"shift"}
+{"type":"connective","relation":"if_unless","base":"stop if it fails","swap":"stop unless it fails","expect":"shift"}
+{"type":"connective","relation":"if_unless","base":"nothing holds if this holds","swap":"nothing holds unless this holds","expect":"shift"}
+{"type":"connective","relation":"and_but","base":"it is small and it works","swap":"it is small but it works","expect":"shift"}
+{"type":"connective","relation":"and_but","base":"the claim is old and it holds","swap":"the claim is old but it holds","expect":"shift"}
+{"type":"connective","relation":"and_but","base":"it is true and it holds","swap":"it is true but it holds","expect":"shift"}
+{"type":"connective","relation":"and_but","base":"they add tone and we keep them","swap":"they add tone but we keep them","expect":"shift"}
+{"type":"connective","relation":"therefore_however","base":"the seal is strong therefore it holds","swap":"the seal is strong however it holds","expect":"shift"}
+{"type":"connective","relation":"therefore_however","base":"the proof is complete therefore it holds","swap":"the proof is complete however it holds","expect":"shift"}
+{"type":"connective","relation":"therefore_however","base":"it leaked therefore it failed","swap":"it leaked however it failed","expect":"shift"}
+{"type":"connective","relation":"since_although","base":"it works since the path is clear","swap":"it works although the path is clear","expect":"shift"}
+{"type":"connective","relation":"while_because","base":"it holds while the seal is weak","swap":"it holds because the seal is weak","expect":"shift"}
+{"type":"connective","relation":"if_because","base":"it fails if the input is wrong","swap":"it fails because the input is wrong","expect":"shift"}
+{"type":"connective","relation":"because_therefore","base":"it holds because the seal is strong","swap":"it holds therefore the seal is strong","expect":"shift"}
+{"type":"connective","relation":"if_when","base":"it fails if the seal leaks","swap":"it fails when the seal leaks","expect":"shift"}
+{"type":"connective","relation":"onlyif_if","base":"it holds only if the seal is strong","swap":"it holds if the seal is strong","expect":"shift"}
+{"type":"connective","relation":"because_since","base":"it holds because the seal is strong","swap":"it holds since the seal is strong","expect":"close"}
+{"type":"connective","relation":"because_since","base":"we keep them because they add tone","swap":"we keep them since they add tone","expect":"close"}
+{"type":"connective","relation":"although_though","base":"it holds although the seal is weak","swap":"it holds though the seal is weak","expect":"close"}
+{"type":"connective","relation":"although_though","base":"it failed although the proof holds","swap":"it failed though the proof holds","expect":"close"}
+{"type":"connective","relation":"therefore_thus","base":"the seal is strong therefore it holds","swap":"the seal is strong thus it holds","expect":"close"}
+{"type":"connective","relation":"therefore_hence","base":"the seal is strong therefore it holds","swap":"the seal is strong hence it holds","expect":"close"}
+{"type":"connective","relation":"so_therefore","base":"it leaked so it failed","swap":"it leaked therefore it failed","expect":"close"}
+{"type":"connective","relation":"however_but","base":"it is true however it fails","swap":"it is true but it fails","expect":"close"}
+{"type":"implicit_explicit","implicit":"keep them they add tone","explicit":"keep them because they add tone","expect":"close"}
+{"type":"implicit_explicit","implicit":"drop it it failed","explicit":"drop it because it failed","expect":"close"}
+{"type":"implicit_explicit","implicit":"stop the seal is leaking","explicit":"stop because the seal is leaking","expect":"close"}
+{"type":"implicit_explicit","implicit":"it holds the proof is complete","explicit":"it holds because the proof is complete","expect":"close"}
+{"type":"implicit_explicit","implicit":"try again it still fails","explicit":"try again because it still fails","expect":"close"}
+{"type":"implicit_explicit","implicit":"keep this it works","explicit":"keep this because it works","expect":"close"}
+{"type":"implicit_explicit","implicit":"reject it it is false","explicit":"reject it because it is false","expect":"close"}
+{"type":"implicit_explicit","implicit":"it failed the input was wrong","explicit":"it failed because the input was wrong","expect":"close"}
+{"type":"implicit_explicit","implicit":"we stay the path is clear","explicit":"we stay because the path is clear","expect":"close"}
+{"type":"implicit_explicit","implicit":"leave it it cannot hold","explicit":"leave it because it cannot hold","expect":"close"}
+{"type":"implicit_explicit","implicit":"wait it is not ready","explicit":"wait because it is not ready","expect":"close"}
+{"type":"implicit_explicit","implicit":"remember this it will matter","explicit":"remember this because it will matter","expect":"close"}
+{"type":"implicit_explicit","implicit":"the model learns it sees patterns","explicit":"the model learns because it sees patterns","expect":"close"}
+{"type":"implicit_explicit","implicit":"it fails the gate is closed","explicit":"it fails because the gate is closed","expect":"close"}
+{"type":"implicit_explicit","implicit":"hold it it is still useful","explicit":"hold it because it is still useful","expect":"close"}
+{"type":"implicit_explicit","implicit":"change it it is wrong","explicit":"change it because it is wrong","expect":"close"}
+{"type":"implicit_explicit","implicit":"it holds we keep it","explicit":"it holds therefore we keep it","expect":"close"}
+{"type":"implicit_explicit","implicit":"the input is wrong it fails","explicit":"the input is wrong so it fails","expect":"close"}
+{"type":"implicit_explicit","implicit":"the seal leaks it fails","explicit":"the seal leaks therefore it fails","expect":"close"}
+{"type":"implicit_explicit","implicit":"the proof is complete it holds","explicit":"the proof is complete so it holds","expect":"close"}
+{"type":"implicit_explicit","implicit":"they match we accept them","explicit":"they match so we accept them","expect":"close"}
+{"type":"implicit_explicit","implicit":"do not keep them they add noise","explicit":"do not keep them because they add noise","expect":"close"}
+{"type":"implicit_explicit","implicit":"it is true the evidence holds","explicit":"it is true because the evidence holds","expect":"close"}
+{"type":"implicit_explicit","implicit":"keep them they add tone","explicit":"keep them since they add tone","expect":"close"}
+{"type":"paraphrase","relation":"not_true_false","a":"it is not true","b":"it is false","expect":"close"}
+{"type":"paraphrase","relation":"not_false_true","a":"it is not false","b":"it is true","expect":"close"}
+{"type":"paraphrase","relation":"not_possible","a":"it is not possible","b":"it is impossible","expect":"close"}
+{"type":"paraphrase","relation":"not_valid","a":"it is not valid","b":"it is invalid","expect":"close"}
+{"type":"paraphrase","relation":"not_correct","a":"it is not correct","b":"it is incorrect","expect":"close"}
+{"type":"paraphrase","relation":"not_known","a":"it is not known","b":"it is unknown","expect":"close"}
+{"type":"paraphrase","relation":"not_certain","a":"it is not certain","b":"it is uncertain","expect":"close"}
+{"type":"paraphrase","relation":"not_complete","a":"it is not complete","b":"it is incomplete","expect":"close"}
+{"type":"paraphrase","relation":"not_visible","a":"it is not visible","b":"it is invisible","expect":"close"}
+{"type":"paraphrase","relation":"not_safe","a":"it is not safe","b":"it is unsafe","expect":"close"}
+{"type":"paraphrase","relation":"not_likely","a":"it is not likely","b":"it is unlikely","expect":"close"}
+{"type":"paraphrase","relation":"never_not","a":"it never holds","b":"it does not hold","expect":"close"}
+{"type":"paraphrase","relation":"cannot_can_not","a":"it cannot hold","b":"it can not hold","expect":"close"}
+{"type":"paraphrase","relation":"no_effect","a":"it has no effect","b":"it does not have an effect","expect":"close"}
+{"type":"paraphrase","relation":"necessary_required","a":"it is necessary","b":"it is required","expect":"close"}
+{"type":"paraphrase","relation":"always_true","a":"it is always true","b":"it is never false","expect":"close"}
+{"type":"paraphrase","relation":"never_true","a":"it is never true","b":"it is always false","expect":"close"}
+{"type":"paraphrase","relation":"all_fail","a":"all of them fail","b":"none of them succeed","expect":"close"}
+{"type":"paraphrase","relation":"all_hold","a":"all of them hold","b":"none of them fail","expect":"close"}
+{"type":"paraphrase","relation":"none_hold","a":"none of them hold","b":"all of them fail","expect":"close"}
+{"type":"paraphrase","relation":"not_believe","a":"i do not believe it","b":"i doubt it","expect":"close"}
+{"type":"paraphrase","relation":"not_remember","a":"i do not remember it","b":"i forget it","expect":"close"}
+{"type":"paraphrase","relation":"not_same","a":"they are not the same","b":"they are different","expect":"close"}
+{"type":"paraphrase","relation":"not_alike","a":"they are not alike","b":"they are different","expect":"close"}
+{"type":"paraphrase","relation":"not_present","a":"it is not present","b":"it is absent","expect":"close"}
+{"type":"paraphrase","relation":"not_allow","a":"we should not allow it","b":"we should prevent it","expect":"close"}
+{"type":"paraphrase","relation":"not_open","a":"it is not open","b":"it is closed","expect":"close"}
+{"type":"paraphrase","relation":"claim_false","a":"the claim is false","b":"the claim is not true","expect":"close"}
+{"type":"paraphrase","relation":"must_has_to","a":"it must hold","b":"it has to hold","expect":"close"}
+{"type":"paraphrase","relation":"failed_not_succeed","a":"the test failed","b":"the test did not succeed","expect":"close"}
+{"type":"paraphrase","relation":"succeeded_not_fail","a":"the test succeeded","b":"the test did not fail","expect":"close"}
+{"type":"paraphrase","relation":"without_no","a":"without the seal","b":"with no seal","expect":"close"}
+{"type":"paraphrase","relation":"claim_true","a":"the claim is true","b":"the claim is not false","expect":"close"}
+{"type":"contradiction","relation":"truth","a":"the claim is true","b":"the claim is false","expect":"far"}
+{"type":"contradiction","relation":"truth","a":"memory is true","b":"memory is false","expect":"far"}
+{"type":"contradiction","relation":"quantifier","a":"it always holds","b":"it never holds","expect":"far"}
+{"type":"contradiction","relation":"quantifier","a":"all of them hold","b":"none of them hold","expect":"far"}
+{"type":"contradiction","relation":"modal","a":"it is possible","b":"it is impossible","expect":"far"}
+{"type":"contradiction","relation":"modal","a":"it is required","b":"it is optional","expect":"far"}
+{"type":"contradiction","relation":"modal","a":"this must hold","b":"this cannot hold","expect":"far"}
+{"type":"contradiction","relation":"identity","a":"they are the same","b":"they are different","expect":"far"}
+{"type":"contradiction","relation":"epistemic","a":"it is known","b":"it is unknown","expect":"far"}
+{"type":"contradiction","relation":"epistemic","a":"it is certain","b":"it is uncertain","expect":"far"}
+{"type":"contradiction","relation":"state","a":"the path is open","b":"the path is closed","expect":"far"}
+{"type":"contradiction","relation":"state","a":"it is present","b":"it is absent","expect":"far"}
+{"type":"contradiction","relation":"outcome","a":"it will work","b":"it will fail","expect":"far"}
+{"type":"contradiction","relation":"outcome","a":"the proof holds","b":"the proof fails","expect":"far"}
+{"type":"contradiction","relation":"action","a":"we should keep them","b":"we should discard them","expect":"far"}
+{"type":"contradiction","relation":"action","a":"accept the claim","b":"reject the claim","expect":"far"}
+{"type":"contradiction","relation":"action","a":"add this item","b":"remove this item","expect":"far"}
+{"type":"contradiction","relation":"mental","a":"i believe it","b":"i doubt it","expect":"far"}
+{"type":"contradiction","relation":"mental","a":"i remember it","b":"i forget it","expect":"far"}
+{"type":"contradiction","relation":"mental","a":"the claims agree","b":"the claims disagree","expect":"far"}
+{"type":"contradiction","relation":"property","a":"the seal is strong","b":"the seal is weak","expect":"far"}
+{"type":"contradiction","relation":"property","a":"they add tone","b":"they add noise","expect":"far"}
+{"type":"direction","relation":"because","base":"it holds because the seal is strong","swap":"the seal is strong because it holds","expect":"shift"}
+{"type":"direction","relation":"because","base":"it failed because the input was wrong","swap":"the input was wrong because it failed","expect":"shift"}
+{"type":"direction","relation":"because","base":"we keep them because they add tone","swap":"they add tone because we keep them","expect":"shift"}
+{"type":"direction","relation":"if_then","base":"if it leaks then it fails","swap":"if it fails then it leaks","expect":"shift"}
+{"type":"direction","relation":"if_then","base":"if the proof holds then it is true","swap":"if it is true then the proof holds","expect":"shift"}
+{"type":"direction","relation":"before","base":"the cause comes before the effect","swap":"the effect comes before the cause","expect":"shift"}
+{"type":"direction","relation":"then","base":"ask then answer","swap":"answer then ask","expect":"shift"}
+{"type":"direction","relation":"then","base":"first the premise then the conclusion","swap":"first the conclusion then the premise","expect":"shift"}
+{"type":"direction","relation":"therefore","base":"it holds therefore we keep it","swap":"we keep it therefore it holds","expect":"shift"}
+{"type":"direction","relation":"cause","base":"this causes that","swap":"that causes this","expect":"shift"}
+{"type":"symmetry","relation":"like","base":"this is like that","swap":"that is like this","expect":"close"}
+{"type":"symmetry","relation":"unlike","base":"this is unlike that","swap":"that is unlike this","expect":"close"}
+{"type":"symmetry","relation":"match","base":"this matches that","swap":"that matches this","expect":"close"}
+{"type":"symmetry","relation":"same","base":"this is the same as that","swap":"that is the same as this","expect":"close"}
+{"type":"symmetry","relation":"different","base":"this is different from that","swap":"that is different from this","expect":"close"}
+{"type":"quantifier","relation":"all_some","base":"all of them hold","swap":"some of them hold","expect":"shift"}
+{"type":"quantifier","relation":"all_none","base":"all of them hold","swap":"none of them hold","expect":"far"}
+{"type":"quantifier","relation":"some_none","base":"some of them hold","swap":"none of them hold","expect":"shift"}
+{"type":"quantifier","relation":"every_some","base":"every case holds","swap":"some cases hold","expect":"shift"}
+{"type":"quantifier","relation":"every_no","base":"every case holds","swap":"no case holds","expect":"far"}
+{"type":"quantifier","relation":"both_either","base":"both of them work","swap":"either of them work","expect":"shift"}
+{"type":"quantifier","relation":"both_neither","base":"both of them work","swap":"neither of them work","expect":"far"}
+{"type":"quantifier","relation":"all_some_true","base":"all of it is true","swap":"some of it is true","expect":"shift"}
+{"type":"quantifier","relation":"all_none_true","base":"all of it is true","swap":"none of it is true","expect":"far"}
+{"type":"modality","relation":"must_may","base":"it must hold","swap":"it may hold","expect":"shift"}
+{"type":"modality","relation":"must_cannot","base":"it must hold","swap":"it cannot hold","expect":"far"}
+{"type":"modality","relation":"may_cannot","base":"it may hold","swap":"it cannot hold","expect":"shift"}
+{"type":"modality","relation":"should_might","base":"it should hold","swap":"it might hold","expect":"shift"}
+{"type":"modality","relation":"will_might","base":"it will hold","swap":"it might hold","expect":"shift"}
+{"type":"modality","relation":"can_cannot","base":"it can hold","swap":"it cannot hold","expect":"far"}
+{"type":"modality","relation":"necessary_optional","base":"it is necessary","swap":"it is optional","expect":"shift"}
+{"type":"modality","relation":"possible_necessary","base":"it is possible","swap":"it is necessary","expect":"shift"}
+{"type":"modality","relation":"possible_impossible","base":"it is possible","swap":"it is impossible","expect":"far"}
+{"type":"modality","relation":"should_must","base":"it should hold","swap":"it must hold","expect":"shift"}
+{"type":"factive","relation":"know_believe","base":"i know it holds","swap":"i believe it holds","expect":"shift"}
+{"type":"factive","relation":"know_doubt","base":"i know it holds","swap":"i doubt it holds","expect":"far"}
+{"type":"factive","relation":"believe_doubt","base":"i believe it holds","swap":"i doubt it holds","expect":"shift"}
+{"type":"factive","relation":"know_think","base":"i know it is true","swap":"i think it is true","expect":"shift"}
+{"type":"factive","relation":"know_guess","base":"i know it is true","swap":"i guess it is true","expect":"shift"}
+{"type":"factive","relation":"remember_assume","base":"i remember it holds","swap":"i assume it holds","expect":"shift"}
+{"type":"factive","relation":"know_suspect","base":"we know it failed","swap":"we suspect it failed","expect":"shift"}
+{"type":"factive","relation":"know_hope","base":"i know they add tone","swap":"i hope they add tone","expect":"shift"}
+{"type":"factive","relation":"know_doubt_true","base":"i know it is true","swap":"i doubt it is true","expect":"far"}
+{"type":"factive","relation":"believe_know","base":"i believe the claim holds","swap":"i know the claim holds","expect":"shift"}
+{"type":"scope","relation":"not_all_vs_all_not","base":"not all of them hold","swap":"all of them do not hold","expect":"shift"}
+{"type":"scope","relation":"not_all_vs_none","base":"not all of them hold","swap":"none of them hold","expect":"shift"}
+{"type":"scope","relation":"not_always_vs_always_not","base":"it is not always true","swap":"it is always not true","expect":"shift"}
+{"type":"scope","relation":"not_every_vs_every_not","base":"not every case holds","swap":"every case does not hold","expect":"shift"}
+{"type":"scope","relation":"not_both_vs_neither","base":"not both of them work","swap":"neither of them work","expect":"shift"}
+{"type":"scope","relation":"double_negation","base":"it is not not true","swap":"it is true","expect":"close"}
+{"type":"scope","relation":"double_negation_false","base":"it is not not false","swap":"it is false","expect":"close"}
+{"type":"control","kind":"function_insert","base":"the claim holds","variant":"the claim still holds","expect":"close"}
+{"type":"control","kind":"function_insert","base":"the claim holds","variant":"the claim already holds","expect":"close"}
+{"type":"control","kind":"function_insert","base":"the claim is true","variant":"the claim is still true","expect":"close"}
+{"type":"control","kind":"function_insert","base":"we keep them","variant":"we just keep them","expect":"close"}
+{"type":"control","kind":"function_insert","base":"the test failed","variant":"the test also failed","expect":"close"}
+{"type":"control","kind":"function_insert","base":"they add tone","variant":"they still add tone","expect":"close"}
+{"type":"control","kind":"function_insert","base":"the seal is strong","variant":"the seal is still strong","expect":"close"}
+{"type":"control","kind":"function_insert","base":"it can hold","variant":"it can still hold","expect":"close"}
+{"type":"control","kind":"function_insert","base":"we keep them","variant":"we also keep them","expect":"close"}
+{"type":"control","kind":"function_insert","base":"memory is true","variant":"memory is indeed true","expect":"close"}
+{"type":"control","kind":"function_insert","base":"it is valid","variant":"it is really valid","expect":"close"}
+{"type":"control","kind":"function_insert","base":"the path is open","variant":"the path is still open","expect":"close"}
+{"type":"control","kind":"function_insert","base":"it always holds","variant":"it still always holds","expect":"close"}
+{"type":"control","kind":"function_insert","base":"i know it holds","variant":"i already know it holds","expect":"close"}
+{"type":"control","kind":"content_swap","base":"the claim holds","variant":"the claim fails","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"the claim is true","variant":"the claim is false","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"we keep them","variant":"we drop them","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"they add tone","variant":"they add noise","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"the seal is strong","variant":"the seal is weak","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"memory is true","variant":"memory is false","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"we keep them","variant":"we reject them","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"it is valid","variant":"it is random","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"the path is open","variant":"the path is closed","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"it can hold","variant":"it can leak","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"i know it holds","variant":"i doubt it holds","expect":"shift"}
+{"type":"control","kind":"content_swap","base":"it always holds","variant":"it never holds","expect":"shift"}
