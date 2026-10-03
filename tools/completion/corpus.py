@@ -43,30 +43,47 @@ GLUE = frozenset({
 Key = Tuple[str, Tuple[str, ...]]
 
 
-def content_of(tokens: Sequence[str]) -> List[str]:
+def content_of(tokens: Sequence[str], glue: frozenset = GLUE) -> List[str]:
     seen = []
     for t in tokens:
-        if t in GLUE or t in seen:
+        if t in glue or t in seen:
             continue
         seen.append(t)
     return seen
 
 
-def canonical_context(content_others: Sequence[str]) -> List[str]:
-    """Sorted content context. No glue pad — see the module note."""
-    others = sorted(content_others)
-    if not others:
+def context_glue_of(tokens: Sequence[str], context_glue: frozenset) -> List[str]:
+    """The reasoning glue a real sequence carries (not / because / if ...), deduped. Corpus v2 only (2026-10-03):
+    it joins the context so 'soup hot' and 'soup not hot' are different rows; it is never a target. Empty set =
+    legacy behaviour (no glue in context)."""
+    if not context_glue:
+        return []
+    seen = []
+    for t in tokens:
+        if t in context_glue and t not in seen:
+            seen.append(t)
+    return seen
+
+
+def canonical_context(content_others: Sequence[str], glue: frozenset = GLUE,
+                      extra_glue: Sequence[str] = ()) -> List[str]:
+    """Sorted context. Content words always; reasoning glue only when the caller passes it explicitly (corpus v2).
+    Never a padded glue frame (see the module note)."""
+    if any(t in glue for t in content_others):
+        raise ValueError(f"glue in content context: {sorted(content_others)}")
+    others = sorted(list(content_others) + list(extra_glue))
+    if not content_others:
         raise ValueError("empty completion context")
-    if any(t in GLUE for t in others):
-        raise ValueError(f"glue in content context: {others}")
     return others
 
 
-def _bags(records: Iterable[dict]) -> Dict[Key, Counter]:
+def _bags(records: Iterable[dict], glue: frozenset = GLUE,
+          context_glue: frozenset = frozenset()) -> Dict[Key, Counter]:
     """Leave-one-out counts, order-invariant within a rhythm.
 
-    A content bag (rhythm, frozenset of content words) is counted once, so
-    an order-swapped duplicate does not become two observations.
+    A content bag (rhythm, frozenset of content words [+ the record's context glue]) is counted once, so
+    an order-swapped duplicate does not become two observations. With context_glue, 'soup hot' and
+    'soup not hot' are different bags and different contexts.
     """
     seen_bags = set()
     counts: Dict[Key, Counter] = defaultdict(Counter)
@@ -74,26 +91,27 @@ def _bags(records: Iterable[dict]) -> Dict[Key, Counter]:
         rhythm = rec["rhythm"]
         if rhythm not in RHYTHMS:
             raise ValueError(f"unknown rhythm {rhythm}")
-        words = content_of(rec["tokens"])
+        words = content_of(rec["tokens"], glue)
         if len(words) < 2:
             continue
-        bag = frozenset(words)
+        extra = context_glue_of(rec["tokens"], context_glue)
+        bag = frozenset(words) | frozenset(extra)
         bag_key = (rhythm, bag)
         if bag_key in seen_bags:
             continue
         seen_bags.add(bag_key)
         for i, target in enumerate(words):
             others = words[:i] + words[i + 1:]
-            ctx = tuple(canonical_context(others))
+            ctx = tuple(canonical_context(others, glue, extra))
             counts[(rhythm, ctx)][target] += 1
     return counts
 
 
-def _rows_from_counts(counts: Dict[Key, Counter], cross_contexts: set) -> List[dict]:
+def _rows_from_counts(counts: Dict[Key, Counter], cross_contexts: set, glue: frozenset = GLUE) -> List[dict]:
     rows = []
     for rhythm, ctx in counts:
         counter = counts[(rhythm, ctx)]
-        n_content = sum(1 for t in ctx if t not in GLUE)
+        n_content = sum(1 for t in ctx if t not in glue)
         kind = "stem" if n_content == 1 and len(counter) >= 3 else "cbow"
         rows.append({
             "context": list(ctx),
@@ -114,42 +132,49 @@ def _cross_contexts(counts: Dict[Key, Counter]) -> set:
     return {ctx for ctx, rhythms in by_ctx.items() if len(rhythms) > 1}
 
 
-def build_rows(records: Sequence[dict]) -> List[dict]:
-    counts = _bags(records)
-    return _rows_from_counts(counts, _cross_contexts(counts))
+def build_rows(records: Sequence[dict], glue: frozenset = GLUE,
+               context_glue: frozenset = frozenset()) -> List[dict]:
+    counts = _bags(records, glue, context_glue)
+    return _rows_from_counts(counts, _cross_contexts(counts), glue)
 
 
-def filter_holdout(train_records: Sequence[dict], hold_records: Sequence[dict]) -> tuple[List[dict], dict]:
+def filter_holdout(train_records: Sequence[dict], hold_records: Sequence[dict], glue: frozenset = GLUE,
+                   context_glue: frozenset = frozenset()) -> tuple[List[dict], dict]:
     """Drop holdout bags that already occur in train, order-invariant.
 
     Token overlap is allowed. A seen pivot with a new filler is kept.
     """
+    def bag_of(rec):
+        words = content_of(rec["tokens"], glue)
+        return words, frozenset(words) | frozenset(context_glue_of(rec["tokens"], context_glue))
+
     train_bags = set()
     for rec in train_records:
-        words = content_of(rec["tokens"])
+        words, bag = bag_of(rec)
         if len(words) >= 2:
-            train_bags.add((rec["rhythm"], frozenset(words)))
+            train_bags.add((rec["rhythm"], bag))
 
     seen_bags = set()
     dropped = 0
     counts: Dict[Key, Counter] = defaultdict(Counter)
     for rec in hold_records:
-        words = content_of(rec["tokens"])
+        words, bag = bag_of(rec)
         if len(words) < 2:
             continue
-        bag_key = (rec["rhythm"], frozenset(words))
+        bag_key = (rec["rhythm"], bag)
         if bag_key in seen_bags:
             continue
         seen_bags.add(bag_key)
         if bag_key in train_bags:
             dropped += 1
             continue
+        extra = context_glue_of(rec["tokens"], context_glue)
         for i, target in enumerate(words):
             others = words[:i] + words[i + 1:]
-            ctx = tuple(canonical_context(others))
+            ctx = tuple(canonical_context(others, glue, extra))
             counts[(rec["rhythm"], ctx)][target] += 1
 
-    rows = _rows_from_counts(counts, _cross_contexts(counts))
+    rows = _rows_from_counts(counts, _cross_contexts(counts), glue)
     return rows, {
         "holdout_content_bags_dropped": dropped,
         "holdout_rows": len(rows),

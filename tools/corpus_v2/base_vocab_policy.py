@@ -47,6 +47,22 @@ GLUE_V2_LOGIC = {
 }
 GLUE = GLUE_V1_SPATIAL | GLUE_V2_LOGIC
 
+# The glue that CARRIES REASONING, allowed into the CBOW context (2026-10-03, Samuel: "I want the glue words to actually
+# help"). Scaffolding glue (articles, prepositions, pronouns, copulas) stays out of the pooled context: the repo's gluepad
+# arm showed a pool dominated by frame words collapses participation (21 -> 4.5). Glue is never a CBOW target either way.
+LOGIC_CONTEXT_GLUE = frozenset({
+    "because", "since", "so", "therefore", "hence", "thus",                      # cause / consequence
+    "if", "unless", "otherwise", "whether",                                       # condition
+    "but", "although", "though", "however", "yet", "despite", "instead", "still", "even",   # contrast
+    "not", "never", "no", "none", "nothing", "neither", "nor",                   # negation
+    "or", "either",                                                               # alternatives
+    "than", "more", "less", "same", "different", "very", "too", "only", "just", "also",    # comparison / degree
+    "before", "after", "until", "when", "while", "then", "now", "already", "again",        # time / sequence
+    "can", "could", "may", "might", "must", "should", "will", "would",            # modality
+    "all", "every", "each", "some", "any",                                        # quantity
+    "why", "how",                                                                 # reasoning questions
+}) & GLUE
+
 CONTENT_SEEDS = {
     "know", "believe", "think", "understand", "mean", "true", "false", "maybe", "reason", "question", "answer",
     "agree", "disagree", "feel", "doubt", "prove", "evidence", "assume", "expect", "explain", "decide", "choose",
