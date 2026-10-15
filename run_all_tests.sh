@@ -94,6 +94,7 @@ run_test "tests.diagnostic.training.corpus_integrity_check"
 echo
 echo -e "${BOLD}DOCUMENTATION ACCURACY${RESET}"
 run_test "tests.doc_accuracy.verify_docs"
+run_test "tests.doc_accuracy.hardcoded_dim"
 
 # Summary
 echo

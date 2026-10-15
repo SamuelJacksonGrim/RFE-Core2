@@ -62,6 +62,12 @@ python -m tests.adversarial.manipulation_cascade
 python -m tests.adversarial.identity_drift
 ```
 
+Documentation accuracy:
+```bash
+python -m tests.doc_accuracy.verify_docs
+python -m tests.doc_accuracy.hardcoded_dim
+```
+
 Diagnostic tools *(coming next)*:
 ```bash
 python -m tests.diagnostic.audit.decision_histogram
@@ -423,6 +429,18 @@ lives at the `diagnostic/` root:
 Empirical results from these probes are written up in **`docs/findings/`** — the
 dated, control-named lab notebook (see its `README.md` for the schema and
 discipline). Diagnostics produce the numbers; findings record what they meant.
+
+### `doc_accuracy/`
+Mechanical doc ↔ code guards. Exit 0/1. In `run_all_tests.sh`.
+
+- `verify_docs.py` — README / CLAUDE.md / PROJECT_STRUCTURE claims vs code
+  (file tree, thresholds, enums, sacred constants, rhythm bands).
+- `hardcoded_dim.py` — Field-width leftover guard. Canonical dim is
+  `CONFIG["dim"]`. Fails if YAML `dim:` keys, production `dim: int = N`
+  constructor defaults, `PROJ_DIM`, or `repl_qwen`'s `build_full_stack(dim=N)`
+  disagree with it, or if a new production field-dim site appears that the
+  census allowlist does not know. Coincidental 128s (windows, `max_len`,
+  batch size) are INFO. Inventory: `docs/EXPERIMENTAL_LEVERS.md` (dial census).
 
 ### `baselines/`
 JSON snapshots of expected metrics from known-good runs. These are the
