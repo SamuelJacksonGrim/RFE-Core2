@@ -201,9 +201,7 @@ def save_checkpoint(path, gen, cycle, ve):
     except Exception as e:
         ck["field_err"] = str(e)
     try:
-        ck["emotion"] = {"arousal": float(getattr(cycle.emotion, "arousal", 0.0)),
-                         "valence": float(getattr(cycle.emotion, "valence", 0.0)),
-                         "step": int(getattr(cycle.emotion, "_step", 0))}
+        ck["emotion"] = cycle.emotion.snapshot()
     except Exception as e:
         ck["emotion_err"] = str(e)
     try:
@@ -243,10 +241,7 @@ def load_checkpoint(path, gen, cycle, ve):
         pass
     try:
         em = ck.get("emotion")
-        if em:
-            if hasattr(cycle.emotion, "arousal"): cycle.emotion.arousal = float(em["arousal"])
-            if hasattr(cycle.emotion, "valence"): cycle.emotion.valence = float(em["valence"])
-            if hasattr(cycle.emotion, "_step"):   cycle.emotion._step = int(em["step"])
+        if em and cycle.emotion.restore(em):
             restored.append("emotion")
     except Exception:
         pass

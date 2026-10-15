@@ -29,7 +29,7 @@ Modulation outputs (read by autonomous_cycle every step)
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import Dict, Optional
 
 import numpy as np
 
@@ -182,6 +182,35 @@ class EmotionalGradient:
     @property
     def stability(self) -> float:
         return self._stability
+
+    # ------------------------------------------------------------------
+    # Persistence: the six scalars are the state; arousal/valence derive
+    # ------------------------------------------------------------------
+
+    _SCALARS = ("curiosity", "wonder", "joy", "tension", "boredom", "stability")
+
+    def snapshot(self) -> Dict[str, float]:
+        """The restorable emotional state (six scalars + step).
+
+        arousal / valence are included as a read-only record of the affective
+        position at save time; restore() ignores them because they recompute.
+        """
+        d = {k: float(getattr(self, "_" + k)) for k in self._SCALARS}
+        d["step"] = int(self._step)
+        d["arousal"] = self.arousal
+        d["valence"] = self.valence
+        return d
+
+    def restore(self, d: Dict[str, float]) -> bool:
+        """Restore from snapshot(). Returns False (and changes nothing) if the
+        dict lacks any of the six scalars, e.g. an older checkpoint that saved
+        only arousal/valence."""
+        if not all(k in d for k in self._SCALARS):
+            return False
+        for k in self._SCALARS:
+            setattr(self, "_" + k, float(np.clip(float(d[k]), 0.0, 1.0)))
+        self._step = int(d.get("step", self._step))
+        return True
 
     # ------------------------------------------------------------------
     # Tier 4.2 — Derived dynamics (arousal, valence)
