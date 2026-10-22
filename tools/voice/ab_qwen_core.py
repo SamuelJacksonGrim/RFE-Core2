@@ -32,7 +32,7 @@ from tools.voice.repl_qwen import (                                 # noqa: E402
 
 WEIGHTS = "data/checkpoints/generator_weights_5rhythm.pt"
 ECOLOGY = "data/checkpoints/generator_ecology_5rhythm.json"
-RM_DIR  = "/mnt/c/Users/spamw/Desktop/resonance-memory-workshop"
+RM_DIR  = "/mnt/c/Users/spamw/tools/resonance-memory"
 OUTDIR  = "/mnt/c/Users/spamw/rfe-qwen-core"
 SEED    = 1234
 

@@ -70,8 +70,8 @@ QWEN_URL_DEFAULT = os.environ.get("QWEN_URL", "http://localhost:8080")
 QWEN_MODEL = os.environ.get("QWEN_MODEL", "qwen-local")
 _WIN = sys.platform == "win32"
 _RM_DIR_DEFAULT = (
-    r"C:\Users\spamw\Desktop\resonance-memory-workshop" if _WIN
-    else "/mnt/c/Users/spamw/Desktop/resonance-memory-workshop"
+    r"C:\Users\spamw\tools\resonance-memory" if _WIN
+    else "/mnt/c/Users/spamw/tools/resonance-memory"
 )
 _LOGDIR_DEFAULT = (
     r"C:\Users\spamw\rfe-speech-logs" if _WIN
