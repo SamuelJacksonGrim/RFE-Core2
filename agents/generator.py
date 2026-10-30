@@ -108,6 +108,8 @@ class PositionalEncoding(nn.Module):
         pe[:, 0::2] = torch.sin(position * div_term)
         pe[:, 1::2] = torch.cos(position * div_term)
         self.register_buffer("pe", pe.unsqueeze(0))
+        # Every row is dim/2 (sin, cos) pairs, so each position vector has this norm.
+        self.norm = math.sqrt(dim / 2)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.dropout(x + self.pe[:, : x.size(1)])
@@ -189,6 +191,10 @@ class Generator(nn.Module):
         # existing checkpoints load and encode unchanged. On, the field vector
         # keeps a residual of the token-embedding mean (see forward).
         self.embedding_residual        = False
+        # Opt-in. Off leaves forward identical. On, each token embedding is
+        # scaled to the positional signal's norm before the two are added
+        # (see transformer_input).
+        self.position_balance          = False
         self.deferred_resize_threshold = deferred_resize_threshold
         self.auto_decay_interval       = auto_decay_interval
         self.decay_interval            = decay_interval
@@ -305,6 +311,21 @@ class Generator(nn.Module):
         mean = (emb * non_pad).sum(dim=1) / (non_pad.sum(dim=1) + 1e-8)
         return emb, mean, pad_mask
 
+    def transformer_input(self, emb: torch.Tensor) -> torch.Tensor:
+        """Scaled token embeddings plus position, as the encoder reads them.
+
+        The table trains at a fast LR with no weight decay, and its rows grow
+        far past their init norm: in encoder run 1 (2026-10-28) the scaled
+        embeddings reached ~1525 against the sinusoidal signal's 11.3, and
+        shuffling a window's words changed the masked loss by 0.0007. With
+        position_balance on, each token is scaled to the positional norm, so
+        position stays a comparable share of the input whatever the table
+        does. Pad rows are zero and stay zero.
+        """
+        if self.position_balance:
+            emb = emb * (self.position.norm / (emb.norm(dim=-1, keepdim=True) + 1e-8))
+        return self.position(emb)
+
     def forward(self, ids: torch.Tensor) -> torch.Tensor:
         """
         ids : LongTensor (batch, seq)
@@ -319,7 +340,7 @@ class Generator(nn.Module):
             emb_in = emb.detach()
         else:
             emb_in = emb
-        emb_in = self.position(emb_in)
+        emb_in = self.transformer_input(emb_in)
         latent = self.encoder(emb_in, src_key_padding_mask=pad_mask)
 
         non_pad = (~pad_mask).float().unsqueeze(-1)
