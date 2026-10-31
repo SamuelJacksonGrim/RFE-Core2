@@ -90,6 +90,35 @@ It costs NLI: about 0.6 SNLI points at F = 0.2, ~1.6 at the stronger settings, a
 pre-declared success line (F = 0.2 misses the other-sentence line, +0.04 against +0.02). It's a real trade, small but
 not free.
 
+### Which mechanism (2026-10-31; Raphael's three-way split)
+Raphael (GPT) separated three possible causes: direct gradient conflict, representational competition in the shared
+transformer, and projection interference. Grok measured gradient alignment against the frozen SNLI/MNLI probes' own
+loss (`corpus\outside-eval\grad_align.json`): ~0 at the untrained control; at F = 0.2, mildly opposed in the shared
+transformer (order vs SNLI -0.10, vs MNLI -0.17) and ~0 in the projection, where only 6% of the order gradient's
+energy sat but ~60% of the NLI gradient's. Then the test: a separate structural head (`--order-struct`, a second
+128-dim projection trained only by the order loss; the field vector's projection gets no order gradient).
+
+Slice, 6M rows, two seeds (seed 0 / seed 1), each against its own control:
+
+| vector | dims | PAWS | SNLI | MNLI |
+|---|---|---|---|---|
+| control field (Matryoshka prefix) | 128 | 0.475 / 0.476 | 0.589 / 0.598 | 0.531 / 0.532 |
+| head arm, field prefix | 128 | 0.475 / 0.476 | 0.590 / 0.598 | 0.533 / 0.532 |
+| control field | 256 | 0.475 / 0.476 | 0.618 / 0.625 | 0.544 / 0.541 |
+| head arm, field | 256 | 0.476 / 0.477 | 0.621 / 0.624 | 0.545 / 0.545 |
+| head arm, field prefix + head | 128 + 128 | 0.524 / 0.528 | 0.611 / 0.611 | 0.537 / 0.540 |
+| head arm, field + head | 256 + 128 | 0.524 / 0.527 | 0.634 / 0.632 | 0.551 / 0.547 |
+| head arm, head alone | 128 | 0.536 / 0.536 | 0.528 / 0.525 | 0.463 / 0.450 |
+
+Interpretation: projection interference. Mild direct conflict exists in the shared transformer but costs nothing once
+the order updates are off the semantic projection: the field vector is unchanged on both seeds. Representational
+competition isn't supported: the shared transformer carries both. Word order now lives in the head; combined with the
+field it beats the same-width field on PAWS (+0.05) and, at 128 + 128 vs 128 or 256 + 128 vs 256, on SNLI and MNLI too.
+At equal total width (128 + 128 vs 256) it trades ~1 SNLI point for the PAWS gain. A note on my own first read of
+these numbers: the initial "combined" comparison set a 128 + 128 vector against the 256-dim control and looked like a
+small SNLI cost; scoring the fair controls (`--vectors field128,combined384`) showed the dip was the halved semantic
+width. Wider vectors also hand the linear NLI probe more features, which flatters the 384-dim row.
+
 ## Threats / confounds
 - One seed per arm on a 5% slice; SNLI/MNLI differences under ~0.01 are inside plausible noise.
 - PAWS coverage rule drops pairs with shared OOV words (13,239 of 16,000 scored).
@@ -97,6 +126,6 @@ not free.
 - Slices answer method questions; the size of the trade at full scale is unmeasured.
 
 ## Open / next
-- Whether order-in-the-sentence is worth ~1-2 NLI points is the architect's call.
-- A second seed at F = 0.2 (and the control) to firm up the small numbers.
-- Full-scale run with the chosen setting; then the decode test on the new encoder.
+- Which vector RFE-Core2 consumes (field only, field + head, at what width) is the architect's call; the head lives
+  in the corpus driver (`corpus\scripts\struct_head.py`), and adopting it means a second projection in Generator.
+- Full-scale run 1c (run 1b + `--order-contrast-balance 0.2 --order-struct`) started 2026-10-31; then the decode test.
