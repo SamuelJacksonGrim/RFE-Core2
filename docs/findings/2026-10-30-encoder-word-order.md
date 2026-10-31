@@ -6,7 +6,7 @@
 - **Probe:** `corpus\scripts\order_probe.py` (masked-head order sensitivity), `corpus\outside-eval\score_encoder.py`
   (BLiMP, PAWS, SNLI, MNLI, HANS...), `corpus\outside-eval\readout_probe.py`, `oc_diag.py`, `oc_crowd.py` (Grok);
   Generator change on branch `encoder-position-balance` (commit 941eea3).
-- **Status:** active (part 1); partial (part 2: the order-into-sentence trade is open)
+- **Status:** active (full-scale confirmation of part 2 pending: run 1c)
 - **Depends on:** `2026-09-23-completion-production` (the embedding residual and the detached transformer input)
 
 ## Question
